@@ -27,3 +27,12 @@ proguard/
 *.ipr
 *.iws
 .idea/
+tex/.texpadtmp/content/introduction.aux
+tex/.texpadtmp/main.aux
+tex/.texpadtmp/main.lof
+tex/.texpadtmp/main.log
+tex/.texpadtmp/main.lol
+tex/.texpadtmp/main.out
+tex/.texpadtmp/main.synctex.gz
+tex/.texpadtmp/main.toc
+tex/.texpadtmp/main.url
