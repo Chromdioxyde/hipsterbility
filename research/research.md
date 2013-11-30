@@ -27,7 +27,7 @@
 * Aufnahme screen
 * Logging User input
 * Nutzung der built-in hardware
-* 
+* Erstellung und Bearbeitung von Aufgaben 
 
 ## Abgrenzung vorhandener Dienste und eigenem Dienst
 
