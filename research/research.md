@@ -7,6 +7,18 @@
 * http://www.userfeedbackhq.com/
 * http://rapidusertests.com/
 
+##### rapidusertests.com
+
+* Video feedback mit Sprachaufzeichnung
+* nur Websites
+* Testnutzer werden ausgewählt
+
+##### userfeedbackhq.com
+
+* http://www.userfeedbackhq.com/vorgehen
+* nicht ersichtlich ob Video
+* Testpersonen werden ausgewählt
+
 ### Video
 
 * http://www.usertesting.com/mobile
@@ -16,6 +28,7 @@
 * Kunden erhalten Video, Aufnahme durch externe Kamera
 * basiert auf Testnutzern (ca. 1 Stunde)
 * 49 $ pro user
+* Testpersonen können selbst aus einem Pool von möglichen Testern ausgewäht werden
 
 ## Eigener Dienst
 
