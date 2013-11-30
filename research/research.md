@@ -44,6 +44,22 @@
 
 ## Abgrenzung vorhandener Dienste und eigenem Dienst
 
+### Vorteile eigener Dienst
+
+* Usability-Tets können in den Entwicklungsprozess eingebunden werden, da Programmierbibliothek / Schnittstelle
+* Auswahl eigener Testnutzer 
+* Kostenminimierung
+* Labortests, sowie Feldtests möglich
+* 
+
+## Links
+
+* http://www.usabilityblog.de/2011/02/usability-labs-bei-apps-so-schauen-wir-bei-eresult-nutzern-uber-die-schulter/
+* http://www.usabilityblog.de/2010/08/mobile-usability-tests-was-sollte-man-beachten/
+
+### Screen recording
+
+* http://forums.androidcentral.com/android-4-4-kitkat/329674-how-use-screen-recording-android-4-4-kitkat.html
 
 ## Literatur
 
