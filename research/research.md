@@ -42,6 +42,12 @@
 * Nutzung der built-in hardware
 * Erstellung und Bearbeitung von Aufgaben 
 
+#### abgefahrene Features
+
+* automatische Generation eines Videos mit Stream der Front Kamera + Stream des Screens
+* Übertragung durch USB Kabel oder wireless?
+* 
+
 ## Abgrenzung vorhandener Dienste und eigenem Dienst
 
 ### Vorteile eigener Dienst
@@ -50,7 +56,6 @@
 * Auswahl eigener Testnutzer 
 * Kostenminimierung
 * Labortests, sowie Feldtests möglich
-* 
 
 ## Links
 
