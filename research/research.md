@@ -50,6 +50,8 @@
 
 ## Abgrenzung vorhandener Dienste und eigenem Dienst
 
+<!-- TODO: Tabelle Dienstevergleich -->
+
 ### Vorteile eigener Dienst
 
 * Usability-Tets können in den Entwicklungsprozess eingebunden werden, da Programmierbibliothek / Schnittstelle
