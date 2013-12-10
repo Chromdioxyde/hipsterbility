@@ -2,28 +2,23 @@
 
 ## Vorhandene Dienste
 
-### User-Feedback
-
 * http://www.userfeedbackhq.com/
 * http://rapidusertests.com/
+* http://www.usertesting.com/mobile
 
-##### rapidusertests.com
+### rapidusertests.com
 
 * Video feedback mit Sprachaufzeichnung
 * nur Websites
 * Testnutzer werden ausgewählt
 
-##### userfeedbackhq.com
+### userfeedbackhq.com
 
 * http://www.userfeedbackhq.com/vorgehen
-* nicht ersichtlich ob Video
+* Video 
 * Testpersonen werden ausgewählt
 
-### Video
-
-* http://www.usertesting.com/mobile
-
-#### Usertesting.com
+### Usertesting.com
 
 * Kunden erhalten Video, Aufnahme durch externe Kamera
 * basiert auf Testnutzern (ca. 1 Stunde)
@@ -36,21 +31,16 @@
 
 * Gesicht aufnehmen (blickrichtung des Kopfes usw.)
 * Aufnahme Eingaben
-* Aufnahme Sprache ?!
-* Aufnahme screen
+* Aufnahme Sprache
+* Aufnahme screenshots
 * Logging User input
 * Nutzung der built-in hardware
 * Erstellung und Bearbeitung von Aufgaben 
 
-#### abgefahrene Features
+#### Fancy Features
 
-* automatische Generation eines Videos mit Stream der Front Kamera + Stream des Screens
+* automatische Generation eines Videos mit Stream der Front Kamera + Stream des Screens / Screenshots
 * Übertragung durch USB Kabel oder wireless?
-* 
-
-## Abgrenzung vorhandener Dienste und eigenem Dienst
-
-<!-- TODO: Tabelle Dienstevergleich -->
 
 ### Vorteile eigener Dienst
 
@@ -58,6 +48,9 @@
 * Auswahl eigener Testnutzer 
 * Kostenminimierung
 * Labortests, sowie Feldtests möglich
+
+* Serverseitig als TCP/HTTP-Dienst: Deployment lokal, wie auch remote möglich 
+* 
 
 ## Links
 
