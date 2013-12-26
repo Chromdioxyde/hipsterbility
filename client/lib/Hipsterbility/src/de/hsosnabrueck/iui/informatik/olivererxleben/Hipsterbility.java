@@ -14,7 +14,7 @@ public class Hipsterbility {
     // Properties
     //================================================================================
 
-    JSONObject conf;
+    JSONObject conf; // TODO: check object doc
 
     //================================================================================
     // Constructors
