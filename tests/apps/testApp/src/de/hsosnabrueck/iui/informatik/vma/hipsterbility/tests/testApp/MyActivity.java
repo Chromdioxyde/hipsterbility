@@ -1,7 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.testApp;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+
 import android.os.Bundle;
 
 import de.hsosnabrueck.iui.informatik.olivererxleben.Hipsterbility;
