@@ -1,7 +1,7 @@
 var fluent_ffmpeg = require('fluent-ffmpeg');
 
 function Converter () {
-	// todo implementation
+	// TODO implementation
 }
 
 /*
