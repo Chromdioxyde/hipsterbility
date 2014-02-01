@@ -30,3 +30,6 @@ proguard/
 
 # Textpad files
 .texpadtmp
+
+#node modules
+node_modules/
