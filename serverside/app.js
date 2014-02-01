@@ -1,6 +1,10 @@
 /**
  * Module dependencies.
  */
+// own classes
+var converter = require('./classes/converter');
+
+// express related libs
 var express = require('express');
 var routes = require('./routes');
 var http = require('http');
