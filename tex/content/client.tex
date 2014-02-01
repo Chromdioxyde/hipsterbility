@@ -12,3 +12,12 @@ Zur Entwicklung der Bibliothek wurden zwei Projekte verwendet - Einmal das Proje
 
 \subsection{Einbinden der Bibliothek in eigene Anwendungen}
 
+\subsubsection{Dynamisches Einbinden - Pre-Dexing}
+
+Beim Pre-Dexing können mehrere Android-Projekte zu einem Projekt hinzugefügt werden. 
+% TODO: updating
+
+Da die Bibliothek neueste Funktionen des Android-Betriebssystems verwendet, muss auf dem  Gerät zur Kompilierung einer Anwendung aktuelle Build-Tools der Android-SDK vorliegen. Im Falle der Bibliothek ist dies API-Level 19. Offenbar hat sich hier ein Bug eingeschlichen und es ist unter der Version 19.0 kein Pre-Dexing möglich. Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Version 19.0.1 verwendet werden muss um Pre-Dexing durchführen zu können. 
+% TODO: update, wichtig? Screenshot? 
+
+\subsubsection{Statisches Einbinden als JAR-Archiv}
