@@ -7,9 +7,12 @@ var converter = require('./classes/converter');
 // express related libs
 var express = require('express');
 
-var routes = require('./routes');
-var videos = require('./routes/videos');
-var captures = require('./routes/captures');
+var routes = require('./routes'); // web routes
+
+var videos = require('./routes/videos'); // videos API
+var captures = require('./routes/captures'); // captures / screenshot API
+var sessions = require('./routes/sessions'); // session ID API
+var logs = require('./routes/logs'); // logfiles API
 
 var http = require('http');
 var path = require('path');
@@ -19,6 +22,7 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.bodyParser());
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -26,6 +30,7 @@ app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Web routes --------------------------------------------
 
@@ -36,21 +41,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 // simple test route
 app.get('/ping/?', routes.pong);
 
-// videos API
-app.get('/videos/?', videos.getAll);
-app.post('/videos/?', videos.post);
+// session API
+// app.get('/sessions/?', sessions.getAll); // get list of sessions
+// app.post('/sessions/?', session.post); // new session
+// 
+// app.get('/sessions/:id/?', sessions.get); // get specific session
 
-app.get('/videos/:which/?', videos.get);
+// videos API
+app.get('/:session_id/videos/?', videos.getAll); // get list of videos 
+app.post('/:session_id/videos/?', videos.post); // post new video
+
+app.get('/:session_id/videos/:which/?', videos.get); // get specific video
 //app.put('/videos/:which/?', videos.update);
 
 // captures API
-app.get('/captures/?', captures.getAll);
-app.post('/captures/?', captures.post); // post a new one
-
-app.get('/captures/:which/?', captures.get);
+// app.get('/captures/?', captures.getAll); // get list of captures
+// app.post('/captures/?', captures.post); // post a new capture
+// 
+// app.get('/captures/:which/?', captures.get); // get specific capture
 
 // logs API
-
+// app.get('/:session_id/logs/?', logs.getAll); // get list of logs
+// app.post('/:session_id/logs/?', logs.post); // post a new log
+// 
+// app.get('/:session_id/logs/:id/?', logs.get); // get specific log
 // -------------------------------------------------------
 
 // server take off
