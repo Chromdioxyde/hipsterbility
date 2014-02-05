@@ -43,7 +43,7 @@ app.get('/ping/?', routes.pong);
 
 // session API
 // app.get('/sessions/?', sessions.getAll); // get list of sessions
-// app.post('/sessions/?', session.post); // new session
+app.post('/sessions/?', sessions.post); // new session
 // 
 // app.get('/sessions/:id/?', sessions.get); // get specific session
 
