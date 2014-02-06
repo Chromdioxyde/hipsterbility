@@ -1,0 +1,467 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="client_server" version="3">
+  <DEPS>
+    <ID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+    <COMPID name="Interaction Sequence diagram" mc="SequenceDiagram" uid="5fe09623-a824-4b6f-ac83-9a925e8a6b29"/>
+    <COMPID name="Session init" mc="SequenceDiagram" uid="25538029-2f3f-40b5-88b1-b464025ff505"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+    <PID name="hipsterbility" mc="Package" uid="cc1ff419-ba62-4c70-83dc-bb066e24e9f1"/>
+    <ATTRIBUTES>
+      <ATT name="IsReentrant">false</ATT>
+      <ATT name="Name"><![CDATA[client_server]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="Fragment">
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="8583fd58-bda0-4fa3-95da-bb7c353c21c6"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">60</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="SentMessage">
+              <OBJECT>
+                <ID name="POST /:user_id/sessions" mc="Message" uid="d8ce49d2-ba86-46d5-a705-13314305cbd0"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+                <ATTRIBUTES>
+                  <ATT name="Argument"></ATT>
+                  <ATT name="KindOfMessage">CompleteKind</ATT>
+                  <ATT name="SortOfMessage">SyncCall</ATT>
+                  <ATT name="Name"><![CDATA[POST /:user_id/sessions]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="ReceiveEvent">
+                    <REFOBJ>
+                      <ID name="" mc="ExecutionOccurenceSpecification" uid="c84a526e-91c9-4b0a-a7a8-64b9e9c5d564"/>
+                      <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="c84a526e-91c9-4b0a-a7a8-64b9e9c5d564"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">60</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Started">
+              <REFOBJ>
+                <ID name="" mc="ExecutionSpecification" uid="ed1412ba-42c6-45bf-866b-54060373c919"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Server" mc="Lifeline" uid="9d08a9ff-9c32-44f7-a75e-f0cff7ffa989"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="69bca96d-f431-4595-a90b-d23020c962c7"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">80</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="SentMessage">
+              <OBJECT>
+                <ID name="session" mc="Message" uid="834e1726-4022-4266-9d0f-bda965552393"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+                <ATTRIBUTES>
+                  <ATT name="Argument"></ATT>
+                  <ATT name="KindOfMessage">CompleteKind</ATT>
+                  <ATT name="SortOfMessage">ReturnMessage</ATT>
+                  <ATT name="Name"><![CDATA[session]]></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="ReceiveEvent">
+                    <REFOBJ>
+                      <ID name="" mc="ExecutionOccurenceSpecification" uid="94f06efd-fe6c-495b-9eaf-147de9087ed6"/>
+                      <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Server" mc="Lifeline" uid="9d08a9ff-9c32-44f7-a75e-f0cff7ffa989"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionSpecification" uid="ed1412ba-42c6-45bf-866b-54060373c919"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">60</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Finish">
+              <REFOBJ>
+                <ID name="" mc="ExecutionOccurenceSpecification" uid="69bca96d-f431-4595-a90b-d23020c962c7"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Server" mc="Lifeline" uid="9d08a9ff-9c32-44f7-a75e-f0cff7ffa989"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="94f06efd-fe6c-495b-9eaf-147de9087ed6"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">80</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="973b52dc-93e9-4998-bbcb-5beb759dc230"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">43</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Started">
+              <REFOBJ>
+                <ID name="" mc="ExecutionSpecification" uid="7fb02d35-9a5e-4815-a0e0-0b6e8fa8f4b7"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="1f510876-6cc4-4dfb-9418-6ec6e34ac70f"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">93</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionSpecification" uid="7fb02d35-9a5e-4815-a0e0-0b6e8fa8f4b7"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">-1</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Finish">
+              <REFOBJ>
+                <ID name="" mc="ExecutionOccurenceSpecification" uid="1f510876-6cc4-4dfb-9418-6ec6e34ac70f"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="4d72e78f-97e7-4112-8dbc-561d132cc942"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">140</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Started">
+              <REFOBJ>
+                <ID name="" mc="ExecutionSpecification" uid="3dd44e4f-2333-4bb3-8325-97a4dabdbaaf"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="3aa9e5f3-4bc7-48a5-a3ca-0440547f7557"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">190</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionSpecification" uid="3dd44e4f-2333-4bb3-8325-97a4dabdbaaf"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">140</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Finish">
+              <REFOBJ>
+                <ID name="" mc="ExecutionOccurenceSpecification" uid="3aa9e5f3-4bc7-48a5-a3ca-0440547f7557"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="182622f1-18a5-4bea-b4e6-13462d2e7dfc"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">149</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="SentMessage">
+              <OBJECT>
+                <ID name="" mc="Message" uid="e5640c3b-962e-46cd-94f2-317ffde4721d"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+                <ATTRIBUTES>
+                  <ATT name="Argument"></ATT>
+                  <ATT name="KindOfMessage">CompleteKind</ATT>
+                  <ATT name="SortOfMessage">SyncCall</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="ReceiveEvent">
+                    <REFOBJ>
+                      <ID name="" mc="ExecutionOccurenceSpecification" uid="5e730ffe-a11e-4799-97d3-06e5563ab69d"/>
+                      <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="5e730ffe-a11e-4799-97d3-06e5563ab69d"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">149</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Started">
+              <REFOBJ>
+                <ID name="" mc="ExecutionSpecification" uid="b299b01b-4501-4032-9872-3b9c2d2b9c49"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Server" mc="Lifeline" uid="9d08a9ff-9c32-44f7-a75e-f0cff7ffa989"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="e673177d-8c56-445c-87fe-8dafe4d2d449"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">169</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <COMP relation="SentMessage">
+              <OBJECT>
+                <ID name="" mc="Message" uid="c5891c8c-f83a-456c-8579-8c75b75b6819"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+                <ATTRIBUTES>
+                  <ATT name="Argument"></ATT>
+                  <ATT name="KindOfMessage">CompleteKind</ATT>
+                  <ATT name="SortOfMessage">ReturnMessage</ATT>
+                  <ATT name="Name"></ATT>
+                  <ATT name="status">1970354901745664</ATT>
+                </ATTRIBUTES>
+                <DEPENDENCIES>
+                  <LINK relation="ReceiveEvent">
+                    <REFOBJ>
+                      <ID name="" mc="ExecutionOccurenceSpecification" uid="cb115a45-0611-4797-a99b-ea99c8a5eb1d"/>
+                      <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+                    </REFOBJ>
+                  </LINK>
+                </DEPENDENCIES>
+              </OBJECT>
+            </COMP>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Server" mc="Lifeline" uid="9d08a9ff-9c32-44f7-a75e-f0cff7ffa989"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionSpecification" uid="b299b01b-4501-4032-9872-3b9c2d2b9c49"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">149</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Finish">
+              <REFOBJ>
+                <ID name="" mc="ExecutionOccurenceSpecification" uid="e673177d-8c56-445c-87fe-8dafe4d2d449"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Server" mc="Lifeline" uid="9d08a9ff-9c32-44f7-a75e-f0cff7ffa989"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="" mc="ExecutionOccurenceSpecification" uid="cb115a45-0611-4797-a99b-ea99c8a5eb1d"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="LineNumber">169</ATT>
+            <ATT name="Name"></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES>
+            <LINK relation="Covered">
+              <REFOBJ>
+                <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+                <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+              </REFOBJ>
+            </LINK>
+          </DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="OwnedLine">
+        <OBJECT>
+          <ID name="Client" mc="Lifeline" uid="c331b573-091c-4e09-a1d3-8c36a9b4b299"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="Selector"></ATT>
+            <ATT name="Name"><![CDATA[Client]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+        <OBJECT>
+          <ID name="Server" mc="Lifeline" uid="9d08a9ff-9c32-44f7-a75e-f0cff7ffa989"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="Selector"></ATT>
+            <ATT name="Name"><![CDATA[Server]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="OwnedCollaboration">
+        <OBJECT>
+          <ID name="locals" mc="Collaboration" uid="f73c737d-f950-4397-bf51-b60918649295"/>
+          <PID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+          <ATTRIBUTES>
+            <ATT name="IsConcurrent">false</ATT>
+            <ATT name="IsAbstract">false</ATT>
+            <ATT name="IsLeaf">false</ATT>
+            <ATT name="IsRoot">false</ATT>
+            <ATT name="Visibility">Public</ATT>
+            <ATT name="Name"><![CDATA[locals]]></ATT>
+            <ATT name="status">1970354901745664</ATT>
+          </ATTRIBUTES>
+          <DEPENDENCIES></DEPENDENCIES>
+        </OBJECT>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="Session init" mc="SequenceDiagram" uid="25538029-2f3f-40b5-88b1-b464025ff505"/>
+        <COMPID name="Interaction Sequence diagram" mc="SequenceDiagram" uid="5fe09623-a824-4b6f-ac83-9a925e8a6b29"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

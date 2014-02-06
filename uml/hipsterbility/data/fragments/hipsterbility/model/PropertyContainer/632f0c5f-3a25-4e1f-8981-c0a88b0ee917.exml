@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="hipsterbility" version="3">
+  <DEPS>
+    <ID name="hipsterbility" mc="PropertyContainer" uid="632f0c5f-3a25-4e1f-8981-c0a88b0ee917"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="hipsterbility" mc="PropertyContainer" uid="632f0c5f-3a25-4e1f-8981-c0a88b0ee917"/>
+    <PID name="hipsterbility" mc="AnalystProject" uid="86317545-f11c-423c-97c5-286af196b019"/>
+    <ATTRIBUTES>
+      <ATT name="Name"><![CDATA[hipsterbility]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES></DEPENDENCIES>
+  </OBJECT>
+</EXT>

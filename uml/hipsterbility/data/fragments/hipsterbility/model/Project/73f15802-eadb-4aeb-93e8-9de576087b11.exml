@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="hipsterbility" version="3">
+  <DEPS>
+    <ID name="hipsterbility" mc="Project" uid="73f15802-eadb-4aeb-93e8-9de576087b11"/>
+    <COMPID name="hipsterbility" mc="Package" uid="cc1ff419-ba62-4c70-83dc-bb066e24e9f1"/>
+    <COMPID name="hipsterbility" mc="DiagramSet" uid="29dbbcaa-68c9-48ec-9b78-e2bfdab52080"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="hipsterbility" mc="Project" uid="73f15802-eadb-4aeb-93e8-9de576087b11"/>
+    <ATTRIBUTES>
+      <ATT name="ProjectContext"></ATT>
+      <ATT name="ProjectDescr"></ATT>
+      <ATT name="Name"><![CDATA[hipsterbility]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="DiagramRoot">
+        <COMPID name="hipsterbility" mc="DiagramSet" uid="29dbbcaa-68c9-48ec-9b78-e2bfdab52080"/>
+      </COMP>
+      <COMP relation="Model">
+        <COMPID name="hipsterbility" mc="Package" uid="cc1ff419-ba62-4c70-83dc-bb066e24e9f1"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>

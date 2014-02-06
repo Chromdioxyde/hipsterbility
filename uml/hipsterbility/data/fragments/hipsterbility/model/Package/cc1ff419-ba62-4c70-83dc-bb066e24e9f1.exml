@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--GENERATED FILE, PLEASE DO NOT EDIT!!!--><EXT object="hipsterbility" version="3">
+  <DEPS>
+    <ID name="hipsterbility" mc="Package" uid="cc1ff419-ba62-4c70-83dc-bb066e24e9f1"/>
+    <COMPID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+    <COMPID name="overview diagram" mc="ClassDiagram" uid="eda12215-42ec-46a4-a6b9-d3ef91b91426"/>
+  </DEPS>
+  <OBJECT>
+    <ID name="hipsterbility" mc="Package" uid="cc1ff419-ba62-4c70-83dc-bb066e24e9f1"/>
+    <PID name="hipsterbility" mc="Project" uid="73f15802-eadb-4aeb-93e8-9de576087b11"/>
+    <ATTRIBUTES>
+      <ATT name="IsInstantiable">false</ATT>
+      <ATT name="IsAbstract">false</ATT>
+      <ATT name="IsLeaf">false</ATT>
+      <ATT name="IsRoot">false</ATT>
+      <ATT name="Visibility">Public</ATT>
+      <ATT name="Name"><![CDATA[hipsterbility]]></ATT>
+      <ATT name="status">1970354901745664</ATT>
+    </ATTRIBUTES>
+    <DEPENDENCIES>
+      <COMP relation="OwnedBehavior">
+        <COMPID name="client_server" mc="Interaction" uid="1f3fd80c-22fa-4b7a-8dc2-ddad17fee453"/>
+      </COMP>
+      <COMP relation="Product">
+        <COMPID name="overview diagram" mc="ClassDiagram" uid="eda12215-42ec-46a4-a6b9-d3ef91b91426"/>
+      </COMP>
+    </DEPENDENCIES>
+  </OBJECT>
+</EXT>
