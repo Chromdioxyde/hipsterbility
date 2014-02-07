@@ -7,9 +7,10 @@ var converter = require('./classes/converter');
 // express related libs
 var express = require('express');
 
-var routes = require('./routes'); // web routes
+var routes = require('./routes/index'); // web routes
 
 var videos = require('./routes/videos'); // videos API
+var audios = require('./routes/audios'); // microphone / audio API
 var captures = require('./routes/captures'); // captures / screenshot API
 var sessions = require('./routes/sessions'); // session ID API
 var logs = require('./routes/logs'); // logfiles API
@@ -21,7 +22,7 @@ var app = express();
 // environments config
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 app.use(express.bodyParser());
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -31,10 +32,11 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // Web routes --------------------------------------------
 
 // TODO implement
+app.get('/?', routes.index);
+
 
 // -------------------------------------------------------
 
@@ -43,28 +45,38 @@ app.get('/ping/?', routes.pong);
 
 // session API
 // app.get('/sessions/?', sessions.getAll); // get list of sessions
-app.post('/sessions/?', sessions.post); // new session
+app.post('/:user_id/sessions/?', sessions.post); // new session
 // 
-// app.get('/sessions/:id/?', sessions.get); // get specific session
-
-// videos API
-app.get('/:session_id/videos/?', videos.getAll); // get list of videos 
-app.post('/:session_id/videos/?', videos.post); // post new video
-
-app.get('/:session_id/videos/:which/?', videos.get); // get specific video
-//app.put('/videos/:which/?', videos.update);
-
-// captures API
-// app.get('/captures/?', captures.getAll); // get list of captures
-// app.post('/captures/?', captures.post); // post a new capture
+// app.get('/:user_id/sessions/:id/?', sessions.get); // get specific session
 // 
-// app.get('/captures/:which/?', captures.get); // get specific capture
-
-// logs API
-// app.get('/:session_id/logs/?', logs.getAll); // get list of logs
-// app.post('/:session_id/logs/?', logs.post); // post a new log
+// app.post('/:user_id/sessions/fin/?', sessions.makeit); // TODO make it better
 // 
-// app.get('/:session_id/logs/:id/?', logs.get); // get specific log
+// // videos API
+// app.get('/:user_id/:session_id/videos/?', videos.getAll); // get list of videos 
+// app.post('/:user_id/:session_id/videos/?', videos.post); // post new video
+// 
+// app.get('/:user_id/:session_id/videos/:which/?', videos.get); // get specific video
+// //app.put('/videos/:which/?', videos.update);
+// 
+// // captures API
+// app.get('/:user_id/:session_id/captures/?', captures.getAll); // get list of captures
+// app.post('/:user_id/:session_id/captures/?', captures.post); // post a new capture
+//  
+// app.get('/:user_id/:session_id/captures/:which/?', captures.get); // get specific capture
+// 
+// // logs API
+// app.get('/:user_id/:session_id/:session_id/logs/?', logs.getAll); // get list of logs
+// app.post('/:user_id/:session_id/:session_id/logs/?', logs.post); // post a new log
+// // 
+// app.get('/:user_id/:session_id/:session_id/logs/:id/?', logs.get); // get specific log
+// 
+// // audio API
+// app.get('/:user_id/:session_id/audio/?', audio.getAll); // get list of audio files
+// app.post('/:user_id/:session_id/audio/?', audio.post); // post new audio
+// 
+// app.get('/:user_id/:session_id/audio/?', audio.getAll); // get list of audio files
+
+
 // -------------------------------------------------------
 
 // server take off

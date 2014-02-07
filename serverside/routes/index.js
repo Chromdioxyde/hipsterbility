@@ -1,17 +1,10 @@
 // index.js is used to render web pages
 
 /*
- * GET home page.
+ * GET index page.
  */
 exports.index = function(req, res){
-        res.render('index', { megatrends: megatrends});
-};
-
-/*
- * GET admin panel
- */
-exports.admin = function(req, res) {
-        res.render('admin', {megatrends: rows });
+        res.render('index');
 };
 
 /**
