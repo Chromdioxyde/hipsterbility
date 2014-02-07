@@ -37,6 +37,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // TODO implement
 app.get('/?', routes.index);
 
+// error pages
+
+app.use(function(req, res) {
+	res.render(404, {title: '404: Page not found'});
+});
 
 // -------------------------------------------------------
 
