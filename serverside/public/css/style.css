@@ -150,3 +150,7 @@ footer {
 p.copyright {
 	margin: 15px 0 0;
 }
+
+.content-section-a a{
+		color: #000 !important;
+}

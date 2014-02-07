@@ -34,8 +34,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Web routes --------------------------------------------
 
-// TODO implement
+// index frontpage
 app.get('/?', routes.index);
+
+// index login page
+app.get('/:user_id/admin', routes.admin);
 
 // error pages
 
