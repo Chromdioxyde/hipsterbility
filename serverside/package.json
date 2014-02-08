@@ -6,10 +6,11 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.4.6",
-    "jade": "*",
-    "mysql" : "*",
-	"fluent-ffmpeg": "*",
-	"redis": "*"
+		"express": "*",
+		"jade": "*",
+		"mysql" : "*",
+		"fluent-ffmpeg": "*",
+		"redis": "*",
+		"jsdoc": "*"
   }
 }
