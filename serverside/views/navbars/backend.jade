@@ -1,0 +1,35 @@
+nav.navbar.navbar-default.navbar-static-top(role='navigation', style='margin-bottom: 0;')
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.sidebar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='#') hipsterbility Admin
+    //
+       /.navbar-header
+  nav.navbar-default.content-section-a.navbar-static-side(role='navigation')
+    .sidebar-collapse
+      ul#side-menu.nav
+        li
+          a(href='#')
+            i.fa.fa-dashboard.fa-fw
+            | Dashboard
+        li
+          a(href='#')
+            i.fa.fa-bar-chart-o.fa-fw
+            | Sessions
+            span.fa.arrow
+          ul.nav.nav-second-level
+            li
+              a(href='#') All
+            li
+              a(href='#') New
+          //
+             /.nav-second-level 
+      //
+         /#side-menu 
+    //
+       /.sidebar-collapse 
+  //
+     /.navbar-static-side 
