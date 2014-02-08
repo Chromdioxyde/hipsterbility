@@ -7,7 +7,8 @@ var converter = require('./classes/converter');
 // express related libs
 var express = require('express');
 
-var routes = require('./routes/index'); // web routes
+var backend = require('./routes/backend'); // admin web routes
+var frontend = require('./routes/frontend'); // frontend web routes
 
 var videos = require('./routes/videos'); // videos API
 var audios = require('./routes/audios'); // microphone / audio API
@@ -34,14 +35,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Web routes --------------------------------------------
 
-// index frontpage
-app.get('/?', routes.index);
+// front pages
+app.get('/?', frontend.index);
+app.get('/login/?', frontend.login);
 
-// index login page
-app.get('/:user_id/admin', routes.admin);
+
+// admin pages
+app.get('/:user_id/admin', backend.index);
+app.get('/:user_id/admin/sessions', backend.sessions);
+app.get('/:user_id/admin/sessions/:id/?', backend.session);
 
 // error pages
-
 app.use(function(req, res) {
 	res.render(404, {title: '404: Page not found'});
 });
@@ -49,7 +53,7 @@ app.use(function(req, res) {
 // -------------------------------------------------------
 
 // simple test route
-app.get('/ping/?', routes.pong);
+app.get('/ping/?', frontend.pong);
 
 // session API
 // app.get('/sessions/?', sessions.getAll); // get list of sessions

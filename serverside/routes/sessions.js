@@ -12,13 +12,13 @@ exports.post = function(req, res) {
 		if( req.body.sessionname != undefined && req.body.sessionname != "") {
 			
 			var session = {
-				id: Math.random(1000), // TODO make it better!
+				id: 1, // TODO make it better!
 				name: req.body.sessionname,
 				user: req.body.username
 			};
 			
 			// TODO write session to cache / db
-		
+			
 			// send to user
 			res.send(session);
 			
@@ -28,3 +28,8 @@ exports.post = function(req, res) {
 		res.send("invalid parameters");
 	}	
 };
+
+
+
+
+

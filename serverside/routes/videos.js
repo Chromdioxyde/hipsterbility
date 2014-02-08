@@ -15,12 +15,12 @@ exports.get = function (req, res) {
 };
 
 /**
- *
+ * route to upload files
  */
 exports.post = function(req, res) {
 	
 	var tmp_path = req.files.video.path;
-	var target_path = './uploads/1/' + req.files.video.name; // TODO: 1 is session_id should be generated before
+	var target_path = './uploads/1/' + req.files.video.name; // TODO: 1 is session_id and should be generated before
 	
 	fs.rename(tmp_path, target_path, function(err) {
         if (err) throw err;
