@@ -19,7 +19,7 @@ exports.login = function(req, res) {
  * GET about page
  */
 exports.about = function(req, res) {
-	res.render('login', {type: 'frontend'});
+	res.render('about', {type: 'frontend'});
 };
 
 /**

@@ -155,7 +155,7 @@ p.copyright {
 		color: #000 !important;
 }
 
-#loginpage {
+#loginpage, #aboutpage {
 	background-color: #272b30;
 	height: 100%;
 }
