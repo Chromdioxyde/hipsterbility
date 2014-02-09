@@ -48,7 +48,7 @@ app.get('/:user_id/admin/sessions/:id/?', backend.session);
 
 // error pages
 app.use(function(req, res) {
-	res.render(404, {title: '404: Page not found'});
+	res.render(404, {title: '404: Page not found', type: 'frontend'});
 });
 
 // -------------------------------------------------------
