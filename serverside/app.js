@@ -37,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // front pages
 app.get('/?', frontend.index);
+app.get('/about/?', frontend.about);
 app.get('/login/?', frontend.login);
 
 

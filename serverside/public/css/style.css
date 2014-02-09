@@ -154,3 +154,8 @@ p.copyright {
 .content-section-a a{
 		color: #000 !important;
 }
+
+#loginpage {
+	background-color: #272b30;
+	height: 100%;
+}
