@@ -12,9 +12,8 @@ var frontend = require('./routes/frontend'); // frontend web routes
 var videos = require('./routes/api/videos'); // videos API
 var audios = require('./routes/api/audios'); // microphone / audio API
 var captures = require('./routes/api/captures'); // captures / screenshot API
-var sessions = require('./routes/ai/sessions'); // session ID API
+var sessions = require('./routes/api/sessions'); // session ID API
 var logs = require('./routes/api/logs'); // logfiles API
-
 
 var http = require('http');
 var path = require('path');
