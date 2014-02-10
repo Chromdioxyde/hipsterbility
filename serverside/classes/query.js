@@ -32,14 +32,27 @@ Query.prototype.disconnect = function() {
  * executes a given query. 
  * 
  * @param {string} query - The Query to execute.
+ * @param {array} params - some more parameters.
+ * @param {function} callback - callback to be executed. 
  */
-Query.prototype.execute = function(query) {
+Query.prototype.execute = function(query, params, callback) {
 	
 	var con = this.connect();
-	var result = con.query(query)
 	
-	this.disconnect();
-	
-	return result;
+	con.query(query, function(err, rows) {
+		if (!err) {
+			callback(rows);
+		}
+	});
 }
 
+/**
+ * testing function
+ */
+Query.prototype.test = function(callback) {
+	var query = 'SELECT * FROM users';
+	this.execute(query, '', callback);
+}
+
+
+module.exports = Query;

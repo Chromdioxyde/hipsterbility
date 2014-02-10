@@ -3,7 +3,6 @@
  */
 // own classes
 var converter = require('./classes/converter');
-
 // express related libs
 var express = require('express');
 
@@ -45,6 +44,18 @@ app.get('/login/?', frontend.login);
 app.get('/:user_id/admin', backend.index);
 app.get('/:user_id/admin/sessions', backend.sessions);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
+
+// test page TODO delete route!
+app.get('/test/db_test/?', function(req, res) {
+	console.log('db_test');
+	
+	var Query = require('./classes/query');
+	var q = new Query();
+	
+	q.test(function(rows) {
+			res.send(rows);
+	});
+});
 
 // error pages
 app.use(function(req, res) {
@@ -89,6 +100,9 @@ app.post('/:user_id/sessions/?', sessions.post); // new session
 // 
 // app.get('/:user_id/:session_id/audio/?', audio.getAll); // get list of audio files
 
+// todo API
+
+// task API
 
 // -------------------------------------------------------
 
