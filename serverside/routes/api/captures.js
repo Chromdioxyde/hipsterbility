@@ -1,4 +1,4 @@
-exports.getAll = function (req, res) {
+exports.all = function (req, res) {
 	
 };
 
