@@ -33,11 +33,12 @@ exports.post = function(req, res) {
 };
 
 /**
- *
+ * get list of sesssions for user.
+ * @param {object} req - request object.
+ * @param {object} res - response object.
  */
 exports.all = function(req, res) {
-	
-	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.body.user_id;
+	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.params.user_id;
 	var query = new Query;
 	
 	query.execute(qstr, '', function(rows) {
@@ -46,11 +47,13 @@ exports.all = function(req, res) {
 };
 
 /**
- *
+ * get one session for user.
+ * @param {object} req - request object.
+ * @param {object} res - response object.
  */
 exports.get = function(req, res) {
 	
-	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.body.user_id + ' AND idsessions = ' + req.body.session_id;
+	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.params.user_id + ' AND idsessions = ' + req.params.session_id;
 	var query = new Query;
 	
 	query.execute(qstr, '', function(rows){
