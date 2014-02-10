@@ -47,7 +47,6 @@ app.get('/:user_id/admin/sessions/:id/?', backend.session);
 
 // test page TODO delete route!
 app.get('/test/db_test/?', function(req, res) {
-	console.log('db_test');
 	
 	var Query = require('./classes/query');
 	var q = new Query();
@@ -73,7 +72,7 @@ app.post('/:user_id/sessions/?', sessions.post); // new session
 app.get('/:user_id/sessions/:session_id/?', sessions.get); // get specific session
 app.put('/:user_id/sessions/fin/?', sessions.finish); // finishes a session and video converting will start
 
-// // videos API
+// videos API
 app.get('/:user_id/:session_id/videos/?', videos.all); // get list of videos 
 app.post('/:user_id/:session_id/videos/?', videos.post); // post new video
  
@@ -86,7 +85,7 @@ app.post('/:user_id/:session_id/captures/?', captures.post); // post a new captu
 
 app.get('/:user_id/:session_id/captures/:id/?', captures.get); // get specific capture
 
-// // logs API
+// logs API
 app.get('/:user_id/:session_id/:session_id/logs/?', logs.all); // get list of logs
 app.post('/:user_id/:session_id/:session_id/logs/?', logs.post); // post a new log
  
