@@ -9,25 +9,25 @@ var converter = require('../../classes/converter');
 exports.post = function(req, res) {
 	
 	// if username exists and if username is not empty
-	if ( req.body.username != undefined && req.body.username != "") {
-		
+	if ( req.params.user_id != undefined && req.params.user_id != "") {
+		console.log('right user');
 		// if sessionname exists and not empty
 		if( req.body.sessionname != undefined && req.body.sessionname != "") {
+			console.log('right session');
+			var query = new Query;
+			var qstr = 'INSERT INTO sessions (name, users_idusers) VALUES ("'+ req.body.sessionname +'", '+ req.params.user_id +')';
 			
-			// TODO write session to cache / db and return results
-			
-			var session = {
-				id: 1, // TODO make it better!
-				name: req.body.sessionname,
-				user: req.body.username
-			};
-			
-			// send to user
-			res.send(session);
-			
+			query.execute(qstr, '', function(rows){
+				
+				qstr = 'SELECT * FROM sessions WHERE idsessions = ' + rows.insertId;
+				
+				query.execute(qstr, '', function(rows){
+					// send to user
+					res.send(rows);
+				});
+			});
 		}
-	} else {
-		
+	} else {	
 		res.send("invalid parameters");
 	}	
 };
@@ -64,7 +64,8 @@ exports.get = function(req, res) {
 
 /**
  * updates state of a session.
- * 
+ * @param {object} req - request object.
+ * @param {object} res - response object.
  */
 exports.finish = function(req, res) {
 	
