@@ -1,8 +1,6 @@
 /**
  * Module dependencies.
  */
-// own classes
-var converter = require('./classes/converter');
 // express related libs
 var express = require('express');
 
@@ -68,13 +66,11 @@ app.use(function(req, res) {
 app.get('/ping/?', frontend.pong);
 
 // session API
-// app.get('/sessions/?', sessions.getAll); // get list of sessions
+app.get('/:user_id/sessions/?', sessions.all); // get list of sessions
 app.post('/:user_id/sessions/?', sessions.post); // new session
-// 
-// app.get('/:user_id/sessions/:id/?', sessions.get); // get specific session
-// 
-// app.post('/:user_id/sessions/fin/?', sessions.makeit); // TODO make it better
-// 
+app.get('/:user_id/sessions/:session_id/?', sessions.get); // get specific session
+app.put('/:user_id/sessions/fin/?', sessions.finish); // finishes a session and video converting will start TODO make it better
+
 // // videos API
 // app.get('/:user_id/:session_id/videos/?', videos.getAll); // get list of videos 
 // app.post('/:user_id/:session_id/videos/?', videos.post); // post new video

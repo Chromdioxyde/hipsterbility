@@ -1,7 +1,10 @@
+var Query = require('../../classes/query');
+var converter = require('../../classes/converter');
+
 /**
- * creates a new session
- * req : Request object
- * res : Response object
+ * creates a new session.
+ * @param {object} req - Request object
+ * @param {object} res - Response object
  */
 exports.post = function(req, res) {
 	
@@ -29,7 +32,47 @@ exports.post = function(req, res) {
 	}	
 };
 
+/**
+ *
+ */
+exports.all = function(req, res) {
+	
+	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.body.user_id;
+	var query = new Query;
+	
+	query.execute(qstr, '', function(rows) {
+		res.send(rows);
+	});
+};
 
+/**
+ *
+ */
+exports.get = function(req, res) {
+	
+	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.body.user_id + ' AND idsessions = ' + req.body.session_id;
+	var query = new Query;
+	
+	query.execute(qstr, '', function(rows){
+		res.send(rows);
+	});
+	
+}
+
+/**
+ * updates state of a session.
+ * 
+ */
+exports.finish = function(req, res) {
+	
+	// TODO implementation
+	
+	// updates activation state for session (1 to 0)
+	
+	// begin converting process
+	
+	// response to client
+}
 
 
 
