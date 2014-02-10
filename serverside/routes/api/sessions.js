@@ -10,13 +10,10 @@ exports.post = function(req, res) {
 	
 	// if username exists and if username is not empty
 	if ( req.params.user_id != undefined && req.params.user_id != "") {
-		console.log('right user');
 		// if sessionname exists and not empty
 		if( req.body.sessionname != undefined && req.body.sessionname != "") {
-			console.log('right session');
 			var query = new Query;
 			var qstr = 'INSERT INTO sessions (name, users_idusers) VALUES ("'+ req.body.sessionname +'", '+ req.params.user_id +')';
-			
 			query.execute(qstr, '', function(rows){
 				
 				qstr = 'SELECT * FROM sessions WHERE idsessions = ' + rows.insertId;
