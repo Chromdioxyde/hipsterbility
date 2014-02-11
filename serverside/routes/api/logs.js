@@ -26,5 +26,6 @@ exports.get = function(req, res) {
  *
  */
 exports.post = function(req, res) {
-	// TODO implementation
+	
+	// TODO implementation (how log is send?)
 };
