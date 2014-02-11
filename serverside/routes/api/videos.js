@@ -1,17 +1,26 @@
 var fs = require('fs'); // file system access 
+var Query = require('../../classes/query');
 
 /**
  * gets a list of videos
  */
 exports.all = function (req, res) {
-	// TODO implementation
+	var query = new Query;
+	qstr = 'SELECT idvideos, file FROM tasks WHERE sessions_idsessions = ' + req.params.session_id;
+	query.execute(qstr, '', function(rows) {
+		res.send(rows);
+	});
 };
 
 /**
  * returns json of a sepcific video file
  */
 exports.get = function (req, res) {
-	// TODO implementation
+	var query = new Query;
+	qstr = 'SELECT idvideos, file FROM tasks WHERE sessions_idsessions = ' + req.params.session_id + ' AND idvideos =' + req.params.id_logs;
+	query.execute(qstr, '', function(rows) {
+		res.send(rows);
+	});
 };
 
 /**
