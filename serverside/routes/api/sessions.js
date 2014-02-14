@@ -2,17 +2,17 @@ var Query = require('../../classes/query');
 var converter = require('../../classes/converter');
 
 /**
- * get list of sesssions for user.
+ * get list of sesssions for user which are not finished.
  * @param {object} req - request object.
  * @param {object} res - response object.
- * @returns {array} - array with objects containing 
+ * @returns {array} - array with objects containing id and name of session
  */
 exports.all = function(req, res) {
-	var qstr = 'SELECT idsessions, name FROM sessions WHERE users_idusers = ' + req.params.user_id;
+	var qstr = 'SELECT idsessions, name FROM sessions WHERE users_idusers = ' + req.params.user_id ' AND finished = 0';
 
 	var query = new Query;
 	
-	// TODO: session filter active-state, devices, apps 
+	// TODO: session filter devices, apps 
 
 	query.execute(qstr, '', function(rows) {
 		res.send(rows);
@@ -43,23 +43,35 @@ exports.get = function(req, res) {
  * updates a session.
  * @param {object} req - Request object
  * @param {object} res - Response object
+ *
  */
 exports.put = function(req, res) {
 	
-	// TODO update table entries 
-	qstr = 'UPDATE sessions SET '
+	// TODO check params 
 
-	if( req.params.active != undefinded && req.params.active != '') {
+	qstr = 'UPDATE sessions SET ';
+
+	if( req.params.active != undefinded && req.params.active != '') { 
+		// set active
 		qstr += ' active = ' + req.params.active;
+	} else if (req.params.name != undefined && req.params.name != '') { 
+		// change name
+		qstr += ' name = ' + req.params.name;
+	} else if (req.params.finished != undefined) {
+		// set finished
+		
+		// TODO  send 409 on finish not successfully
+		// successfully is when logs and captures are already uploaded/added to the session. 
+		qstr += ' name = ' + req.params.finished;
 	}
 
-	// TODO finished
+	qstr += 'WHERE idsessions = ' req.params.session_id; 
 
-	// TODO name
-
-	// TODO take off query
-
-	// TODO  send 409 on finish not successfully
+	// TODO error check
+	query.execute(qstr, '', function(rows){
+		// send to user
+		res.send(rows);
+	});
 
 	// if username exists and if username is not empty
 // 	if ( req.params.user_id != undefined && req.params.user_id != "") {
