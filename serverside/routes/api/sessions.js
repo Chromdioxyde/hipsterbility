@@ -5,9 +5,11 @@ var converter = require('../../classes/converter');
  * get list of sesssions for user.
  * @param {object} req - request object.
  * @param {object} res - response object.
+ * @returns {array} - array with objects containing 
  */
 exports.all = function(req, res) {
-	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.params.user_id;
+	var qstr = 'SELECT idsessions, name FROM sessions WHERE users_idusers = ' + req.params.user_id;
+
 	var query = new Query;
 	
 	// TODO: session filter active-state, devices, apps 
@@ -21,6 +23,8 @@ exports.all = function(req, res) {
  * get one session for user.
  * @param {object} req - request object.
  * @param {object} res - response object.
+ *
+ * @returns {object} - JSON object containing the session information
  */
 exports.get = function(req, res) {
 	
