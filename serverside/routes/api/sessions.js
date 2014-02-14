@@ -8,7 +8,7 @@ var converter = require('../../classes/converter');
  * @returns {array} - array with objects containing id and name of session
  */
 exports.all = function(req, res) {
-	var qstr = 'SELECT idsessions, name FROM sessions WHERE users_idusers = ' + req.params.user_id ' AND finished = 0';
+	var qstr = 'SELECT idsessions, name FROM sessions WHERE users_idusers = ' + req.params.user_id + ' AND finished = 0';
 
 	var query = new Query;
 	
@@ -65,7 +65,7 @@ exports.put = function(req, res) {
 		qstr += ' name = ' + req.params.finished;
 	}
 
-	qstr += 'WHERE idsessions = ' req.params.session_id; 
+	qstr += ' WHERE idsessions = ' + req.params.session_id; 
 
 	// TODO error check
 	query.execute(qstr, '', function(rows){
