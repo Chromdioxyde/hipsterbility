@@ -81,23 +81,3 @@ exports.put = function(req, res) {
 // 		res.send("invalid parameters");
 // 	}	
 };
-
-
-/**
- * updates state of a session.
- * @param {object} req - request object.
- * @param {object} res - response object.
- */
-exports.finish = function(req, res) {
-	
-	// TODO implementation
-	
-	// updates activation state for session (1 to 0)
-	
-	// begin converting process
-	
-	// response to client
-}
-
-
-
