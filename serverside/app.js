@@ -68,9 +68,8 @@ app.get('/ping/?', frontend.pong);
 
 // session API
 app.get('/:user_id/sessions/?', sessions.all); // get list of sessions
-app.post('/:user_id/sessions/?', sessions.post); // new session
 app.get('/:user_id/sessions/:session_id/?', sessions.get); // get specific session
-app.put('/:user_id/sessions/fin/?', sessions.finish); // finishes a session and video converting will start
+app.put('/:user_id/sessions/:session_id/?', sessions.put); // finishes a session and video converting will start
 
 // videos API
 app.get('/:user_id/:session_id/videos/?', videos.all); // get list of videos 
@@ -93,7 +92,7 @@ app.get('/:user_id/:session_id/logs/:id_logs/?', logs.get); // get specific log
 
 // audio API
 app.get('/:user_id/:session_id/audio/?', audios.all); // get list of audio files
-app.post('/:user_id/:session_id/audio/?', audios.post); // post new audio
+app.post('/:user_id/:session_id/audio/?', audios.post); // post new audio0
 
 app.get('/:user_id/:session_id/audio/?', audios.get); // get list of audio files
 
@@ -106,6 +105,8 @@ app.get('/:user_id/:session_id/todos/:id/?', todos.get);
 // task API
 app.get('/:user_id/:session_id/todos/:id/tasks/?', tasks.all);
 app.post('/:user_id/:session_id/todos/:id/tasks/?', tasks.post);
+
+app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?');
 
 app.get('/:user_id/:session_id/todos/:id/tasks/:id/?', tasks.get);
 
