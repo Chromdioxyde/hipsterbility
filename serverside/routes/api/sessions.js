@@ -40,7 +40,7 @@ exports.get = function(req, res) {
 }
 
 /**
- * updates a session.
+ * updates a session.	
  * @param {object} req - Request object
  * @param {object} res - Response object
  *
@@ -72,6 +72,9 @@ exports.put = function(req, res) {
 		// send to user
 		res.send(rows);
 	});
+
+
+	// use for posts:
 
 	// if username exists and if username is not empty
 // 	if ( req.params.user_id != undefined && req.params.user_id != "") {
