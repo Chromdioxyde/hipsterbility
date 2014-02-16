@@ -8,7 +8,7 @@ var backend = require('./routes/backend'); // admin web routes
 var frontend = require('./routes/frontend'); // frontend web routes
 
 var videos = require('./routes/api/videos'); // videos API
-var audios = require('./routes/api/audios'); // microphone / audio API
+var audio = require('./routes/api/audio'); // microphone / audio API
 var captures = require('./routes/api/captures'); // captures / screenshot API
 var sessions = require('./routes/api/sessions'); // session ID API
 var logs = require('./routes/api/logs'); // logfiles API
@@ -68,9 +68,8 @@ app.get('/ping/?', frontend.pong);
 
 // session API
 app.get('/:user_id/sessions/?', sessions.all); // get list of sessions
-app.post('/:user_id/sessions/?', sessions.post); // new session
 app.get('/:user_id/sessions/:session_id/?', sessions.get); // get specific session
-app.put('/:user_id/sessions/fin/?', sessions.finish); // finishes a session and video converting will start
+app.put('/:user_id/sessions/:session_id/?', sessions.put); // finishes a session and video converting will start
 
 // videos API
 app.get('/:user_id/:session_id/videos/?', videos.all); // get list of videos 
@@ -92,10 +91,10 @@ app.post('/:user_id/:session_id/logs/?', logs.post); // post a new log
 app.get('/:user_id/:session_id/logs/:id_logs/?', logs.get); // get specific log
 
 // audio API
-app.get('/:user_id/:session_id/audio/?', audios.all); // get list of audio files
-app.post('/:user_id/:session_id/audio/?', audios.post); // post new audio
+app.get('/:user_id/:session_id/audio/?', audio.all); // get list of audio files
+app.post('/:user_id/:session_id/audio/?', audio.post); // post new audio0
 
-app.get('/:user_id/:session_id/audio/?', audios.get); // get list of audio files
+app.get('/:user_id/:session_id/audio/:audio_id?', audio.get); // get list of audio files
 
 // todo API
 app.get('/:user_id/:session_id/todos/?', todos.all);
@@ -106,6 +105,8 @@ app.get('/:user_id/:session_id/todos/:id/?', todos.get);
 // task API
 app.get('/:user_id/:session_id/todos/:id/tasks/?', tasks.all);
 app.post('/:user_id/:session_id/todos/:id/tasks/?', tasks.post);
+
+app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?');
 
 app.get('/:user_id/:session_id/todos/:id/tasks/:id/?', tasks.get);
 
