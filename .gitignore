@@ -40,3 +40,5 @@ build/
 #node modules
 node_modules/
 
+#vagrant 
+/.vagrant
