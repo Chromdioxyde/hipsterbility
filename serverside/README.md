@@ -7,6 +7,7 @@ NOTE: this is an replacable layer. It was added, configured and developed for de
 This folder is intended to be used as vagrants synced folder. But it`s not a must! You can ignore vagrant files and use it as you like (do not put them into gitignore btw ;P). 
 
 In the Vagrantfile everything is setup and configured to be used as virtual box dev environment. Use following commands to get up and running (terminal/cmd):
+        
         vagrant up
 
 This loads the Vagrantfile configuration and will download all software needed by the vm. In case of first start it will download the debian vm. 
