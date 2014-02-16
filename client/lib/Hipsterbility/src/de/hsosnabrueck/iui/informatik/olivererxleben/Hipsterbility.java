@@ -2,6 +2,10 @@ package de.hsosnabrueck.iui.informatik.olivererxleben;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.CaptureService;
 import org.json.JSONObject;
 
 /**
@@ -15,6 +19,8 @@ public class Hipsterbility {
     //================================================================================
 
     JSONObject conf; // TODO: check object doc
+    Activity activity; // Calling activity to get context for Service TODO: check if needed later on
+    Context context;
 
     //================================================================================
     // Constructors
@@ -27,6 +33,11 @@ public class Hipsterbility {
     public Hipsterbility() {
         // TODO: implementation
     }
+
+    public Hipsterbility(Activity activity){
+        this.activity = activity;
+        context = activity.getApplication().getApplicationContext();
+    };
 
     /**
      * Parameterized constructor to create a Hipsterbility object.
@@ -57,6 +68,22 @@ public class Hipsterbility {
         AlertDialog dialog = builder.create();
 
         dialog.show();
+    }
+
+    public void testCapture() {
+
+        // use this to start and trigger a service
+
+        Session session = new Session("123");
+        Intent i= new Intent(context, CaptureService.class);
+        i.putExtra("Session", session);
+        // potentially add data to the intent
+        //i.putExtra("KEY1", "Value to be used by the service");
+        context.startService(i);
+    }
+
+    public void stopCapture() {
+        context.stopService(new Intent(context, CaptureService.class));
     }
 
     //================================================================================
