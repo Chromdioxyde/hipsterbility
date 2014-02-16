@@ -34,7 +34,7 @@ build/
 .idea/dataSources.ids
 *.iws
 
-# Textpad files
+# Texpad files
 .texpadtmp
 
 #node modules
@@ -42,3 +42,6 @@ node_modules/
 
 #vagrant 
 .vagrant
+
+# LaTex
+tex/main.pdf
