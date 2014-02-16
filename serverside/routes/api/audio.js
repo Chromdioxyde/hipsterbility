@@ -24,7 +24,7 @@ exports.get = function(req, res) {
 	if( (req.params.session_id != undefined && req.params.session_id != '') &&
 			(req.params.audio_id != undefined && req.params.audio_id != '')) {
 
-		var qstr = 'SELECT * FROM audios WHERE session_id = '+ req.params.session_id + ' AND idaudios =' req.params.audio_id;
+		var qstr = 'SELECT * FROM audios WHERE session_id = '+ req.params.session_id + ' AND idaudios =' + req.params.audio_id;
 		var query = new Query;
 
 		query.execute(qstr, '', function(rows){
