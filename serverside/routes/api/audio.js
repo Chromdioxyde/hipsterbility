@@ -55,7 +55,4 @@ exports.post = function(req, res) {
 		// send ERROR state
 		res.send('invalid parameters, could not read file');
 	}
-
-	// 
-	console.log(req);
 };
