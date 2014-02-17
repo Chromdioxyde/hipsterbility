@@ -101,7 +101,6 @@ public class CameraCapture extends AbstractModule implements SurfaceHolder.Callb
     }
 
 
-
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {}
 

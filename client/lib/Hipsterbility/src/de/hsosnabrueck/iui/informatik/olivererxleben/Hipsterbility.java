@@ -7,15 +7,16 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.CaptureService;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.HipsterbilityService;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
 import org.json.JSONObject;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
  * a user can use in own application.
  */
-public class Hipsterbility extends Service{
+public class Hipsterbility{
 
     //================================================================================
     // Properties
@@ -33,29 +34,22 @@ public class Hipsterbility extends Service{
      * The default constructor to create a Hipsterbility object.
      * It uses default values.
      */
-    public Hipsterbility() {
-        Notification.Builder mBuilder = new Notification.Builder(this);
-
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 
     public Hipsterbility(Activity activity){
+        super();
         this.activity = activity;
         context = activity.getApplication().getApplicationContext();
-    };
+        startService();
+    }
 
     /**
      * Parameterized constructor to create a Hipsterbility object.
      * it evaluates a json object for configuration. For example
      * @param conf : JSONObject
      */
-    public Hipsterbility(JSONObject conf) {
-        // TODO: implementation
-    }
+//    public Hipsterbility(JSONObject conf) {
+//        // TODO: implementation
+//    }
 
     //================================================================================
     // public Methods
@@ -86,8 +80,6 @@ public class Hipsterbility extends Service{
         Session session = new Session("123");
         Intent i= new Intent(context, CaptureService.class);
         i.putExtra("Session", session);
-        // potentially add data to the intent
-        //i.putExtra("KEY1", "Value to be used by the service");
         context.startService(i);
     }
 
@@ -95,9 +87,13 @@ public class Hipsterbility extends Service{
         context.stopService(new Intent(context, CaptureService.class));
     }
 
+
     //================================================================================
     // Private Methods
     //================================================================================
 
-
+    private void startService(){
+        Intent i= new Intent(context, HipsterbilityService.class);
+        context.startService(i);
+    }
 }

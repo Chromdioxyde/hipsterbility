@@ -25,11 +25,10 @@ public class MyActivity extends Activity {
 
         this.h = new Hipsterbility(this);
 
-        h.testAlert(this);
-        h.testCapture();
+
+//        h.testAlert(this);
+//        h.testCapture();
         addListenerOnButton();
-
-
     }
 
 
@@ -37,7 +36,6 @@ public class MyActivity extends Activity {
 
         //Select a specific button to bundle it with the action you want
         Button button = (Button) findViewById(R.id.button);
-
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override

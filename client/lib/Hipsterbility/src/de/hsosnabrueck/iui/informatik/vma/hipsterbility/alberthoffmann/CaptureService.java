@@ -58,7 +58,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
 
     @Override
     public void onCreate() {
-
+        super.onCreate();
         // Start foreground service to avoid unexpected kill
         Notification notification = new Notification.Builder(this)
                 .setContentTitle("Background Video Recorder")
