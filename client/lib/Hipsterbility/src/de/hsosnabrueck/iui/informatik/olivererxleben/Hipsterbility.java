@@ -2,8 +2,11 @@ package de.hsosnabrueck.iui.informatik.olivererxleben;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.IBinder;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.CaptureService;
 import org.json.JSONObject;
@@ -12,7 +15,7 @@ import org.json.JSONObject;
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
  * a user can use in own application.
  */
-public class Hipsterbility {
+public class Hipsterbility extends Service{
 
     //================================================================================
     // Properties
@@ -31,7 +34,13 @@ public class Hipsterbility {
      * It uses default values.
      */
     public Hipsterbility() {
-        // TODO: implementation
+        Notification.Builder mBuilder = new Notification.Builder(this);
+
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     public Hipsterbility(Activity activity){

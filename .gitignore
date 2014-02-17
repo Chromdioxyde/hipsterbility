@@ -47,3 +47,7 @@ node_modules/
 tex/main.pdf
 workspace.xml
 workspace.xml
+client/tests/apps/testApp/.idea/codeStyleSettings.xml
+client/tests/apps/testApp/.idea/dictionaries/Albert.xml
+client/tests/apps/testApp/.idea/dictionaries/Albert_Hoffmann.xml
+client/tests/apps/testApp/.idea/uiDesigner.xml
