@@ -26,11 +26,10 @@ After first boot and ssh-ing into the box, you need some additional software to 
         chmod +x install.sh
         ./install.sh
 
-This will install mysql and nodejs. 
+This will install mysql, ffmpeg and nodejs. 
 
 ## Usage and setup serverside-application
 
-* install node + npm
 * open terminal here
 * type 
 
