@@ -18,7 +18,7 @@ public class Session implements Parcelable {
     // Properties
     //================================================================================
 
-    private String id;
+    private int id;
     private String name;
     private String device;
     private String app;
@@ -28,12 +28,25 @@ public class Session implements Parcelable {
     // Constructors
     //================================================================================
 
-    public Session(String id) {
+    public Session(int id) {
         this.id = id;
     }
 
     private Session(Parcel in) {
-        id = in.readString();
+        id = in.readInt();
+        name = in.readString();
+        device = in.readString();
+        app = in.readString();
+        // TODO: improve dirty boolean hack
+        active = in.readInt() > 0 ? true : false;
+    }
+
+    public Session(int id, String name, String device, String app, boolean active){
+        this(id);
+        this.name = name;
+        this.device = device;
+        this.app = app;
+        this.active = active;
     }
 
     //================================================================================
@@ -46,7 +59,12 @@ public class Session implements Parcelable {
     }
 
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(id);
+        out.writeInt(id);
+        out.writeString(name);
+        out.writeString(device);
+        out.writeString(app);
+        // TODO: improve dirty boolean hack
+        out.writeInt(active == true ? 1 : 0);
     }
 
     public static final Parcelable.Creator<Session> CREATOR = new Parcelable.Creator<Session>() {
@@ -60,11 +78,11 @@ public class Session implements Parcelable {
     };
 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

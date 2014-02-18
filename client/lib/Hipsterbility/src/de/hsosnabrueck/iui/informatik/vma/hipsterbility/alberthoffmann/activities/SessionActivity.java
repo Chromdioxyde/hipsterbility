@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import de.hsosnabrueck.iui.informatik.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activities.adapters.SessionListItemAdapter;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.SessionManager;
 
 import java.util.List;
 
@@ -19,9 +22,12 @@ public class SessionActivity extends Activity {
 
 
     private ListView listView;
+    private SessionManager sessionManager;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.sessionManager = SessionManager.getInstace();
+
         setContentView(R.layout.session_activity_layout);
         this. listView = (ListView) findViewById(R.id.sessionslistView);
 
@@ -35,6 +41,15 @@ public class SessionActivity extends Activity {
         // Must add the progress bar to the root of the layout
         ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
         root.addView(progressBar);
+
+
+        //TODO: delete after testing
+        displaySessions((Session[]) this.sessionManager.getSessions().toArray());
+    }
+
+    private void displaySessions(Session[] sessions){
+        SessionListItemAdapter adapter = new SessionListItemAdapter(this, sessions);
+        this.listView.setAdapter(adapter);
 
         // Add listener to ListView for actions on selected item
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

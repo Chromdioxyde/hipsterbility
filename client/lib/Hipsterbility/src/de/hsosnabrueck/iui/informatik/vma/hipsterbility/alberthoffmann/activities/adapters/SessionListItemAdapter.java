@@ -36,13 +36,14 @@ public class SessionListItemAdapter extends ArrayAdapter<Session> {
         Session s = sessions[position];
 
         textViewFirst.setText(sessions[position].getName());
-        // change the icon for Windows and iPhone
-//        String s = values[position];
+
+
         if (s.isActive()) {
-            imageView.setImageResource(R.drawable.session_active);
+            //TODO: Change icons to custom ones
+            imageView.setImageResource(android.R.drawable.ic_media_play);
             textViewSecond.setText("active");
         } else {
-            imageView.setImageResource(R.drawable.session_inactive);
+            imageView.setImageResource(android.R.drawable.ic_lock_lock);
             textViewSecond.setText("inactive");
         }
         return rowView;

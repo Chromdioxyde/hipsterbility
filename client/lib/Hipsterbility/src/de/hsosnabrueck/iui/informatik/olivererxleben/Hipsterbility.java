@@ -73,11 +73,12 @@ public class Hipsterbility{
         dialog.show();
     }
 
+    //TODO: delete me after testing
     public void testCapture() {
 
         // use this to start and trigger a service
 
-        Session session = new Session("123");
+        Session session = new Session(123);
         Intent i= new Intent(context, CaptureService.class);
         i.putExtra("Session", session);
         context.startService(i);
