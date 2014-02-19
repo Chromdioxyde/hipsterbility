@@ -130,6 +130,15 @@ public class Session implements Parcelable {
         this.active = active;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o.getClass() != this.getClass()){
+            return false;
+        }
+        //Session IDs have to be unique, because they are primary keys in the server database.
+        return this.id == ((Session)o).getId();
+    }
+
     //================================================================================
     // Private Methods
     //================================================================================
