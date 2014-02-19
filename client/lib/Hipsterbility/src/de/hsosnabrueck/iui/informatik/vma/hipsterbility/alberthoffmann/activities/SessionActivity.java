@@ -1,6 +1,8 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activities;
 
 import android.app.Activity;
+import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -19,11 +21,12 @@ import java.util.List;
  * Sources: http://developer.android.com/guide/topics/ui/layout/listview.html
  *          http://www.vogella.com/tutorials/AndroidListView/article.html
  */
-public class SessionActivity extends Activity {
+public class SessionActivity extends Activity implements AdapterView.OnItemClickListener {
 
-
+    //TODO: sort methods and clean up
     private ListView listView;
     private SessionManager sessionManager;
+    private ArrayList<Session> sessions;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,25 +48,17 @@ public class SessionActivity extends Activity {
 
 
         //TODO: delete after testing
-        displaySessions(this.sessionManager.getSessions());
+        sessions = this.sessionManager.getSessions();
+        displaySessions();
     }
 
-    private void displaySessions(ArrayList<Session> sessions){
+    private void displaySessions(){
         SessionListItemAdapter adapter = new SessionListItemAdapter(this, sessions);
         this.listView.setAdapter(adapter);
 
         // Add listener to ListView for actions on selected item
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-//                TODO: Real Implementation
+        listView.setOnItemClickListener(this);
 
-                Toast.makeText(getApplicationContext(),
-                        "Click ListItem Number " + position, Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
     }
 
     @Override
@@ -81,4 +76,18 @@ public class SessionActivity extends Activity {
         super.onDestroy();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+        Session s = sessions.get(position);
+        Intent i = new Intent(this, TasksActivity.class);
+        i.putExtra("session",s);
+        startActivity(i);
+
+        Toast.makeText(getApplicationContext(),
+                    "Session id " + s.getId()
+                            + " - "
+                            + "Name "+ s.getName() , Toast.LENGTH_LONG)
+                    .show();
+    }
 }

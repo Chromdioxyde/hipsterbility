@@ -10,6 +10,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activitie
 
 /**
  * Created by Albert Hoffmann on 17.02.14.
+ * Service class for managing usability testing.
  */
 public class HipsterbilityService extends Service {
 

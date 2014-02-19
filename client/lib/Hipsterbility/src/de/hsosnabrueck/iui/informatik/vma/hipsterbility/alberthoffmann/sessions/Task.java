@@ -1,7 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions;
 
 /**
- * Created by albert on 19.02.14.
+ * Created by Albert Hoffmann on 19.02.14.
  * Simple POJO class for tasks of a todo
  */
 public class Task {

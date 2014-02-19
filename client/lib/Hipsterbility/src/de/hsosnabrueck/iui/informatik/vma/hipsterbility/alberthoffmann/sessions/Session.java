@@ -3,6 +3,8 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by Albert Hoffmann on 13.02.14.
  * Uses interface "Parceable" to be packaged into intents for communication.
@@ -24,6 +26,8 @@ public class Session implements Parcelable {
     private String device;
     private String app;
     private boolean active;
+    //TODO: Eventually make parceable
+    private ArrayList<Todo> todos;
 
     //================================================================================
     // Constructors
@@ -31,6 +35,7 @@ public class Session implements Parcelable {
 
     public Session(int id) {
         this.id = id;
+        this.todos = new ArrayList<Todo>();
     }
 
     private Session(Parcel in) {
@@ -128,6 +133,18 @@ public class Session implements Parcelable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public ArrayList<Todo> getTodos() {
+        return todos;
+    }
+
+    public void setTodos(ArrayList<Todo> todos) {
+        this.todos = todos;
+    }
+
+    public void addTodo(Todo todo){
+        this.todos.add(todo);
     }
 
     @Override
