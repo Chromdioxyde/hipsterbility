@@ -11,6 +11,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activitie
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.SessionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,10 +45,10 @@ public class SessionActivity extends Activity {
 
 
         //TODO: delete after testing
-        displaySessions((Session[]) this.sessionManager.getSessions().toArray());
+        displaySessions(this.sessionManager.getSessions());
     }
 
-    private void displaySessions(Session[] sessions){
+    private void displaySessions(ArrayList<Session> sessions){
         SessionListItemAdapter adapter = new SessionListItemAdapter(this, sessions);
         this.listView.setAdapter(adapter);
 
@@ -57,6 +58,7 @@ public class SessionActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 //                TODO: Real Implementation
+
                 Toast.makeText(getApplicationContext(),
                         "Click ListItem Number " + position, Toast.LENGTH_LONG)
                         .show();

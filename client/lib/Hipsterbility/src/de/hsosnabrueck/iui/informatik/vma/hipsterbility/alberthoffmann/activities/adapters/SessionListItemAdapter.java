@@ -10,15 +10,17 @@ import android.widget.TextView;
 import de.hsosnabrueck.iui.informatik.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
 
+import java.util.ArrayList;
+
 /**
  * Created by Albert Hoffmann on 18.02.14.
  */
 public class SessionListItemAdapter extends ArrayAdapter<Session> {
     private final Context context;
-    private final Session[] sessions;
+    private final ArrayList<Session> sessions;
 
-    public SessionListItemAdapter(Context context, Session[] sessions) {
-        super(context, R.layout.session_list_element);
+    public SessionListItemAdapter(Context context, ArrayList<Session> sessions) {
+        super(context, R.layout.session_list_element, sessions);
         this.context = context;
         this.sessions = sessions;
     }
@@ -29,22 +31,24 @@ public class SessionListItemAdapter extends ArrayAdapter<Session> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.session_list_element, parent, false);
 
-        TextView textViewFirst = (TextView) rowView.findViewById(R.id.firstLine);
-        TextView textViewSecond = (TextView) rowView.findViewById(R.id.secondLine);
+        TextView textName = (TextView) rowView.findViewById(R.id.text_name);
+        TextView textDesc = (TextView) rowView.findViewById(R.id.text_description);
+
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
 
-        Session s = sessions[position];
+        Session s = sessions.get(position);
 
-        textViewFirst.setText(sessions[position].getName());
+        textName.setText(s.getName());
+        textDesc.setText(s.getDescription());
 
 
         if (s.isActive()) {
             //TODO: Change icons to custom ones
             imageView.setImageResource(android.R.drawable.ic_media_play);
-            textViewSecond.setText("active");
+//            textViewSecond.setText("active");
         } else {
             imageView.setImageResource(android.R.drawable.ic_lock_lock);
-            textViewSecond.setText("inactive");
+//            textViewSecond.setText("inactive");
         }
         return rowView;
     }
