@@ -1,9 +1,8 @@
-
 function Query() {
 	
   this.host = 'localhost';
   this.user = 'root';
-  this.password = ''; // yes, no password! :)
+  this.password = 'mmk2014'; // yes, no password! :)
   this.mysql = require('mysql');
 
   this.connection = this.connect();

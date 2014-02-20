@@ -10,7 +10,8 @@
 		"jade": "*",
 		"mysql" : "*",
 		"fluent-ffmpeg": "*",
-		"redis": "*",
+    "passport":"*",
+    "passport-local":"*",
 		"jsdoc": "*"
   }
 }
