@@ -14,7 +14,6 @@ import de.hsosnabrueck.iui.informatik.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Task;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Todo;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -65,7 +64,7 @@ public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return groups.get(groupPosition).children.size();
+        return groups.get(groupPosition).getTasks().size();
     }
 
     @Override
@@ -99,8 +98,8 @@ public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.todos_listrow_group, null);
         }
-        Group group = (Group) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(group.string);
+        Todo group = (Todo) getGroup(groupPosition);
+        ((CheckedTextView) convertView).setText(group.getName());
         ((CheckedTextView) convertView).setChecked(isExpanded);
         return convertView;
     }

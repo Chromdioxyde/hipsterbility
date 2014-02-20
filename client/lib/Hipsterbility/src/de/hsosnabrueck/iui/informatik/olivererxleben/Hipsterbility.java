@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.os.IBinder;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.HipsterbilityService;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.*;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
@@ -40,16 +42,37 @@ public class Hipsterbility{
         this.activity = activity;
         context = activity.getApplication().getApplicationContext();
         startService();
+        createTestData();
     }
 
-    /**
-     * Parameterized constructor to create a Hipsterbility object.
-     * it evaluates a json object for configuration. For example
-     * @param conf : JSONObject
-     */
-//    public Hipsterbility(JSONObject conf) {
-//        // TODO: implementation
-//    }
+    //TODO: delete after testing
+    private void createTestData() {
+        SessionManager sm = SessionManager.getInstace();
+        TodoManager tm = TodoManager.getInstance();
+        ArrayList<Session> sessions = new ArrayList<Session>();
+
+        sessions.add(new Session(1, "wurst", "mhhhh, tasty", "Nexus", "bla", true));
+        sessions.add(new Session(3, "salat", "vitamins ftw", "Galaxy", "blubb", false));
+        sessions.add(new Session(5, "foo", "poop! i did it again", "Nexus", "blubb", true));
+        sessions.add(new Session(2 ,"bar", "vodka lemon", "HTC", "blubb", false));
+        sessions.add(new Session(25, "baz", "more bass digga", "Dumbphone", "bla", true));
+        sessions.add(new Session(13, "42", "The answer to the question of quesions", "Nexus", "bla", true));
+        sessions.add(new Session(34, "baz", "more bass digga", "Dumbphone", "bla", false));
+        sessions.add(new Session(4, "baz", "more bass digga", "Dumbphone", "bla", true));
+        int k = 0;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 10; j++){
+                Todo t = new Todo(j++,String.valueOf(Math.random()),String.valueOf(Math.random()),j%2==0,sessions.get(i));
+                for(int x = 0; x < 10; x++){
+                    t.addTask(new Task(x,"task " + x, t));
+                }
+                sessions.get(i).addTodo(t);
+            }
+        }
+        sm.setSessions(sessions);
+
+    }
+
 
     //================================================================================
     // public Methods

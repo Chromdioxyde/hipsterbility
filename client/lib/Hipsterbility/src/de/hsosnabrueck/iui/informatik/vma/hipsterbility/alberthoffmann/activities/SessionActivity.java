@@ -80,7 +80,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
         Session s = sessions.get(position);
-        Intent i = new Intent(this, TasksActivity.class);
+        Intent i = new Intent(this, TodosActivity.class);
         i.putExtra("session",s);
         startActivity(i);
 
