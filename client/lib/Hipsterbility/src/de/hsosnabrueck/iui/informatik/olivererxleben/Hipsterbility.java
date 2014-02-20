@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
- * a user can use in own application.
+ * a user can use in own application, similar to the facade pattern.
  */
 public class Hipsterbility{
 
@@ -43,15 +43,22 @@ public class Hipsterbility{
         context = activity.getApplication().getApplicationContext();
         startService();
         createTestData();
+//        activity.getApplication().registerActivityLifecycleCallbacks();
     }
 
     //TODO: delete after testing
     private void createTestData() {
         SessionManager sm = SessionManager.getInstace();
-        TodoManager tm = TodoManager.getInstance();
+//        TodoManager tm = TodoManager.getInstance();
         ArrayList<Session> sessions = new ArrayList<Session>();
+        Session s = new Session(1, "wurst", "mhhhh, tasty", "Nexus", "bla", true);
+        sessions.add(s);
+        Todo todo = new Todo(1,"Todo 1","Description goes here",true,s);
+        Task task = new Task(1,"Task 1", todo);
+        todo.addTask(task);
+        s.addTodo(todo);
+//        tm.addTodo(s,t);
 
-        sessions.add(new Session(1, "wurst", "mhhhh, tasty", "Nexus", "bla", true));
         sessions.add(new Session(3, "salat", "vitamins ftw", "Galaxy", "blubb", false));
         sessions.add(new Session(5, "foo", "poop! i did it again", "Nexus", "blubb", true));
         sessions.add(new Session(2 ,"bar", "vodka lemon", "HTC", "blubb", false));
@@ -59,10 +66,10 @@ public class Hipsterbility{
         sessions.add(new Session(13, "42", "The answer to the question of quesions", "Nexus", "bla", true));
         sessions.add(new Session(34, "baz", "more bass digga", "Dumbphone", "bla", false));
         sessions.add(new Session(4, "baz", "more bass digga", "Dumbphone", "bla", true));
-        int k = 0;
+        sm.setSessions(sessions);
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 10; j++){
-                Todo t = new Todo(j++,String.valueOf(Math.random()),String.valueOf(Math.random()),j%2==0,sessions.get(i));
+                Todo t = new Todo(j++,"TODO " + j ,"Todo desription goes here",j%2==0,sessions.get(i));
                 for(int x = 0; x < 10; x++){
                     t.addTask(new Task(x,"task " + x, t));
                 }
@@ -70,7 +77,6 @@ public class Hipsterbility{
             }
         }
         sm.setSessions(sessions);
-
     }
 
 

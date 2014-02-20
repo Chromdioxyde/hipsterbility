@@ -3,4 +3,5 @@
     <string name="app_name">ACTIVITY_ENTRY_NAME</string>
     <string name="capture_service_label">Hipsterbility Capture Service</string>
     <string name="choose_session">Choose a session to begin testing</string>
+    <string name="err_no_todos_for_session">This session has no todos yet.</string>
 </resources>

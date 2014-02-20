@@ -1,8 +1,6 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activities.adapters;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,47 +13,46 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Todo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by albert on 19.02.14.
  */
 public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private final ArrayList<Todo> groups;
+    private final ArrayList<Todo> todos;
     public LayoutInflater inflater;
     public Activity activity;
 
-    public TodosExpandableListAdapter(Activity act, ArrayList<Todo> groups) {
-        activity = act;
-        this.groups = groups;
-        inflater = act.getLayoutInflater();
+    public TodosExpandableListAdapter(Activity activity, ArrayList<Todo> todos) {
+        this.activity = activity;
+        this.todos = todos;
+        this.inflater = activity.getLayoutInflater();
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return groups.get(groupPosition).getTasks().get(childPosition);
+        return todos.get(groupPosition).getTasks().get(childPosition);
     }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return groups.get(groupPosition).getTasks().get(childPosition).getId();
+        return childPosition;
     }
 
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final String children = (String) getChild(groupPosition, childPosition);
+        final Task children = (Task) getChild(groupPosition, childPosition);
         TextView text = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.todos_listrow_details, null);
         }
         text = (TextView) convertView.findViewById(R.id.textView1);
-        text.setText(children);
+        text.setText(children.getName());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, children,
+                Toast.makeText(activity, children.getName(),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -64,17 +61,17 @@ public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return groups.get(groupPosition).getTasks().size();
+        return todos.get(groupPosition).getTasks().size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return groups.get(groupPosition);
+        return todos.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return groups.size();
+        return todos.size();
     }
 
     @Override

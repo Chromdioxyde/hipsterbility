@@ -81,7 +81,8 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
 
         Session s = sessions.get(position);
         Intent i = new Intent(this, TodosActivity.class);
-        i.putExtra("session",s);
+//        i.putExtra("session",s);
+        sessionManager.setSessionInProgress(s);
         startActivity(i);
 
         Toast.makeText(getApplicationContext(),
