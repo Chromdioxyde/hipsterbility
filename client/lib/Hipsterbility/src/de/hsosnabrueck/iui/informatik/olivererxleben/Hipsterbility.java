@@ -24,9 +24,11 @@ public class Hipsterbility{
     // Properties
     //================================================================================
 
-    JSONObject conf; // TODO: check object doc
-    Activity activity; // Calling activity to get context for Service TODO: check if needed later on
-    Context context;
+
+//    Activity activity; // Calling activity to get context for Service TODO: check if needed later on
+    private static Hipsterbility instance = new Hipsterbility();
+    private Context context;
+    private Activity activity;
 
     //================================================================================
     // Constructors
@@ -37,14 +39,68 @@ public class Hipsterbility{
      * It uses default values.
      */
 
-    public Hipsterbility(Activity activity){
-        super();
-        this.activity = activity;
-        context = activity.getApplication().getApplicationContext();
+    private Hipsterbility(){
         startService();
         createTestData();
-//        activity.getApplication().registerActivityLifecycleCallbacks();
     }
+
+    //================================================================================
+    // public Methods
+    //================================================================================
+
+
+    public static Hipsterbility getInstance(){
+        return instance;
+    }
+    public String test() {
+       // TODO: delete method, just for dev testing purposes
+       return "hello Hipsterbility";
+    }
+
+    public void testAlert(Activity activity) {
+        // TODO: delete method, just for dev testing purposes
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+        builder.setMessage("Alert from lib")
+                .setTitle(this.test());
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
+    }
+
+    //TODO: delete me after testing
+    public void testCapture() {
+
+        // use this to start and trigger a service
+
+        Session session = new Session(123);
+        Intent i= new Intent(context, CaptureService.class);
+        i.putExtra("Session", session);
+        context.startService(i);
+    }
+
+    public void stopCapture() {
+        context.stopService(new Intent(context, CaptureService.class));
+    }
+
+
+    public void enableTesting(Activity activity) {
+        //TODO usefull stuff
+        this.activity = activity;
+
+    }
+
+
+    //================================================================================
+    // Private Methods
+    //================================================================================
+
+    private void startService(){
+        Intent i= new Intent(context, HipsterbilityService.class);
+        context.startService(i);
+    }
+
 
     //TODO: delete after testing
     private void createTestData() {
@@ -80,50 +136,4 @@ public class Hipsterbility{
     }
 
 
-    //================================================================================
-    // public Methods
-    //================================================================================
-
-
-    public String test() {
-       // TODO: delete method, just for dev testing purposes
-       return "hello Hipsterbility";
-    }
-
-    public void testAlert(Activity activity) {
-        // TODO: delete method, just for dev testing purposes
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
-        builder.setMessage("Alert from lib")
-                .setTitle(this.test());
-
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
-    }
-
-    //TODO: delete me after testing
-    public void testCapture() {
-
-        // use this to start and trigger a service
-
-        Session session = new Session(123);
-        Intent i= new Intent(context, CaptureService.class);
-        i.putExtra("Session", session);
-        context.startService(i);
-    }
-
-    public void stopCapture() {
-        context.stopService(new Intent(context, CaptureService.class));
-    }
-
-
-    //================================================================================
-    // Private Methods
-    //================================================================================
-
-    private void startService(){
-        Intent i= new Intent(context, HipsterbilityService.class);
-        context.startService(i);
-    }
 }

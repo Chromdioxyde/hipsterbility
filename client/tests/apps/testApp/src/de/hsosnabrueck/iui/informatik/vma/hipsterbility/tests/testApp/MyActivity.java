@@ -15,7 +15,7 @@ public class MyActivity extends Activity {
      * Called when the activity is first created.
      */
 
-    private Hipsterbility h;
+    private Hipsterbility h = Hipsterbility.getInstance();
 
 
     @Override
@@ -23,12 +23,12 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        this.h = new Hipsterbility(this);
-
-
 //        h.testAlert(this);
 //        h.testCapture();
         addListenerOnButton();
+        // Enable UX testing for this activity
+        h.enableTesting(this);
+
     }
 
 

@@ -52,6 +52,8 @@ public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //TODO: do something with selected item
                 Toast.makeText(activity, children.getName(),
                         Toast.LENGTH_SHORT).show();
             }
