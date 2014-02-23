@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.olivererxleben.loggers;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.loggers;
 
 /**
  * TouchLogger class implements a zero opacity view on top of the designated Activity`s view to receive and log touch
