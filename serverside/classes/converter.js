@@ -1,4 +1,4 @@
-
+var fs = require('fs');
 var avconv = require('avconv');
 /*
  * "constructor" function implements all need variable initialization 
@@ -135,12 +135,12 @@ Converter.prototype.createVideoFromScreenshots = function(user, session, interva
 }
 
 /**
- *
- * Creates a video from captured videos 
- *
+ * merges all videos 
  */
-Converter.prototype.createVideoFromVideos = function() {
+Converter.prototype.mergeVideoInput = function(user, session) {
 
+	// avconv -i concat:file1.mp4\|file2.mp4 -c copy output.mp4
+	
 }
 
 /*

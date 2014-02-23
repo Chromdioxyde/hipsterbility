@@ -63,6 +63,10 @@ exports.put = function(req, res) {
 		// TODO  send 409 on finish not successfully
 		// successfully is when logs and captures are already uploaded/added to the session. 
 		qstr += ' name = ' + req.params.finished;
+
+		// 
+		var conv = new converter;
+
 	}
 
 	qstr += ' WHERE idsessions = ' + req.params.session_id; 
@@ -72,7 +76,6 @@ exports.put = function(req, res) {
 		// send to user
 		res.send(rows);
 	});
-
 
 	// use for posts:
 
