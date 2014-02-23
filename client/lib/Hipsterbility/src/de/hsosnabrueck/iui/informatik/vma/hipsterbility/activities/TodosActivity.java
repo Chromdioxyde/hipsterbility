@@ -1,18 +1,15 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activities;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activities.adapters.TodosExpandableListAdapter;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.*;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters.TodosExpandableListAdapter;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.*;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Albert Hoffmann on 19.02.14.

@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.modules;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -7,7 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
 
 import java.util.List;
 

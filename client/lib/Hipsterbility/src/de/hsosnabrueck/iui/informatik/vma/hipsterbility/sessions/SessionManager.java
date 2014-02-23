@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
 
 import java.util.ArrayList;
 

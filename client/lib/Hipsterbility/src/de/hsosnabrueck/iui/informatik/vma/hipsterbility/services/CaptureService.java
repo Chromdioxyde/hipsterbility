@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.services;
 
 import android.app.Notification;
 import android.app.Service;
@@ -16,10 +16,11 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.modules.AbstractModule;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.modules.CameraCapture;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.AbstractModule;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -34,10 +35,10 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     // Properties
     //================================================================================
 
+    public static final String VIDEOS_DIR = "videos";
     private Session session;
 
     private ArrayList<AbstractModule> modules;
-
 
     private WindowManager windowManager;
     private SurfaceView surfaceView;
@@ -108,9 +109,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
 
         mediaRecorder.setOutputFile(
-                Environment.getExternalStorageDirectory()+"/"+
-                        DateFormat.format("yyyy-MM-dd_kk-mm-ss", new Date().getTime())+
-                        ".mp4"
+                getOuputFileName()
         );
 
         try { mediaRecorder.prepare(); } catch (Exception e) {}
@@ -171,4 +170,16 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     // Private Methods
     //================================================================================
 
+    private String getOuputFileName(){
+        return Environment.getExternalStorageDirectory()
+                + File.separator
+                + Hipsterbility.BASE_DIR
+                + File.separator
+                + VIDEOS_DIR
+                + File.separator
+                + session.getId()
+                + File.separator
+                + System.currentTimeMillis()
+                + ".mp4";
+    }
 }

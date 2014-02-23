@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activities.adapters;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,18 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
 
 import java.util.ArrayList;
 
 /**
  * Created by Albert Hoffmann on 18.02.14.
  */
-public class SessionListItemAdapter extends ArrayAdapter<Session> {
+public class SessionListAdapter extends ArrayAdapter<Session> {
     private final Context context;
     private final ArrayList<Session> sessions;
 
-    public SessionListItemAdapter(Context context, ArrayList<Session> sessions) {
+    public SessionListAdapter(Context context, ArrayList<Session> sessions) {
         super(context, R.layout.session_list_element, sessions);
         this.context = context;
         this.sessions = sessions;

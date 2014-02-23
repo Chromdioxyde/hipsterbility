@@ -2,13 +2,11 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.testApp;
 
 import android.app.Activity;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.View;
 import android.widget.Button;
-import de.hsosnabrueck.iui.informatik.olivererxleben.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 
 public class MyActivity extends Activity {
     /**

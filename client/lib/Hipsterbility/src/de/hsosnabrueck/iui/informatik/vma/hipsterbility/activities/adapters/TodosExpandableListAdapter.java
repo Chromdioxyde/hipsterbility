@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activities.adapters;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Task;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Todo;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Task;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Todo;
 
 import java.util.ArrayList;
 

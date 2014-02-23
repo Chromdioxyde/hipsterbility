@@ -1,6 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions;
-
-import android.widget.ArrayAdapter;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
 
 /**
  * Created by Albert Hoffmann on 19.02.14.

@@ -1,16 +1,16 @@
-package de.hsosnabrueck.iui.informatik.olivererxleben;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.Service;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.CaptureService;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.HipsterbilityService;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.*;
-import org.json.JSONObject;
+import android.content.SharedPreferences;
+import android.provider.Settings;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.*;
 
 import java.util.ArrayList;
 
@@ -27,8 +27,12 @@ public class Hipsterbility{
 
 //    Activity activity; // Calling activity to get context for Service TODO: check if needed later on
     private static Hipsterbility instance = new Hipsterbility();
+    //Base dir for stored files on SD-Card
+    public static final String BASE_DIR = "hipsterbility";
+
     private Context context;
     private Activity activity;
+    private SharedPreferences sharedPreferences;
 
     //================================================================================
     // Constructors
@@ -40,7 +44,7 @@ public class Hipsterbility{
      */
 
     private Hipsterbility(){
-        startService();
+        //TODO: remove after testing
         createTestData();
     }
 
@@ -88,8 +92,13 @@ public class Hipsterbility{
     public void enableTesting(Activity activity) {
         //TODO usefull stuff
         this.activity = activity;
-
+        this.context = activity.getApplicationContext();
+        //TODO remove after testing
+        testScreenshot(activity);
+//        activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
+        startService();
     }
+
 
 
     //================================================================================
@@ -133,6 +142,15 @@ public class Hipsterbility{
             }
         }
         sm.setSessions(sessions);
+    }
+
+
+    private void testScreenshot(Activity activity) {
+        Session session = new Session(124);
+        ScreenshotTaker s = new ScreenshotTaker(session);
+//        s.takeScreenshot(activity);
+//        s.takeScreenshotRoot();
+        s.takeContinuousScreenshots(activity, 10, 100, false);
     }
 
 

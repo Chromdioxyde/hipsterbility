@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.modules;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
 import android.app.Notification;
 import android.content.Context;
@@ -10,8 +10,8 @@ import android.os.Environment;
 import android.text.format.DateFormat;
 import android.view.*;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.CaptureService;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
 
 import java.util.Date;
 

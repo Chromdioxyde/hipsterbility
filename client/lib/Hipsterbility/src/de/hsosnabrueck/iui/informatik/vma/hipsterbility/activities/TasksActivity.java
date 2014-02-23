@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.alberthoffmann.activities;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities;
 
 import android.app.Activity;
 import android.os.Bundle;import de.hsosnabrueck.iui.informatik.R;
