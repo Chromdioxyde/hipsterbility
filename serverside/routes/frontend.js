@@ -12,6 +12,7 @@ exports.index = function(req, res) {
  * 
  */
 exports.login = function(req, res) {
+
 	res.render('login', {type: 'frontend'});
 };
 
@@ -21,6 +22,9 @@ exports.login = function(req, res) {
 exports.about = function(req, res) {
 	res.render('about', {type: 'frontend'});
 };
+
+
+
 
 /**
  * Test function to test connection

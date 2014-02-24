@@ -9,12 +9,12 @@ block content
             .panel-heading
               h3.panel-title Login
             .panel-body
-              form(role='form')
+              form(role='form', method='POST', action='/auth')
                 fieldset
                   .form-group
-                    input.form-control(placeholder='E-mail', name='email', type='email', autofocus='autofocus')
+                    input.form-control(id="username", placeholder='Username', name='username', type='text', autofocus='autofocus')
                   .form-group
-                    input.form-control(placeholder='Password', name='password', type='password', value='')
-                  .checkbox
-                    label
-                      a.btn.btn-lg.btn-success.btn-block(href='index.html') Login
+                    input.form-control(id="password", placeholder='Password', name='password', type='password', value='')
+                  .form-group  
+                    input.btn.btn-lg.btn-success.btn-block(type='submit', value='login')
+     

@@ -1,0 +1,31 @@
+extends ../layout
+
+block content
+  #page-wrapper
+    .row
+      .col-lg-12
+        h1.page-header Sessions
+        table.table.table-striped
+          thead
+              tr
+                th #
+                th Name
+                th Aktiv
+                th 
+               
+            tbody
+              for session in sessions
+                tr
+                  td=session.idsessions
+                  td=session.name
+                  td=session.active
+                  td
+                    a(href='/'+ id_user + '/admin/sessions/' + session.idsessions) details
+              else 
+                | no sessions yet! 
+      //
+         /.col-lg-12 
+    //
+       /.row 
+  //
+     /#page-wrapper 
