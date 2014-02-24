@@ -135,7 +135,7 @@ Converter.prototype.createVideoFromScreenshots = function(user, session, interva
 }
 
 /**
- * merges all videos 
+ * merges all videos files from session 
  */
 Converter.prototype.mergeVideoInput = function(user, session) {
 
@@ -143,21 +143,53 @@ Converter.prototype.mergeVideoInput = function(user, session) {
 	var dir = '/uploads/'+user+'/'+session+'/video/'; //
 
 	var path = require("path");
+	var videopaths = [];
 
 	fs.readdir(dir, function (err, files) {
 	    if (err) {
 	        throw err;
 	    }
-
+	    var pushed = 0;
 	    files.map(function (file) {
 	        return path.join(p, file);
 	    }).filter(function (file) {
 	        return fs.statSync(file).isFile();
 	    }).forEach(function (file) {
 	        console.log("%s (%s)", file, path.extname(file));
-
-	        //params here
+	        if (path.extname(file) == 'mp4') {
+	        	if (pushed > 0) {
+	        		videopaths.push('|'+file); 
+	        	} else {
+	        		videopaths.push(file);	
+	        	}	
+	        	pushed++;
+	        }
 	    });
+	});
+
+	//params here
+	var params [
+		'-i', 'concat:'+videopaths,
+		'-c', 'copy',
+		'result.mp4'
+	];
+
+	 var stream = avconv(params);
+
+	stream.on('data', function(data) {
+	    // handling
+	});
+
+	stream.on('progress', function(progress) {
+	    /*
+	    Progress is a floating number between 0 ... 1 that keeps you
+	    informed about the current avconv conversion process.
+	    */
+	});
+
+	stream.once('end', function(exitCode, signal) {
+		console.log('fin ' + exitCode);
+		// errorhandling
 	});
 }
 
