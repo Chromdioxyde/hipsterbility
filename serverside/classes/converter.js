@@ -140,7 +140,25 @@ Converter.prototype.createVideoFromScreenshots = function(user, session, interva
 Converter.prototype.mergeVideoInput = function(user, session) {
 
 	// avconv -i concat:file1.mp4\|file2.mp4 -c copy output.mp4
-	
+	var dir = '/uploads/'+user+'/'+session+'/video/'; //
+
+	var path = require("path");
+
+	fs.readdir(dir, function (err, files) {
+	    if (err) {
+	        throw err;
+	    }
+
+	    files.map(function (file) {
+	        return path.join(p, file);
+	    }).filter(function (file) {
+	        return fs.statSync(file).isFile();
+	    }).forEach(function (file) {
+	        console.log("%s (%s)", file, path.extname(file));
+
+	        //params here
+	    });
+	});
 }
 
 /*
