@@ -161,12 +161,12 @@ app.post('/:user_id/:session_id/todos/?', todos.post);
 app.get('/:user_id/:session_id/todos/:id/?', todos.get);
 
 // task API
-app.get('/:user_id/:session_id/todos/:id/tasks/?', tasks.all);
-app.post('/:user_id/:session_id/todos/:id/tasks/?', tasks.post);
+app.get('/:user_id/:session_id/todos/:todo_id/tasks/?', tasks.all);
+app.post('/:user_id/:session_id/todos/:todo_id/tasks/?', tasks.post);
 
 app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?');
 
-app.get('/:user_id/:session_id/todos/:id/tasks/:id/?', tasks.get);
+app.get('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.get);
 
 // -------------------------------------------------------
 
