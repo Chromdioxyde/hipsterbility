@@ -168,7 +168,7 @@ Converter.prototype.mergeVideoInput = function(user, session) {
 	});
 
 	//params here
-	var params [
+	var params  = [
 		'-i', 'concat:'+videopaths,
 		'-c', 'copy',
 		'result.mp4'
