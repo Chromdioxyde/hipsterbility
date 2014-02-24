@@ -30,7 +30,6 @@ exports.sessions = function(req, res) {
 		} else {
 			// error handling
 		}
-
 	});
 }
 

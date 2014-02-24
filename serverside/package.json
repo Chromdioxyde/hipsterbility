@@ -10,6 +10,8 @@
 		"jade": "*",
 		"mysql" : "*",
 		"fluent-ffmpeg": "*",
+    "ffmpeg-node":"*",
+    "avconv":"*",
     "passport":"*",
     "passport-local":"*",
 		"jsdoc": "*"

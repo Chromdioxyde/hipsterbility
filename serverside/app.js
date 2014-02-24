@@ -52,8 +52,6 @@ passport.use(new LocalStrategy(
 		var query = new Query;
 
 		query.execute(qstr, '', function(rows) {
-		
-			console.log(rows[0]);
 
 			if (rows.length == 1) {
 				done(null, rows[0]);
@@ -64,10 +62,12 @@ passport.use(new LocalStrategy(
 	}
 ));
 
+// automagic function
 passport.serializeUser(function(user, done) {
   done(null, user.idusers);
 });
 
+// automagic function
 passport.deserializeUser(function(id, done) {
   var qstr = "SELECT idusers FROM users WHERE idusers = " + id;
 
@@ -90,10 +90,8 @@ app.get('/login/?', frontend.login);
 app.post('/auth/?', passport.authenticate('local', {successRedirect: '/auth' ,failureRedirect: '/login'}));
 app.get('/auth/?', function(req, res) {
 
-	console.log(req.user);
-
 	if (req.user != undefined) {
-		res.redirect('/'+ req.user + '/admin');
+		res.redirect('/'+ req.user.idusers + '/admin');
 	} else {
 		res.redirect('/login');
 	}
@@ -102,7 +100,7 @@ app.get('/auth/?', function(req, res) {
 
 // admin pages
 app.get('/:user_id/admin', backend.index);
-app.get('/:user_id/admin/sessions', backend.sessions);
+app.get('/:user_id/admin/sessions/?', backend.sessions);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
 
 // test page TODO delete route!
