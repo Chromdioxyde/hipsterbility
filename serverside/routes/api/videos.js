@@ -29,15 +29,24 @@ exports.get = function (req, res) {
 exports.post = function(req, res) {
 	
 	var tmp_path = req.files.video.path;
-	var target_path = './uploads/1/' + req.files.video.name; // TODO: 1 is session_id and should be generated before
+	var target_path = './uploads/'+req.params.user_id+'/'+req.params.session_id + '/' + req.files.video.name;
 	
 	fs.rename(tmp_path, target_path, function(err) {
 		if (err) throw err;
 		
 		// delete the temporary file and send result as callback
 		fs.unlink(tmp_path, function() {
-			if (err) throw err;
-				res.send('video uploaded to: ' + target_path + ', with ' + req.files.video.size + ' bytes');
+			
+			if (err) {
+				throw err;
+			} 
+
+			var query = new Query;
+			qstr = 'INSERT INTO videos (file, sessions_idsessions) VALUES (' + target_path + ', '+ req.params.sessions_id +')';
+
+			query.execute(qstr, '', function(rows) {
+				res.send('video uploaded to: ' + target_path + ', with ' + req.files.video.size + ' bytes');	
 			});
 		});
+	});
 };
