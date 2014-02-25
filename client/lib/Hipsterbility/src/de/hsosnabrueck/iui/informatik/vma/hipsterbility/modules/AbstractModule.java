@@ -1,6 +1,6 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 /**
  * Created by Albert Hoffmann on 13.02.14.

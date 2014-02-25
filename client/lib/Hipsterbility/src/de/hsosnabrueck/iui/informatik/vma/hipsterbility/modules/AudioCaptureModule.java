@@ -3,7 +3,7 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.io.File;
 import java.io.IOException;

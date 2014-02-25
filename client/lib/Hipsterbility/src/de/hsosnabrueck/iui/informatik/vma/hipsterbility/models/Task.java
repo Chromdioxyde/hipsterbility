@@ -1,8 +1,8 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.models;
 
 /**
  * Created by Albert Hoffmann on 19.02.14.
- * Simple POJO class for tasks of a todo
+ * Simple POJO class for tasks of a todos
  */
 public class Task {
 

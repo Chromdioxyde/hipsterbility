@@ -1,5 +1,7 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.models;
 
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
@@ -9,6 +11,7 @@ import java.util.ArrayList;
  */
 public class Todo {
 
+    @SerializedName("idtodos")
     private int id;
     private String name;
     private String description;
@@ -16,13 +19,17 @@ public class Todo {
     private Session session;
     private ArrayList<Task> tasks;
 
+    public Todo() {
+        this.tasks = new ArrayList<Task>();
+    }
+
     public Todo(int id, String name, String description, boolean active, Session session) {
+        this();
         this.id = id;
         this.name = name;
         this.description = description;
         this.active = active;
         this.session = session;
-        this.tasks = new ArrayList<Task>();
     }
 
     public Todo(int id, String name, String description, boolean active, Session session, ArrayList<Task> tasks) {

@@ -8,23 +8,22 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Toast;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.io.*;
 
 /**
- * Created by albert on 21.02.14.
+ * Created by Albert Hoffmann on 21.02.14.
  * Sources: http://stackoverflow.com/questions/16748384/android-take-screenshot-programmatically-of-the-whole-screen
- * http://stackoverflow.com/questions/2661536/how-to-programatically-take-a-screenshot-on-android?rq=1
+ *          http://stackoverflow.com/questions/2661536/how-to-programatically-take-a-screenshot-on-android?rq=1
  */
 public class ScreenshotTaker {
-
 
     // Some constants
     public final static String SCREENSHOTS_DIR = "screenshots";
@@ -38,7 +37,8 @@ public class ScreenshotTaker {
         this.session = session;
     }
 
-    public void takeContinuousScreenshots(final Activity activity, final int shotsPerSecond, final int count, final boolean root){
+    public void takeContinuousScreenshots(final Activity activity, final int shotsPerSecond,
+                                          final int count, final boolean root){
         Runnable r = new Runnable() {
             long sleeptime = 1000/shotsPerSecond;
             @Override
@@ -68,42 +68,42 @@ public class ScreenshotTaker {
 
     public void takeScreenshot(Activity activity) {
 
-// Get device dimmensions
+        // Get device dimmensions
 
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
-// Get root view
+        // Get root view
         View view = activity.getWindow().getDecorView().getRootView();
 
-// Create the bitmap to use to draw the screenshot
+        // Create the bitmap to use to draw the screenshot
         final Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_4444);
         final Canvas canvas = new Canvas(bitmap);
 
-// Get current theme to know which background to use
+        // Get current theme to know which background to use
         final Resources.Theme theme = activity.getTheme();
         final TypedArray ta = theme
                 .obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
         final int res = ta.getResourceId(0, 0);
         final Drawable background = activity.getResources().getDrawable(res);
 
-// Draw background
+        // Draw background
         background.draw(canvas);
 
-// Draw views
+        // Draw views
         view.draw(canvas);
 
-// Save the screenshot to the file system
+        // Save the screenshot to the file system
         FileOutputStream fos = null;
         try {
-            final File file = new File(createOutputDirPathName());
+            final File file = new File(Util.createOutputDirPathName(session, SCREENSHOTS_DIR));
             if (!file.exists()) {
                 file.mkdirs();
             }
-            fos = new FileOutputStream(file.getAbsolutePath()+ File.separator + createOutputFileName(IMAGE_JPG));
+            fos = new FileOutputStream(file.getAbsolutePath()+ File.separator + createOutputFileName(IMAGE_PNG));
             if (fos != null) {
-                if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos)) {
+                if (!bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos)) {
                     Log.d(TAG, "Compress/Write failed");
                 }
                 fos.flush();
@@ -125,7 +125,9 @@ public class ScreenshotTaker {
             sh = Runtime.getRuntime().exec("su", null, null);
             OutputStream os = sh.getOutputStream();
 //            os.write(("/system/bin/screencap -p " + "/sdcard/img.png").getBytes("ASCII"));
-            os.write(("/system/bin/screencap -p " + createOutputDirPathName() + createOutputFileName(IMAGE_PNG)).getBytes("ASCII"));
+            os.write(("/system/bin/screencap -p "
+                    + Util.createOutputDirPathName(session, SCREENSHOTS_DIR)
+                    + createOutputFileName(IMAGE_PNG)).getBytes("ASCII"));
             os.flush();
             os.close();
             sh.waitFor();
@@ -142,15 +144,6 @@ public class ScreenshotTaker {
                 + fileExtension;
     }
 
-    private String createOutputDirPathName() {
-        return Environment.getExternalStorageDirectory()
-                + File.separator
-                + Hipsterbility.BASE_DIR
-                + File.separator
-                + SCREENSHOTS_DIR
-                + File.separator
-                + session.getId()
-                + File.separator;
-    }
+
 
 }
