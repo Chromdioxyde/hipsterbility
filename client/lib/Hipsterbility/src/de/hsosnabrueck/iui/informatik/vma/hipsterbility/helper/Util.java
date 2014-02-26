@@ -3,6 +3,7 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper;
 import android.os.Environment;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 
 import java.io.File;
 
@@ -12,18 +13,29 @@ import java.io.File;
  */
 public class Util {
 
-    public static String createOutputDirPathName(Session session, String subdir) {
-       return createSessionDirPathName(session)
+    public static final String URL_SUFFIX_CAMERA = "videos/";
+    public static final String URL_SUFFIX_CAPTURES = "captures/"; // for screenshots
+
+    public static String createOutputDirPathName(long sessionId, String subdir) {
+       String path =  createSessionDirPathName(sessionId)
                 + subdir
                 + File.separator;
+        new File(path).mkdirs();
+        return path;
     }
 
-    public static String createSessionDirPathName(Session session){
-        return Environment.getExternalStorageDirectory()
+    public static String createSessionDirPathName(long sessionId){
+        String path =  Environment.getExternalStorageDirectory()
                 + File.separator
                 + Hipsterbility.BASE_DIR
                 + File.separator
-                + session.getId()
+                + sessionId
                 + File.separator;
+        new File(path).mkdirs();
+        return path;
+    }
+
+    public static String createRelativeRoute(User u, Session s, String suffix){
+        return u.getId() + "/" + s.getId() + "/" + suffix;
     }
 }

@@ -97,7 +97,7 @@ public class ScreenshotTaker {
         // Save the screenshot to the file system
         FileOutputStream fos = null;
         try {
-            final File file = new File(Util.createOutputDirPathName(session, SCREENSHOTS_DIR));
+            final File file = new File(Util.createOutputDirPathName(session.getId(), SCREENSHOTS_DIR));
             if (!file.exists()) {
                 file.mkdirs();
             }
@@ -126,7 +126,7 @@ public class ScreenshotTaker {
             OutputStream os = sh.getOutputStream();
 //            os.write(("/system/bin/screencap -p " + "/sdcard/img.png").getBytes("ASCII"));
             os.write(("/system/bin/screencap -p "
-                    + Util.createOutputDirPathName(session, SCREENSHOTS_DIR)
+                    + Util.createOutputDirPathName(session.getId(), SCREENSHOTS_DIR)
                     + createOutputFileName(IMAGE_PNG)).getBytes("ASCII"));
             os.flush();
             os.close();

@@ -3,6 +3,8 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import com.google.gson.Gson;
@@ -126,5 +128,13 @@ public class TodosActivity extends Activity {
             listView.setAdapter(adapter);
             //            TODO: do something with selected Item
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //TODO: chage icon in Layout
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.todos_activity_menu,menu);
+        return true;
     }
 }
