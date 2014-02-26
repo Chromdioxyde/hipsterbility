@@ -50,6 +50,7 @@ exports.post = function(req, res) {
 			qstr = 'INSERT INTO videos (file, sessions_idsessions) VALUES ("' + target_path + '", '+ req.params.session_id +')';
 
 			query.execute(qstr, '', function(rows) {
+                res.status(200);
 				res.send('video uploaded to: ' + target_path + ', with ' + req.files.video.size + ' bytes');	// which response?
 			});
 		});
