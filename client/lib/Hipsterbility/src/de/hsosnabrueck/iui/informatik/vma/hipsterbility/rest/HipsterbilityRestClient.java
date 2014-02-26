@@ -22,7 +22,7 @@ public class HipsterbilityRestClient {
     private final static String TAG = HipsterbilityRestClient.class.getName();
     //TODO: make this changeable in app
     private static final int PORT = 3000;
-    private static final String BASE_URL = "http://192.168.1.22/";
+    private static final String BASE_URL = "http://192.168.43.105/";
 
     /**
      * Type adapter for GSON to also read 0 and 1 integers as booleans where needed

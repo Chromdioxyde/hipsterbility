@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import com.google.gson.Gson;
@@ -12,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import de.hsosnabrueck.iui.informatik.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters.TodosExpandableListAdapter;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Task;
@@ -48,6 +52,16 @@ public class TodosActivity extends Activity {
 //        if (extras != null) {
 //            session = extras.getParcelable("session");
 //        }
+
+        Button button = (Button) findViewById(R.id.button_start_session);
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Hipsterbility.getInstance().startSession(session);
+            }
+
+        });
         session = sessionManager.getSessionInProgress();
 
         Log.w(TAG, "Session: " + session.getId() + " " + session.getName());
@@ -130,11 +144,5 @@ public class TodosActivity extends Activity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //TODO: chage icon in Layout
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.todos_activity_menu,menu);
-        return true;
-    }
+
 }

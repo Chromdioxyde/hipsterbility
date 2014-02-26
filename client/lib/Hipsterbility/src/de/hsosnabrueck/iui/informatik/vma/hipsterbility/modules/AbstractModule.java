@@ -1,5 +1,6 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
+import android.app.Activity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 /**
@@ -16,12 +17,13 @@ public abstract class AbstractModule {
     //================================================================================
 
     protected Session session;
+    protected Activity activity;
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    protected AbstractModule(Session session) {
+    protected AbstractModule(Session session, Activity activity) {
         this.session = session;
     }
 

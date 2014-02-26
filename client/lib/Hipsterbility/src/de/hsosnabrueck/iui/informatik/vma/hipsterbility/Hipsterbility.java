@@ -100,4 +100,9 @@ public class Hipsterbility extends Application {
     }
 
 
+    public void startSession(Session session) {
+        Intent intent = new Intent(context,activity.getClass());
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        context.startActivity(intent);
+    }
 }
