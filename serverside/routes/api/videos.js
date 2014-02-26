@@ -36,8 +36,6 @@ exports.post = function(req, res) {
 		res.send('ERROR: Videodata is not correct');
 	}
 
-	console.log([tmp_path, target_path]);
-
 	fs.rename(tmp_path, target_path, function(err) {
 		if (err) throw err;
 		
