@@ -155,11 +155,12 @@ app.post('/:user_id/:session_id/audio/?', audio.post); // post new audio0
 
 app.get('/:user_id/:session_id/audio/:audio_id?', audio.get); // get list of audio files
 
-// todo API
+// todos API
 app.get('/:user_id/:session_id/todos/?', todos.all);
 app.post('/:user_id/:session_id/todos/?', todos.post);
 
-app.get('/:user_id/:session_id/todos/:id/?', todos.get);
+app.get('/:user_id/:session_id/todos/:todo_id/?', todos.get);
+app.put('/:user_id/:session_id/todos/:todo_id/?', todos.put);
 
 // task API
 app.get('/:user_id/:session_id/todos/:todo_id/tasks/?', tasks.all);
