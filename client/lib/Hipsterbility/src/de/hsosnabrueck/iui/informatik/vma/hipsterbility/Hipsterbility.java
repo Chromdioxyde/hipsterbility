@@ -78,8 +78,10 @@ public class Hipsterbility extends Application {
         //TODO remove after testing
 //        testScreenshot(activity);
 //        activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
-        startService();
+        //startService();
 //        testCapture();
+        ScreenshotTaker st = new ScreenshotTaker(new Session(1), activity);
+
     }
 
 
@@ -91,7 +93,7 @@ public class Hipsterbility extends Application {
 
     private void testScreenshot(Activity activity) {
         Session session = new Session(124);
-        ScreenshotTaker s = new ScreenshotTaker(session);
+        ScreenshotTaker s = new ScreenshotTaker(session, activity);
 //        s.takeScreenshot(activity);
 //        s.takeScreenshotRoot();
         s.takeContinuousScreenshots(activity, 10, 100, false);

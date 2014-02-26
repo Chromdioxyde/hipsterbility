@@ -3,13 +3,14 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Point;
+import android.graphics.*;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
@@ -23,7 +24,7 @@ import java.io.*;
  * Sources: http://stackoverflow.com/questions/16748384/android-take-screenshot-programmatically-of-the-whole-screen
  *          http://stackoverflow.com/questions/2661536/how-to-programatically-take-a-screenshot-on-android?rq=1
  */
-public class ScreenshotTaker {
+public class ScreenshotTaker implements View.OnTouchListener {
 
     // Some constants
     public final static String SCREENSHOTS_DIR = "screenshots";
@@ -33,8 +34,13 @@ public class ScreenshotTaker {
 
     private Session session;
 
-    public ScreenshotTaker(Session session) {
+    private Activity activity;
+
+    public ScreenshotTaker(Session session, Activity activity) {
         this.session = session;
+
+        this.activity = activity;
+        this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(this);
     }
 
     public void takeContinuousScreenshots(final Activity activity, final int shotsPerSecond,
@@ -48,7 +54,7 @@ public class ScreenshotTaker {
                     if(root){
                         takeScreenshotRoot();
                     } else {
-                        takeScreenshot(activity);
+                        //takeScreenshot();
                     }
                     try {
                         Thread.sleep(sleeptime);
@@ -66,20 +72,28 @@ public class ScreenshotTaker {
         new Thread(r).start();
     }
 
-    public void takeScreenshot(Activity activity) {
+    public void takeScreenshot(float x, float y) {
 
         // Get device dimmensions
 
-        Display display = activity.getWindowManager().getDefaultDisplay();
+        Display display = this.activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
 
         // Get root view
-        View view = activity.getWindow().getDecorView().getRootView();
+        View view = this.activity.getWindow().getDecorView().getRootView();
 
         // Create the bitmap to use to draw the screenshot
-        final Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_4444);
-        final Canvas canvas = new Canvas(bitmap);
+        Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_4444);
+
+        Canvas canvas = new Canvas(bitmap);
+
+        ShapeDrawable dr = new ShapeDrawable(new OvalShape());
+        dr.getPaint().setColor(Color.RED);
+        int xr = Math.round(x), yr = Math.round(y);
+
+        dr.setBounds(xr,yr, xr+100, yr+100); // TODO dynamically width and height
+
 
         // Get current theme to know which background to use
         final Resources.Theme theme = activity.getTheme();
@@ -93,6 +107,8 @@ public class ScreenshotTaker {
 
         // Draw views
         view.draw(canvas);
+
+        dr.draw(canvas);
 
         // Save the screenshot to the file system
         FileOutputStream fos = null;
@@ -145,5 +161,30 @@ public class ScreenshotTaker {
     }
 
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
 
+
+        switch(event.getActionMasked()) {
+            case MotionEvent.ACTION_UP:
+
+                Log.d(TAG, event.toString());
+                takeScreenshot(event.getX(), event.getY());
+
+                break;
+
+            default: break;
+        }
+
+
+        return false;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 }
