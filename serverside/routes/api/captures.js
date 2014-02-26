@@ -1,3 +1,4 @@
+var fs = require('fs');
 var Query = require('../../classes/query');
 
 
@@ -17,18 +18,18 @@ exports.get = function (req, res) {
 	});
 };
 
+/**
+ * 
+ */
 exports.post = function (req, res) {
-	// TODO implementation: param screenshot
-
-	console.log([req.body, req.params, req.files]);
-
+	
 	if (req.files.screenshot.type != 'image/png') {
 		res.send("Nope!");
 	}
 
 	var tmp_path = req.files.screenshot.path;
-	var target_path = './uploads/'+req.params.user_id+'/'+req.params.session_id + '/captures/' + req.files.screenshot.name;
-		
+	var target_path = 'uploads/'+req.params.user_id+'/'+req.params.session_id + '/captures/' + req.files.screenshot.name;
+
 	fs.rename(tmp_path, target_path, function(err) {
 		if (err) throw err;
 		
@@ -40,10 +41,11 @@ exports.post = function (req, res) {
 			} 
 
 			var query = new Query;
-			qstr = 'INSERT INTO captures (file, sessions_idsessions) VALUES (' + target_path + ', '+ req.params.sessions_id +')';
-
+			// execute query and send response in callback
+			qstr = 'INSERT INTO captures (file, sessions_idsessions) VALUES ("' + target_path + '", '+ req.params.session_id +')';
+			
 			query.execute(qstr, '', function(rows) {
-				res.send('screenshot uploaded to: ' + target_path + ', with ' + req.files.video.size + ' bytes');	
+				res.send('screenshot uploaded to: ' + target_path); // which request string?
 			});
 		});
 	});
