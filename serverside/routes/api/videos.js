@@ -29,7 +29,7 @@ exports.get = function (req, res) {
 exports.post = function(req, res) {
 	
 	var tmp_path = req.files.video.path;
-	var target_path = './uploads/'+req.params.user_id+'/'+req.params.session_id + '/' + req.files.video.name;
+	var target_path = './uploads/'+req.params.user_id+'/'+req.params.session_id + '/videos/' + req.files.video.name;
 	
 	fs.rename(tmp_path, target_path, function(err) {
 		if (err) throw err;
