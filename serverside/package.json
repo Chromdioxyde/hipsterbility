@@ -10,7 +10,10 @@
 		"jade": "*",
 		"mysql" : "*",
 		"fluent-ffmpeg": "*",
-		"redis": "*",
+    "ffmpeg-node":"*",
+    "avconv":"*",
+    "passport":"*",
+    "passport-local":"*",
 		"jsdoc": "*"
   }
 }

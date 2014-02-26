@@ -6,7 +6,7 @@ var Query = require('../../classes/query');
  */
 exports.all = function (req, res) {
 	var query = new Query;
-	qstr = 'SELECT idvideos, file FROM tasks WHERE sessions_idsessions = ' + req.params.session_id;
+	qstr = 'SELECT idvideos, file FROM videos WHERE sessions_idsessions = ' + req.params.session_id;
 	query.execute(qstr, '', function(rows) {
 		res.send(rows);
 	});
@@ -17,7 +17,7 @@ exports.all = function (req, res) {
  */
 exports.get = function (req, res) {
 	var query = new Query;
-	qstr = 'SELECT idvideos, file FROM tasks WHERE sessions_idsessions = ' + req.params.session_id + ' AND idvideos =' + req.params.id_logs;
+	qstr = 'SELECT idvideos, file FROM videos WHERE sessions_idsessions = ' + req.params.session_id + ' AND idvideos =' + req.params.id_logs;
 	query.execute(qstr, '', function(rows) {
 		res.send(rows);
 	});
@@ -29,15 +29,31 @@ exports.get = function (req, res) {
 exports.post = function(req, res) {
 	
 	var tmp_path = req.files.video.path;
-	var target_path = './uploads/1/' + req.files.video.name; // TODO: 1 is session_id and should be generated before
-	
+	var target_path = './uploads/'+req.params.user_id+'/'+req.params.session_id + '/videos/' + req.files.video.name;
+	console.log(req.files.video);
+
+	if (req.files.video.type != 'video/mp4' ) {
+		res.send('ERROR: Videodata is not correct');
+	}
+
+	console.log([tmp_path, target_path]);
+
 	fs.rename(tmp_path, target_path, function(err) {
 		if (err) throw err;
 		
 		// delete the temporary file and send result as callback
 		fs.unlink(tmp_path, function() {
-			if (err) throw err;
-				res.send('video uploaded to: ' + target_path + ', with ' + req.files.video.size + ' bytes');
+			
+			if (err) {
+				throw err;
+			} 
+
+			var query = new Query;
+			qstr = 'INSERT INTO videos (file, sessions_idsessions) VALUES ("' + target_path + '", '+ req.params.session_id +')';
+
+			query.execute(qstr, '', function(rows) {
+				res.send('video uploaded to: ' + target_path + ', with ' + req.files.video.size + ' bytes');	// which response?
 			});
 		});
+	});
 };

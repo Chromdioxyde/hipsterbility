@@ -38,7 +38,7 @@ build/
 .texpadtmp
 
 #node modules
-node_modules/
+#node_modules/
 
 #vagrant 
 .vagrant

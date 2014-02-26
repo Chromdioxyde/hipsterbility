@@ -3,6 +3,7 @@
  */
 // express related libs
 var express = require('express');
+var Query = require('./classes/query');
 
 var backend = require('./routes/backend'); // admin web routes
 var frontend = require('./routes/frontend'); // frontend web routes
@@ -17,20 +18,66 @@ var tasks = require('./routes/api/tasks'); // tasks API
 
 var http = require('http');
 var path = require('path');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var app = express();
 
 // environments config
+app.set(process.env.TMPDIR = './uploads/tmp');
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.bodyParser());
+app.use(express.cookieParser()); 
+app.use(express.session({secret: 'hipsterbility'}));
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+
+// passport authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
+// passport strategy setup
+passport.use(new LocalStrategy(
+	function(username, password, done) {
+		// implement authentication mechanism
+		// TODO: fail checks before building query
+		var qstr = "SELECT * FROM users WHERE name = '" + username + "'";
+
+		var query = new Query;
+
+		query.execute(qstr, '', function(rows) {
+
+			if (rows.length == 1) {
+				done(null, rows[0]);
+			} else {
+				done(null, false);
+			}
+		});
+	}
+));
+
+// automagic function
+passport.serializeUser(function(user, done) {
+  done(null, user.idusers);
+});
+
+// automagic function
+passport.deserializeUser(function(id, done) {
+  var qstr = "SELECT idusers FROM users WHERE idusers = " + id;
+
+		var query = new Query;
+
+		query.execute(qstr, '', function(rows) {
+			done(null, rows[0]);
+		});
+});
 
 // Web routes --------------------------------------------
 
@@ -39,10 +86,22 @@ app.get('/?', frontend.index);
 app.get('/about/?', frontend.about);
 app.get('/login/?', frontend.login);
 
+// validates a login
+// TODO create wrappe class for passport (auth handler e.g)
+app.post('/auth/?', passport.authenticate('local', {successRedirect: '/auth' ,failureRedirect: '/login'}));
+app.get('/auth/?', function(req, res) {
+
+	if (req.user != undefined) {
+		res.redirect('/'+ req.user.idusers + '/admin');
+	} else {
+		res.redirect('/login');
+	}
+
+});
 
 // admin pages
 app.get('/:user_id/admin', backend.index);
-app.get('/:user_id/admin/sessions', backend.sessions);
+app.get('/:user_id/admin/sessions/?', backend.sessions);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
 
 // test page TODO delete route!
@@ -103,12 +162,12 @@ app.post('/:user_id/:session_id/todos/?', todos.post);
 app.get('/:user_id/:session_id/todos/:id/?', todos.get);
 
 // task API
-app.get('/:user_id/:session_id/todos/:id/tasks/?', tasks.all);
-app.post('/:user_id/:session_id/todos/:id/tasks/?', tasks.post);
+app.get('/:user_id/:session_id/todos/:todo_id/tasks/?', tasks.all);
+app.post('/:user_id/:session_id/todos/:todo_id/tasks/?', tasks.post);
 
 app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?');
 
-app.get('/:user_id/:session_id/todos/:id/tasks/:id/?', tasks.get);
+app.get('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.get);
 
 // -------------------------------------------------------
 

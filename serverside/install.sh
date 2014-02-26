@@ -15,7 +15,7 @@ src=$(mktemp -d) && cd $src
 wget -N http://nodejs.org/dist/node-latest.tar.gz
 tar xzvf node-latest.tar.gz && cd node-v*
 ./configure
-sudo checkinstall -y --install=no --pkgversion 0.10.25  make -j$(($(nproc)+1)) install  # Replace with current version number.
+sudo checkinstall -y --install=no --pkgversion 0.10.26  make -j$(($(nproc)+1)) install  # Replace with current version number.
 sudo dpkg -i node_*
 
 echo "setting up db data..."
@@ -26,6 +26,6 @@ sudo mysql --user=root --password=mmk2014 < /vagrant/init.sql
 
 echo "installing middleware packages."
 
-npm install
+cd /vagrant && npm install
 
 echo "fin. Happiness everywhere."
