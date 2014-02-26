@@ -166,7 +166,7 @@ app.put('/:user_id/:session_id/todos/:todo_id/?', todos.put);
 app.get('/:user_id/:session_id/todos/:todo_id/tasks/?', tasks.all);
 app.post('/:user_id/:session_id/todos/:todo_id/tasks/?', tasks.post);
 
-app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?');
+app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.put);
 
 app.get('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.get);
 
