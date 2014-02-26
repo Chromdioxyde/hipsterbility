@@ -23,6 +23,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var app = express();
 
 // environments config
+app.set(process.env.TMPDIR = './uploads/tmp');
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
