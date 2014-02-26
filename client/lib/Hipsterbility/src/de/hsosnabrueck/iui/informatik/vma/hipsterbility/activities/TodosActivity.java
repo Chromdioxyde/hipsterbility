@@ -1,13 +1,12 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import com.google.gson.Gson;
@@ -52,16 +51,8 @@ public class TodosActivity extends Activity {
 //        if (extras != null) {
 //            session = extras.getParcelable("session");
 //        }
-
-        Button button = (Button) findViewById(R.id.button_start_session);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Hipsterbility.getInstance().startSession(session);
-            }
-
-        });
+        setTitle(R.string.todos_title);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         session = sessionManager.getSessionInProgress();
 
         Log.w(TAG, "Session: " + session.getId() + " " + session.getName());
@@ -144,5 +135,33 @@ public class TodosActivity extends Activity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_start_session) {
+            // action with ID action_refresh was selected
+//                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
+//                        .show();
+            Intent intent = new Intent(this,Hipsterbility.getInstance().getStartActivityClass());
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            this.startActivity(intent);
+            Hipsterbility.getInstance().startSession();
+        } else if (id == R.id.action_settings) {
+            // action with ID action_settings was selected
+//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
+//                        .show();
+            Intent intent = new Intent(this,SettingsActivity.class);
+            startActivity(intent);
+        }
+
+        return true;
+    }
 
 }

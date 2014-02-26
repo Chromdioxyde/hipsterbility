@@ -13,7 +13,6 @@ public class MyActivity extends Activity {
      * Called when the activity is first created.
      */
 
-    private Hipsterbility h = Hipsterbility.getInstance();
 
 
     @Override
@@ -25,7 +24,7 @@ public class MyActivity extends Activity {
 //        h.testCapture();
         addListenerOnButton();
         // Enable UX testing for this activity
-        h.enableTesting(this);
+        Hipsterbility.getInstance().enableTesting(this).setStartActivityClass(MyActivity.class);
 
     }
 
@@ -38,7 +37,7 @@ public class MyActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                h.stopCapture();
+//                Hipsterbility.getInstance().stopCapture();
             }
 
         });

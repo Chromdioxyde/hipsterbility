@@ -30,6 +30,7 @@ public class Hipsterbility extends Application {
     private Context context;
     private Activity activity;
     private SharedPreferences sharedPreferences;
+    private Class startActivity;
 
     /**
      * The default constructor to create a Hipsterbility object.
@@ -71,17 +72,17 @@ public class Hipsterbility extends Application {
     }
 
 
-    public void enableTesting(Activity activity) {
+    public Hipsterbility enableTesting(Activity activity) {
         //TODO usefull stuff
         this.activity = activity;
         this.context = activity.getApplicationContext();
         //TODO remove after testing
 //        testScreenshot(activity);
 //        activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
-        //startService();
+        startService();
 //        testCapture();
-        ScreenshotTaker st = new ScreenshotTaker(new Session(1), activity);
-
+//        ScreenshotTaker st = new ScreenshotTaker(new Session(1), activity);
+        return instance;
     }
 
 
@@ -99,10 +100,23 @@ public class Hipsterbility extends Application {
         s.takeContinuousScreenshots(activity, 10, 100, false);
     }
 
+    public Activity getActivity() {
+        return activity;
+    }
 
-    public void startSession(Session session) {
-        Intent intent = new Intent(context,activity.getClass());
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        context.startActivity(intent);
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public void startSession() {
+        startService();
+    }
+
+    public void setStartActivityClass(Class startActivity) {
+        this.startActivity = startActivity;
+    }
+
+    public Class getStartActivityClass() {
+        return startActivity;
     }
 }

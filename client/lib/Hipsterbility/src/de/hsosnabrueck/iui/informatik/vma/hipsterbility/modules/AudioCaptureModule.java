@@ -1,5 +1,6 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
+import android.app.Activity;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
@@ -39,8 +40,8 @@ public class AudioCaptureModule extends AbstractModule{
     // Constructors
     //================================================================================
 
-    public AudioCaptureModule(Session session) {
-        super(session);
+    public AudioCaptureModule(Session session, Activity activity) {
+        super(session, activity);
     }
 
 
