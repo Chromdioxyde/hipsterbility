@@ -24,7 +24,7 @@ exports.get = function (req, res) {
 exports.post = function (req, res) {
 	
 	if (req.files.screenshot.type != 'image/png') {
-		res.send("Nope!");
+		res.send("ERROR imagedata is not correct.");
 	}
 
 	var tmp_path = req.files.screenshot.path;
@@ -45,7 +45,7 @@ exports.post = function (req, res) {
 			qstr = 'INSERT INTO captures (file, sessions_idsessions) VALUES ("' + target_path + '", '+ req.params.session_id +')';
 			
 			query.execute(qstr, '', function(rows) {
-				res.send('screenshot uploaded to: ' + target_path); // which request string?
+				res.send('screenshot uploaded to: ' + target_path); // which response string?
 			});
 		});
 	});
