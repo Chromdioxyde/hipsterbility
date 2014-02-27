@@ -18,6 +18,9 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Albert Hoffmann on 21.02.14.
@@ -35,6 +38,8 @@ public class ScreenshotTaker implements View.OnTouchListener {
     private Session session;
 
     private Activity activity;
+
+    private ArrayList<Coordinates> touches = new ArrayList<Coordinates>();
 
     public ScreenshotTaker(Session session, Activity activity) {
         this.session = session;
@@ -85,15 +90,7 @@ public class ScreenshotTaker implements View.OnTouchListener {
 
         // Create the bitmap to use to draw the screenshot
         Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_4444);
-
         Canvas canvas = new Canvas(bitmap);
-
-        ShapeDrawable dr = new ShapeDrawable(new OvalShape());
-        dr.getPaint().setColor(Color.RED);
-        int xr = Math.round(x), yr = Math.round(y);
-
-        dr.setBounds(xr,yr, xr+100, yr+100); // TODO dynamically width and height
-
 
         // Get current theme to know which background to use
         final Resources.Theme theme = activity.getTheme();
@@ -108,7 +105,35 @@ public class ScreenshotTaker implements View.OnTouchListener {
         // Draw views
         view.draw(canvas);
 
-        dr.draw(canvas);
+
+        // add drawables
+        ShapeDrawable dr = new ShapeDrawable(new OvalShape());
+        dr.getPaint().setColor(Color.RED);
+
+        if( this.touches.size() > 0) {
+
+            for (int i = 0; i < this.touches.size(); i++) {
+
+                int xr = this.touches.get(i).getX();
+                int yr = this.touches.get(i).getY();
+
+                dr.setBounds(xr, yr, xr+50, yr+50); // TODO dynamically width and height
+                dr.draw(canvas);
+
+            }
+
+        } else {
+
+            Coordinates coord = new Coordinates(x,y);
+            int xr = coord.getX();
+            int yr = coord.getY();
+            dr.setBounds(xr, yr, xr+100, yr+100); // TODO dynamically width and height
+            dr.draw(canvas);
+        }
+
+
+
+
 
         // Save the screenshot to the file system
         FileOutputStream fos = null;
@@ -133,6 +158,17 @@ public class ScreenshotTaker implements View.OnTouchListener {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+
+    private Canvas captureActionMove() {
+        Canvas c = new Canvas();
+        ShapeDrawable dr = new ShapeDrawable(new OvalShape());
+        dr.getPaint().setColor(Color.RED);
+
+
+
+        return c;
     }
 
     public void takeScreenshotRoot() {
@@ -164,15 +200,27 @@ public class ScreenshotTaker implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-
         switch(event.getActionMasked()) {
             case MotionEvent.ACTION_UP:
-
                 Log.d(TAG, event.toString());
-                takeScreenshot(event.getX(), event.getY());
+
+                // touch moved before? So we capture the previous touches
+                if (touches.size() > 0) {
+                    takeScreenshot(event.getX(), event.getY());
+                    this.touches.clear();
+                } else {
+                    takeScreenshot(event.getX(), event.getY());
+                }
+
+
 
                 break;
+            case MotionEvent.ACTION_MOVE:
 
+                this.touches.add(new Coordinates(event.getX(), event.getY()));
+                Log.d(TAG, event.toString());
+
+                break;
             default: break;
         }
 
@@ -186,5 +234,51 @@ public class ScreenshotTaker implements View.OnTouchListener {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+
+    /**
+     * Coordinates class implements model for X and Y touch coordinates.
+     */
+    private class Coordinates {
+        private int x, y;
+
+        /**
+         * creates a new Coordinates Object with x and y coordinates from int values.
+         * @param x : int
+         * @param y : int
+         */
+        public Coordinates(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        /**
+         * creates a new Coordinates Object with x and y coordinates from float values.
+         * @param x : float
+         * @param y : float
+         */
+        public Coordinates(float x, float y) {
+            this.x = Math.round(x);
+            this.y = Math.round(y);
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
+
     }
 }

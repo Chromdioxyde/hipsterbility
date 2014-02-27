@@ -30,13 +30,11 @@ exports.post = function(req, res) {
 	
 	var tmp_path = req.files.video.path;
 	var target_path = './uploads/'+req.params.user_id+'/'+req.params.session_id + '/videos/' + req.files.video.name;
-	console.log(req.files.video);
 
 	if (req.files.video.type != 'video/mp4' ) {
 		res.send('ERROR: Videodata is not correct');
+        // TODO better error handling
 	}
-
-	console.log([tmp_path, target_path]);
 
 	fs.rename(tmp_path, target_path, function(err) {
 		if (err) throw err;
@@ -52,7 +50,8 @@ exports.post = function(req, res) {
 			qstr = 'INSERT INTO videos (file, sessions_idsessions) VALUES ("' + target_path + '", '+ req.params.session_id +')';
 
 			query.execute(qstr, '', function(rows) {
-				res.send('video uploaded to: ' + target_path + ', with ' + req.files.video.size + ' bytes');	// which response?
+                res.status(200);
+				res.send('video uploaded to: ' + target_path);	// which response?
 			});
 		});
 	});
