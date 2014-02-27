@@ -9,7 +9,7 @@ var backend = require('./routes/backend'); // admin web routes
 var frontend = require('./routes/frontend'); // frontend web routes
 
 var videos = require('./routes/api/videos'); // videos API
-var audio = require('./routes/api/audio'); // microphone / audio API
+//var audio = require('./routes/api/audio'); // microphone / audio API
 var captures = require('./routes/api/captures'); // captures / screenshot API
 var sessions = require('./routes/api/sessions'); // session ID API
 var logs = require('./routes/api/logs'); // logfiles API
@@ -150,8 +150,8 @@ app.post('/:user_id/:session_id/logs/?', logs.post); // post a new log
 app.get('/:user_id/:session_id/logs/:id_logs/?', logs.get); // get specific log
 
 // audio API
-app.get('/:user_id/:session_id/audio/?', audio.all); // get list of audio files
-app.post('/:user_id/:session_id/audio/?', audio.post); // post new audio0
+// app.get('/:user_id/:session_id/audio/?', audio.all); // get list of audio files
+// app.post('/:user_id/:session_id/audio/?', audio.post); // post new audio0
 
 app.get('/:user_id/:session_id/audio/:audio_id?', audio.get); // get list of audio files
 
