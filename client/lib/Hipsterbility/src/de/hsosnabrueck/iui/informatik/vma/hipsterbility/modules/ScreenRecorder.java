@@ -42,8 +42,10 @@ public class ScreenRecorder {
     }
 
     public void stopRecording(){
-        captureProcess.destroy();
-        Log.d(TAG, "Stopping screenrecord: " + captureProcess.exitValue());
+        if(captureProcess!= null) {
+            captureProcess.destroy();
+            Log.d(TAG, "Stopping screenrecord: " + captureProcess.exitValue());
+        }
     }
 
 }

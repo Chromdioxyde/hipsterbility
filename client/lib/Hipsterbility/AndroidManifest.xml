@@ -39,6 +39,14 @@
         <activity android:name=".vma.hipsterbility.activities.TasksActivity"/>
         <activity android:name=".vma.hipsterbility.activities.TodosActivity"/>
         <activity android:name=".vma.hipsterbility.activities.SettingsActivity" android:label="Preferences"/>
+        <receiver android:name=".vma.hipsterbility.HipsterbilityBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="de.hipsterbility.START_CAPTURE" />
+                <action android:name="de.hipsterbility.STOP_CAPTURE" />
+                <action android:name="de.hipsterbility.START_SESSION" />
+                <action android:name="de.hipsterbility.FINISH_SESSION" />
+            </intent-filter>
+        </receiver>
     </application>
     <uses-sdk android:minSdkVersion="19" />
 </manifest>

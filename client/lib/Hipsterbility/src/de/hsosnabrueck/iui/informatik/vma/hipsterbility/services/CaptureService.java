@@ -1,6 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.services;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,13 +16,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.AbstractModule;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
-
-import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by Albert Hoffmann on 13.02.14.
@@ -50,10 +45,14 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     public void onCreate() {
         super.onCreate();
         // Start foreground service to avoid unexpected kill
+        Intent intent = new Intent();
+        intent.setAction(HipsterbilityBroadcastReceiver.ACTION_STOP_CAPTURE);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         Notification notification = new Notification.Builder(this)
                 .setContentTitle("Background Video Recorder")
                 .setContentText("")
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification_recording)
+                .addAction(R.drawable.ic_action_stop_recording, "Stop Recording", pIntent)
                 .build();
         startForeground(1234, notification);
 
@@ -87,11 +86,12 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         }
         camera = Camera.open(i);
         mediaRecorder = new MediaRecorder();
-        camera.setDisplayOrientation(270);
+
         camera.unlock();
 
         mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
         mediaRecorder.setCamera(camera);
+        camera.setDisplayOrientation(270);
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         // Set quality to low, because high does not work with front facing camera.
@@ -132,6 +132,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         camera.release();
 
         windowManager.removeView(surfaceView);
+
         super.onDestroy();
     }
 

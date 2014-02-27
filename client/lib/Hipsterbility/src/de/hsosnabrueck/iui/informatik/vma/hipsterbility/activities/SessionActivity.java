@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import de.hsosnabrueck.iui.informatik.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters.SessionListAdapter;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
@@ -164,8 +165,11 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             }
             Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//            Hipsterbility.getInstance().startSession();
+            Intent i = new Intent();
+            i.setAction(HipsterbilityBroadcastReceiver.ACTION_START_SESSION);
+            sendBroadcast(i);
             this.startActivity(intent);
-            Hipsterbility.getInstance().startSession();
         } else if (id == R.id.action_settings) {
             // action with ID action_settings was selected
 //            Toast.makeText(this, "Settings selected", Toas
