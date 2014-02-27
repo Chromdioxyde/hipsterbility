@@ -30,12 +30,15 @@ public class UploadManager {
     private final static String PARAM_NAME_TOUCH_LOG = "";
 
     private long size = 0;
+    private int fileTotalCount = 0;
+    private volatile int fileDoneCount = 0;
+    private Session session;
 
     private UploadManager() {
     }
 
     public boolean uploadSessionData(Session session) {
-
+        this.session = session;
 
         size = 0;
         //Create empty lists for different kinds of files
@@ -53,8 +56,10 @@ public class UploadManager {
         for(File f : subdirs){
             if(f.getName().equalsIgnoreCase(CaptureService.VIDEOS_DIR)){
                 cameraFilesList = new ArrayList<File>(Arrays.asList(f.listFiles()));
+                fileTotalCount += cameraFilesList.size();
             } else if (f.getName().equalsIgnoreCase(ScreenshotTaker.SCREENSHOTS_DIR)){
                 screenshotFileList = new ArrayList<File>(Arrays.asList(f.listFiles()));
+                fileTotalCount += screenshotFileList.size();
             }
             for(File fs : f.listFiles()){
                 if(fs != null){
@@ -65,14 +70,14 @@ public class UploadManager {
         Log.d(TAG, "Overall size of files: " + size + " bytes");
         uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA);
         uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT);
-            RequestParams params = new RequestParams();
-            params.add("finished", "1");
-            HipsterbilityRestClient.put(session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
-                @Override
-                public void onSuccess(String content) {
-                    super.onSuccess(content);
-                }
-            });
+//            RequestParams params = new RequestParams();
+//            params.add("finished", "1");
+//            HipsterbilityRestClient.put(session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
+//                @Override
+//                public void onSuccess(String content) {
+//                    super.onSuccess(content);
+//                }
+//            });
 
         //TODO: check and upload data
 
@@ -123,6 +128,7 @@ public class UploadManager {
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
             // Successfully got a response
             //TODO: do something or delete
+            fileDoneCount++;
             Log.d(TAG, "Request successful, status code: " +statusCode );
         }
 
@@ -151,6 +157,16 @@ public class UploadManager {
         public void onFinish() {
             // Completed the request (either success or failure)
             //TODO: do something or delete
+            if(fileTotalCount == fileDoneCount){
+                RequestParams params = new RequestParams();
+                params.add("finished", "1");
+                HipsterbilityRestClient.put(session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String content) {
+                        super.onSuccess(content);
+                    }
+                });
+            }
             Log.d(TAG, "Request finished" );
         }
 
