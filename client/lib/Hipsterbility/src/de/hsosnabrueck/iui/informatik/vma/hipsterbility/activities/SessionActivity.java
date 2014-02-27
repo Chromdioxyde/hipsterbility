@@ -84,20 +84,6 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
 
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -161,6 +147,10 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             if(!sessionChosen){
                 Toast.makeText(this, getString(R.string.select_session_first), Toast.LENGTH_SHORT)
                         .show();
+//                TODO: remove after testing
+//                Session s = new Session(1);
+//                s.setUser(new User(1, "",""));
+//                SessionManager.getInstace().setSessionInProgress(s);
                 return false;
             }
             Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());

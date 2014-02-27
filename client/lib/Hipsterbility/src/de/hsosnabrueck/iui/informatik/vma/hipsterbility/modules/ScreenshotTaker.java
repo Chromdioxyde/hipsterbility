@@ -45,6 +45,7 @@ public class ScreenshotTaker implements View.OnTouchListener {
         this.session = session;
         this.activity = activity;
         this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(this);
+        takeScreenshot(-1,-1);
     }
 
 /*

@@ -23,6 +23,7 @@ echo "setting up db data..."
 sudo cp /vagrant/my.cnf /etc/mysql/my.cnf
 
 sudo mysql --user=root --password=mmk2014 < /vagrant/init.sql
+sudo mysql --user=root --password=mmk2014 < /vagrant/hipsterbility_test_data.sql
 
 echo "installing middleware packages."
 

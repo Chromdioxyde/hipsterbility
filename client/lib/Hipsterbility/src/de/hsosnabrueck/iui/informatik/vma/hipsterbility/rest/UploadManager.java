@@ -3,6 +3,7 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest;
 import android.util.Log;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
@@ -60,9 +61,19 @@ public class UploadManager {
             }
         }
         Log.d(TAG, "Overall size of files: " + size + " bytes");
-        return uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA)
+        boolean success = uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA)
                 & uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT);
-
+        if(success){
+            RequestParams params = new RequestParams();
+            params.add("finished", "1");
+            HipsterbilityRestClient.put(session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
+                @Override
+                public void onSuccess(String content) {
+                    super.onSuccess(content);
+                }
+            });
+            return true;
+        }
 
         //TODO: check and upload data
 
@@ -71,11 +82,11 @@ public class UploadManager {
 //        try {
 //            params.put("profile_picture", myFile);
 //        } catch(FileNotFoundException e) {}
-
+        return false;
     }
 
-    private boolean uploadFiles(Session session, ArrayList<File> cameraFilesList, String suffix, String paramName) {
-        for(File f : cameraFilesList){
+    private boolean uploadFiles(Session session, ArrayList<File> mFilesList, String suffix, String paramName) {
+        for(File f : mFilesList){
             RequestParams params = new RequestParams();
         try {
             params.put(paramName, f);

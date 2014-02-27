@@ -19,6 +19,8 @@ import de.hsosnabrueck.iui.informatik.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by Albert Hoffmann on 13.02.14.
  */
@@ -35,6 +37,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     private SurfaceView surfaceView;
     private Camera camera = null;
     private MediaRecorder mediaRecorder = null;
+    private int cameraNumber;
 
 
     public CaptureService(){
@@ -67,12 +70,6 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         );
         layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         windowManager.addView(surfaceView, layoutParams);
-        surfaceView.getHolder().addCallback(this);
-
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder surfaceHolder) {
 
         boolean found = false;
         int i;
@@ -84,18 +81,27 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
                 break;
             }
         }
-        camera = Camera.open(i);
-        mediaRecorder = new MediaRecorder();
+        cameraNumber = i;
 
+        camera = Camera.open(cameraNumber);
+        //TODO: follow display rotation
+        camera.setDisplayOrientation(270);
+        camera.getParameters().setRotation(270);
         camera.unlock();
+        surfaceView.getHolder().addCallback(this);
+
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setOrientationHint(270);
 
         mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
         mediaRecorder.setCamera(camera);
-        camera.setDisplayOrientation(270);
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        // Set quality to low, because high does not work with front facing camera.
-        mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+        mediaRecorder.setProfile(CamcorderProfile.get(cameraNumber,CamcorderProfile.QUALITY_HIGH));
 
         mediaRecorder.setOutputFile(
                 Util.createOutputDirPathName(sessionId,VIDEOS_DIR) + System.currentTimeMillis() + VIDEO_FILE_EXTENSION
@@ -107,13 +113,12 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         } catch (Exception e) {
             Log.e(TAG, "MediaRecorder preparation failed: " + e.getMessage());
         }
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        this.sessionId = intent.getLongExtra("session_id", 0);
+        this.sessionId = intent.getLongExtra("session_id", 1);
         return Service.START_NOT_STICKY;
     }
 
@@ -181,5 +186,15 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
 //            result = (info.orientation - degrees + 360) % 360;
 //        }
 //        camera.setDisplayOrientation(result);
+//    }
+
+//    protected void setDisplayOrientation(Camera camera, int angle) {
+//        Method downPolymorphic;
+//        try {
+//            downPolymorphic = camera.getClass().getMethod("setDisplayOrientation", new Class[]{int.class});
+//            if (downPolymorphic != null)
+//                downPolymorphic.invoke(camera, new Object[]{angle});
+//        } catch (Exception e1) {
+//        }
 //    }
 }
