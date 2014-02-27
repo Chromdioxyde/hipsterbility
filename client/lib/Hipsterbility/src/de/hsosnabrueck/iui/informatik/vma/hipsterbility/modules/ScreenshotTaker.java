@@ -138,6 +138,8 @@ public class ScreenshotTaker implements View.OnTouchListener {
 
                     }
 
+                    touches.clear();
+
                 } else {
 
                     Coordinates coord = new Coordinates(x,y);
@@ -177,16 +179,6 @@ public class ScreenshotTaker implements View.OnTouchListener {
     }
 
 
-    private Canvas captureActionMove() {
-        Canvas c = new Canvas();
-        ShapeDrawable dr = new ShapeDrawable(new OvalShape());
-        dr.getPaint().setColor(Color.RED);
-
-
-
-        return c;
-    }
-
     public void takeScreenshotRoot() {
         Process sh = null;
         try {
@@ -223,7 +215,7 @@ public class ScreenshotTaker implements View.OnTouchListener {
                 // touch moved before? So we capture the previous touches
                 if (touches.size() > 0) {
                     takeScreenshot(event.getX(), event.getY());
-                    this.touches.clear();
+
                 } else {
                     takeScreenshot(event.getX(), event.getY());
                 }
