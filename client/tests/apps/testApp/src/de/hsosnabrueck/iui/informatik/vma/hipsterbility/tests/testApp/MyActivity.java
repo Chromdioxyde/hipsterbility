@@ -37,7 +37,7 @@ public class MyActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-//                Hipsterbility.getInstance().stopCapture();
+                Hipsterbility.getInstance().stopCapture();
             }
 
         });

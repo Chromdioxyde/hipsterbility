@@ -199,6 +199,5 @@ Converter.prototype.mergeVideoInput = function(user, session) {
  */
 Converter.prototype.createResults = function () {
 	// TODO implementation
-
-
+	
 };

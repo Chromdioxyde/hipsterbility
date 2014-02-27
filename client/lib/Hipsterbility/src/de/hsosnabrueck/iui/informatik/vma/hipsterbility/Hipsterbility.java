@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenRecorder;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.UploadManager;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
@@ -61,8 +64,8 @@ public class Hipsterbility extends Application {
         Session session = new Session(1);
         Intent i= new Intent(context, CaptureService.class);
         i.putExtra("session_id", session.getId());
-//        context.startService(i);
-        ScreenRecorder.getInstance().startRecording(session.getId());
+        context.startService(i);
+//        ScreenRecorder.getInstance().startRecording(session.getId());
 //        testScreenshot(activity);
     }
 
@@ -92,13 +95,13 @@ public class Hipsterbility extends Application {
     }
 
 
-    private void testScreenshot(Activity activity) {
+ /*   private void testScreenshot(Activity activity) {
         Session session = new Session(124);
         ScreenshotTaker s = new ScreenshotTaker(session, activity);
 //        s.takeScreenshot(activity);
 //        s.takeScreenshotRoot();
         s.takeContinuousScreenshots(activity, 10, 100, false);
-    }
+    }*/
 
     public Activity getActivity() {
         return activity;
@@ -109,7 +112,12 @@ public class Hipsterbility extends Application {
     }
 
     public void startSession() {
-        startService();
+//        testCapture();
+//        ScreenshotTaker st = new ScreenshotTaker(SessionManager.getInstace().getSessionInProgress(), activity);
+       Session s = new Session(1);
+        User u = new User(1, "", "");
+        s.setUser(u);
+        UploadManager.getInstance().uploadSessionData(s);
     }
 
     public void setStartActivityClass(Class startActivity) {

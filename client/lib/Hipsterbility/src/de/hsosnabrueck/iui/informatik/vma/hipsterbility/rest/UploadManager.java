@@ -29,6 +29,9 @@ public class UploadManager {
 
     private long size = 0;
 
+    private UploadManager() {
+    }
+
     public boolean uploadSessionData(Session session) {
 
         size = 0;
@@ -143,7 +146,7 @@ public class UploadManager {
 
     }
 
-    private static UploadManager getInstance() {
+    public static UploadManager getInstance() {
         return instance;
     }
 
