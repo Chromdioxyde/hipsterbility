@@ -2,7 +2,11 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.*;
+import de.hsosnabrueck.iui.informatik.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenRecorder;
@@ -111,5 +115,7 @@ public class Hipsterbility {
     public void setScreenshotTaker(ScreenshotTaker screenshotTaker) {
         this.screenshotTaker = screenshotTaker;
     }
+
+
 
 }

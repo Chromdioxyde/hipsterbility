@@ -35,6 +35,8 @@ public class UploadManager {
     }
 
     public boolean uploadSessionData(Session session) {
+
+
         size = 0;
         //Create empty lists for different kinds of files
         ArrayList<File> cameraFilesList = new ArrayList<File>();
@@ -61,9 +63,8 @@ public class UploadManager {
             }
         }
         Log.d(TAG, "Overall size of files: " + size + " bytes");
-        boolean success = uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA)
-                & uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT);
-        if(success){
+        uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA);
+        uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT);
             RequestParams params = new RequestParams();
             params.add("finished", "1");
             HipsterbilityRestClient.put(session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
@@ -72,8 +73,6 @@ public class UploadManager {
                     super.onSuccess(content);
                 }
             });
-            return true;
-        }
 
         //TODO: check and upload data
 
@@ -82,7 +81,7 @@ public class UploadManager {
 //        try {
 //            params.put("profile_picture", myFile);
 //        } catch(FileNotFoundException e) {}
-        return false;
+        return true;
     }
 
     private boolean uploadFiles(Session session, ArrayList<File> mFilesList, String suffix, String paramName) {
@@ -159,6 +158,10 @@ public class UploadManager {
 
     public static UploadManager getInstance() {
         return instance;
+    }
+
+    private synchronized void updateProgress(){
+
     }
 
 }
