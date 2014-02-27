@@ -1,5 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
 
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+
 import java.util.ArrayList;
 
 /**
@@ -36,4 +38,6 @@ public class SessionManager {
     public static SessionManager getInstace(){
         return instance;
     }
+
+
 }

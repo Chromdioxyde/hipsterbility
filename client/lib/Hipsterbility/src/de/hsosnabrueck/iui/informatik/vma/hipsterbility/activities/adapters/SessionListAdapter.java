@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.util.ArrayList;
 

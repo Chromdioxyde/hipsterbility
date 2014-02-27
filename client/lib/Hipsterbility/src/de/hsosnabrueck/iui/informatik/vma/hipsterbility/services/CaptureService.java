@@ -10,52 +10,41 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.IBinder;
-import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import de.hsosnabrueck.iui.informatik.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.AbstractModule;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Albert Hoffmann on 13.02.14.
  */
 public class CaptureService extends Service implements SurfaceHolder.Callback{
 
-    // TODO: Implementation
-
-    //================================================================================
-    // Properties
-    //================================================================================
+    private static final String TAG = CaptureService.class.getName();
 
     public static final String VIDEOS_DIR = "videos";
-    private Session session;
-
-    private ArrayList<AbstractModule> modules;
+    public static final String VIDEO_FILE_EXTENSION = ".mp4";
+    private long sessionId;
+//    private ArrayList<AbstractModule> modules;
 
     private WindowManager windowManager;
     private SurfaceView surfaceView;
     private Camera camera = null;
     private MediaRecorder mediaRecorder = null;
 
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     public CaptureService(){
-        this.modules = new ArrayList<AbstractModule>();
+//        this.modules = new ArrayList<AbstractModule>();
     }
-
-    //================================================================================
-    // Public Methods
-    //================================================================================
 
     @Override
     public void onCreate() {
@@ -86,7 +75,6 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
 
-
         boolean found = false;
         int i;
         for (i=0; i< Camera.getNumberOfCameras(); i++) {
@@ -99,6 +87,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         }
         camera = Camera.open(i);
         mediaRecorder = new MediaRecorder();
+        camera.setDisplayOrientation(270);
         camera.unlock();
 
         mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
@@ -109,24 +98,29 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
 
         mediaRecorder.setOutputFile(
-                getOuputFileName()
+                Util.createOutputDirPathName(sessionId,VIDEOS_DIR) + System.currentTimeMillis() + VIDEO_FILE_EXTENSION
         );
 
-        try { mediaRecorder.prepare(); } catch (Exception e) {}
-        mediaRecorder.start();
+        try {
+            mediaRecorder.prepare();
+            mediaRecorder.start();
+        } catch (Exception e) {
+            Log.e(TAG, "MediaRecorder preparation failed: " + e.getMessage());
+        }
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        this.session = intent.getParcelableExtra("Session");
+        this.sessionId = intent.getLongExtra("session_id", 0);
 //        AudioCaptureModule audioCap = new AudioCaptureModule(session);
 //        this.modules.add(audioCap);
         //CameraCapture camCap = new CameraCapture(this, session);
         //this.modules.add(camCap);
-        for(AbstractModule module:modules){
-            module.startCapture();
-        }
+//        for(AbstractModule module:modules){
+//            module.startCapture();
+//        }
         return Service.START_NOT_STICKY;
     }
 
@@ -137,9 +131,9 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
 
     @Override
     public void onDestroy() {
-        for(AbstractModule module:modules){
-            module.stopCapture();
-        }
+//        for(AbstractModule module:modules){
+//            module.stopCapture();
+//        }
         super.onDestroy();
 
         mediaRecorder.stop();
@@ -152,13 +146,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         windowManager.removeView(surfaceView);
     }
 
-    public Session getSession() {
-        return session;
-    }
 
-    public void setSession(Session session) {
-        this.session = session;
-    }
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {}
@@ -166,20 +154,42 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {}
 
-    //================================================================================
-    // Private Methods
-    //================================================================================
 
-    private String getOuputFileName(){
-        return Environment.getExternalStorageDirectory()
-                + File.separator
-                + Hipsterbility.BASE_DIR
-                + File.separator
-                + VIDEOS_DIR
-                + File.separator
-                + session.getId()
-                + File.separator
-                + System.currentTimeMillis()
-                + ".mp4";
-    }
+//    private String getOuputFileName(){
+//        return Environment.getExternalStorageDirectory()
+//                + File.separator
+//                + Hipsterbility.BASE_DIR
+//                + File.separator
+//                + VIDEOS_DIR
+//                + File.separator
+//                + sessionId
+//                + File.separator
+//                + System.currentTimeMillis()
+//                + ".mp4";
+//    }
+
+//    public static void setCameraDisplayOrientation(Activity activity,
+//                                                   int cameraId, android.hardware.Camera camera) {
+//        android.hardware.Camera.CameraInfo info =
+//                new android.hardware.Camera.CameraInfo();
+//        android.hardware.Camera.getCameraInfo(cameraId, info);
+//        int rotation = activity.getWindowManager().getDefaultDisplay()
+//                .getRotation();
+//        int degrees = 0;
+//        switch (rotation) {
+//            case Surface.ROTATION_0: degrees = 0; break;
+//            case Surface.ROTATION_90: degrees = 90; break;
+//            case Surface.ROTATION_180: degrees = 180; break;
+//            case Surface.ROTATION_270: degrees = 270; break;
+//        }
+//
+//        int result;
+//        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+//            result = (info.orientation + degrees) % 360;
+//            result = (360 - result) % 360;  // compensate the mirror
+//        } else {  // back-facing
+//            result = (info.orientation - degrees + 360) % 360;
+//        }
+//        camera.setDisplayOrientation(result);
+//    }
 }

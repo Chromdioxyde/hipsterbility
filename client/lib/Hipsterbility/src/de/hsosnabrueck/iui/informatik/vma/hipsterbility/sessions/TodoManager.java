@@ -1,5 +1,8 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
 
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Todo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 

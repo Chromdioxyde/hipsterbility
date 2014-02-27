@@ -7,7 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.util.List;
 

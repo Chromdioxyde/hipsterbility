@@ -30,10 +30,10 @@ exports.post = function(req, res) {
 	
 	var tmp_path = req.files.video.path;
 	var target_path = './uploads/'+req.params.user_id+'/'+req.params.session_id + '/videos/' + req.files.video.name;
-	console.log(req.files.video);
 
 	if (req.files.video.type != 'video/mp4' ) {
 		res.send('ERROR: Videodata is not correct');
+        // TODO better error handling
 	}
 
 	fs.rename(tmp_path, target_path, function(err) {
@@ -51,7 +51,7 @@ exports.post = function(req, res) {
 
 			query.execute(qstr, '', function(rows) {
                 res.status(200);
-				res.send('video uploaded to: ' + target_path + ', with ' + req.files.video.size + ' bytes');	// which response?
+				res.send('video uploaded to: ' + target_path);	// which response?
 			});
 		});
 	});

@@ -1,5 +1,6 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -11,7 +12,7 @@ import android.text.format.DateFormat;
 import android.view.*;
 import de.hsosnabrueck.iui.informatik.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.util.Date;
 
@@ -29,8 +30,8 @@ public class CameraCapture extends AbstractModule implements SurfaceHolder.Callb
     private Surface fakeSurface = null;
     private boolean recording = false;
 
-    public CameraCapture(CaptureService service, Session session) {
-        super(session);
+    public CameraCapture(CaptureService service, Session session, Activity activity) {
+        super(session, activity);
         // Start foreground service to avoid unexpected kill
         Notification notification = new Notification.Builder(service)
                 .setContentTitle("Background Video Recorder")

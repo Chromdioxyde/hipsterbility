@@ -9,8 +9,8 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Task;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.Todo;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Task;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Todo;
 
 import java.util.ArrayList;
 

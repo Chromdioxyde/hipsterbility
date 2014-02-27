@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/settings_server_group_title"
+        android:key="settings_kes_server_settings">
+        <EditTextPreference
+            android:key="pref_key_server"
+            android:summary="@string/pref_summary_server_name"
+            android:title="@string/pref_title_server_name"
+            android:defaultValue="" />
+        <Preference android:title="@string/pref_title_discover_server"
+                    android:key="pref_key_button_discover_server"
+                    android:summary="This will act like a button"/>
+        <EditTextPreference
+            android:key="pref_key_port"
+            android:summary="@string/pref_summary_server_port"
+            android:title="@string/pref_title_server_port"
+            android:defaultValue="3000"
+            android:inputType="number" />
+    </PreferenceCategory>
+    <PreferenceCategory
+            android:title="@string/settings_user_group_title"
+            android:key="pref_key_storage_settings">
+        <EditTextPreference
+                android:key="pref_key_user_name"
+                android:dependency="pref_key_server"
+                android:summary="@string/pref_summary_user_name"
+                android:title="@string/pref_title_user_name"
+                android:defaultValue=""
+                android:inputType="text"/>
+        <Preference
+                android:key="pref_key_password"
+                android:dependency="pref_key_user_name"
+                android:summary="@string/pref_summary_password"
+                android:title="@string/pref_title_password" />
+    </PreferenceCategory>
+</PreferenceScreen>
