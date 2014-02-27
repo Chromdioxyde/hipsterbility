@@ -153,7 +153,7 @@ app.get('/:user_id/:session_id/logs/:id_logs/?', logs.get); // get specific log
 // app.get('/:user_id/:session_id/audio/?', audio.all); // get list of audio files
 // app.post('/:user_id/:session_id/audio/?', audio.post); // post new audio0
 
-app.get('/:user_id/:session_id/audio/:audio_id?', audio.get); // get list of audio files
+//app.get('/:user_id/:session_id/audio/:audio_id?', audio.get); // get list of audio files
 
 // todo API
 app.get('/:user_id/:session_id/todos/?', todos.all);
