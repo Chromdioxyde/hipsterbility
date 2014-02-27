@@ -2,13 +2,12 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenRecorder;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.UploadManager;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
@@ -18,7 +17,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
  * a user can use in own application, similar to the facade pattern.
  */
-public class Hipsterbility extends Application {
+public class Hipsterbility {
 
 
 
@@ -34,6 +33,7 @@ public class Hipsterbility extends Application {
     private Activity activity;
     private SharedPreferences sharedPreferences;
     private Class startActivity;
+    private ScreenshotTaker screenshotTaker;
 
     /**
      * The default constructor to create a Hipsterbility object.
@@ -42,6 +42,7 @@ public class Hipsterbility extends Application {
 
     private Hipsterbility(){
         //TODO: remove after testing
+        HipsterbilityRestClient.setMaxConnections(1);
     }
 
 
@@ -50,28 +51,10 @@ public class Hipsterbility extends Application {
         return instance;
     }
 
-    public String test() {
-       // TODO: delete method, just for dev testing purposes
-       return "hello Hipsterbility";
-    }
-
-
-    //TODO: delete me after testing
-    public void testCapture() {
-
-        // use this to start and trigger a service
-
-        Session session = new Session(1);
-        Intent i= new Intent(context, CaptureService.class);
-        i.putExtra("session_id", session.getId());
-        context.startService(i);
-//        ScreenRecorder.getInstance().startRecording(session.getId());
-//        testScreenshot(activity);
-    }
-
     public void stopCapture() {
         context.stopService(new Intent(context, CaptureService.class));
         ScreenRecorder.getInstance().stopRecording();
+        startService();
     }
 
 
@@ -80,11 +63,8 @@ public class Hipsterbility extends Application {
         this.activity = activity;
         this.context = activity.getApplicationContext();
         //TODO remove after testing
-//        testScreenshot(activity);
-//        activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
-        //startService();
-//        testCapture();
-        ScreenshotTaker st = new ScreenshotTaker(new Session(1), activity);
+        startService();
+//        startSession();
         return instance;
     }
 
@@ -95,13 +75,6 @@ public class Hipsterbility extends Application {
     }
 
 
- /*   private void testScreenshot(Activity activity) {
-        Session session = new Session(124);
-        ScreenshotTaker s = new ScreenshotTaker(session, activity);
-//        s.takeScreenshot(activity);
-//        s.takeScreenshotRoot();
-        s.takeContinuousScreenshots(activity, 10, 100, false);
-    }*/
 
     public Activity getActivity() {
         return activity;
@@ -117,7 +90,10 @@ public class Hipsterbility extends Application {
        Session s = new Session(1);
         User u = new User(1, "", "");
         s.setUser(u);
-        UploadManager.getInstance().uploadSessionData(s);
+        Intent i = new Intent();
+        i.setAction(HipsterbilityBroadcastReceiver.ACTION_START_CAPTURE);
+        context.sendBroadcast(i);
+//        UploadManager.getInstance().uploadSessionData(s);
     }
 
     public void setStartActivityClass(Class startActivity) {
@@ -127,4 +103,13 @@ public class Hipsterbility extends Application {
     public Class getStartActivityClass() {
         return startActivity;
     }
+
+    public ScreenshotTaker getScreenshotTaker() {
+        return screenshotTaker;
+    }
+
+    public void setScreenshotTaker(ScreenshotTaker screenshotTaker) {
+        this.screenshotTaker = screenshotTaker;
+    }
+
 }

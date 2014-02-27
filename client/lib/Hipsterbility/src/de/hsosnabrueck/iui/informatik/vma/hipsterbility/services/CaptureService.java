@@ -1,6 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.services;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,13 +16,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.AbstractModule;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.lang.reflect.Method;
 
 /**
  * Created by Albert Hoffmann on 13.02.14.
@@ -40,6 +37,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     private SurfaceView surfaceView;
     private Camera camera = null;
     private MediaRecorder mediaRecorder = null;
+    private int cameraNumber;
 
 
     public CaptureService(){
@@ -50,10 +48,14 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     public void onCreate() {
         super.onCreate();
         // Start foreground service to avoid unexpected kill
+        Intent intent = new Intent();
+        intent.setAction(HipsterbilityBroadcastReceiver.ACTION_STOP_CAPTURE);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         Notification notification = new Notification.Builder(this)
                 .setContentTitle("Background Video Recorder")
                 .setContentText("")
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.drawable.ic_notification_recording)
+                .addAction(R.drawable.ic_action_stop_recording, "Stop Recording", pIntent)
                 .build();
         startForeground(1234, notification);
 
@@ -68,12 +70,6 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         );
         layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         windowManager.addView(surfaceView, layoutParams);
-        surfaceView.getHolder().addCallback(this);
-
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder surfaceHolder) {
 
         boolean found = false;
         int i;
@@ -85,17 +81,27 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
                 break;
             }
         }
-        camera = Camera.open(i);
-        mediaRecorder = new MediaRecorder();
+        cameraNumber = i;
+
+        camera = Camera.open(cameraNumber);
+        //TODO: follow display rotation
         camera.setDisplayOrientation(270);
+        camera.getParameters().setRotation(270);
         camera.unlock();
+        surfaceView.getHolder().addCallback(this);
+
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        mediaRecorder = new MediaRecorder();
+        mediaRecorder.setOrientationHint(270);
 
         mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
         mediaRecorder.setCamera(camera);
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        // Set quality to low, because high does not work with front facing camera.
-        mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_LOW));
+        mediaRecorder.setProfile(CamcorderProfile.get(cameraNumber,CamcorderProfile.QUALITY_HIGH));
 
         mediaRecorder.setOutputFile(
                 Util.createOutputDirPathName(sessionId,VIDEOS_DIR) + System.currentTimeMillis() + VIDEO_FILE_EXTENSION
@@ -107,20 +113,12 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         } catch (Exception e) {
             Log.e(TAG, "MediaRecorder preparation failed: " + e.getMessage());
         }
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        this.sessionId = intent.getLongExtra("session_id", 0);
-//        AudioCaptureModule audioCap = new AudioCaptureModule(session);
-//        this.modules.add(audioCap);
-        //CameraCapture camCap = new CameraCapture(this, session);
-        //this.modules.add(camCap);
-//        for(AbstractModule module:modules){
-//            module.startCapture();
-//        }
+        this.sessionId = intent.getLongExtra("session_id", 1);
         return Service.START_NOT_STICKY;
     }
 
@@ -131,11 +129,6 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
 
     @Override
     public void onDestroy() {
-//        for(AbstractModule module:modules){
-//            module.stopCapture();
-//        }
-        super.onDestroy();
-
         mediaRecorder.stop();
         mediaRecorder.reset();
         mediaRecorder.release();
@@ -144,6 +137,8 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         camera.release();
 
         windowManager.removeView(surfaceView);
+
+        super.onDestroy();
     }
 
 
@@ -191,5 +186,15 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
 //            result = (info.orientation - degrees + 360) % 360;
 //        }
 //        camera.setDisplayOrientation(result);
+//    }
+
+//    protected void setDisplayOrientation(Camera camera, int angle) {
+//        Method downPolymorphic;
+//        try {
+//            downPolymorphic = camera.getClass().getMethod("setDisplayOrientation", new Class[]{int.class});
+//            if (downPolymorphic != null)
+//                downPolymorphic.invoke(camera, new Object[]{angle});
+//        } catch (Exception e1) {
+//        }
 //    }
 }
