@@ -43,11 +43,19 @@ public class ScreenshotTaker implements View.OnTouchListener {
 
     public ScreenshotTaker(Session session, Activity activity) {
         this.session = session;
-
         this.activity = activity;
         this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(this);
     }
 
+
+    /**
+     *
+     * TODO: remove me if not needed anymore
+     * @param activity
+     * @param shotsPerSecond
+     * @param count
+     * @param root
+     */
     public void takeContinuousScreenshots(final Activity activity, final int shotsPerSecond,
                                           final int count, final boolean root){
         Runnable r = new Runnable() {
@@ -77,87 +85,95 @@ public class ScreenshotTaker implements View.OnTouchListener {
         new Thread(r).start();
     }
 
-    public void takeScreenshot(float x, float y) {
+    public void takeScreenshot(final float x, final float y) {
+        /*
+            Too much computation in the UI thread makes the app unresponsive and may lead to the app being killed by the
+            systems watchdog.
+            Therefore create a new thread for messing around with screenshots.
+         */
 
-        // Get device dimmensions
+        Runnable r = new Runnable(){
+            @Override
+            public void run() {
+                // Get device dimmensions
 
-        Display display = this.activity.getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
+                Display display = activity.getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
 
-        // Get root view
-        View view = this.activity.getWindow().getDecorView().getRootView();
+                // Get root view
+                View view = activity.getWindow().getDecorView().getRootView();
 
-        // Create the bitmap to use to draw the screenshot
-        Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_4444);
-        Canvas canvas = new Canvas(bitmap);
+                // Create the bitmap to use to draw the screenshot
+                Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_4444);
+                Canvas canvas = new Canvas(bitmap);
 
-        // Get current theme to know which background to use
-        final Resources.Theme theme = activity.getTheme();
-        final TypedArray ta = theme
-                .obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
-        final int res = ta.getResourceId(0, 0);
-        final Drawable background = activity.getResources().getDrawable(res);
+                // Get current theme to know which background to use
+                final Resources.Theme theme = activity.getTheme();
+                final TypedArray ta = theme
+                        .obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
+                final int res = ta.getResourceId(0, 0);
+                final Drawable background = activity.getResources().getDrawable(res);
 
-        // Draw background
-        background.draw(canvas);
+                // Draw background
+                background.draw(canvas);
 
-        // Draw views
-        view.draw(canvas);
-
-
-        // add drawables
-        ShapeDrawable dr = new ShapeDrawable(new OvalShape());
-        dr.getPaint().setColor(Color.RED);
-
-        if( this.touches.size() > 0) {
-
-            for (int i = 0; i < this.touches.size(); i++) {
-
-                int xr = this.touches.get(i).getX();
-                int yr = this.touches.get(i).getY();
-
-                dr.setBounds(xr, yr, xr+50, yr+50); // TODO dynamically width and height
-                dr.draw(canvas);
-
-            }
-
-        } else {
-
-            Coordinates coord = new Coordinates(x,y);
-            int xr = coord.getX();
-            int yr = coord.getY();
-            dr.setBounds(xr, yr, xr+100, yr+100); // TODO dynamically width and height
-            dr.draw(canvas);
-        }
+                // Draw views
+                view.draw(canvas);
 
 
+                // add drawables
+                ShapeDrawable dr = new ShapeDrawable(new OvalShape());
+                dr.getPaint().setColor(Color.RED);
 
+                if( touches.size() > 0) {
 
+                    for (int i = 0; i < touches.size(); i++) {
 
-        // Save the screenshot to the file system
-        FileOutputStream fos = null;
-        try {
-            final File file = new File(Util.createOutputDirPathName(session.getId(), SCREENSHOTS_DIR));
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            fos = new FileOutputStream(file.getAbsolutePath()+ File.separator + createOutputFileName(IMAGE_PNG));
-            if (fos != null) {
-                if (!bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos)) {
-                    Log.d(TAG, "Compress/Write failed");
+                        int xr = touches.get(i).getX();
+                        int yr = touches.get(i).getY();
+
+                        dr.setBounds(xr, yr, xr+50, yr+50); // TODO dynamically width and height
+                        dr.draw(canvas);
+
+                    }
+
+                } else {
+
+                    Coordinates coord = new Coordinates(x,y);
+                    int xr = coord.getX();
+                    int yr = coord.getY();
+                    dr.setBounds(xr, yr, xr+100, yr+100); // TODO dynamically width and height
+                    dr.draw(canvas);
                 }
-                fos.flush();
-                fos.close();
-            }
 
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+                // Save the screenshot to the file system
+                FileOutputStream fos = null;
+                try {
+                    final File file = new File(Util.createOutputDirPathName(session.getId(), SCREENSHOTS_DIR));
+                    if (!file.exists()) {
+                        file.mkdirs();
+                    }
+                    fos = new FileOutputStream(file.getAbsolutePath()+ File.separator + createOutputFileName(IMAGE_PNG));
+                    if (fos != null) {
+                        if (!bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos)) {
+                            Log.d(TAG, "Compress/Write failed");
+                        }
+                        fos.flush();
+                        fos.close();
+                    }
+
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        };
+        new Thread(r).start();
+
     }
 
 
