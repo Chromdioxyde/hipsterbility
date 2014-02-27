@@ -297,4 +297,18 @@ public class ScreenshotTaker implements View.OnTouchListener {
 
 
     }
+
+    public void stopScreenshots(){
+        unregisterTouchListener();
+        //TODO: add other steps if necessary
+    }
+
+    private void unregisterTouchListener() {
+        try{
+            //Remove touch listener from activity's view
+            this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(null);
+        } catch (NullPointerException e) {
+           e.printStackTrace();
+        }
+    }
 }
