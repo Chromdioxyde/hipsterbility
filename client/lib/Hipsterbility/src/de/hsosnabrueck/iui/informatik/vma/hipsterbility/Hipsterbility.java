@@ -79,9 +79,9 @@ public class Hipsterbility extends Application {
         //TODO remove after testing
 //        testScreenshot(activity);
 //        activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
-        startService();
+        //startService();
 //        testCapture();
-//        ScreenshotTaker st = new ScreenshotTaker(new Session(1), activity);
+        ScreenshotTaker st = new ScreenshotTaker(new Session(1), activity);
         return instance;
     }
 
