@@ -212,8 +212,6 @@ public class ScreenshotTaker implements View.OnTouchListener {
                     takeScreenshot(event.getX(), event.getY());
                 }
 
-
-
                 break;
             case MotionEvent.ACTION_MOVE:
 
