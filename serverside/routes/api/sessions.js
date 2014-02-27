@@ -1,5 +1,5 @@
 var Query = require('../../classes/query');
-var converter = require('../../classes/converter');
+var Converter = require('../../classes/converter');
 
 /**
  * get list of sesssions for user which are not finished.
@@ -51,31 +51,40 @@ exports.put = function(req, res) {
 
 	qstr = 'UPDATE sessions SET ';
 
-	if( req.params.active != undefinded && req.params.active != '') { 
+	if( req.params.active != undefined && req.params.active != '') {
 		// set active
 		qstr += ' active = ' + req.params.active;
 	} else if (req.params.name != undefined && req.params.name != '') { 
 		// change name
 		qstr += ' name = ' + req.params.name;
-	} else if (req.params.finished != undefined) {
+	} else if (req.body.finished == '1' || req.body.finished == 1) {
 		// set finished
-		
-		// TODO  send 409 on finish not successfully
-		// successfully is when logs and captures are already uploaded/added to the session. 
-		qstr += ' name = ' + req.params.finished;
 
-		// 
-		var conv = new converter;
+        var conv = new Converter;
+
+        conv.createResult(req.params.user_id, req.params.session_id, function() {
+            // TODO  send 409 on finish not successfully
+            // successfully is when logs and captures are already uploaded/added to the session.
+            qstr += ' name = ' + 1;
+
+            res.status(200);
+            res.send('FIN');
+        });
+
+
+
 
 	}
+
+
 
 	qstr += ' WHERE idsessions = ' + req.params.session_id; 
 
 	// TODO error check
-	query.execute(qstr, '', function(rows){
-		// send to user
-		res.send(rows);
-	});
+//	query.execute(qstr, '', function(rows){
+//		// send to user
+//		res.send(rows);
+//	});
 
 	// use for posts:
 

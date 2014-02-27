@@ -1,16 +1,17 @@
+#!/bin/sh
 # install.sh
 # always install latest stuff 
 
 echo "Initialisation started. I will get actual packages list."
-sudo apt-get update 
+apt-get update
 
-echo "Installing mysql-server and ffmpeg"
+echo "Installing mysql-server and libav-tools"
 
-sudo apt-get install mysql-server ffmpeg
+apt-get install mysql-server libav-tools
 
-echo "Now installing nodejs"
+echo "\nNow installing nodejs\n"
 
-sudo apt-get install python g++ make checkinstall
+apt-get install python g++ make checkinstall
 src=$(mktemp -d) && cd $src
 wget -N http://nodejs.org/dist/node-latest.tar.gz
 tar xzvf node-latest.tar.gz && cd node-v*
@@ -20,7 +21,7 @@ sudo dpkg -i node_*
 
 echo "setting up db data..."
 
-sudo cp /vagrant/my.cnf /etc/mysql/my.cnf
+cp /vagrant/my.cnf /etc/mysql/my.cnf
 
 sudo mysql --user=root --password=mmk2014 < /vagrant/init.sql
 sudo mysql --user=root --password=mmk2014 < /vagrant/hipsterbility_test_data.sql
