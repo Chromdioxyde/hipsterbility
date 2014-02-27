@@ -114,13 +114,6 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         this.sessionId = intent.getLongExtra("session_id", 0);
-//        AudioCaptureModule audioCap = new AudioCaptureModule(session);
-//        this.modules.add(audioCap);
-        //CameraCapture camCap = new CameraCapture(this, session);
-        //this.modules.add(camCap);
-//        for(AbstractModule module:modules){
-//            module.startCapture();
-//        }
         return Service.START_NOT_STICKY;
     }
 
@@ -131,11 +124,6 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
 
     @Override
     public void onDestroy() {
-//        for(AbstractModule module:modules){
-//            module.stopCapture();
-//        }
-        super.onDestroy();
-
         mediaRecorder.stop();
         mediaRecorder.reset();
         mediaRecorder.release();
@@ -144,6 +132,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         camera.release();
 
         windowManager.removeView(surfaceView);
+        super.onDestroy();
     }
 
 

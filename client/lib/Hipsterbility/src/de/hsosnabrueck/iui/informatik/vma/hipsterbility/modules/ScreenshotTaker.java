@@ -47,7 +47,7 @@ public class ScreenshotTaker implements View.OnTouchListener {
         this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(this);
     }
 
-
+/*
     /**
      *
      * TODO: remove me if not needed anymore
@@ -56,6 +56,7 @@ public class ScreenshotTaker implements View.OnTouchListener {
      * @param count
      * @param root
      */
+    /*
     public void takeContinuousScreenshots(final Activity activity, final int shotsPerSecond,
                                           final int count, final boolean root){
         Runnable r = new Runnable() {
@@ -83,7 +84,7 @@ public class ScreenshotTaker implements View.OnTouchListener {
             }
         };
         new Thread(r).start();
-    }
+    }*/
 
     public void takeScreenshot(final float x, final float y) {
         /*

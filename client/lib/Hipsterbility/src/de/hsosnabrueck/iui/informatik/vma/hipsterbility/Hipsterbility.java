@@ -9,6 +9,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenRecorder;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.UploadManager;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
@@ -42,31 +43,13 @@ public class Hipsterbility extends Application {
 
     private Hipsterbility(){
         //TODO: remove after testing
+        HipsterbilityRestClient.setMaxConnections(1);
     }
 
 
 
     public static Hipsterbility getInstance(){
         return instance;
-    }
-
-    public String test() {
-       // TODO: delete method, just for dev testing purposes
-       return "hello Hipsterbility";
-    }
-
-
-    //TODO: delete me after testing
-    public void testCapture() {
-
-        // use this to start and trigger a service
-
-        Session session = new Session(1);
-        Intent i= new Intent(context, CaptureService.class);
-        i.putExtra("session_id", session.getId());
-        context.startService(i);
-//        ScreenRecorder.getInstance().startRecording(session.getId());
-//        testScreenshot(activity);
     }
 
     public void stopCapture() {
@@ -82,9 +65,10 @@ public class Hipsterbility extends Application {
         //TODO remove after testing
 //        testScreenshot(activity);
 //        activity.startActivity(new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS));
-        //startService();
+        startService();
 //        testCapture();
-        ScreenshotTaker st = new ScreenshotTaker(new Session(1), activity);
+
+//        ScreenshotTaker st = new ScreenshotTaker(new Session(1), activity);
         return instance;
     }
 
@@ -95,13 +79,6 @@ public class Hipsterbility extends Application {
     }
 
 
- /*   private void testScreenshot(Activity activity) {
-        Session session = new Session(124);
-        ScreenshotTaker s = new ScreenshotTaker(session, activity);
-//        s.takeScreenshot(activity);
-//        s.takeScreenshotRoot();
-        s.takeContinuousScreenshots(activity, 10, 100, false);
-    }*/
 
     public Activity getActivity() {
         return activity;

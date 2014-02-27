@@ -5,6 +5,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import org.apache.http.Header;
 
@@ -33,7 +34,6 @@ public class UploadManager {
     }
 
     public boolean uploadSessionData(Session session) {
-
         size = 0;
         //Create empty lists for different kinds of files
         ArrayList<File> cameraFilesList = new ArrayList<File>();
@@ -50,7 +50,7 @@ public class UploadManager {
         for(File f : subdirs){
             if(f.getName().equalsIgnoreCase(CaptureService.VIDEOS_DIR)){
                 cameraFilesList = new ArrayList<File>(Arrays.asList(f.listFiles()));
-            } else if (f.getName().equalsIgnoreCase(CaptureService.VIDEOS_DIR)){
+            } else if (f.getName().equalsIgnoreCase(ScreenshotTaker.SCREENSHOTS_DIR)){
                 screenshotFileList = new ArrayList<File>(Arrays.asList(f.listFiles()));
             }
             for(File fs : f.listFiles()){
