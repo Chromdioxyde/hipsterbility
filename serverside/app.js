@@ -96,8 +96,6 @@ app.post('/auth/?', function (req, res) {
 
    if( req.body.name != undefined && req.body.name != '') {
 
-
-
        var qstr = 'SELECT idusers AS "id" FROM users WHERE name = "' + req.body.name + '" AND password = "' + req.body.password + '" AND active = 1';
 
        console.log(qstr);
@@ -115,6 +113,9 @@ app.post('/auth/?', function (req, res) {
                res.send('Du weißt nicht wer du bist, oder du kennst dein Passwort nicht!'); // TODO sth more useful
            }
        });
+   } else {
+       res.status(400);
+       res.send('Du weißt nicht wer du bist, oder du kennst dein Passwort nicht!');
    }
 });
 
