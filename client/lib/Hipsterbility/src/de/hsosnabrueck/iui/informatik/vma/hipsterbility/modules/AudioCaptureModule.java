@@ -5,6 +5,7 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,31 +24,26 @@ import java.io.IOException;
  *
  */
 
-public class AudioCaptureModule extends AbstractModule{
+public class AudioCaptureModule implements CaptureModule{
     // TODO: Implementation
 
     //================================================================================
     // Properties
     //================================================================================
 
-    private final String LOG_TAG = this.getClass().getCanonicalName();
+    private final String TAG = this.getClass().getCanonicalName();
+    public static final String AUDIO_DIR = "audio";
+    public static final String AUDIO_FILE_EXTENSSION = "";
 
     private String mFileName = null;
     private MediaRecorder mRecorder = null;
     private File outFile = null;
+    private Session session;
 
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    public AudioCaptureModule(Session session, Activity activity) {
-        super(session, activity);
+    public AudioCaptureModule() {
+        this.session = SessionManager.getInstace().getSessionInProgress();
     }
 
-
-    //================================================================================
-    // Public Methods
-    //================================================================================
 
     @Override
     public void startCapture() {
@@ -64,7 +60,7 @@ public class AudioCaptureModule extends AbstractModule{
         try {
             mRecorder.prepare();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
+            Log.e(TAG, "prepare() failed");
         }
         mRecorder.start();
     }
@@ -74,6 +70,26 @@ public class AudioCaptureModule extends AbstractModule{
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+    }
+
+    @Override
+    public void pauseCapture() {
+
+    }
+
+    @Override
+    public void resumeCapture() {
+
+    }
+
+    @Override
+    public boolean isCapturing() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     //================================================================================

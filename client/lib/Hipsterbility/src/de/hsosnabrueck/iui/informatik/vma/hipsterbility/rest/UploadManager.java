@@ -26,20 +26,23 @@ public class UploadManager {
     //TODO: set parameter names
     private final static String PARAM_NAME_SCREENSHOT = "screenshot";
     private final static String PARAM_NAME_CAMERA = "video";
-    private final static String PARAM_NAME_SCREEN = "";
+    private final static String PARAM_NAME_SCREEN_RECORDING = "";
     private final static String PARAM_NAME_TOUCH_LOG = "";
+    private final static String PARAM_NAME_AUDIO_CAPTURE = "";
 
     private long size = 0;
     private int fileTotalCount = 0;
     private volatile int fileDoneCount = 0;
     private Session session;
 
+    /**
+     * private constructor for static singleton.
+     */
     private UploadManager() {
     }
 
     public boolean uploadSessionData(Session session) {
         this.session = session;
-
         size = 0;
         //Create empty lists for different kinds of files
         ArrayList<File> cameraFilesList = new ArrayList<File>();
@@ -68,25 +71,30 @@ public class UploadManager {
             }
         }
         Log.d(TAG, "Overall size of files: " + size + " bytes");
-        uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA);
-        uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT);
-//            RequestParams params = new RequestParams();
-//            params.add("finished", "1");
-//            HipsterbilityRestClient.put(session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(String content) {
-//                    super.onSuccess(content);
-//                }
-//            });
-
-        //TODO: check and upload data
-
-//        File myFile = new File("/path/to/file.png");
-//        RequestParams params = new RequestParams();
-//        try {
-//            params.put("profile_picture", myFile);
-//        } catch(FileNotFoundException e) {}
+        if(uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA)){
+            deleteFiles(cameraFilesList);
+        }
+        if(uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT)){
+            deleteFiles(screenshotFileList);
+        }
+        //TODO: upload and delete other file types
         return true;
+    }
+
+    private void deleteFiles(ArrayList<File> filesList) {
+        if(filesList.size() == 0){
+            return;
+        }
+        int filesDeleted = 0, filesNotDeleted = 0;
+        String path = filesList.get(0).getParentFile().getAbsolutePath();
+        for(File f :filesList){
+            if(f.delete()){
+                filesDeleted ++;
+            } else {
+                filesNotDeleted ++;
+            }
+        }
+        Log.d(TAG, path + " - " + filesDeleted + " files deleted, " + filesNotDeleted + " failed.");
     }
 
     private boolean uploadFiles(Session session, ArrayList<File> mFilesList, String suffix, String paramName) {

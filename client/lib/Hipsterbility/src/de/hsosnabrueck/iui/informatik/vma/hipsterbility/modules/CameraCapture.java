@@ -19,8 +19,9 @@ import java.util.Date;
 /**
  * Created by Albert Hoffmann on 17.02.14.
  */
-public class CameraCapture extends AbstractModule implements SurfaceHolder.Callback {
+public class CameraCapture implements SurfaceHolder.Callback, CaptureModule {
 
+    private static CameraCapture instance;
 
     private WindowManager windowManager;
     private SurfaceView surfaceView;
@@ -29,9 +30,15 @@ public class CameraCapture extends AbstractModule implements SurfaceHolder.Callb
     private CaptureService service = null;
     private Surface fakeSurface = null;
     private boolean recording = false;
+    private Session session;
+    private Activity activity;
+    private boolean audioEnabled;
+
+    private CameraCapture(){}
 
     public CameraCapture(CaptureService service, Session session, Activity activity) {
-        super(session, activity);
+        this.session = session;
+        this.activity = activity;
         // Start foreground service to avoid unexpected kill
         Notification notification = new Notification.Builder(service)
                 .setContentTitle("Background Video Recorder")
@@ -61,6 +68,7 @@ public class CameraCapture extends AbstractModule implements SurfaceHolder.Callb
 //        }
     }
 
+
     @Override
     public void stopCapture() {
         if(mediaRecorder == null){
@@ -75,6 +83,21 @@ public class CameraCapture extends AbstractModule implements SurfaceHolder.Callb
             camera.release();
             windowManager.removeView(surfaceView);
         } catch (Exception e){System.err.println(e.getMessage());};
+    }
+
+    @Override
+    public void pauseCapture() {
+
+    }
+
+    @Override
+    public void resumeCapture() {
+
+    }
+
+    @Override
+    public boolean isCapturing() {
+        return false;
     }
 
     // Method called right after Surface created (initializing and starting MediaRecorder)
@@ -108,4 +131,19 @@ public class CameraCapture extends AbstractModule implements SurfaceHolder.Callb
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {}
 
+    public static CameraCapture getInstance() {
+        if(instance == null){
+            instance = new CameraCapture();
+        }
+        return instance;
+    }
+
+    public void setAudioEnabled(boolean audioEnabled) {
+        this.audioEnabled = audioEnabled;
+    }
+
+
+    public boolean isAudioEnabled() {
+        return audioEnabled;
+    }
 }

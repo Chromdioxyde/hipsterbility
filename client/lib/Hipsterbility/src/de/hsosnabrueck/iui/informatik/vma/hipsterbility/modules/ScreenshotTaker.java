@@ -27,7 +27,9 @@ import java.util.List;
  * Sources: http://stackoverflow.com/questions/16748384/android-take-screenshot-programmatically-of-the-whole-screen
  *          http://stackoverflow.com/questions/2661536/how-to-programatically-take-a-screenshot-on-android?rq=1
  */
-public class ScreenshotTaker implements View.OnTouchListener {
+public class ScreenshotTaker implements View.OnTouchListener, CaptureModule{
+
+    private static ScreenshotTaker instance;
 
     // Some constants
     public final static String SCREENSHOTS_DIR = "screenshots";
@@ -41,6 +43,9 @@ public class ScreenshotTaker implements View.OnTouchListener {
 
     private ArrayList<Coordinates> touches = new ArrayList<Coordinates>();
 
+    private ScreenshotTaker(){}
+
+    //TODO: remove constructor
     public ScreenshotTaker(Session session, Activity activity) {
         this.session = session;
         this.activity = activity;
@@ -48,44 +53,6 @@ public class ScreenshotTaker implements View.OnTouchListener {
         takeScreenshot(-1,-1);
     }
 
-/*
-    /**
-     *
-     * TODO: remove me if not needed anymore
-     * @param activity
-     * @param shotsPerSecond
-     * @param count
-     * @param root
-     */
-    /*
-    public void takeContinuousScreenshots(final Activity activity, final int shotsPerSecond,
-                                          final int count, final boolean root){
-        Runnable r = new Runnable() {
-            long sleeptime = 1000/shotsPerSecond;
-            @Override
-            public void run() {
-
-                for(int i = 0; i < count; i++){
-                    if(root){
-                        takeScreenshotRoot();
-                    } else {
-                        //takeScreenshot();
-                    }
-                    try {
-                        Thread.sleep(sleeptime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                activity.runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(activity, "Screenshot recording finished", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        };
-        new Thread(r).start();
-    }*/
 
     public void takeScreenshot(final float x, final float y) {
         /*
@@ -232,7 +199,6 @@ public class ScreenshotTaker implements View.OnTouchListener {
             default: break;
         }
 
-
         return false;
     }
 
@@ -242,6 +208,38 @@ public class ScreenshotTaker implements View.OnTouchListener {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    @Override
+    public void startCapture() {
+
+    }
+
+    @Override
+    public void stopCapture() {
+
+    }
+
+    @Override
+    public void pauseCapture() {
+
+    }
+
+    @Override
+    public void resumeCapture() {
+
+    }
+
+    @Override
+    public boolean isCapturing() {
+        return false;
+    }
+
+    public static ScreenshotTaker getInstance() {
+        if(instance == null){
+            instance = new ScreenshotTaker();
+        }
+        return instance;
     }
 
 
@@ -286,7 +284,6 @@ public class ScreenshotTaker implements View.OnTouchListener {
         public void setY(int y) {
             this.y = y;
         }
-
 
     }
 

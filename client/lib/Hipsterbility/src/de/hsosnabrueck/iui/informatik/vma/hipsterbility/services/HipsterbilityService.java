@@ -3,9 +3,13 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.services;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import de.hsosnabrueck.iui.informatik.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
 
 /**
@@ -14,8 +18,14 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivi
  */
 public class HipsterbilityService extends Service {
 
+    Context context;
+    SharedPreferences prefs;
+    SharedPreferences sharedPref ;
 
     public HipsterbilityService() {
+        context = Hipsterbility.getInstance().getContext();
+//        prefs = context.getSharedPreferences(Hipsterbility.PREFS_NAME,MODE_PRIVATE);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(Hipsterbility.getInstance().getContext());
     }
 
     @Override

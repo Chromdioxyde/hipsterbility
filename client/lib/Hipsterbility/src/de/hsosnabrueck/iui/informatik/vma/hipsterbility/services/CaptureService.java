@@ -1,5 +1,6 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.services;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -11,11 +12,9 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.WindowManager;
+import android.view.*;
 import de.hsosnabrueck.iui.informatik.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 
@@ -38,6 +37,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     private Camera camera = null;
     private MediaRecorder mediaRecorder = null;
     private int cameraNumber;
+    private Activity activity;
 
 
     public CaptureService(){
@@ -47,6 +47,7 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     @Override
     public void onCreate() {
         super.onCreate();
+        this.activity = Hipsterbility.getInstance().getActivity();
         // Start foreground service to avoid unexpected kill
         Intent intent = new Intent();
         intent.setAction(HipsterbilityBroadcastReceiver.ACTION_STOP_CAPTURE);
@@ -84,9 +85,13 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
         cameraNumber = i;
 
         camera = Camera.open(cameraNumber);
-        //TODO: follow display rotation
+       /*
+       // set Rotation for portrait display orientation
+        // TODO follow display orientation on change
         camera.setDisplayOrientation(270);
         camera.getParameters().setRotation(270);
+        */
+        setCameraDisplayOrientation(camera);
         camera.unlock();
         surfaceView.getHolder().addCallback(this);
 
@@ -150,51 +155,37 @@ public class CaptureService extends Service implements SurfaceHolder.Callback{
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {}
 
 
-//    private String getOuputFileName(){
-//        return Environment.getExternalStorageDirectory()
-//                + File.separator
-//                + Hipsterbility.BASE_DIR
-//                + File.separator
-//                + VIDEOS_DIR
-//                + File.separator
-//                + sessionId
-//                + File.separator
-//                + System.currentTimeMillis()
-//                + ".mp4";
-//    }
+    private void setCameraDisplayOrientation(android.hardware.Camera camera) {
+        android.hardware.Camera.CameraInfo info =
+                new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo(cameraNumber, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
 
-//    public static void setCameraDisplayOrientation(Activity activity,
-//                                                   int cameraId, android.hardware.Camera camera) {
-//        android.hardware.Camera.CameraInfo info =
-//                new android.hardware.Camera.CameraInfo();
-//        android.hardware.Camera.getCameraInfo(cameraId, info);
-//        int rotation = activity.getWindowManager().getDefaultDisplay()
-//                .getRotation();
-//        int degrees = 0;
-//        switch (rotation) {
-//            case Surface.ROTATION_0: degrees = 0; break;
-//            case Surface.ROTATION_90: degrees = 90; break;
-//            case Surface.ROTATION_180: degrees = 180; break;
-//            case Surface.ROTATION_270: degrees = 270; break;
-//        }
-//
-//        int result;
-//        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-//            result = (info.orientation + degrees) % 360;
-//            result = (360 - result) % 360;  // compensate the mirror
-//        } else {  // back-facing
-//            result = (info.orientation - degrees + 360) % 360;
-//        }
-//        camera.setDisplayOrientation(result);
-//    }
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        setDisplayOrientation(camera, result);
+    }
 
-//    protected void setDisplayOrientation(Camera camera, int angle) {
-//        Method downPolymorphic;
-//        try {
-//            downPolymorphic = camera.getClass().getMethod("setDisplayOrientation", new Class[]{int.class});
-//            if (downPolymorphic != null)
-//                downPolymorphic.invoke(camera, new Object[]{angle});
-//        } catch (Exception e1) {
-//        }
-//    }
+    protected void setDisplayOrientation(Camera camera, int angle) {
+        Method downPolymorphic;
+        try {
+            downPolymorphic = camera.getClass().getMethod("setDisplayOrientation", new Class[]{int.class});
+            if (downPolymorphic != null)
+                downPolymorphic.invoke(camera, new Object[]{angle});
+        } catch (Exception e1) {
+        }
+    }
 }

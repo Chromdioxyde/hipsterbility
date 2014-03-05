@@ -12,7 +12,17 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stop Capture"
-            android:id="@+id/button" android:layout_gravity="right"/>
+            android:text="Open List View"
+            android:id="@+id/button_open_list_view" android:layout_gravity="center_horizontal"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Open RSS Feed Activity"
+            android:id="@+id/button_open_rss_feed" android:layout_gravity="center_horizontal"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Alert Dialog"
+            android:id="@+id/button_show_alert_dialog" android:layout_gravity="center_horizontal"/>
 </LinearLayout>
 

@@ -29,6 +29,7 @@ public class Hipsterbility {
     private static Hipsterbility instance = new Hipsterbility();
     //Base dir for stored files on SD-Card
     public static final String BASE_DIR = "hipsterbility";
+    public static final String PREFS_NAME = Hipsterbility.class.getName();
 
     //TODO: get this from server, somehow
     public static final int USER_ID = 1;
@@ -117,5 +118,7 @@ public class Hipsterbility {
     }
 
 
-
+    public Context getContext() {
+        return context;
+    }
 }
