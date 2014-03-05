@@ -123,7 +123,12 @@ app.use(function(req, res) {
 // -------------------------------------------------------
 
 // simple test route
-app.get('/ping/?', frontend.pong);
+app.get('/ping/?', function(req, res) {
+    res.status(200);
+    res.send('OK');
+});
+
+
 
 // session API
 app.get('/:user_id/sessions/?', sessions.all); // get list of sessions
