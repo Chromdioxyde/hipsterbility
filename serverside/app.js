@@ -46,6 +46,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // passport strategy setup
 passport.use(new LocalStrategy(
 	function(username, password, done) {
+        console.log(username);
+
 		// implement authentication mechanism
 		// TODO: fail checks before building query
 		var qstr = "SELECT * FROM users WHERE name = '" + username + "'";
@@ -86,13 +88,31 @@ app.get('/?', frontend.index);
 app.get('/about/?', frontend.about);
 app.get('/login/?', frontend.login);
 
-// validates a login
-// TODO create wrappe class for passport (auth handler e.g)
-//app.post('/auth/?', passport.authenticate('local', {successRedirect: '/auth' ,failureRedirect: '/login'}));
 /**
  *
  */
+app.get('/web-auth/?', function(req, res) {
+
+    if (req.user != undefined) {
+        res.redirect('/'+ req.user.idusers + '/admin');
+    } else {
+        res.redirect('/login');
+    }
+
+});
+
+/**
+ * validates a login using passportjs
+ * TODO create wrappe class for passport (auth handler e.g)
+ */
+app.post('/web-auth/?', passport.authenticate('local', {successRedirect: '/web-auth' ,failureRedirect: '/login'}));
+
+/**
+ * development authentication mode for mobile app
+ */
 app.post('/auth/?', function (req, res) {
+
+   console.log(req.body);
 
    if( req.body.name != undefined && req.body.name != '') {
 
@@ -117,16 +137,6 @@ app.post('/auth/?', function (req, res) {
        res.status(400);
        res.send('Du weißt nicht wer du bist, oder du kennst dein Passwort nicht!');
    }
-});
-
-app.get('/auth/?', function(req, res) {
-
-	if (req.user != undefined) {
-		res.redirect('/'+ req.user.idusers + '/admin');
-	} else {
-		res.redirect('/login');
-	}
-
 });
 
 // admin pages
