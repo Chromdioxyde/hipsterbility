@@ -88,7 +88,37 @@ app.get('/login/?', frontend.login);
 
 // validates a login
 // TODO create wrappe class for passport (auth handler e.g)
-app.post('/auth/?', passport.authenticate('local', {successRedirect: '/auth' ,failureRedirect: '/login'}));
+//app.post('/auth/?', passport.authenticate('local', {successRedirect: '/auth' ,failureRedirect: '/login'}));
+/**
+ *
+ */
+app.post('/auth/?', function (req, res) {
+
+   if( req.body.name != undefined && req.body.name != '') {
+
+       var qstr = 'SELECT idusers AS "id" FROM users WHERE name = "' + req.body.name + '" AND password = "' + req.body.password + '" AND active = 1';
+
+       console.log(qstr);
+
+       var query = new Query;
+
+       query.execute(qstr, '', function(rows) {
+           console.log(rows);
+
+           if (rows.length == 1) {
+               res.status(200);
+               res.send(rows[0]);
+           } else {
+               res.status(400);
+               res.send('Du weißt nicht wer du bist, oder du kennst dein Passwort nicht!'); // TODO sth more useful
+           }
+       });
+   } else {
+       res.status(400);
+       res.send('Du weißt nicht wer du bist, oder du kennst dein Passwort nicht!');
+   }
+});
+
 app.get('/auth/?', function(req, res) {
 
 	if (req.user != undefined) {
@@ -123,7 +153,12 @@ app.use(function(req, res) {
 // -------------------------------------------------------
 
 // simple test route
-app.get('/ping/?', frontend.pong);
+app.get('/ping/?', function(req, res) {
+    res.status(200);
+    res.send('OK');
+});
+
+
 
 // session API
 app.get('/:user_id/sessions/?', sessions.all); // get list of sessions
@@ -169,6 +204,9 @@ app.post('/:user_id/:session_id/todos/:todo_id/tasks/?', tasks.post);
 app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.put);
 
 app.get('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.get);
+
+// users API
+app.post('/users/')
 
 // -------------------------------------------------------
 

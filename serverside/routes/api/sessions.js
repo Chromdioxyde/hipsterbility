@@ -59,7 +59,7 @@ exports.put = function(req, res) {
 		qstr += ' name = ' + req.params.name;
 	} else if (req.body.finished == '1' || req.body.finished == 1) {
 		// set finished
-
+        console.log('fin requested');
         var conv = new Converter;
 
         conv.createResult(req.params.user_id, req.params.session_id, function() {
