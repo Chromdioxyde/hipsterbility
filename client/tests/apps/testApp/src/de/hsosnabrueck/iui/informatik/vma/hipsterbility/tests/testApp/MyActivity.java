@@ -33,14 +33,6 @@ public class MyActivity extends Activity {
 
         //Select a specific button to bundle it with the action you want
         Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Hipsterbility.getInstance().stopCapture();
-            }
-
-        });
 
     }
 }
