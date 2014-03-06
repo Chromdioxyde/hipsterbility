@@ -155,6 +155,9 @@ Converter.prototype.createResult = function(user, session, callback) {
 
             var stream = avconv(paramProc);
 
+            // debug purposes: show converting state in node terminal
+            stream.pipe(process.stdout);
+
             stream.once('end', function(exitCode, signal){
 
                 if (finCount == paramDict.length-1) {
@@ -194,6 +197,9 @@ Converter.prototype.createResult = function(user, session, callback) {
 
                         var stream = avconv(params);
 
+                        // debug purposes: show converting state in node terminal
+                        stream.pipe(process.stdout);
+
                         stream.once('end', function(exitCode, signal) {
 
                             // errorhandling
@@ -228,6 +234,9 @@ Converter.prototype.createResult = function(user, session, callback) {
 
                                 var stream = avconv(params);
 
+                                // debug purposes: show converting state in node terminal
+                                stream.pipe(process.stdout);
+
                                 stream.once('end', function(exitCode, signal) {
 
 
@@ -244,7 +253,7 @@ Converter.prototype.createResult = function(user, session, callback) {
 
                                     var stream = avconv(params);
 
-                                    //stream.pipe(process.stdout);
+                                    stream.pipe(process.stdout);
 
                                     stream.once('end', function(exitCode, signal) {
                                         console.log('all fin '+ exitCode );
