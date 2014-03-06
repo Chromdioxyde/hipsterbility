@@ -35,7 +35,7 @@ exports.put = function(req, res) {
 
         var qstr = "UPDATE tasks SET done = " + req.body.isDone + ' WHERE todos_idtodos = ' + req.params.todo_id;
 
-        console.log(qstr);
+        //console.log(qstr);
 
         var query = new Query;
 

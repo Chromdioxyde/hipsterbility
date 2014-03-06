@@ -16,7 +16,7 @@ exports.all = function(req, res) {
  */
 exports.get = function(req, res) {
 	var query = new Query;
-	qstr = 'SELECT * FROM todos WHERE sessions_idsessions = ' + req.params.session_id + ' AND idtodos =' + req.params.todo_id;
+	qstr = "SELECT * FROM todos WHERE sessions_idsessions = " + req.params.session_id + ' AND idtodos = ' + req.params.todo_id;
 	query.execute(qstr, '', function(rows) {
 		res.send(rows);
 	});
@@ -48,11 +48,11 @@ exports.put = function(req, res) {
 
         var query = new Query;
 
-        console.log(qstr);
+        //console.log(qstr);
 
         query.execute(qstr, '', function(rows) {
 
-            console.log(rows);
+          //  console.log(rows);
 
             if( rows.affectedRows == 1) {
 
