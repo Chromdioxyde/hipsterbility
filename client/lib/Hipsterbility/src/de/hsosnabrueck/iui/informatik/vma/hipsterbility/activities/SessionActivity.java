@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import de.hsosnabrueck.iui.informatik.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
@@ -28,6 +29,8 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -50,7 +53,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     private SessionManager sessionManager;
     private ArrayList<Session> sessions;
     //TODO improve user management
-    private User user = new User(1, "albert","wustsalat");
+    private User user;// = new User(1, "albert","wustsalat");
     private AlertDialog alertDialog;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -63,14 +66,15 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 Integer.valueOf(prefs.getString(getString(R.string.pref_key_port), "3000")));
         ActionBar ab = this.getActionBar();
         if(ab != null){
-            ab.setTitle(getString(R.string.sessions_for_user) + " " + user.getName());
+            ab.setTitle(getString(R.string.sessions_for_user));
             ab.setSubtitle(getString(R.string.choose_session));
         }
         setContentView(R.layout.session_activity_layout);
         this.listView = (ListView) findViewById(R.id.sessionslistView);
 
-        Log.d(TAG, "User ID = " + user.getId());
-        getSessionsFromServer();
+
+//        getSessionsFromServer();
+        getUserIdFromServer();
     }
 
     private void displaySessions(){
@@ -100,9 +104,84 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                     .show();
     }
 
+    public void getUserIdFromServer(){
+        final String username = prefs.getString(getString(R.string.pref_key_user_name), "");
+        final String password = prefs.getString(getString(R.string.pref_key_password), "");
+        if(username.equals("") || password.equals("")){
+            Toast.makeText(this, R.string.toast_username_or_password_missing, Toast.LENGTH_LONG).show();
+            return;
+        }
+        RequestParams params = new RequestParams();
+        params.add("name", username);
+        params.add("password", password);
+        HipsterbilityRestClient.post("auth/", params, new JsonHttpResponseHandler() {
+
+            private ProgressDialog progressDialog;
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                Resources res = getResources();
+                showProgressDialog(res.getString(R.string.authentication_user), res.getString(R.string.authentication_user_message));
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                dismissProgressDialog();
+            }
+
+            @Override
+            public void onSuccess(JSONObject userId) {
+                try {
+                    int id = userId.getInt("id");
+                    Log.d(TAG, "User ID = " + id);
+                    user = new User(id, username, password);
+                    getSessionsFromServer();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } finally {
+                    dismissProgressDialog();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
+                super.onFailure(statusCode, headers, responseBody, e);
+                Log.d(TAG, "GET Sessions request failed: " + e.getMessage());
+                alertDialog = new AlertDialog.Builder(context)
+                        .setTitle(getString(R.string.alert_title_server_connection_failed))
+                        .setMessage(getString(R.string.alert_message_server_connection_failed))
+                        .setPositiveButton(R.string.open_settings, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                openSettings();
+                            }
+                        })
+                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                stopTesting();
+                            }
+                        })
+                        .setIcon(R.drawable.ic_alert_dialog)
+                        .show();
+            }
+
+            private void showProgressDialog(String title, String message) {
+                progressDialog = ProgressDialog.show(context, title, message);
+            }
+
+            private void dismissProgressDialog() {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            }
+        });
+    }
+
     public void getSessionsFromServer(){
 
-//        if(prefs.getString(SettingsActivity))
         HipsterbilityRestClient.get(user.getId() + "/sessions", null, new JsonHttpResponseHandler() {
 
             private ProgressDialog progressDialog;
@@ -219,7 +298,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     @Override
     protected void onResume() {
         super.onResume();
-        getSessionsFromServer();
+//        getSessionsFromServer();
     }
 
 

@@ -63,14 +63,7 @@ public class HipsterbilityRestClient {
         }
     };
 
-    private static AsyncHttpClient client = createHTTPClient();
-
-    private static AsyncHttpClient createHTTPClient() {
-        AsyncHttpClient asyncHttpClient = new AsyncHttpClient(PORT);
-        asyncHttpClient.setMaxConnections(DEFAULT_MAX_CONNECTIONS);
-        asyncHttpClient.setMaxRetriesAndTimeout(MAX_RETRIES, TIMEOUT);
-        return asyncHttpClient;
-    }
+    private static AsyncHttpClient client;
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         Log.d(TAG, "GET: " + getAbsoluteUrl(url));
@@ -102,6 +95,15 @@ public class HipsterbilityRestClient {
 
     public static void setServer(String server, int port){
         BASE_URL = "http://"+server+"/";
-        client = new AsyncHttpClient(port);
+        PORT = port;
+        client = createHTTPClient();
     }
+
+    private static AsyncHttpClient createHTTPClient() {
+        AsyncHttpClient asyncHttpClient = new AsyncHttpClient(PORT);
+        asyncHttpClient.setMaxConnections(DEFAULT_MAX_CONNECTIONS);
+        asyncHttpClient.setMaxRetriesAndTimeout(MAX_RETRIES, TIMEOUT);
+        return asyncHttpClient;
+    }
+
 }

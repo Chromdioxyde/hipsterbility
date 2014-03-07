@@ -45,10 +45,7 @@ public class Hipsterbility {
      * It uses default values.
      */
 
-    private Hipsterbility(){
-        //TODO: remove after testing
-        HipsterbilityRestClient.setMaxConnections(1);
-    }
+    private Hipsterbility(){}
 
 
 
