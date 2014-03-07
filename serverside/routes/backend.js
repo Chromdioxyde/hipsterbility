@@ -5,6 +5,7 @@ var Query = require('../classes/query');
  */
 exports.index = function(req, res) {
 
+    // TODO check if user exists and redirect
 	res.render('backend/admin', {type: 'backend', id_user: req.user.idusers});
 	
 }

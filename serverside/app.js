@@ -144,16 +144,16 @@ app.get('/:user_id/admin', backend.index);
 app.get('/:user_id/admin/sessions/?', backend.sessions);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
 
-// test page TODO delete route!
-app.get('/test/db_test/?', function(req, res) {
-	
-	var Query = require('./classes/query');
-	var q = new Query();
-	
-	q.test(function(rows) {
-			res.send(rows);
-	});
-});
+//// test page TODO delete route!
+//app.get('/test/db_test/?', function(req, res) {
+//
+//	var Query = require('./classes/query');
+//	var q = new Query();
+//
+//	q.test(function(rows) {
+//			res.send(rows);
+//	});
+//});
 
 // error pages
 app.use(function(req, res) {
