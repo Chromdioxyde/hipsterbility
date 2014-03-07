@@ -3,36 +3,47 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/settings_server_group_title"
-        android:key="settings_kes_server_settings">
+        android:key="pref_key_server_settings">
         <EditTextPreference
-            android:key="pref_key_server"
+            android:key="@string/pref_key_server"
             android:summary="@string/pref_summary_server_name"
             android:title="@string/pref_title_server_name"
             android:defaultValue="" />
-        <Preference android:title="@string/pref_title_discover_server"
-                    android:key="pref_key_button_discover_server"
-                    android:summary="This will act like a button"/>
+        <Preference
+            android:title="@string/pref_title_test_server"
+            android:key="@string/pref_key_button_test_server"
+            android:summary="@string/pref_summary_test_server"/>
         <EditTextPreference
-            android:key="pref_key_port"
+            android:key="@string/pref_key_port"
             android:summary="@string/pref_summary_server_port"
             android:title="@string/pref_title_server_port"
             android:defaultValue="3000"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
+        <EditTextPreference
+            android:key="@string/pref_key_max_connection"
+            android:title="@string/pref_title_max_connections"
+            android:summary="@string/pref_summary_max_connections"
+            android:inputType="numberDecimal"
+            android:defaultValue="5" />
     </PreferenceCategory>
     <PreferenceCategory
             android:title="@string/settings_user_group_title"
-            android:key="pref_key_storage_settings">
+            android:key="pref_key_user_settings">
         <EditTextPreference
-                android:key="pref_key_user_name"
-                android:dependency="pref_key_server"
+                android:key="@string/pref_key_user_name"
                 android:summary="@string/pref_summary_user_name"
                 android:title="@string/pref_title_user_name"
                 android:defaultValue=""
                 android:inputType="text"/>
-        <Preference
-                android:key="pref_key_password"
-                android:dependency="pref_key_user_name"
+        <EditTextPreference
+                android:key="@string/pref_key_password"
+                android:dependency="@string/pref_key_user_name"
                 android:summary="@string/pref_summary_password"
-                android:title="@string/pref_title_password" />
+                android:title="@string/pref_title_password"
+                android:inputType = "textPassword"/>
     </PreferenceCategory>
+    <CheckBoxPreference
+            android:key="@string/pref_key_enable_root"
+            android:title="@string/pref_title_enable_root"
+            android:summary="@string/pref_summary_enable_root" />
 </PreferenceScreen>

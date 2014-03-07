@@ -87,13 +87,6 @@ public class AudioCaptureModule implements CaptureModule{
         return false;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 
-    //================================================================================
-    // Private Methods
-    //================================================================================
 
 }

@@ -12,6 +12,9 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 
 /**
  * Created by Albert Hoffmann on 23.02.14.
@@ -20,10 +23,13 @@ import java.lang.reflect.Type;
 public class HipsterbilityRestClient {
 
     private final static String TAG = HipsterbilityRestClient.class.getName();
+    private static final int MAX_RETRIES = 1;
+    private static final int TIMEOUT = 10000;
     //TODO: make this changeable in app
-    private static final int PORT = 3000;
+    private static int PORT;// = 3000;
     //private static final String BASE_URL = "http://192.168.2.112/";
-    private static final String BASE_URL = "http://192.168.43.67/";
+    private static String BASE_URL;// = "http://192.168.43.67/";
+    private static final int DEFAULT_MAX_CONNECTIONS = 5;
 
     /**
      * Type adapter for GSON to also read 0 and 1 integers as booleans where needed
@@ -57,7 +63,14 @@ public class HipsterbilityRestClient {
         }
     };
 
-    private static AsyncHttpClient client = new AsyncHttpClient(PORT);
+    private static AsyncHttpClient client = createHTTPClient();
+
+    private static AsyncHttpClient createHTTPClient() {
+        AsyncHttpClient asyncHttpClient = new AsyncHttpClient(PORT);
+        asyncHttpClient.setMaxConnections(DEFAULT_MAX_CONNECTIONS);
+        asyncHttpClient.setMaxRetriesAndTimeout(MAX_RETRIES, TIMEOUT);
+        return asyncHttpClient;
+    }
 
     public static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         Log.d(TAG, "GET: " + getAbsoluteUrl(url));
@@ -80,5 +93,15 @@ public class HipsterbilityRestClient {
 
     public static void setMaxConnections(int connections){
         client.setMaxConnections(connections);
+    }
+
+    public static String testConnectionToServer() {
+//        TODO: implement
+        return null;
+    }
+
+    public static void setServer(String server, int port){
+        BASE_URL = "http://"+server+"/";
+        client = new AsyncHttpClient(port);
     }
 }

@@ -19,5 +19,29 @@
     <string name="pref_title_user_name">Username</string>
     <string name="pref_summary_password">Password for the user above.</string>
     <string name="pref_title_password">Password</string>
-    <string name="pref_title_discover_server">Try to discover the Server</string>
+    <string name="pref_title_test_server">Test Server Settings</string>
+    <string name="loading_sessions">Retreiving Sessions from Server</string>
+    <string name="loading_message">Loading...</string>
+    <string name="pref_title_enable_root">Enable Root features</string>
+    <string name="pref_summary_enable_root">This enables native methods for taking screenshots and record the screen as
+        a video on KitKat (Android 4.4) devices
+    </string>
+    <string name="pref_title_max_connections">Maximum number of connections to the server</string>
+    <string name="pref_summary_max_connections">Sets the maximum number of HTTP connections to the server. This limits
+        the number of files uploaded simultaneously if the server is running on a low performance machine.
+    </string>
+    <string name="pref_key_server">server</string>
+    <string name="pref_key_port">port</string>
+    <string name="pref_key_max_connection">max_connections</string>
+    <string name="pref_key_user_name">user</string>
+    <string name="pref_key_password">password</string>
+    <string name="pref_key_enable_root">root</string>
+    <string name="pref_summary_test_server">Tries to connect to the provided server. </string>
+    <string name="alert_title_server_connection_failed">Connction to server failed</string>
+    <string name="alert_message_server_connection_failed">Check settings for server address and port, as well as user
+        credential correctness.
+    </string>
+    <string name="open_settings">Open Settings</string>
+    <string name="cancel">Cancel and stop testing.</string>
+    <string name="pref_key_button_test_server">test_connection</string>
 </resources>

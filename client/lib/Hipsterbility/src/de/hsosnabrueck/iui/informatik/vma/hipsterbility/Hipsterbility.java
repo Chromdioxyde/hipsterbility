@@ -58,7 +58,7 @@ public class Hipsterbility {
 
     public void stopCapture() {
         context.stopService(new Intent(context, CaptureService.class));
-        ScreenRecorder.getInstance().stopRecording();
+        ScreenRecorder.getInstance().stopCapture();
         startService();
     }
 
