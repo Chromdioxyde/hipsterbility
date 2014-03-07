@@ -64,6 +64,8 @@ exports.put = function(req, res) {
 
         conv.createResult(req.params.user_id, req.params.session_id, function() {
             // TODO  send 409 on finish not successfully
+            console.log('here comes the callback');
+            
             // successfully is when logs and captures are already uploaded/added to the session.
             qstr += ' name = ' + 1;
 

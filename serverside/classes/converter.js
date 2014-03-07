@@ -90,12 +90,12 @@ Converter.prototype.addScreenshot = function(screenshot) {
 
 /**
  *
- * creates a video file from screenshots
+ * creates a video file from screenshots, input video
  *  
  *
  */
 Converter.prototype.createResult = function(user, session, callback) {
-
+    callback();
     // parameters for each image
     var paramDict = [];
     var input = './uploads/' + user + '/'+ session +'/captures/';
@@ -248,7 +248,7 @@ Converter.prototype.createResult = function(user, session, callback) {
 
                                     stream.once('end', function(exitCode, signal) {
                                         console.log('all fin '+ exitCode );
-                                        callback();
+
                                     });
 
 
