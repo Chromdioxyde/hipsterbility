@@ -17,7 +17,7 @@ exports.index = function(req, res) {
 exports.sessions = function(req, res) {
 	
 	// get all sessions 
-	qstr = "SELECT * FROM sessions WHERE users_idusers = " + req.user.idusers;
+	var qstr = "SELECT * FROM sessions WHERE users_idusers = " + req.user.idusers;
 
 	var query = new Query;
 
@@ -34,15 +34,50 @@ exports.sessions = function(req, res) {
 	});
 }
 
+/**
+ *
+ * @param req
+ * @param res
+ */
 exports.session = function(req, res) {
 
 	console.log(req.params);
 
-	res.render('backend/session', {type: 'backend', id_user: req.user.idusers, session: null });
+
+    var qstr = 'SELECT * FROM sessions WHERE users_idusers = '
+        + req.params.user_id + ' AND idsessions = ' + req.params.id;
+
+    var query = new Query;
+    // get session
+
+    query.execute(qstr, '', function (rows) {
+        if( rows.length == 1) {
+
+            var session = rows[0];
+            qstr = 'SELECT * FROM todos WHERE todos.sessions_idsessions = ' + req.params.id;
+
+            console.log(qstr);
+
+            // get todos
+            query.execute(qstr, '', function (rows) {
+                console.log(rows);
+
+                if ( rows.length > 0) {
+
+                    var todos = rows;
+
+                    res.render('backend/session', {type: 'backend', id_user: req.params.user_id, session: session, todos: todos});
+
+                }
+            });
+        }
+    });
 }
 
-/*`
- * renders web view for a new session
+/**
+ *
+ * @param req
+ * @param res
  */
 exports.newSession = function(req, res) {
 	

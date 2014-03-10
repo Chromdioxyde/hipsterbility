@@ -168,8 +168,6 @@ app.get('/ping/?', function(req, res) {
     res.send('OK');
 });
 
-
-
 // session API
 app.get('/:user_id/sessions/?', sessions.all); // get list of sessions
 app.get('/:user_id/sessions/:session_id/?', sessions.get); // get specific session
@@ -216,7 +214,7 @@ app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.put);
 app.get('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.get);
 
 // users API
-app.post('/users/')
+app.post('/users/');
 
 // -------------------------------------------------------
 
