@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import de.hsosnabrueck.iui.informatik.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters.SessionListAdapter;
@@ -53,7 +53,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     private SessionManager sessionManager;
     private ArrayList<Session> sessions;
     //TODO improve user management
-    private User user;// = new User(1, "albert","wustsalat");
+    private User user;
     private AlertDialog alertDialog;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +73,9 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
         this.listView = (ListView) findViewById(R.id.sessionslistView);
 
 
-//        getSessionsFromServer();
-        getUserIdFromServer();
+//        loadSessionsFromServer();
+//        loadUserIdFromServer();
+        loadDataFromServer();
     }
 
     private void displaySessions(){
@@ -84,6 +85,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
 
         // Add listener to ListView for actions on selected item
         listView.setOnItemClickListener(this);
+        listView.setSelector(R.drawable.session_list_selector);
 
     }
 
@@ -104,7 +106,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                     .show();
     }
 
-    public void getUserIdFromServer(){
+    public void loadUserIdFromServer(){
         final String username = prefs.getString(getString(R.string.pref_key_user_name), "");
         final String password = prefs.getString(getString(R.string.pref_key_password), "");
         if(username.equals("") || password.equals("")){
@@ -137,7 +139,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                     int id = userId.getInt("id");
                     Log.d(TAG, "User ID = " + id);
                     user = new User(id, username, password);
-                    getSessionsFromServer();
+                    loadSessionsFromServer();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } finally {
@@ -149,6 +151,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
                 super.onFailure(statusCode, headers, responseBody, e);
                 Log.d(TAG, "GET Sessions request failed: " + e.getMessage());
+                dismissProgressDialog();
                 alertDialog = new AlertDialog.Builder(context)
                         .setTitle(getString(R.string.alert_title_server_connection_failed))
                         .setMessage(getString(R.string.alert_message_server_connection_failed))
@@ -180,7 +183,13 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
         });
     }
 
-    public void getSessionsFromServer(){
+    private void loadDataFromServer(){
+        if(user == null){
+            loadUserIdFromServer();
+        }
+    }
+
+    private void loadSessionsFromServer(){
 
         HipsterbilityRestClient.get(user.getId() + "/sessions", null, new JsonHttpResponseHandler() {
 
@@ -220,6 +229,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
                 super.onFailure(statusCode, headers, responseBody, e);
+                dismissProgressDialog();
                 Log.d(TAG, "GET Sessions request failed: " + e.getMessage());
                 alertDialog = new AlertDialog.Builder(context)
                         .setTitle(getString(R.string.alert_title_server_connection_failed))
@@ -242,6 +252,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
 
             private void showProgressDialog(String title, String message){
                 progressDialog = ProgressDialog.show(context, title, message);
+                progressDialog.setCancelable(true);
             }
 
             private void dismissProgressDialog(){
@@ -287,20 +298,19 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             sendBroadcast(i);
             this.startActivity(intent);
         } else if (id == R.id.action_settings) {
-            // action with ID action_settings was selected
-//            Toast.makeText(this, "Settings selected", Toas
             openSettings();
+        } else if (id == R.id.action_reload_sessions){
+            reloadSessions();
         }
 
         return true;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        getSessionsFromServer();
+    private void reloadSessions() {
+        if(user != null){
+            loadSessionsFromServer();
+        }
     }
-
 
 
 }

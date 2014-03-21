@@ -1,21 +1,17 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility;
 
 import android.app.Activity;
-import android.app.Application;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.*;
-import de.hsosnabrueck.iui.informatik.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenRecorder;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.UploadManager;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
+
+import java.util.ArrayList;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
@@ -26,32 +22,33 @@ public class Hipsterbility {
 
 
 //    Activity activity; // Calling activity to get context for Service TODO: check if needed later on
-    private static Hipsterbility instance = new Hipsterbility();
+    private static Hipsterbility instance;
     //Base dir for stored files on SD-Card
     public static final String BASE_DIR = "hipsterbility";
-    public static final String PREFS_NAME = Hipsterbility.class.getName();
 
-    //TODO: get this from server, somehow
-    public static final int USER_ID = 1;
+    private ArrayList<Class> enabledActivities;
 
     private Context context;
     private Activity activity;
-    private SharedPreferences sharedPreferences;
     private Class startActivity;
     private ScreenshotTaker screenshotTaker;
+
+    //Modules
 
     /**
      * The default constructor to create a Hipsterbility object.
      * It uses default values.
      */
 
-    private Hipsterbility(){}
-
-
-
-    public static Hipsterbility getInstance(){
-        return instance;
+    private Hipsterbility(){
+        enabledActivities = new ArrayList<Class>();
     }
+
+
+
+//    public static Hipsterbility getInstance(){
+//        return instance;
+//    }
 
     public void stopCapture() {
         context.stopService(new Intent(context, CaptureService.class));
@@ -62,6 +59,7 @@ public class Hipsterbility {
 
     public Hipsterbility enableTesting(Activity activity) {
         //TODO usefull stuff
+        enabledActivities.add(activity.getClass());
         this.activity = activity;
         this.context = activity.getApplicationContext();
         //TODO remove after testing
@@ -76,7 +74,10 @@ public class Hipsterbility {
         context.startService(i);
     }
 
-
+    public static Hipsterbility getInstance(){
+        if(instance == null) instance = new Hipsterbility();
+        return instance;
+    }
 
     public Activity getActivity() {
         return activity;
@@ -114,8 +115,17 @@ public class Hipsterbility {
         this.screenshotTaker = screenshotTaker;
     }
 
+    protected ArrayList<Class> getEnabledActivities() {
+        return enabledActivities;
+    }
+
+    protected void setEnabledActivities(ArrayList<Class> enabledActivities) {
+        this.enabledActivities = enabledActivities;
+    }
 
     public Context getContext() {
         return context;
     }
+
+
 }

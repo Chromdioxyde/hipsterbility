@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="48"
+   height="48"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="rec.svg"
+   inkscape:export-filename="E:\Users\Albert\Documents\GitHub\hipsterbility\client\lib\Hipsterbility\res\drawable\ic_overlay_rec.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3773">
+      <stop
+         style="stop-color:#ff0000;stop-opacity:1;"
+         offset="0"
+         id="stop3775" />
+      <stop
+         style="stop-color:#ff0000;stop-opacity:0;"
+         offset="1"
+         id="stop3777" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3761">
+      <stop
+         style="stop-color:#dc9d9d;stop-opacity:1;"
+         offset="0"
+         id="stop3763" />
+      <stop
+         id="stop3769"
+         offset="0.72649574"
+         style="stop-color:#ff0000;stop-opacity:1;" />
+      <stop
+         style="stop-color:#d90000;stop-opacity:0.75925928;"
+         offset="0.86324787"
+         id="stop3771" />
+      <stop
+         style="stop-color:#740000;stop-opacity:0.5;"
+         offset="1"
+         id="stop3765" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3761"
+       id="radialGradient3767"
+       cx="6.976366"
+       cy="23.156561"
+       fx="6.976366"
+       fy="23.156561"
+       r="6.0293479"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3773"
+       id="linearGradient3781"
+       x1="17.586821"
+       y1="1027.3452"
+       x2="45.864208"
+       y2="1027.3452"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.2"
+     inkscape:cx="45.327706"
+     inkscape:cy="9.6063266"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="1915"
+     inkscape:window-y="35"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1004.3622)">
+    <path
+       sodipodi:type="arc"
+       style="fill:url(#radialGradient3767);fill-opacity:1.0;stroke:none"
+       id="path2987"
+       sodipodi:cx="6.976366"
+       sodipodi:cy="23.156561"
+       sodipodi:rx="6.0293479"
+       sodipodi:ry="6.0293479"
+       d="m 13.005714,23.156561 a 6.0293479,6.0293479 0 1 1 -12.05869585,0 6.0293479,6.0293479 0 1 1 12.05869585,0 z"
+       transform="translate(0,1004.3622)" />
+    <text
+       xml:space="preserve"
+       style="font-size:19.33625792999999900px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ff0000;fill-opacity:1;stroke:#740000;font-family:Consolas;-inkscape-font-specification:Consolas;stroke-opacity:0.50196081000000004;stroke-width:0.5;stroke-miterlimit:16.4;stroke-dasharray:none"
+       x="31.664145"
+       y="1032.0848"
+       id="text2989"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2991"
+         x="31.664145"
+         y="1032.0848"
+         style="fill-opacity:1;fill:#ff0000;stroke:#740000;stroke-opacity:0.50196081000000004;stroke-width:0.5;stroke-miterlimit:16.4;stroke-dasharray:none">rec</tspan></text>
+  </g>
+</svg>

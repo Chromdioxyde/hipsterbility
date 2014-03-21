@@ -8,7 +8,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 import android.widget.Toast;
-import de.hsosnabrueck.iui.informatik.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Task;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Todo;
 

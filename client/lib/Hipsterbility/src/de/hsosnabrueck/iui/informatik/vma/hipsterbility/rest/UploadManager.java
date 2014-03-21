@@ -6,6 +6,7 @@ import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CameraCaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import org.apache.http.Header;
@@ -57,7 +58,7 @@ public class UploadManager {
         File[] subdirs = sessionDir.listFiles();
         Log.d(TAG, subdirs.toString());
         for(File f : subdirs){
-            if(f.getName().equalsIgnoreCase(CaptureService.VIDEOS_DIR)){
+            if(f.getName().equalsIgnoreCase(CameraCaptureModule.VIDEOS_DIR)){
                 cameraFilesList = new ArrayList<File>(Arrays.asList(f.listFiles()));
                 fileTotalCount += cameraFilesList.size();
             } else if (f.getName().equalsIgnoreCase(ScreenshotTaker.SCREENSHOTS_DIR)){

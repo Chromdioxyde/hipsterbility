@@ -1,14 +1,16 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import de.hsosnabrueck.iui.informatik.R;
+import android.widget.Toast;
+import com.loopj.android.http.TextHttpResponseHandler;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
-
-import java.util.prefs.PreferenceChangeListener;
 
 /**
  * Created by Albert Hoffmann on 26.02.14.
@@ -16,6 +18,7 @@ import java.util.prefs.PreferenceChangeListener;
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     SharedPreferences prefs;
+    ProgressDialog progressDialog;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -29,28 +32,81 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference arg0) {
-                discoverServer();
+                testServerConnection();
                 return true;
+            }
+        });
+        Preference rootFeatures = findPreference(getString(R.string.pref_key_enable_root));
+        if(rootFeatures!=null && !Util.isDeviceRooted()){
+            rootFeatures.setEnabled(false);
+        }
+    }
+
+    private void testServerConnection() {
+        showProgressDialog();
+        HipsterbilityRestClient.get("ping", null, new TextHttpResponseHandler(){
+            @Override
+            public void onFailure(String responseBody, Throwable error) {
+                super.onFailure(responseBody, error);
+                showToast(getString(R.string.msg_server_not_found) + ": " + error.getMessage());
+            }
+
+            @Override
+            public void onSuccess(int statusCode, org.apache.http.Header[] headers, String responseBody) {
+                super.onSuccess(statusCode, headers, responseBody);
+                showToast(getString(R.string.msg_server_found) + " Response from Server: " + statusCode);
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                dismissProgressDialog();
             }
         });
     }
 
-    private void discoverServer() {
-        SharedPreferences.Editor editor = prefs.edit();
-        String server = HipsterbilityRestClient.testConnectionToServer();
-        editor.putString(getString(R.string.pref_key_server),server);
-        editor.commit();
+    private void showToast(String msg){
+        Toast.makeText(this, msg,Toast.LENGTH_LONG).show();
+    }
+
+    private void showProgressDialog(){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(true);
+        progressDialog.setMessage(getString(R.string.settings_progress_testing_server));
+        progressDialog.show();
+    }
+
+    private void dismissProgressDialog(){
+        if(progressDialog != null && progressDialog.isShowing())
+            progressDialog.dismiss();
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(getString(R.string.pref_key_server)) || key.equals(R.string.pref_key_port)) {
-//            Preference serverPref = findPreference(key);
-            // Set summary to be the user-description for the selected value
-//            serverPref.setSummary(sharedPreferences.getString(key, ""));
+        String server, port, timeout, retries, connections;
+        server = getString(R.string.pref_key_server);
+        
+
+        if (
+                key.equals(getString(R.string.pref_key_server)) ||
+                key.equals(getString(R.string.pref_key_port))
+                ){
             HipsterbilityRestClient.setServer(
                     prefs.getString(getString(R.string.pref_key_server),""),
-                    Integer.valueOf(prefs.getString(getString(R.string.pref_key_port), "3000")));
+                    prefs.getInt(getString(R.string.pref_key_port), 3000));
+        } else if (
+                key.equals(getString(R.string.pref_key_retries)) ||
+                key.equals(getString(R.string.pref_key_timeout))
+                ){
+            HipsterbilityRestClient.setMaxRetriesAndTimeout(
+                    prefs.getInt(getString(R.string.pref_key_retries), 0),
+                    prefs.getInt(getString(R.string.pref_key_timeout), 300)
+            );
+        } else if (key.equals(getString(R.string.pref_key_max_connection))){
+            HipsterbilityRestClient.setMaxConnections(
+                    prefs.getInt(getString(R.string.pref_key_max_connection), 1)
+            );
         }
     }
 }

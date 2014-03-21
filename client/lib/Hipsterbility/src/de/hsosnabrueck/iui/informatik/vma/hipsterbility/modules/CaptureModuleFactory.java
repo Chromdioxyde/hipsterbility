@@ -21,7 +21,7 @@ public class CaptureModuleFactory {
     }
 
     private static CaptureModule getCameraCaptureModule(boolean audio) {
-        CameraCapture capture = CameraCapture.getInstance();
+        CameraCaptureModule capture = CameraCaptureModule.getInstance();
         capture.setAudioEnabled(audio);
         return capture;
     }

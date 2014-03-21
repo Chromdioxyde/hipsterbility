@@ -46,7 +46,22 @@
     <string name="pref_key_button_test_server">test_connection</string>
     <string name="authentication_user">Login</string>
     <string name="authentication_user_message">Logging into the service to get sessions</string>
-    <string name="toast_username_or_password_missing">User name and/or password may not be empty. Plese provide
+    <string name="toast_username_or_password_missing">Username and/or password may not be empty. Please provide
         credentials in settings screen.
     </string>
+    <string name="action_reload">Reload</string>
+    <string name="menu_settings">Settings</string>
+    <string name="action_start_session">Start Session</string>
+    <string name="msg_server_found">Server is online</string>
+    <string name="msg_server_not_found">Connection to server could not be established. Check server address and port.
+    </string>
+    <string name="settings_progress_testing_server">Testing server connection...</string>
+    <string name="settings_advanced_group_title">Advanced Settings</string>
+    <string name="pref_key_retries">max_retries</string>
+    <string name="pref_title_retries">Maximum retries</string>
+    <string name="pref_key_timeout">timeout</string>
+    <string name="pref_title_timeout">Connection Timeout</string>
+    <string name="pref_summary_retries">Number of retries when connecting to the server. Only change if errors occur.
+    </string>
+    <string name="pref_summary_timeout">Only change on slow network connection.</string>
 </resources>

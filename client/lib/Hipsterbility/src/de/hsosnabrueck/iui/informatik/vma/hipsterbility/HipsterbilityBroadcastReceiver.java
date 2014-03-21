@@ -21,15 +21,20 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 public class HipsterbilityBroadcastReceiver extends BroadcastReceiver{
     private static final String TAG = HipsterbilityBroadcastReceiver.class.getName();
 
-    public static final String ACTION_START_SESSION = "de.hipsterbility.START_SESSION";
-    public static final String ACTION_FINISH_CAPTURE = "de.hipsterbility.FINISH_SESSION";
-    public static final String ACTION_START_CAPTURE = "de.hipsterbility.START_CAPTURE";
-    public static final String ACTION_STOP_CAPTURE = "de.hipsterbility.STOP_CAPTURE";
+    public static final String ACTION_START_SESSION = "hipsterbility.START_SESSION";
+    public static final String ACTION_FINISH_CAPTURE = "hipsterbility.FINISH_SESSION";
+    public static final String ACTION_START_CAPTURE = "hipsterbility.START_CAPTURE";
+    public static final String ACTION_STOP_CAPTURE = "hipsterbility.STOP_CAPTURE";
+    public static final String ACTION_PAUSE_CAPTURE = "hipsterbility.PAUSE_CAPTURE";
+    public static final String ACTION_RESUME_CAPTURE = "hipsterbility.RESUME_CAPTURE";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-
+        if(action == null){
+            Log.d(TAG, "Recieved null action");
+            return;
+        }
         if(action.equals(ACTION_START_CAPTURE)){
             Log.d(TAG, "Received Action: " + ACTION_START_CAPTURE);
             Activity a = Hipsterbility.getInstance().getActivity();
@@ -46,7 +51,8 @@ public class HipsterbilityBroadcastReceiver extends BroadcastReceiver{
                 st.stopScreenshots();
             }
             Hipsterbility.getInstance().stopCapture();
-            AlertDialog dialog = new AlertDialog.Builder(Hipsterbility.getInstance().getActivity())
+//            AlertDialog dialog = new AlertDialog.Builder(Hipsterbility.getInstance().getActivity())
+/*            AlertDialog dialog = new AlertDialog.Builder()
                     .setCancelable(true)
                     .setTitle("Upload data?")
                     .setPositiveButton("ok",new DialogInterface.OnClickListener() {
@@ -56,7 +62,7 @@ public class HipsterbilityBroadcastReceiver extends BroadcastReceiver{
                         }
                     })
                     .create();
-            dialog.show();
+            dialog.show();*/
 
         } else if (action.equals(ACTION_START_SESSION)){
             Log.d(TAG, "Received Action: " + ACTION_START_SESSION);

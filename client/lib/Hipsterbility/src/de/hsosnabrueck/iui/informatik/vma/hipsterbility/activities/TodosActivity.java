@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import de.hsosnabrueck.iui.informatik.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters.TodosExpandableListAdapter;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
@@ -52,7 +52,7 @@ public class TodosActivity extends Activity {
 //            session = extras.getParcelable("session");
 //        }
         setTitle(R.string.todos_title);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
         session = sessionManager.getSessionInProgress();
 
         Log.w(TAG, "Session: " + session.getId() + " " + session.getName());
@@ -135,12 +135,12 @@ public class TodosActivity extends Activity {
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
