@@ -86,26 +86,25 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         String server, port, timeout, retries, connections;
         server = getString(R.string.pref_key_server);
-        
+        port = getString(R.string.pref_key_port);
+        retries = getString(R.string.pref_key_retries);
+        timeout = getString(R.string.pref_key_timeout);
+        connections = getString(R.string.pref_key_max_connection);
 
-        if (
-                key.equals(getString(R.string.pref_key_server)) ||
-                key.equals(getString(R.string.pref_key_port))
-                ){
-            HipsterbilityRestClient.setServer(
-                    prefs.getString(getString(R.string.pref_key_server),""),
-                    prefs.getInt(getString(R.string.pref_key_port), 3000));
+        if ( key.equals(server) || key.equals(port) ){
+            HipsterbilityRestClient.setServer(prefs.getString(server,""),
+                    Integer.valueOf(prefs.getString(port, "3000")));
         } else if (
-                key.equals(getString(R.string.pref_key_retries)) ||
-                key.equals(getString(R.string.pref_key_timeout))
+                key.equals(retries) ||
+                key.equals(timeout)
                 ){
             HipsterbilityRestClient.setMaxRetriesAndTimeout(
-                    prefs.getInt(getString(R.string.pref_key_retries), 0),
-                    prefs.getInt(getString(R.string.pref_key_timeout), 300)
+                    Integer.valueOf(prefs.getString(retries, "0")),
+                    Integer.valueOf(prefs.getString(timeout, "300"))
             );
-        } else if (key.equals(getString(R.string.pref_key_max_connection))){
+        } else if (key.equals(connections)){
             HipsterbilityRestClient.setMaxConnections(
-                    prefs.getInt(getString(R.string.pref_key_max_connection), 1)
+                    Integer.valueOf(prefs.getString(connections, "1"))
             );
         }
     }
