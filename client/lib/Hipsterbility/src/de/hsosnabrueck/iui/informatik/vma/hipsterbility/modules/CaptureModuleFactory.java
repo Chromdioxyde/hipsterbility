@@ -1,13 +1,18 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
+
+import java.util.ArrayList;
 
 /**
  * Created by Albert Hoffmann on 05.03.14.
  */
 public class CaptureModuleFactory {
 
-    private static boolean root = Util.isDeviceRooted();
+    private static boolean rootAvailable = Util.isDeviceRooted();
+    private static boolean rootEnabled = false;
+    private static ArrayList<CaptureModule> captureModules;
 
     public static CaptureModule getCaptureModule(int type){
         CaptureModule module = null;
@@ -27,10 +32,19 @@ public class CaptureModuleFactory {
     }
 
     private static CaptureModule getScreenCaptureModule(){
-        if(root){
+        if(rootAvailable){
             return ScreenshotTaker.getInstance();
         }
         //TODO: change to real Class;
         return null;
+    }
+
+
+    public static ArrayList<CaptureModule> getCaptureModules() {
+        return captureModules;
+    }
+
+    public static void setRootEnabled(boolean val){
+        rootEnabled = val;
     }
 }

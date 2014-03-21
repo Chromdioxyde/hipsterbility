@@ -36,7 +36,6 @@ public class TodosActivity extends Activity {
 
     private static String TAG = TodosActivity.class.getName();
     private ArrayList<Todo> groups;
-//    private TodoManager todoManager = TodoManager.getInstance();
     private Session session;
     private SessionManager sessionManager = SessionManager.getInstace();
 
@@ -44,79 +43,10 @@ public class TodosActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.todos_activity_layout);
-//        TODO: remove clutter
-//        Intent intent = getIntent();
-//        Bundle extras = intent.getExtras();
-//        Log.w(TAG, "Extras bundle size: " + extras.size());
-//        if (extras != null) {
-//            session = extras.getParcelable("session");
-//        }
         setTitle(R.string.todos_title);
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
         session = sessionManager.getSessionInProgress();
-
         Log.w(TAG, "Session: " + session.getId() + " " + session.getName());
-       getTodosFromServer();
-    }
-
-    public void getTodosFromServer(){
-        HipsterbilityRestClient.get(session.getUser().getId() + "/" + session.getId() + "/todos", null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONArray sessions) {
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Boolean.class, HipsterbilityRestClient.booleanAsIntAdapter)
-                        .registerTypeAdapter(boolean.class, HipsterbilityRestClient.booleanAsIntAdapter)
-                        .setPrettyPrinting().create();
-                Type listType = new TypeToken<List<Todo>>() {
-                }.getType();
-                List<Todo> t = gson.fromJson(sessions.toString(), listType);
-                ArrayList<Todo> todoList = new  ArrayList<Todo>(t);
-                for(Todo tempTodo : todoList){
-                    getTasksForTodoFromServer(tempTodo);
-                }
-                session.setTodos(todoList);
-
-                displayTodos();
-                Toast.makeText(getApplicationContext(), "Todos loaded: " + t.size(), Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
-                super.onFailure(statusCode, headers, responseBody, e);
-                Toast.makeText(getApplicationContext(), "Error: " + statusCode
-                        , Toast.LENGTH_LONG)
-                        .show();
-                Log.d(TAG, "GET Todos request failed: " + e.getMessage());
-            }
-        });
-    }
-
-    public void getTasksForTodoFromServer(final Todo todo){
-        HipsterbilityRestClient.get(session.getUser().getId() + "/" + session.getId()
-                + "/todos/" + todo.getId() + "/" + "tasks", null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONArray sessions) {
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Boolean.class, HipsterbilityRestClient.booleanAsIntAdapter)
-                        .registerTypeAdapter(boolean.class, HipsterbilityRestClient.booleanAsIntAdapter)
-                        .setPrettyPrinting().create();
-                Type listType = new TypeToken<List<Task>>() {
-                }.getType();
-                List<Task> t = gson.fromJson(sessions.toString(), listType);
-                todo.setTasks(new ArrayList<Task>(t));
-                Log.d(TAG, "GET Tasks for Todo " + todo.getId() + " count: " + t.size());
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
-                super.onFailure(statusCode, headers, responseBody, e);
-                Toast.makeText(getApplicationContext(), "Error: " + statusCode
-                        , Toast.LENGTH_LONG)
-                        .show();
-                Log.d(TAG, "GET Tasks request failed: " + e.getMessage());
-            }
-        });
+        displayTodos();
     }
 
     private void displayTodos() {
@@ -133,35 +63,6 @@ public class TodosActivity extends Activity {
             listView.setAdapter(adapter);
             //            TODO: do something with selected Item
         }
-    }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }*/
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_start_session) {
-            // action with ID action_refresh was selected
-//                Toast.makeText(this, "Refresh selected", Toast.LENGTH_SHORT)
-//                        .show();
-            Intent intent = new Intent(this,Hipsterbility.getInstance().getStartActivityClass());
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            this.startActivity(intent);
-            Hipsterbility.getInstance().startSession();
-        } else if (id == R.id.action_settings) {
-            // action with ID action_settings was selected
-//                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-//                        .show();
-            Intent intent = new Intent(this,SettingsActivity.class);
-            startActivity(intent);
-        }
-
-        return true;
     }
 
 }

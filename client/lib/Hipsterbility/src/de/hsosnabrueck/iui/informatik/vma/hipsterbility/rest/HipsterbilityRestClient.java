@@ -78,6 +78,7 @@ public class HipsterbilityRestClient {
     }
 
     public static void setMaxConnections(int connections){
+        MAX_CONNECTIONS = connections;
         client.setMaxConnections(connections);
     }
 
@@ -102,7 +103,13 @@ public class HipsterbilityRestClient {
         } else {
             createHTTPClient();
         }
+    }
 
+    public static Gson getGsonBooleanWorkaround(){
+        return new GsonBuilder()
+                .registerTypeAdapter(Boolean.class, HipsterbilityRestClient.booleanAsIntAdapter)
+                .registerTypeAdapter(boolean.class, HipsterbilityRestClient.booleanAsIntAdapter)
+                .setPrettyPrinting().create();
     }
 
 }

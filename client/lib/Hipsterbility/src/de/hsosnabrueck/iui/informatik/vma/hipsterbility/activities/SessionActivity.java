@@ -23,6 +23,8 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters.SessionListAdapter;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Task;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Todo;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
@@ -39,7 +41,7 @@ import java.util.List;
 /**
  * Created by Albert Hoffmann on 17.02.14.
  * Sources: http://developer.android.com/guide/topics/ui/layout/listview.html
- *          http://www.vogella.com/tutorials/AndroidListView/article.html
+ * http://www.vogella.com/tutorials/AndroidListView/article.html
  */
 public class SessionActivity extends Activity implements AdapterView.OnItemClickListener {
 
@@ -55,30 +57,37 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     //TODO improve user management
     private User user;
     private AlertDialog alertDialog;
+    private ProgressDialog progressDialog;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.sessionManager = SessionManager.getInstace();
-        this.context=this;
+        this.context = this;
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        HipsterbilityRestClient.setServer(
-                prefs.getString(getString(R.string.pref_key_server),""),
-                Integer.valueOf(prefs.getString(getString(R.string.pref_key_port), "3000")));
+        loadSettings();
         ActionBar ab = this.getActionBar();
-        if(ab != null){
+        if (ab != null) {
             ab.setTitle(getString(R.string.sessions_for_user));
             ab.setSubtitle(getString(R.string.choose_session));
         }
         setContentView(R.layout.session_activity_layout);
         this.listView = (ListView) findViewById(R.id.sessionslistView);
-
-
-//        loadSessionsFromServer();
-//        loadUserIdFromServer();
-        loadDataFromServer();
+        loadUserIdFromServer();
     }
 
-    private void displaySessions(){
+    private void loadSettings() {
+        HipsterbilityRestClient.setServer(
+                prefs.getString(getString(R.string.pref_key_server), ""),
+                Integer.valueOf(prefs.getString(getString(R.string.pref_key_port), "3000")));
+        HipsterbilityRestClient.setMaxConnections(
+                Integer.valueOf(
+                        prefs.getString(getString(R.string.pref_key_max_connection), "1")
+                )
+        );
+
+    }
+
+    private void displaySessions() {
         sessions = this.sessionManager.getSessions();
         SessionListAdapter adapter = new SessionListAdapter(this, sessions);
         this.listView.setAdapter(adapter);
@@ -92,33 +101,23 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-        Session s = sessions.get(position);
         Intent i = new Intent(this, TodosActivity.class);
-//        i.putExtra("session",s);
-        sessionManager.setSessionInProgress(s);
+        sessionManager.setSessionInProgress(sessions.get(position));
         startActivity(i);
         this.sessionChosen = true;
-        Toast.makeText(getApplicationContext(),
-                    "Session id " + s.getId()
-                            + " - "
-                            + "Name "+ s.getName() , Toast.LENGTH_LONG)
-                    .show();
     }
 
-    public void loadUserIdFromServer(){
+    public void loadUserIdFromServer() {
         final String username = prefs.getString(getString(R.string.pref_key_user_name), "");
         final String password = prefs.getString(getString(R.string.pref_key_password), "");
-        if(username.equals("") || password.equals("")){
+        if (username.equals("") || password.equals("")) {
             Toast.makeText(this, R.string.toast_username_or_password_missing, Toast.LENGTH_LONG).show();
             return;
         }
         RequestParams params = new RequestParams();
         params.add("name", username);
         params.add("password", password);
-        HipsterbilityRestClient.post("auth/", params, new JsonHttpResponseHandler() {
-
-            private ProgressDialog progressDialog;
+        HipsterbilityRestClient.post("/auth/", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onStart() {
@@ -152,54 +151,22 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 super.onFailure(statusCode, headers, responseBody, e);
                 Log.d(TAG, "GET Sessions request failed: " + e.getMessage());
                 dismissProgressDialog();
-                alertDialog = new AlertDialog.Builder(context)
-                        .setTitle(getString(R.string.alert_title_server_connection_failed))
-                        .setMessage(getString(R.string.alert_message_server_connection_failed))
-                        .setPositiveButton(R.string.open_settings, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                openSettings();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                stopTesting();
-                            }
-                        })
-                        .setIcon(R.drawable.ic_alert_dialog)
-                        .show();
+                showAlertDialog(getString(R.string.alert_title_server_connection_failed), getString(R.string.alert_message_server_connection_failed));
             }
 
-            private void showProgressDialog(String title, String message) {
-                progressDialog = ProgressDialog.show(context, title, message);
-            }
-
-            private void dismissProgressDialog() {
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-            }
         });
     }
 
-    private void loadDataFromServer(){
-        if(user == null){
-            loadUserIdFromServer();
-        }
-    }
 
-    private void loadSessionsFromServer(){
+    private void loadSessionsFromServer() {
 
-        HipsterbilityRestClient.get(user.getId() + "/sessions", null, new JsonHttpResponseHandler() {
-
-            private ProgressDialog progressDialog;
+        HipsterbilityRestClient.get("/" + user.getId() + "/sessions", null, new JsonHttpResponseHandler() {
 
             @Override
             public void onStart() {
                 super.onStart();
                 Resources res = getResources();
-                showProgressDialog(res.getString(R.string.loading_sessions),res.getString(R.string.loading_message));
+                showProgressDialog(res.getString(R.string.loading_sessions), res.getString(R.string.loading_message));
             }
 
             @Override
@@ -210,15 +177,17 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
 
             @Override
             public void onSuccess(JSONArray sessions) {
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Boolean.class, HipsterbilityRestClient.booleanAsIntAdapter)
-                        .registerTypeAdapter(boolean.class, HipsterbilityRestClient.booleanAsIntAdapter)
-                        .setPrettyPrinting().create();
+                Gson gson = HipsterbilityRestClient.getGsonBooleanWorkaround();
                 Type listType = new TypeToken<List<Session>>() {
                 }.getType();
                 List<Session> sessionList = gson.fromJson(sessions.toString(), listType);
-                for (Session tempSession : sessionList) {
-                    tempSession.setUser(user);
+                progressDialog.setIndeterminate(false);
+                progressDialog.setMax(sessionList.size());
+                for (int i = 0; i < sessionList.size(); i++) {
+                    Session s = sessionList.get(i);
+                    s.setUser(user);
+                    getTodosFromServer(s);
+                    progressDialog.setProgress(i + 1);
                 }
                 SessionManager.getInstace().setSessions(new ArrayList<Session>(sessionList));
                 dismissProgressDialog();
@@ -231,34 +200,8 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 super.onFailure(statusCode, headers, responseBody, e);
                 dismissProgressDialog();
                 Log.d(TAG, "GET Sessions request failed: " + e.getMessage());
-                alertDialog = new AlertDialog.Builder(context)
-                        .setTitle(getString(R.string.alert_title_server_connection_failed))
-                        .setMessage(getString(R.string.alert_message_server_connection_failed))
-                        .setPositiveButton(R.string.open_settings, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                openSettings();
-                            }
-                        })
-                        .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                               stopTesting();
-                            }
-                        })
-                        .setIcon(R.drawable.ic_alert_dialog)
-                        .show();
-            }
-
-            private void showProgressDialog(String title, String message){
-                progressDialog = ProgressDialog.show(context, title, message);
-                progressDialog.setCancelable(true);
-            }
-
-            private void dismissProgressDialog(){
-                if(progressDialog != null && progressDialog.isShowing()){
-                    progressDialog.dismiss();
-                }
+                showAlertDialog(getString(R.string.alert_title_server_connection_failed),
+                        getString(R.string.alert_message_server_connection_failed));
             }
         });
     }
@@ -266,6 +209,37 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     private void stopTesting() {
         alertDialog.dismiss();
         finish();
+    }
+
+    private void showAlertDialog(String title, String message) {
+        alertDialog = new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.open_settings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openSettings();
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        stopTesting();
+                    }
+                })
+                .setIcon(R.drawable.ic_alert_dialog)
+                .show();
+    }
+
+    private void showProgressDialog(String title, String message) {
+        progressDialog = ProgressDialog.show(context, title, message);
+        progressDialog.setCancelable(true);
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     private void openSettings() {
@@ -284,33 +258,73 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_start_session) {
-            // action with ID action_refresh was selected
-            if(!sessionChosen){
+            if (!sessionChosen) {
                 Toast.makeText(this, getString(R.string.select_session_first), Toast.LENGTH_SHORT)
                         .show();
                 return false;
             }
             Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//            Hipsterbility.getInstance().startSession();
             Intent i = new Intent();
             i.setAction(HipsterbilityBroadcastReceiver.ACTION_START_SESSION);
             sendBroadcast(i);
             this.startActivity(intent);
         } else if (id == R.id.action_settings) {
             openSettings();
-        } else if (id == R.id.action_reload_sessions){
-            reloadSessions();
+        } else if (id == R.id.action_reload_sessions) {
+            loadUserIdFromServer();
         }
-
         return true;
     }
 
-    private void reloadSessions() {
-        if(user != null){
-            loadSessionsFromServer();
-        }
+    public void getTodosFromServer(final Session session) {
+        HipsterbilityRestClient.get("/" + session.getUser().getId() + "/" + session.getId() + "/todos", null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONArray sessions) {
+                Gson gson = HipsterbilityRestClient.getGsonBooleanWorkaround();
+                Type listType = new TypeToken<List<Todo>>() {
+                }.getType();
+                List<Todo> t = gson.fromJson(sessions.toString(), listType);
+                ArrayList<Todo> todoList = new ArrayList<Todo>(t);
+                for (Todo tempTodo : todoList) {
+                    getTasksForTodoFromServer(tempTodo, session);
+                }
+                session.setTodos(todoList);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
+                super.onFailure(statusCode, headers, responseBody, e);
+                Toast.makeText(getApplicationContext(), "Error: " + statusCode
+                        , Toast.LENGTH_LONG)
+                        .show();
+                Log.d(TAG, "GET Todos request failed: " + e.getMessage());
+            }
+        });
     }
 
+    public void getTasksForTodoFromServer(final Todo todo, final Session session) {
+        HipsterbilityRestClient.get("/" + session.getUser().getId() + "/" + session.getId()
+                + "/todos/" + todo.getId() + "/" + "tasks", null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONArray sessions) {
+                Gson gson = HipsterbilityRestClient.getGsonBooleanWorkaround();
+                Type listType = new TypeToken<List<Task>>() {
+                }.getType();
+                List<Task> t = gson.fromJson(sessions.toString(), listType);
+                todo.setTasks(new ArrayList<Task>(t));
+                Log.d(TAG, "GET Tasks for Todo " + todo.getId() + " count: " + t.size());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
+                super.onFailure(statusCode, headers, responseBody, e);
+                Toast.makeText(getApplicationContext(), "Error: " + statusCode
+                        , Toast.LENGTH_LONG)
+                        .show();
+                Log.d(TAG, "GET Tasks request failed: " + e.getMessage());
+            }
+        });
+    }
 
 }

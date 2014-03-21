@@ -46,6 +46,9 @@ public class UploadManager {
         this.session = session;
         size = 0;
         //Create empty lists for different kinds of files
+        ArrayList<File> screencaptureFileList = new ArrayList<File>();
+        ArrayList<File> audioFileList = new ArrayList<File>();
+        ArrayList<File> lifecycleFileList = new ArrayList<File>();
         ArrayList<File> cameraFilesList = new ArrayList<File>();
         ArrayList<File> screenshotFileList = new ArrayList<File>();
         ArrayList<File> touchLogFileList = new ArrayList<File>();

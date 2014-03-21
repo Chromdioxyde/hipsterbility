@@ -9,11 +9,14 @@ import android.os.IBinder;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModuleFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Albert Hoffmann on 13.02.14.
@@ -96,5 +99,9 @@ public class CaptureService extends Service {
                 .setPriority(Notification.FLAG_FOREGROUND_SERVICE)
                 .build();
         startForeground(NOTIFICATION_ID, notification);
+    }
+
+    private void createCaptureModules(){
+        this.modules = CaptureModuleFactory.getCaptureModules();
     }
 }

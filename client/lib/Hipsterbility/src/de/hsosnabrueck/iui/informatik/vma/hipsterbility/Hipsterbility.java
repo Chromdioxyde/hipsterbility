@@ -3,7 +3,6 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenRecorder;
@@ -12,6 +11,8 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
@@ -19,19 +20,22 @@ import java.util.ArrayList;
  */
 public class Hipsterbility {
 
-
-
 //    Activity activity; // Calling activity to get context for Service TODO: check if needed later on
     private static Hipsterbility instance;
     //Base dir for stored files on SD-Card
     public static final String BASE_DIR = "hipsterbility";
 
     private ArrayList<Class> enabledActivities;
+    private HashSet<Integer> enabledModules;
 
     private Context context;
     private Activity activity;
     private Class startActivity;
     private ScreenshotTaker screenshotTaker;
+
+    public static enum MODULES{
+        AUDIO, VIDEO, SCREEN, TOUCH, LIFECYCLE
+    }
 
     //Modules
 
@@ -42,6 +46,7 @@ public class Hipsterbility {
 
     private Hipsterbility(){
         enabledActivities = new ArrayList<Class>();
+        enabledModules = new HashSet<Integer>();
     }
 
 
@@ -123,9 +128,20 @@ public class Hipsterbility {
         this.enabledActivities = enabledActivities;
     }
 
+    public void enableModule(int module){
+        enabledModules.add(module);
+    }
+
+    public void disableModule(int module){
+        enabledModules.remove(module);
+    }
+
+    public HashSet<Integer> getEnabledModules() {
+        return enabledModules;
+    }
+
     public Context getContext() {
         return context;
     }
-
 
 }
