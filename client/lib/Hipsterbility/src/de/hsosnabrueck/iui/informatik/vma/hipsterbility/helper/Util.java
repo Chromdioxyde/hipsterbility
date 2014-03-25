@@ -16,8 +16,15 @@ import java.util.List;
  */
 public class Util {
 
-    public static final String URL_SUFFIX_CAMERA = "videos/";
-    public static final String URL_SUFFIX_CAPTURES = "captures/"; // for screenshots
+    public final static String SCREENSHOTS_DIR = "screenshots";
+    public final static String IMAGE_JPG = ".jpg";
+    public final static String IMAGE_PNG = ".png";
+
+    public static final String AUDIO_DIR = "audio";
+    public static final String AUDIO_FILE_EXTENSSION = ".aac";
+
+    public static final String URL_SUFFIX_CAMERA = "/videos/";
+    public static final String URL_SUFFIX_CAPTURES = "/captures/"; // for screenshots
     private static final String TAG = Util.class.getName();
 
     public static String createOutputDirPathName(long sessionId, String subdir) {
@@ -39,8 +46,20 @@ public class Util {
         return path;
     }
 
+    /**
+     * Method to create the full output path for a file as String.
+     *
+     * @param sessionId     long Session id for session subdir.
+     * @param subdir        Sub directory for File types. Constants provided by this class.
+     * @param fileExtension File extension for output file. Constants provided by this class.
+     * @return
+     */
+    public static String createOutputFileAbsolutePathName(long sessionId, String subdir, String fileExtension){
+        return createOutputDirPathName(sessionId, subdir) + System.currentTimeMillis() + fileExtension;
+    }
+
     public static String createRelativeRoute(User u, Session s, String suffix){
-        return u.getId() + "/" + s.getId() + "/" + suffix;
+        return "/" + u.getId() + "/" + s.getId() + "/" + suffix;
     }
 
     /**

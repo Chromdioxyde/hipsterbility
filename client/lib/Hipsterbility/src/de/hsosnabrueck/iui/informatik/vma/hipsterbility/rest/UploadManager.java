@@ -7,8 +7,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CameraCaptureModule;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import org.apache.http.Header;
 
 import java.io.File;
@@ -64,7 +62,7 @@ public class UploadManager {
             if(f.getName().equalsIgnoreCase(CameraCaptureModule.VIDEOS_DIR)){
                 cameraFilesList = new ArrayList<File>(Arrays.asList(f.listFiles()));
                 fileTotalCount += cameraFilesList.size();
-            } else if (f.getName().equalsIgnoreCase(ScreenshotTaker.SCREENSHOTS_DIR)){
+            } else if (f.getName().equalsIgnoreCase(Util.SCREENSHOTS_DIR)){
                 screenshotFileList = new ArrayList<File>(Arrays.asList(f.listFiles()));
                 fileTotalCount += screenshotFileList.size();
             }

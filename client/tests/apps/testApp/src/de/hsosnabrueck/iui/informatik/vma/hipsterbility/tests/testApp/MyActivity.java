@@ -42,27 +42,31 @@ public class MyActivity extends Activity {
     public void addListenerOnButton() {
 
         //Select a specific button to bundle it with the action you want
-        Button listViewButton = (Button) findViewById(R.id.button_open_list_view);
-        listViewButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button_open_list_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                launchActivity(MyListActivity.class);
             }
         });
-        Button rssButton = (Button) findViewById(R.id.button_open_rss_feed);
-        rssButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button_open_rss_feed).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchActivity(RssfeedActivity.class);
             }
         });
-        Button alertDialogButton = (Button) findViewById(R.id.button_show_alert_dialog);
-        alertDialogButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.button_show_alert_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialog(DIALOG_ALERT);
             }
         });
+        findViewById(R.id.button_show_web_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchActivity(MyWebView.class);
+            }
+        });
+
     }
 
     private void launchActivity(Class aClass){

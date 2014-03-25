@@ -1,4 +1,4 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -7,35 +7,27 @@ import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Albert Hoffmann on 21.02.14.
  * Sources: http://stackoverflow.com/questions/16748384/android-take-screenshot-programmatically-of-the-whole-screen
  *          http://stackoverflow.com/questions/2661536/how-to-programatically-take-a-screenshot-on-android?rq=1
  */
-public class ScreenshotTaker implements View.OnTouchListener, CaptureModule{
+public class ScreenshotModule implements View.OnTouchListener, CaptureModule {
 
-    private static ScreenshotTaker instance;
+    private static ScreenshotModule instance;
 
-    // Some constants
-    public final static String SCREENSHOTS_DIR = "screenshots";
-    private final static String IMAGE_JPG = ".jpg";
-    private final static String IMAGE_PNG = ".png";
-    private final static String TAG = ScreenshotTaker.class.getSimpleName();
+    private final static String TAG = ScreenshotModule.class.getSimpleName();
 
     private Session session;
 
@@ -43,10 +35,10 @@ public class ScreenshotTaker implements View.OnTouchListener, CaptureModule{
 
     private ArrayList<Coordinates> touches = new ArrayList<Coordinates>();
 
-    private ScreenshotTaker(){}
+    private ScreenshotModule(){}
 
     //TODO: remove constructor
-    public ScreenshotTaker(Session session, Activity activity) {
+    public ScreenshotModule(Session session, Activity activity) {
         this.session = session;
         this.activity = activity;
         this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(this);
@@ -121,11 +113,11 @@ public class ScreenshotTaker implements View.OnTouchListener, CaptureModule{
                 // Save the screenshot to the file system
                 FileOutputStream fos = null;
                 try {
-                    final File file = new File(Util.createOutputDirPathName(session.getId(), SCREENSHOTS_DIR));
+                    final File file = new File(Util.createOutputDirPathName(session.getId(), Util.SCREENSHOTS_DIR));
                     if (!file.exists()) {
                         file.mkdirs();
                     }
-                    fos = new FileOutputStream(file.getAbsolutePath()+ File.separator + createOutputFileName(IMAGE_PNG));
+                    fos = new FileOutputStream(file.getAbsolutePath()+ File.separator + createOutputFileName(Util.IMAGE_PNG));
                     if (fos != null) {
                         if (!bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos)) {
                             Log.d(TAG, "Compress/Write failed");
@@ -147,26 +139,6 @@ public class ScreenshotTaker implements View.OnTouchListener, CaptureModule{
 
     }
 
-
-    public void takeScreenshotRoot() {
-        Process sh = null;
-        try {
-            sh = Runtime.getRuntime().exec("su", null, null);
-            OutputStream os = sh.getOutputStream();
-//            os.write(("/system/bin/screencap -p " + "/sdcard/img.png").getBytes("ASCII"));
-            os.write(("/system/bin/screencap -p "
-                    + Util.createOutputDirPathName(session.getId(), SCREENSHOTS_DIR)
-                    + createOutputFileName(IMAGE_PNG)).getBytes("ASCII"));
-            os.flush();
-            os.close();
-            sh.waitFor();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private String createOutputFileName(String fileExtension) {
         return System.currentTimeMillis()
@@ -235,9 +207,9 @@ public class ScreenshotTaker implements View.OnTouchListener, CaptureModule{
         return false;
     }
 
-    public static ScreenshotTaker getInstance() {
+    public static ScreenshotModule getInstance() {
         if(instance == null){
-            instance = new ScreenshotTaker();
+            instance = new ScreenshotModule();
         }
         return instance;
     }

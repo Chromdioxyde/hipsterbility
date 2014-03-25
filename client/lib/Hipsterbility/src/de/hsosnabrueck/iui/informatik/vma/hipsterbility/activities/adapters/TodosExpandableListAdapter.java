@@ -47,7 +47,7 @@ public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.todos_listrow_details, null);
         }
-        text = (TextView) convertView.findViewById(R.id.textView1);
+        text = (TextView) convertView.findViewById(R.id.text_task_name);
         text.setText(children.getName());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,6 +8,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 import com.loopj.android.http.TextHttpResponseHandler;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
@@ -84,12 +85,13 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        String server, port, timeout, retries, connections;
+        String server, port, timeout, retries, connections, root;
         server = getString(R.string.pref_key_server);
         port = getString(R.string.pref_key_port);
         retries = getString(R.string.pref_key_retries);
         timeout = getString(R.string.pref_key_timeout);
         connections = getString(R.string.pref_key_max_connection);
+        root = getString(R.string.pref_key_enable_root);
 
         if ( key.equals(server) || key.equals(port) ){
             HipsterbilityRestClient.setServer(prefs.getString(server,""),
@@ -100,11 +102,15 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                 ){
             HipsterbilityRestClient.setMaxRetriesAndTimeout(
                     Integer.valueOf(prefs.getString(retries, "0")),
-                    Integer.valueOf(prefs.getString(timeout, "300"))
+                    Integer.valueOf(prefs.getString(timeout, "1000"))
             );
         } else if (key.equals(connections)){
             HipsterbilityRestClient.setMaxConnections(
                     Integer.valueOf(prefs.getString(connections, "1"))
+            );
+        } else if (key.equals(root)){
+            Hipsterbility.getInstance().setRootFeaturesEnabled(
+                    prefs.getBoolean(root, false)
             );
         }
     }

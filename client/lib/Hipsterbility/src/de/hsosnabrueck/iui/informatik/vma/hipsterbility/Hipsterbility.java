@@ -5,13 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenRecorder;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenRecorder;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -20,20 +19,20 @@ import java.util.HashSet;
  */
 public class Hipsterbility {
 
-//    Activity activity; // Calling activity to get context for Service TODO: check if needed later on
     private static Hipsterbility instance;
     //Base dir for stored files on SD-Card
     public static final String BASE_DIR = "hipsterbility";
 
     private ArrayList<Class> enabledActivities;
-    private HashSet<Integer> enabledModules;
+    private HashSet<MODULE> enabledModules;
 
     private Context context;
     private Activity activity;
     private Class startActivity;
-    private ScreenshotTaker screenshotTaker;
+    private ScreenshotModule screenshotModule;
+    private boolean rootFeaturesEnabled;
 
-    public static enum MODULES{
+    public static enum MODULE {
         AUDIO, VIDEO, SCREEN, TOUCH, LIFECYCLE
     }
 
@@ -46,14 +45,8 @@ public class Hipsterbility {
 
     private Hipsterbility(){
         enabledActivities = new ArrayList<Class>();
-        enabledModules = new HashSet<Integer>();
+        enabledModules = new HashSet<MODULE>();
     }
-
-
-
-//    public static Hipsterbility getInstance(){
-//        return instance;
-//    }
 
     public void stopCapture() {
         context.stopService(new Intent(context, CaptureService.class));
@@ -72,7 +65,6 @@ public class Hipsterbility {
 //        startSession();
         return instance;
     }
-
 
     private void startService(){
         Intent i= new Intent(context, HipsterbilityService.class);
@@ -94,7 +86,7 @@ public class Hipsterbility {
 
     public void startSession() {
 //        testCapture();
-//        ScreenshotTaker st = new ScreenshotTaker(SessionManager.getInstace().getSessionInProgress(), activity);
+//        ScreenshotModule st = new ScreenshotModule(SessionManager.getInstace().getSessionInProgress(), activity);
        Session s = new Session(1);
         User u = new User(1, "", "");
         s.setUser(u);
@@ -112,12 +104,12 @@ public class Hipsterbility {
         return startActivity;
     }
 
-    public ScreenshotTaker getScreenshotTaker() {
-        return screenshotTaker;
+    public ScreenshotModule getScreenshotModule() {
+        return screenshotModule;
     }
 
-    public void setScreenshotTaker(ScreenshotTaker screenshotTaker) {
-        this.screenshotTaker = screenshotTaker;
+    public void setScreenshotModule(ScreenshotModule screenshotModule) {
+        this.screenshotModule = screenshotModule;
     }
 
     protected ArrayList<Class> getEnabledActivities() {
@@ -128,20 +120,28 @@ public class Hipsterbility {
         this.enabledActivities = enabledActivities;
     }
 
-    public void enableModule(int module){
+    public void enableModule(MODULE module){
         enabledModules.add(module);
     }
 
-    public void disableModule(int module){
+    public void disableModule(MODULE module){
         enabledModules.remove(module);
     }
 
-    public HashSet<Integer> getEnabledModules() {
+    public HashSet<MODULE> getEnabledModules() {
         return enabledModules;
     }
 
     public Context getContext() {
         return context;
+    }
+
+    public boolean isRootFeaturesEnabled() {
+        return rootFeaturesEnabled;
+    }
+
+    public void setRootFeaturesEnabled(boolean rootFeaturesEnabled) {
+        this.rootFeaturesEnabled = rootFeaturesEnabled;
     }
 
 }

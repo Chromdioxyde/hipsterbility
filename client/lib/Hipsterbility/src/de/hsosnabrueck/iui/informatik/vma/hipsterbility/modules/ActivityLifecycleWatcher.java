@@ -28,7 +28,6 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
         activityManager = (ActivityManager) app.getSystemService(Context.ACTIVITY_SERVICE);
     }
 
-
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
 

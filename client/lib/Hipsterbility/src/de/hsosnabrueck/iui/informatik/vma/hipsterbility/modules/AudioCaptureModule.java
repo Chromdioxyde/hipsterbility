@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
@@ -30,39 +31,39 @@ public class AudioCaptureModule implements CaptureModule{
     //================================================================================
     // Properties
     //================================================================================
+    private static AudioCaptureModule instance;
 
     private final String TAG = this.getClass().getCanonicalName();
-    public static final String AUDIO_DIR = "audio";
-    public static final String AUDIO_FILE_EXTENSSION = "";
 
-    private String mFileName = null;
     private MediaRecorder mRecorder = null;
-    private File outFile = null;
-    private Session session;
+    private boolean recording = false;
 
-    public AudioCaptureModule() {
-        this.session = SessionManager.getInstace().getSessionInProgress();
+    private AudioCaptureModule() {}
+
+    public static AudioCaptureModule getInstance(){
+        if(instance == null) instance = new AudioCaptureModule();
+        return instance;
     }
-
 
     @Override
     public void startCapture() {
+        Session session = SessionManager.getInstace().getSessionInProgress();
         // TODO change path to a unified one
-        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.pathSeparator + "Hipsterbility"
-                + File.pathSeparator + session.getId() + "_" + System.currentTimeMillis() + ".3gp";
+        String mFileName = Util.createOutputFileAbsolutePathName(session.getId(), Util.AUDIO_DIR, Util.AUDIO_FILE_EXTENSSION);
 
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         // TODO change output format if necessary
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
         mRecorder.setOutputFile(mFileName);
-        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         try {
             mRecorder.prepare();
+            mRecorder.start();
+            recording = true;
         } catch (IOException e) {
-            Log.e(TAG, "prepare() failed");
+            Log.e(TAG, "MediaRecorder prepare() failed");
         }
-        mRecorder.start();
     }
 
     @Override
@@ -70,23 +71,22 @@ public class AudioCaptureModule implements CaptureModule{
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+        recording = false;
     }
 
     @Override
     public void pauseCapture() {
-
+        stopCapture();
     }
 
     @Override
     public void resumeCapture() {
-
+        startCapture();
     }
 
     @Override
     public boolean isCapturing() {
-        return false;
+        return recording;
     }
-
-
 
 }

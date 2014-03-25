@@ -1,8 +1,9 @@
-package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
+package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture;
 
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
 import java.io.IOException;
@@ -10,11 +11,11 @@ import java.io.IOException;
 /**
  * Created by Albert Hoffmann on 25.02.14.
  */
-public class ScreenRecorder implements CaptureModule{
+public class ScreenRecorder implements CaptureModule {
 
     private static final String TAG = ScreenRecorder.class.getName();
 
-    private static ScreenRecorder instance = new ScreenRecorder();
+    private static ScreenRecorder instance;
 
     private boolean recording = false;
     private Process captureProcess;
@@ -26,6 +27,7 @@ public class ScreenRecorder implements CaptureModule{
     }
 
     public static ScreenRecorder getInstance(){
+        if(instance == null) instance = new ScreenRecorder();
         return instance;
     }
 
@@ -56,12 +58,12 @@ public class ScreenRecorder implements CaptureModule{
 
     @Override
     public void pauseCapture() {
-
+        stopCapture();
     }
 
     @Override
     public void resumeCapture() {
-
+        if (captureProcess == null) startCapture();
     }
 
     @Override

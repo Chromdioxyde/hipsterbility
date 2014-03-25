@@ -10,19 +10,24 @@
             android:text="Hello World, MyActivity"
             />
     <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Open List View"
             android:id="@+id/button_open_list_view" android:layout_gravity="center_horizontal"/>
     <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Open RSS Feed Activity"
             android:id="@+id/button_open_rss_feed" android:layout_gravity="center_horizontal"/>
     <Button
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Show Alert Dialog"
             android:id="@+id/button_show_alert_dialog" android:layout_gravity="center_horizontal"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Show Web View"
+            android:id="@+id/button_show_web_view" android:layout_gravity="center_horizontal"/>
 </LinearLayout>
 

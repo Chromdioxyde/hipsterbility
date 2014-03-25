@@ -58,6 +58,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     private User user;
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
+    private SessionListAdapter adapter;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +70,8 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
         if (ab != null) {
             ab.setTitle(getString(R.string.sessions_for_user));
             ab.setSubtitle(getString(R.string.choose_session));
+            ab.setDisplayHomeAsUpEnabled(true);
+            ab.setHomeButtonEnabled(true);
         }
         setContentView(R.layout.session_activity_layout);
         this.listView = (ListView) findViewById(R.id.sessionslistView);
@@ -84,12 +87,15 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                         prefs.getString(getString(R.string.pref_key_max_connection), "1")
                 )
         );
+        Hipsterbility.getInstance().setRootFeaturesEnabled(
+                prefs.getBoolean(getString(R.string.pref_key_enable_root), false)
+        );
 
     }
 
     private void displaySessions() {
         sessions = this.sessionManager.getSessions();
-        SessionListAdapter adapter = new SessionListAdapter(this, sessions);
+        adapter = new SessionListAdapter(this, sessions);
         this.listView.setAdapter(adapter);
 
         // Add listener to ListView for actions on selected item
@@ -123,7 +129,10 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             public void onStart() {
                 super.onStart();
                 Resources res = getResources();
-                showProgressDialog(res.getString(R.string.authentication_user), res.getString(R.string.authentication_user_message));
+                showProgressDialog(
+                        res.getString(R.string.authentication_user),
+                        res.getString(R.string.authentication_user_message)
+                );
             }
 
             @Override
@@ -151,7 +160,10 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 super.onFailure(statusCode, headers, responseBody, e);
                 Log.d(TAG, "GET Sessions request failed: " + e.getMessage());
                 dismissProgressDialog();
-                showAlertDialog(getString(R.string.alert_title_server_connection_failed), getString(R.string.alert_message_server_connection_failed));
+                showAlertDialog(
+                        getString(R.string.alert_title_server_connection_failed),
+                        getString(R.string.alert_message_server_connection_failed)
+                );
             }
 
         });
@@ -273,6 +285,8 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             openSettings();
         } else if (id == R.id.action_reload_sessions) {
             loadUserIdFromServer();
+        } else if (id == android.R.id.home){
+            onBackPressed();
         }
         return true;
     }
@@ -290,12 +304,13 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                     getTasksForTodoFromServer(tempTodo, session);
                 }
                 session.setTodos(todoList);
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
                 super.onFailure(statusCode, headers, responseBody, e);
-                Toast.makeText(getApplicationContext(), "Error: " + statusCode
+                Toast.makeText(context, "Error: " + statusCode
                         , Toast.LENGTH_LONG)
                         .show();
                 Log.d(TAG, "GET Todos request failed: " + e.getMessage());
@@ -314,12 +329,13 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 List<Task> t = gson.fromJson(sessions.toString(), listType);
                 todo.setTasks(new ArrayList<Task>(t));
                 Log.d(TAG, "GET Tasks for Todo " + todo.getId() + " count: " + t.size());
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseBody, Throwable e) {
                 super.onFailure(statusCode, headers, responseBody, e);
-                Toast.makeText(getApplicationContext(), "Error: " + statusCode
+                Toast.makeText(context, "Error: " + statusCode
                         , Toast.LENGTH_LONG)
                         .show();
                 Log.d(TAG, "GET Tasks request failed: " + e.getMessage());

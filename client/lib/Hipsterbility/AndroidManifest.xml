@@ -4,24 +4,24 @@
           android:versionCode="1"
           android:versionName="1.0">
     <!--Save files to SD-Card-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!--Access Microphone-->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <!--Access Cameras-->
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA"/>
     <!--Needed to draw something on top-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <!--Retrieve list of currently running tasks (for activity lifecycle)-->
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <!--Root features-->
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
+    <uses-permission android:name="android.permission.ACCESS_SUPERUSER"/>
     <!--Network connection-->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!--Determine if mobile or local net-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!--<uses-permission android:name="android.permission.WRITE_SETTINGS"/>-->
     <!--Tell the system which hardware components are used-->
-    <uses-feature android:name="android.hardware.camera.front" />
+    <uses-feature android:name="android.hardware.camera.front"/>
     <uses-feature android:name="android.hardware.microphone"/>
     <application android:icon="@drawable/ic_launcher">
         <service android:enabled="true"
@@ -41,8 +41,8 @@
         <activity android:name=".activities.SessionActivity"/>
         <activity android:name=".activities.TasksActivity"/>
         <activity android:name=".activities.TodosActivity"
-                android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
+                  android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
         <activity android:name=".activities.SettingsActivity" android:label="Preferences"/>
     </application>
-    <uses-sdk android:minSdkVersion="19" />
+    <uses-sdk android:minSdkVersion="19"/>
 </manifest>

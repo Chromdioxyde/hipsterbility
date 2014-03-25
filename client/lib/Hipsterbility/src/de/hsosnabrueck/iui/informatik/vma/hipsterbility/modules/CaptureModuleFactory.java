@@ -2,8 +2,11 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModule;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModuleRoot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by Albert Hoffmann on 05.03.14.
@@ -11,18 +14,13 @@ import java.util.ArrayList;
 public class CaptureModuleFactory {
 
     private static boolean rootAvailable = Util.isDeviceRooted();
-    private static boolean rootEnabled = false;
-    private static ArrayList<CaptureModule> captureModules;
+    private static boolean rootEnabled = Hipsterbility.getInstance().isRootFeaturesEnabled();
+    private static ArrayList<CaptureModule> captureModules = new ArrayList<CaptureModule>();
 
-    public static CaptureModule getCaptureModule(int type){
-        CaptureModule module = null;
-        switch(type){
-            case CaptureModule.TYPE_SCREEN: module = getScreenCaptureModule();
-                break;
-            case CaptureModule.TYPE_CAMERA: module = getCameraCaptureModule(true);
-                break;
-        }
-        return module;
+
+    private static CaptureModule getAudioCaptureModule() {
+//        TODO: audio capture module
+        return null;
     }
 
     private static CaptureModule getCameraCaptureModule(boolean audio) {
@@ -32,19 +30,47 @@ public class CaptureModuleFactory {
     }
 
     private static CaptureModule getScreenCaptureModule(){
-        if(rootAvailable){
-            return ScreenshotTaker.getInstance();
+        if(rootAvailable && rootEnabled){
+            return ScreenshotModuleRoot.getInstance();
+        } else {
+            return ScreenshotModule.getInstance();
         }
-        //TODO: change to real Class;
-        return null;
     }
 
 
     public static ArrayList<CaptureModule> getCaptureModules() {
+        boolean screen = false, audio = false, lifecycle = false, video = false, touch = false;
+        if(captureModules.isEmpty()){
+            HashSet<Hipsterbility.MODULE> enabledModules = Hipsterbility.getInstance().getEnabledModules();
+            for(Hipsterbility.MODULE m : enabledModules){
+                switch (m){
+                    case SCREEN:        screen = true;          break;
+                    case AUDIO:         audio = true;           break;
+                    case LIFECYCLE:     lifecycle = true;       break;
+                    case VIDEO:         video = true;           break;
+                    case TOUCH:         touch = true;           break;
+                }
+            }
+//            Camera related modules
+            if(video && audio){
+                captureModules.add(getCameraCaptureModule(true));
+            } else if (video){
+                captureModules.add(getCameraCaptureModule(false));
+            } else if (audio){
+                captureModules.add(getAudioCaptureModule());
+            }
+//            Other modules
+            if(screen){
+                captureModules.add(getScreenCaptureModule());
+            }
+            if(touch){
+                captureModules.add(TouchCaptureModule.getInstance());
+            }
+            if(lifecycle){
+                captureModules.add(LifecycleCaptureModule.getInstance());
+            }
+        }
         return captureModules;
     }
 
-    public static void setRootEnabled(boolean val){
-        rootEnabled = val;
-    }
 }

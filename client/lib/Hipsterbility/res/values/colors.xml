@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#434850</color>
+    <color name="ambient_alerts">#ED4D63</color>
+
+    <!--Buttons-->
+    <color name="button_default_dark_gray">#434850</color>
+    <color name="button_success_green">#75c964</color>
+    <color name="button_primary_gray">#848b92</color>
+    <color name="button_info_blue">#57bce0</color>
+    <color name="button_warning_orange">#ed9000</color>
+    <color name="button_alert_red">#ee746b</color>
+
+    <!--Table-->
+    <color name="table_background_blue">#46B8DA</color>
+    <color name="table_background_green">#4FBD4F</color>
+    <color name="table_background_red">#EC4844</color>
+    <color name="table_background_orange">#DF8505</color>
+    <color name="table_background_gray">#49515A</color>
+    <color name="table_background_dark">#4FBD4F</color>
+
+    <!--Text-->
+    <color name="text_primary">#7a8288</color>
+    <color name="text_muted">#7a8288</color>
+    <color name="text_primary_hover">#62686d</color>
+    <color name="text_success_hover">#e6e6e6</color>
+    <color name="text_info">#ffffff</color>
+    <color name="text_success">#ffffff</color>
+
+
+
+</resources>

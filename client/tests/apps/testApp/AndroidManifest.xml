@@ -15,5 +15,7 @@
         <activity android:name=".MyListActivity"/>
         <activity android:name="com.example.android.rssfeed.RssfeedActivity"/>
         <activity android:name="com.example.android.rssfeed.DetailActivity"/>
+        <activity android:name=".MyWebView"/>
+        <uses-permission android:name="android.permission.INTERNET" />
     </application>
 </manifest>

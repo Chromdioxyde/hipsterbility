@@ -1,18 +1,14 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.ScreenshotTaker;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.UploadManager;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
 /**
@@ -39,14 +35,14 @@ public class HipsterbilityBroadcastReceiver extends BroadcastReceiver{
             Log.d(TAG, "Received Action: " + ACTION_START_CAPTURE);
             Activity a = Hipsterbility.getInstance().getActivity();
             Session s = SessionManager.getInstace().getSessionInProgress();
-            Hipsterbility.getInstance().setScreenshotTaker(new ScreenshotTaker(s, a));
+            Hipsterbility.getInstance().setScreenshotModule(new ScreenshotModule(s, a));
             Intent i = new Intent(context, CaptureService.class);
             i.putExtra("session_id", s.getId());
             context.startService(i);
 
         } else if (action.equals(ACTION_STOP_CAPTURE)){
             Log.d(TAG, "Received Action: " + ACTION_STOP_CAPTURE);
-            ScreenshotTaker st = Hipsterbility.getInstance().getScreenshotTaker();
+            ScreenshotModule st = Hipsterbility.getInstance().getScreenshotModule();
             if(st!= null){
                 st.stopScreenshots();
             }
