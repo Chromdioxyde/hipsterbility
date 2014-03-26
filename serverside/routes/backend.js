@@ -21,7 +21,7 @@ exports.sessions = function(req, res) {
 
 	var query = new Query;
 
-	query.execute(qstr, '', function(rows) {
+	query.execute(qstr, function(rows) {
 
 		if (rows.length > 0) {
 			console.log(rows);
@@ -41,16 +41,13 @@ exports.sessions = function(req, res) {
  */
 exports.session = function(req, res) {
 
-	console.log(req.params);
-
-
     var qstr = 'SELECT * FROM sessions WHERE users_idusers = '
         + req.params.user_id + ' AND idsessions = ' + req.params.id;
 
     var query = new Query;
     // get session
 
-    query.execute(qstr, '', function (rows) {
+    query.execute(qstr, function (rows) {
         if( rows.length == 1) {
 
             var session = rows[0];
@@ -59,7 +56,7 @@ exports.session = function(req, res) {
             console.log(qstr);
 
             // get todos
-            query.execute(qstr, '', function (rows) {
+            query.execute(qstr, function (rows) {
                 console.log(rows);
 
                 if ( rows.length > 0) {
@@ -72,6 +69,15 @@ exports.session = function(req, res) {
             });
         }
     });
+}
+
+/**
+ *
+ * @param req
+ * @param res
+ */
+exports.sessionPartial = function(req, res) {
+
 }
 
 /**

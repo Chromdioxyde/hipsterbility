@@ -7,7 +7,9 @@ exports.all = function(req, res) {
 
 	console.log(qstr);
 
-	query.execute(qstr, '', function(rows) {
+	query.execute(qstr, function(rows) {
+        console.log(rows);
+
 		res.send(rows);
 	});
 };
@@ -15,7 +17,7 @@ exports.all = function(req, res) {
 exports.get = function(req, res) {
 	var query = new Query;
 	qstr = 'SELECT * FROM tasks WHERE todos_idtodos = ' + req.params.todo_id + ' AND idtasks =' + req.params.task_id;
-	query.execute(qstr, '', function(rows) {
+	query.execute(qstr, function(rows) {
 		res.send(rows);
 	});
 };
@@ -39,7 +41,7 @@ exports.put = function(req, res) {
 
         var query = new Query;
 
-        query.execute(qstr, '', function(rows) {
+        query.execute(qstr, function(rows) {
 
             console.log(rows);
 

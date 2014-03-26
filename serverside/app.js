@@ -49,12 +49,12 @@ passport.use(new LocalStrategy(
         console.log(username);
 
 		// implement authentication mechanism
-		// TODO: fail checks before building query
+
 		var qstr = "SELECT * FROM users WHERE name = '" + username + "'";
 
 		var query = new Query;
 
-		query.execute(qstr, '', function(rows) {
+		query.execute(qstr, function(rows) {
 
 			if (rows.length == 1) {
 				done(null, rows[0]);
@@ -76,7 +76,7 @@ passport.deserializeUser(function(id, done) {
 
 		var query = new Query;
 
-		query.execute(qstr, '', function(rows) {
+		query.execute(qstr, function(rows) {
 			done(null, rows[0]);
 		});
 });
@@ -92,6 +92,7 @@ app.get('/login/?', frontend.login);
  *
  */
 app.get('/web-auth/?', function(req, res) {
+    console.log(req.user);
 
     if (req.user != undefined) {
         res.redirect('/'+ req.user.idusers + '/admin');
@@ -122,7 +123,7 @@ app.post('/auth/?', function (req, res) {
 
        var query = new Query;
 
-       query.execute(qstr, '', function(rows) {
+       query.execute(qstr, function(rows) {
            console.log(rows);
 
            if (rows.length == 1) {
@@ -143,6 +144,8 @@ app.post('/auth/?', function (req, res) {
 app.get('/:user_id/admin', backend.index);
 app.get('/:user_id/admin/sessions/?', backend.sessions);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
+app.get('/:user_id/admin/sessions/:session_id/tasks/:task_id', backend.sessionPartial);
+app.get('/:user_id/admin/sessions/:session_id/todos/new');
 
 //// test page TODO delete route!
 //app.get('/test/db_test/?', function(req, res) {
