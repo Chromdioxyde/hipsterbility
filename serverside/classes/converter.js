@@ -90,7 +90,7 @@ Converter.prototype.addScreenshot = function(screenshot) {
 
 /**
  *
- * creates a video file from screenshots, input video
+ * creates a video file from screenshots and input videos
  *  
  *
  */
