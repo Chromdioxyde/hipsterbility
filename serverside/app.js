@@ -143,20 +143,10 @@ app.post('/auth/?', function (req, res) {
 // admin pages
 app.get('/:user_id/admin', backend.index);
 app.get('/:user_id/admin/sessions/?', backend.sessions);
+app.get('/:user_id/admin/sessions/new/?', backend.newSession);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
 app.get('/:user_id/admin/sessions/:session_id/tasks/:task_id', backend.sessionPartial);
 app.get('/:user_id/admin/sessions/:session_id/todos/new');
-
-//// test page TODO delete route!
-//app.get('/test/db_test/?', function(req, res) {
-//
-//	var Query = require('./classes/query');
-//	var q = new Query();
-//
-//	q.test(function(rows) {
-//			res.send(rows);
-//	});
-//});
 
 // error pages
 app.use(function(req, res) {

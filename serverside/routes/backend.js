@@ -86,6 +86,8 @@ exports.sessionPartial = function(req, res) {
  * @param res
  */
 exports.newSession = function(req, res) {
-	
+
+    res.render('backend/newSession', {type: 'backend', id_user: req.params.user_id });
+
 	// TODO implementation
 }
