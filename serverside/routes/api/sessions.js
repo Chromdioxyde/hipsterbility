@@ -14,7 +14,7 @@ exports.all = function(req, res) {
 	
 	// TODO: session filter devices, apps 
 
-	query.execute(qstr, '', function(rows) {
+	query.execute(qstr, function(rows) {
 		res.send(rows);
 	});
 };
@@ -33,7 +33,7 @@ exports.get = function(req, res) {
 	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.params.user_id + ' AND idsessions = ' + req.params.session_id;
 	var query = new Query;
 	
-	query.execute(qstr, '', function(rows){
+	query.execute(qstr, function(rows){
 		res.send(rows);
 	});
 	
@@ -64,6 +64,8 @@ exports.put = function(req, res) {
 
         conv.createResult(req.params.user_id, req.params.session_id, function() {
             // TODO  send 409 on finish not successfully
+            console.log('here comes the callback');
+
             // successfully is when logs and captures are already uploaded/added to the session.
             qstr += ' name = ' + 1;
 
@@ -78,10 +80,10 @@ exports.put = function(req, res) {
 
 
 
-	qstr += ' WHERE idsessions = ' + req.params.session_id; 
+	qstr += ' WHERE idsessions = ' + req.params.session_id;
 
 	// TODO error check
-//	query.execute(qstr, '', function(rows){
+//	query.execute(qstr, function(rows){
 //		// send to user
 //		res.send(rows);
 //	});
@@ -95,16 +97,16 @@ exports.put = function(req, res) {
 // 			var query = new Query;
 // 			var qstr = 'INSERT INTO sessions (name, users_idusers) VALUES ("'+ req.body.sessionname +'", '+ req.params.user_id +')';
 // 			query.execute(qstr, '', function(rows){
-				
+
 // 				qstr = 'SELECT * FROM sessions WHERE idsessions = ' + rows.insertId;
-				
+
 // 				query.execute(qstr, '', function(rows){
 // 					// send to user
 // 					res.send(rows);
 // 				});
 // 			});
 // 		}
-// 	} else {	
+// 	} else {
 // 		res.send("invalid parameters");
-// 	}	
+// 	}
 };

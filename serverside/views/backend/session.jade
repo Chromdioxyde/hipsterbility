@@ -1,7 +1,40 @@
 extends ../layout
 
 block content
-  #page-wrapper
-    .row
-      .col-lg-12
-        h1.page-header Session 
+    #page-wrapper
+        .row
+            .hidden#user(data='' + id_user)
+
+            h1.page-header= 'Session ' + session.idsessions + ' : ' + session.name
+
+        .row
+            h2 Tasks + Todos
+            table.table.table-striped.table-hover(id='' +session.idsessions)
+                thead
+                    tr
+
+                        th #
+                        th Name
+                        th Aktiv
+                        th
+                        th
+                        th
+                        th
+
+                tbody
+                    for todo, i in todos
+                        tr
+                            td= todo.idtodos
+                            td= todo.name
+                            td= todo.active
+                            td Ergebnis
+                            td abhaken
+                            td entfernen
+                            if i == todos.length-1
+                                td
+                                    a(href='/sessions/')
+                            else
+                                td
+        .row
+
+    script(src='/js/session-ui.js')

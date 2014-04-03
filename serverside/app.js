@@ -46,13 +46,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // passport strategy setup
 passport.use(new LocalStrategy(
 	function(username, password, done) {
+        console.log(username);
+
 		// implement authentication mechanism
-		// TODO: fail checks before building query
+
 		var qstr = "SELECT * FROM users WHERE name = '" + username + "'";
 
 		var query = new Query;
 
-		query.execute(qstr, '', function(rows) {
+		query.execute(qstr, function(rows) {
 
 			if (rows.length == 1) {
 				done(null, rows[0]);
@@ -74,7 +76,7 @@ passport.deserializeUser(function(id, done) {
 
 		var query = new Query;
 
-		query.execute(qstr, '', function(rows) {
+		query.execute(qstr, function(rows) {
 			done(null, rows[0]);
 		});
 });
@@ -86,13 +88,32 @@ app.get('/?', frontend.index);
 app.get('/about/?', frontend.about);
 app.get('/login/?', frontend.login);
 
-// validates a login
-// TODO create wrappe class for passport (auth handler e.g)
-//app.post('/auth/?', passport.authenticate('local', {successRedirect: '/auth' ,failureRedirect: '/login'}));
 /**
  *
  */
+app.get('/web-auth/?', function(req, res) {
+    console.log(req.user);
+
+    if (req.user != undefined) {
+        res.redirect('/'+ req.user.idusers + '/admin');
+    } else {
+        res.redirect('/login');
+    }
+
+});
+
+/**
+ * validates a login using passportjs
+ * TODO create wrappe class for passport (auth handler e.g)
+ */
+app.post('/web-auth/?', passport.authenticate('local', {successRedirect: '/web-auth' ,failureRedirect: '/login'}));
+
+/**
+ * development authentication mode for mobile app
+ */
 app.post('/auth/?', function (req, res) {
+
+   console.log(req.body);
 
    if( req.body.name != undefined && req.body.name != '') {
 
@@ -102,7 +123,7 @@ app.post('/auth/?', function (req, res) {
 
        var query = new Query;
 
-       query.execute(qstr, '', function(rows) {
+       query.execute(qstr, function(rows) {
            console.log(rows);
 
            if (rows.length == 1) {
@@ -119,31 +140,23 @@ app.post('/auth/?', function (req, res) {
    }
 });
 
-app.get('/auth/?', function(req, res) {
-
-	if (req.user != undefined) {
-		res.redirect('/'+ req.user.idusers + '/admin');
-	} else {
-		res.redirect('/login');
-	}
-
-});
-
 // admin pages
 app.get('/:user_id/admin', backend.index);
 app.get('/:user_id/admin/sessions/?', backend.sessions);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
+app.get('/:user_id/admin/sessions/:session_id/tasks/:task_id', backend.sessionPartial);
+app.get('/:user_id/admin/sessions/:session_id/todos/new');
 
-// test page TODO delete route!
-app.get('/test/db_test/?', function(req, res) {
-	
-	var Query = require('./classes/query');
-	var q = new Query();
-	
-	q.test(function(rows) {
-			res.send(rows);
-	});
-});
+//// test page TODO delete route!
+//app.get('/test/db_test/?', function(req, res) {
+//
+//	var Query = require('./classes/query');
+//	var q = new Query();
+//
+//	q.test(function(rows) {
+//			res.send(rows);
+//	});
+//});
 
 // error pages
 app.use(function(req, res) {
@@ -157,8 +170,6 @@ app.get('/ping/?', function(req, res) {
     res.status(200);
     res.send('OK');
 });
-
-
 
 // session API
 app.get('/:user_id/sessions/?', sessions.all); // get list of sessions
@@ -206,7 +217,7 @@ app.put('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.put);
 app.get('/:user_id/:session_id/todos/:todo_id/tasks/:task_id/?', tasks.get);
 
 // users API
-app.post('/users/')
+app.post('/users/');
 
 // -------------------------------------------------------
 

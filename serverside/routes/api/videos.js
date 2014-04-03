@@ -7,7 +7,7 @@ var Query = require('../../classes/query');
 exports.all = function (req, res) {
 	var query = new Query;
 	qstr = 'SELECT idvideos, file FROM videos WHERE sessions_idsessions = ' + req.params.session_id;
-	query.execute(qstr, '', function(rows) {
+	query.execute(qstr, function(rows) {
 		res.send(rows);
 	});
 };
@@ -18,7 +18,7 @@ exports.all = function (req, res) {
 exports.get = function (req, res) {
 	var query = new Query;
 	qstr = 'SELECT idvideos, file FROM videos WHERE sessions_idsessions = ' + req.params.session_id + ' AND idvideos =' + req.params.id_logs;
-	query.execute(qstr, '', function(rows) {
+	query.execute(qstr, function(rows) {
 		res.send(rows);
 	});
 };
@@ -49,7 +49,7 @@ exports.post = function(req, res) {
 			var query = new Query;
 			qstr = 'INSERT INTO videos (file, sessions_idsessions) VALUES ("' + target_path + '", '+ req.params.session_id +')';
 
-			query.execute(qstr, '', function(rows) {
+			query.execute(qstr, function(rows) {
                 res.status(200);
 				res.send('video uploaded to: ' + target_path);	// which response?
 			});

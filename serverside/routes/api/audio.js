@@ -11,7 +11,7 @@ exports.all = function(req, res) {
 		var qstr = 'SELECT idaudios, name FROM audios WHERE session_id = '+ req.params.session_id;
 		var query = new Query;
 
-		query.execute(qstr, '', function(rows){
+		query.execute(qstr, function(rows){
 			res.send(rows);
 		});
 	}
@@ -27,7 +27,7 @@ exports.get = function(req, res) {
 		var qstr = 'SELECT * FROM audios WHERE session_id = '+ req.params.session_id + ' AND idaudios =' + req.params.audio_id;
 		var query = new Query;
 
-		query.execute(qstr, '', function(rows){
+		query.execute(qstr, function(rows){
 			res.send(rows);
 		});
 	}
@@ -47,7 +47,7 @@ exports.post = function(req, res) {
 			var qstr = 'INSERT INTO audios (file, sessions_idsessions) VALUES (' + req.params.file + ', '+ req.params.session_id +')';
 			var query = new Query;
 
-			query.execute(qstr, '', function(rows){
+			query.execute(qstr, function(rows){
 				res.send(rows);
 			});
 

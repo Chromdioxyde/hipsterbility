@@ -6,14 +6,11 @@
     "start": "node app.js"
   },
   "dependencies": {
-		"express": "*",
-		"jade": "*",
-		"mysql" : "*",
-		"fluent-ffmpeg": "*",
-    "ffmpeg-node":"*",
+	"express": "*",
+	"jade": "*",
+	"mysql" : "*",
     "avconv":"*",
     "passport":"*",
-    "passport-local":"*",
-		"jsdoc": "*"
+    "passport-local":"*"
   }
 }
