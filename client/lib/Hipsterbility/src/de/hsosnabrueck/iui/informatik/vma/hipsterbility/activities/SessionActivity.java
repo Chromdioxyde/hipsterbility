@@ -11,23 +11,28 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityBroadcastReceiver;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters.SessionListAdapter;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Task;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Todo;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -275,17 +280,12 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                         .show();
                 return false;
             }
-            Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            Intent i = new Intent();
-            i.setAction(HipsterbilityBroadcastReceiver.ACTION_START_SESSION);
-            sendBroadcast(i);
-            this.startActivity(intent);
+            startSession();
         } else if (id == R.id.action_settings) {
             openSettings();
         } else if (id == R.id.action_reload_sessions) {
             loadUserIdFromServer();
-        } else if (id == android.R.id.home){
+        } else if (id == android.R.id.home) {
             onBackPressed();
         }
         return true;
@@ -341,6 +341,16 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 Log.d(TAG, "GET Tasks request failed: " + e.getMessage());
             }
         });
+    }
+
+    private void startSession(){
+//        Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());
+//        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        Intent i = new Intent(getString(R.string.intent_action_start_capture));
+        LocalBroadcastManager.getInstance(this).sendBroadcast(i);
+        startService(new Intent(this, CaptureService.class));
+//        this.startActivity(intent);
+        finish();
     }
 
 }

@@ -20,15 +20,13 @@ import java.util.Arrays;
 public class UploadManager {
 
     private final static String TAG = UploadManager.class.getName();
-
-    private static UploadManager instance = new UploadManager();
     //TODO: set parameter names
     private final static String PARAM_NAME_SCREENSHOT = "screenshot";
     private final static String PARAM_NAME_CAMERA = "video";
     private final static String PARAM_NAME_SCREEN_RECORDING = "";
     private final static String PARAM_NAME_TOUCH_LOG = "";
     private final static String PARAM_NAME_AUDIO_CAPTURE = "";
-
+    private static UploadManager instance = new UploadManager();
     private long size = 0;
     private int fileTotalCount = 0;
     private volatile int fileDoneCount = 0;
@@ -38,6 +36,10 @@ public class UploadManager {
      * private constructor for static singleton.
      */
     private UploadManager() {
+    }
+
+    public static UploadManager getInstance() {
+        return instance;
     }
 
     public boolean uploadSessionData(Session session) {
@@ -58,25 +60,25 @@ public class UploadManager {
         }
         File[] subdirs = sessionDir.listFiles();
         Log.d(TAG, subdirs.toString());
-        for(File f : subdirs){
-            if(f.getName().equalsIgnoreCase(CameraCaptureModule.VIDEOS_DIR)){
+        for (File f : subdirs) {
+            if (f.getName().equalsIgnoreCase(CameraCaptureModule.VIDEOS_DIR)) {
                 cameraFilesList = new ArrayList<File>(Arrays.asList(f.listFiles()));
                 fileTotalCount += cameraFilesList.size();
-            } else if (f.getName().equalsIgnoreCase(Util.SCREENSHOTS_DIR)){
+            } else if (f.getName().equalsIgnoreCase(Util.SCREENSHOTS_DIR)) {
                 screenshotFileList = new ArrayList<File>(Arrays.asList(f.listFiles()));
                 fileTotalCount += screenshotFileList.size();
             }
-            for(File fs : f.listFiles()){
-                if(fs != null){
+            for (File fs : f.listFiles()) {
+                if (fs != null) {
                     size += fs.length();
                 }
             }
         }
         Log.d(TAG, "Overall size of files: " + size + " bytes");
-        if(uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA)){
+        if (uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA)) {
             deleteFiles(cameraFilesList);
         }
-        if(uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT)){
+        if (uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT)) {
             deleteFiles(screenshotFileList);
         }
         //TODO: upload and delete other file types
@@ -84,37 +86,42 @@ public class UploadManager {
     }
 
     private void deleteFiles(ArrayList<File> filesList) {
-        if(filesList.size() == 0){
+        if (filesList.size() == 0) {
             return;
         }
         int filesDeleted = 0, filesNotDeleted = 0;
         String path = filesList.get(0).getParentFile().getAbsolutePath();
-        for(File f :filesList){
-            if(f.delete()){
-                filesDeleted ++;
+        for (File f : filesList) {
+            if (f.delete()) {
+                filesDeleted++;
             } else {
-                filesNotDeleted ++;
+                filesNotDeleted++;
             }
         }
         Log.d(TAG, path + " - " + filesDeleted + " files deleted, " + filesNotDeleted + " failed.");
     }
 
     private boolean uploadFiles(Session session, ArrayList<File> mFilesList, String suffix, String paramName) {
-        for(File f : mFilesList){
+        for (File f : mFilesList) {
             RequestParams params = new RequestParams();
-        try {
-            params.put(paramName, f);
-        } catch(FileNotFoundException e) {}
+            try {
+                params.put(paramName, f);
+            } catch (FileNotFoundException e) {
+            }
             postFile(Util.createRelativeRoute(session.getUser(), session, suffix), params);
         }
 
         return false;
     }
 
-    private boolean postFile(String relUrl, RequestParams params){
+    private boolean postFile(String relUrl, RequestParams params) {
         FileUploadAsyncHttpResponseHandler responseHandler = new FileUploadAsyncHttpResponseHandler();
         HipsterbilityRestClient.post(relUrl, params, responseHandler);
         return responseHandler.isSuccess();
+    }
+
+    private synchronized void updateProgress() {
+
     }
 
     private class FileUploadAsyncHttpResponseHandler extends AsyncHttpResponseHandler {
@@ -131,7 +138,7 @@ public class UploadManager {
         public void onStart() {
             // Initiated the request
             //TODO: do something or delete
-            Log.d(TAG, "Request started" );
+            Log.d(TAG, "Request started");
         }
 
         @Override
@@ -139,14 +146,14 @@ public class UploadManager {
             // Successfully got a response
             //TODO: do something or delete
             fileDoneCount++;
-            Log.d(TAG, "Request successful, status code: " +statusCode );
+            Log.d(TAG, "Request successful, status code: " + statusCode);
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             // Response failed :(
             //TODO: do something else on failure
-            Log.d(TAG, "Request failed, status code: " + statusCode + ", error: " + error.getMessage() );
+            Log.d(TAG, "Request failed, status code: " + statusCode + ", error: " + error.getMessage());
             success = false;
         }
 
@@ -154,7 +161,7 @@ public class UploadManager {
         public void onRetry() {
             // Request was retried
             //TODO: do something or delete
-            Log.d(TAG, "Request retry" );
+            Log.d(TAG, "Request retry");
         }
 
         @Override
@@ -167,7 +174,7 @@ public class UploadManager {
         public void onFinish() {
             // Completed the request (either success or failure)
             //TODO: do something or delete
-            if(fileTotalCount == fileDoneCount){
+            if (fileTotalCount == fileDoneCount) {
                 RequestParams params = new RequestParams();
                 params.add("finished", "1");
                 HipsterbilityRestClient.put(session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
@@ -177,16 +184,8 @@ public class UploadManager {
                     }
                 });
             }
-            Log.d(TAG, "Request finished" );
+            Log.d(TAG, "Request finished");
         }
-
-    }
-
-    public static UploadManager getInstance() {
-        return instance;
-    }
-
-    private synchronized void updateProgress(){
 
     }
 

@@ -20,18 +20,15 @@ import java.lang.reflect.Method;
  */
 public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModule {
 
-    private final static String TAG = CameraCaptureModule.class.getName();
-
-    private static CameraCaptureModule instance;
-
     public static final String VIDEOS_DIR = "videos";
     public static final String VIDEO_FILE_EXTENSION = ".mp4";
-
+    private final static String TAG = CameraCaptureModule.class.getName();
+    private static CameraCaptureModule instance;
     private WindowManager windowManager;
     private SurfaceView surfaceView;
     private Camera camera = null;
     private MediaRecorder mediaRecorder = null;
-//    private CaptureService service = null;
+    //    private CaptureService service = null;
 //    private Surface fakeSurface = null;
 //    private boolean recording = false;
     private Session session;
@@ -40,13 +37,20 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     private int cameraNumber;
     private Context context;
 
-    private CameraCaptureModule(){}
+    private CameraCaptureModule() {}
 
-    public CameraCaptureModule(Session session, Activity activity) {
+    public static CameraCaptureModule getInstance() {
+        if (instance == null) {
+            instance = new CameraCaptureModule();
+        }
+        return instance;
+    }
 
-        this.session = SessionManager.getInstace().getSessionInProgress();
+    @Override
+    public void startCapture() {
         //Todo: impove activity tracking
         this.activity = Hipsterbility.getInstance().getActivity();
+        windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         this.context = activity.getApplicationContext();
         // Create new SurfaceView, set its size to 1x1, move it to the top left corner and set this service as a callback
         surfaceView = new SurfaceView(context);
@@ -61,7 +65,7 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
 
         boolean found = false;
         int i;
-        for (i=0; i< Camera.getNumberOfCameras(); i++) {
+        for (i = 0; i < Camera.getNumberOfCameras(); i++) {
             Camera.CameraInfo newInfo = new Camera.CameraInfo();
             Camera.getCameraInfo(i, newInfo);
             if (newInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
@@ -84,20 +88,11 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     }
 
     @Override
-    public void startCapture() {
-//        if(fakeSurface != null) {
-//            prepareRecording();
-//            mediaRecorder.start();
-//        }
-    }
-
-
-    @Override
     public void stopCapture() {
-        if(mediaRecorder == null){
+        if (mediaRecorder == null) {
             return;
         }
-        try{
+        try {
             mediaRecorder.stop();
             mediaRecorder.reset();
             mediaRecorder.release();
@@ -105,7 +100,10 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
             camera.lock();
             camera.release();
             windowManager.removeView(surfaceView);
-        } catch (Exception e){System.err.println(e.getMessage());};
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        ;
     }
 
     @Override
@@ -125,20 +123,17 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
         return false;
     }
 
-    public static CameraCaptureModule getInstance() {
-        if(instance == null){
-            instance = new CameraCaptureModule();
-        }
-        return instance;
+    @Override
+    public void init() {
+        this.session = SessionManager.getInstace().getSessionInProgress();
+    }
+
+    public boolean isAudioEnabled() {
+        return audioEnabled;
     }
 
     public void setAudioEnabled(boolean audioEnabled) {
         this.audioEnabled = audioEnabled;
-    }
-
-
-    public boolean isAudioEnabled() {
-        return audioEnabled;
     }
 
     private void setCameraDisplayOrientation(android.hardware.Camera camera) {
@@ -149,10 +144,18 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
                 .getRotation();
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0: degrees = 0; break;
-            case Surface.ROTATION_90: degrees = 90; break;
-            case Surface.ROTATION_180: degrees = 180; break;
-            case Surface.ROTATION_270: degrees = 270; break;
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
         }
 
         int result;
@@ -184,7 +187,7 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
         mediaRecorder.setCamera(camera);
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        mediaRecorder.setProfile(CamcorderProfile.get(cameraNumber,CamcorderProfile.QUALITY_HIGH));
+        mediaRecorder.setProfile(CamcorderProfile.get(cameraNumber, CamcorderProfile.QUALITY_HIGH));
 
         setRecorderOutputFile();
 
@@ -203,8 +206,10 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {}
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
+    }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {}
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+    }
 }

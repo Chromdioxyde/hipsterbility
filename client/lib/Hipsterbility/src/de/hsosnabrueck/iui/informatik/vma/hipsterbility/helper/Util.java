@@ -6,15 +6,15 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
 /**
  * Created by Albert Hoffmann on 25.02.14.
  * Class for various utility methods that are being user by several classes.
  */
 public class Util {
+
+    public static final String BASE_DIR = "hipsterbility";
 
     public final static String SCREENSHOTS_DIR = "screenshots";
     public final static String IMAGE_JPG = ".jpg";
@@ -28,17 +28,17 @@ public class Util {
     private static final String TAG = Util.class.getName();
 
     public static String createOutputDirPathName(long sessionId, String subdir) {
-       String path =  createSessionDirPathName(sessionId)
+        String path = createSessionDirPathName(sessionId)
                 + subdir
                 + File.separator;
         new File(path).mkdirs();
         return path;
     }
 
-    public static String createSessionDirPathName(long sessionId){
-        String path =  Environment.getExternalStorageDirectory()
+    public static String createSessionDirPathName(long sessionId) {
+        String path = Environment.getExternalStorageDirectory()
                 + File.separator
-                + Hipsterbility.BASE_DIR
+                + BASE_DIR
                 + File.separator
                 + sessionId
                 + File.separator;
@@ -54,11 +54,11 @@ public class Util {
      * @param fileExtension File extension for output file. Constants provided by this class.
      * @return
      */
-    public static String createOutputFileAbsolutePathName(long sessionId, String subdir, String fileExtension){
+    public static String createOutputFileAbsolutePathName(long sessionId, String subdir, String fileExtension) {
         return createOutputDirPathName(sessionId, subdir) + System.currentTimeMillis() + fileExtension;
     }
 
-    public static String createRelativeRoute(User u, Session s, String suffix){
+    public static String createRelativeRoute(User u, Session s, String suffix) {
         return "/" + u.getId() + "/" + s.getId() + "/" + suffix;
     }
 
@@ -68,9 +68,9 @@ public class Util {
      *
      * @return True if the Test was successful and the device is rooted, false if all tests failed.
      */
-    public static boolean isDeviceRooted(){
+    public static boolean isDeviceRooted() {
         String buildTags = android.os.Build.TAGS;
-        if(buildTags != null && buildTags.contains("test-keys")){
+        if (buildTags != null && buildTags.contains("test-keys")) {
             Log.d(TAG, "Build Tags contain 'test-keys', Device is probably rooted");
             return true;
         } else {
@@ -78,7 +78,7 @@ public class Util {
         }
         try {
             File file = new File("/system/app/Superuser.apk");
-            if(file.exists()){
+            if (file.exists()) {
                 Log.d(TAG, "Superuser.apk has been found, device may be rooted");
                 return true;
             }

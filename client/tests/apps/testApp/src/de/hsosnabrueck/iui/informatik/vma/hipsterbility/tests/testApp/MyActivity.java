@@ -12,12 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.example.android.rssfeed.RssfeedActivity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Capturable;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 
 /**
  * Sources: http://www.vogella.com/tutorials/AndroidDialogs/article.html
  */
-public class MyActivity extends Activity {
+public class MyActivity extends Activity implements Capturable{
     /**
      * Called when the activity is first created.
      */
@@ -34,7 +35,12 @@ public class MyActivity extends Activity {
 //        h.testCapture();
         addListenerOnButton();
         // Enable UX testing for this activity
-        Hipsterbility.getInstance().enableTesting(this).setStartActivityClass(MyActivity.class);
+        Hipsterbility hipsterbility = Hipsterbility.getInstance();
+        hipsterbility.enableTesting(this);
+        hipsterbility.setStartActivityClass(this.getClass());
+        Hipsterbility.MODULE.VIDEO.enabled = true;
+        Hipsterbility.MODULE.AUDIO.enabled = true;
+        Hipsterbility.MODULE.SCREEN.enabled = true;
 
     }
 

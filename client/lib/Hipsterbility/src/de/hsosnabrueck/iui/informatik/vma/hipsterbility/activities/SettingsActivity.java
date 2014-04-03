@@ -38,14 +38,14 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             }
         });
         Preference rootFeatures = findPreference(getString(R.string.pref_key_enable_root));
-        if(rootFeatures!=null && !Util.isDeviceRooted()){
+        if (rootFeatures != null && !Util.isDeviceRooted()) {
             rootFeatures.setEnabled(false);
         }
     }
 
     private void testServerConnection() {
         showProgressDialog();
-        HipsterbilityRestClient.get("ping", null, new TextHttpResponseHandler(){
+        HipsterbilityRestClient.get("ping", null, new TextHttpResponseHandler() {
             @Override
             public void onFailure(String responseBody, Throwable error) {
                 super.onFailure(responseBody, error);
@@ -66,11 +66,11 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         });
     }
 
-    private void showToast(String msg){
-        Toast.makeText(this, msg,Toast.LENGTH_LONG).show();
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
     }
 
-    private void showProgressDialog(){
+    private void showProgressDialog() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(true);
@@ -78,8 +78,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         progressDialog.show();
     }
 
-    private void dismissProgressDialog(){
-        if(progressDialog != null && progressDialog.isShowing())
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing())
             progressDialog.dismiss();
     }
 
@@ -93,22 +93,22 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         connections = getString(R.string.pref_key_max_connection);
         root = getString(R.string.pref_key_enable_root);
 
-        if ( key.equals(server) || key.equals(port) ){
-            HipsterbilityRestClient.setServer(prefs.getString(server,""),
+        if (key.equals(server) || key.equals(port)) {
+            HipsterbilityRestClient.setServer(prefs.getString(server, ""),
                     Integer.valueOf(prefs.getString(port, "3000")));
         } else if (
                 key.equals(retries) ||
-                key.equals(timeout)
-                ){
+                        key.equals(timeout)
+                ) {
             HipsterbilityRestClient.setMaxRetriesAndTimeout(
                     Integer.valueOf(prefs.getString(retries, "0")),
                     Integer.valueOf(prefs.getString(timeout, "1000"))
             );
-        } else if (key.equals(connections)){
+        } else if (key.equals(connections)) {
             HipsterbilityRestClient.setMaxConnections(
                     Integer.valueOf(prefs.getString(connections, "1"))
             );
-        } else if (key.equals(root)){
+        } else if (key.equals(root)) {
             Hipsterbility.getInstance().setRootFeaturesEnabled(
                     prefs.getBoolean(root, false)
             );

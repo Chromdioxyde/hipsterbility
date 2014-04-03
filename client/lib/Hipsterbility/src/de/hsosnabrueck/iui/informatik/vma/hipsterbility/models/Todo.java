@@ -85,11 +85,11 @@ public class Todo {
         this.tasks = tasks;
     }
 
-    public Task getTask(int pos){
-       return this.tasks.get(pos);
+    public Task getTask(int pos) {
+        return this.tasks.get(pos);
     }
 
-    public void addTask(Task task){
+    public void addTask(Task task) {
         this.tasks.add(task);
     }
 }

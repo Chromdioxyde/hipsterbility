@@ -1,6 +1,5 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
 
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 
 import java.util.ArrayList;
@@ -20,6 +19,13 @@ public class SessionManager {
         this.sessions = new ArrayList<Session>();
     }
 
+    public static SessionManager getInstace() {
+        if (instance == null) {
+            instance = new SessionManager();
+        }
+        return instance;
+    }
+
     public ArrayList<Session> getSessions() {
         return sessions;
     }
@@ -34,13 +40,6 @@ public class SessionManager {
 
     public void setSessionInProgress(Session sessionInProgress) {
         this.sessionInProgress = sessionInProgress;
-    }
-
-    public static SessionManager getInstace(){
-        if(instance == null){
-            instance = new SessionManager();
-        }
-        return instance;
     }
 
 

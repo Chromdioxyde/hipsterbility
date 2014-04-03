@@ -14,20 +14,18 @@ import java.io.IOException;
 public class ScreenRecorder implements CaptureModule {
 
     private static final String TAG = ScreenRecorder.class.getName();
-
-    private static ScreenRecorder instance;
-
-    private boolean recording = false;
-    private Process captureProcess;
     private final static String VIDEO_FILE_EXTENSION = ".mp4";
     private static final String SCREEN_CAPUTRE_DIR = "screencapture";
+    private static ScreenRecorder instance;
+    private boolean recording = false;
+    private Process captureProcess;
 
-    private ScreenRecorder(){
+    private ScreenRecorder() {
 
     }
 
-    public static ScreenRecorder getInstance(){
-        if(instance == null) instance = new ScreenRecorder();
+    public static ScreenRecorder getInstance() {
+        if (instance == null) instance = new ScreenRecorder();
         return instance;
     }
 
@@ -49,7 +47,7 @@ public class ScreenRecorder implements CaptureModule {
 
     @Override
     public void stopCapture() {
-        if(captureProcess!= null) {
+        if (captureProcess != null) {
             captureProcess.destroy();
             Log.d(TAG, "Stopping screenrecord: " + captureProcess.exitValue());
         }
@@ -69,6 +67,11 @@ public class ScreenRecorder implements CaptureModule {
     @Override
     public boolean isCapturing() {
         return recording;
+    }
+
+    @Override
+    public void init() {
+
     }
 
 }

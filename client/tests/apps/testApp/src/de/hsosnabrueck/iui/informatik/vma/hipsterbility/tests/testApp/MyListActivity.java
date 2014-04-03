@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Capturable;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by Albert Hoffmann on 05.03.14.
  * Source: http://www.vogella.com/tutorials/AndroidListView/article.html
  */
-public class MyListActivity extends Activity {
+public class MyListActivity extends Activity implements Capturable{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

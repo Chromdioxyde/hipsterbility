@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
@@ -49,7 +48,7 @@ public class SessionListAdapter extends ArrayAdapter<Session> {
         int g = rnd.nextInt(256);
         int b = rnd.nextInt(256);
         int color = Color.argb(255, r, g, b);
-        if((r+g+b) / 3 > 128){
+        if ((r + g + b) / 3 > 128) {
             textId.setTextColor(Color.BLACK);
         } else {
             textId.setTextColor(Color.WHITE);

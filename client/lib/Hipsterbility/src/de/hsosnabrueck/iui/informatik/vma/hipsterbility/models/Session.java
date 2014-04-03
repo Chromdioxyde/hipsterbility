@@ -1,9 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.models;
 
-import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -48,7 +46,7 @@ public class Session {
     }
 
 
-    public Session(long id, String name, String description, Device device, App app, boolean active){
+    public Session(long id, String name, String description, Device device, App app, boolean active) {
         this(id);
         this.name = name;
         this.description = description;
@@ -113,7 +111,7 @@ public class Session {
         this.todos = todos;
     }
 
-    public void addTodo(Todo todo){
+    public void addTodo(Todo todo) {
         this.todos.add(todo);
     }
 

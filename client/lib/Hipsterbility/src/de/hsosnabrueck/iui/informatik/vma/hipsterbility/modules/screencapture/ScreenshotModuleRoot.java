@@ -16,14 +16,14 @@ public class ScreenshotModuleRoot implements CaptureModule {
     private static ScreenshotModuleRoot instance;
     private Session session;
 
-    public static ScreenshotModuleRoot getInstance(){
-        if(instance == null) instance = new ScreenshotModuleRoot();
+    public static ScreenshotModuleRoot getInstance() {
+        if (instance == null) instance = new ScreenshotModuleRoot();
         return instance;
     }
 
     @Override
     public void startCapture() {
-        this.session = SessionManager.getInstace().getSessionInProgress();
+
 //        TODO: implement
     }
 
@@ -46,6 +46,11 @@ public class ScreenshotModuleRoot implements CaptureModule {
     public boolean isCapturing() {
 //        TODO: implement
         return false;
+    }
+
+    @Override
+    public void init() {
+        this.session = SessionManager.getInstace().getSessionInProgress();
     }
 
 

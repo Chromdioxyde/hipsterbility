@@ -43,11 +43,10 @@ public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
         final Task children = (Task) getChild(groupPosition, childPosition);
-        TextView text = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.todos_listrow_details, null);
         }
-        text = (TextView) convertView.findViewById(R.id.text_task_name);
+        TextView text = (TextView) convertView.findViewById(R.id.text_task_name);
         text.setText(children.getName());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

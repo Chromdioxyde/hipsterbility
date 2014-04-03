@@ -11,7 +11,6 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
 
 /**
@@ -28,7 +27,8 @@ public class HipsterbilityService extends Service {
     private SharedPreferences prefs;
     private Notification notification;
 
-    public HipsterbilityService() {}
+    public HipsterbilityService() {
+    }
 
 
     @Override
@@ -42,7 +42,6 @@ public class HipsterbilityService extends Service {
     }
 
 
-
     public IBinder onBind(Intent intent) {
         return null;
     }
@@ -50,8 +49,8 @@ public class HipsterbilityService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO: shutdown Service by intent
-        Log.d(TAG,"Received intent: " +  intent + " flags: " + flags);
-        if(intent.getBooleanExtra("shutdown", false)){
+        Log.d(TAG, "Received intent: " + intent + " flags: " + flags);
+        if (intent.getBooleanExtra("shutdown", false)) {
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             manager.cancel(NOTIFICATION_ID);
             this.stopSelf();
@@ -62,7 +61,7 @@ public class HipsterbilityService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void createNotification(){
+    public void createNotification() {
         Intent intent = new Intent(this, SessionActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         Intent stopServiceIntent = new Intent(this, HipsterbilityService.class);
