@@ -1,23 +1,40 @@
 \section{Android-Client}
 
-In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur Entwicklung wurde die IDE \textit{IntelliJ Idea}\footnote{IntelliJ Idea: http://www.jetbrains.com/idea/} verwendet. Screenshots und Anleitungen beziehen sich diesbezüglich auf diese Software. Konfigurationen und Einstellungen können sich zu anderen IDEs unterscheiden. 
+In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur Entwicklung wurde die IDE \textit{IntelliJ Idea}\footnote{IntelliJ Idea: http://www.jetbrains.com/idea/} verwendet. Screenshots und Anleitungen beziehen sich diesbezüglich auf diese Software. Konfigurationen und Einstellungen können sich zu anderen IDEs unterscheiden.
 
-Die Quellen zu den Projekten befinden sich im Github-Repository im Unterordner \textit{client}.
+Die Quellen zu den Projekten befinden sich im Github-Repository im Unterordner \texttt{client}.
+
+\subsection{Verwendete Bibliotheken von Drittanbietern}
+Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.2.2} werden die folgenden externe Bibliotheken eingesetzt:
+\begin{description}
+	\item[Android Asynchronous Http Client\footnote{\url{http://loopj.com/android-async-http/}}] 
+	Ein Callback-basierter HTTP Client, aufbauend auf Apache HTTP\footnote{\url{http://hc.apache.org/httpcomponents-client-ga/}} Bibliotheken. Diese quelloffene Android Bibliothek bietet Klassen und Methoden für asynchrone HTTP Aufrufe und wird auch in großen Projekten wie \emph{Instagram} oder \emph{Pinterest} eingesetzt. Die zusätzliche Abstraktionsschicht übernimmt die Fehlerbehandlung, wiederholte Verbindungsversuche und das übertragen von großen Datenmengen auf einfach anzuwendende Weise. Das Projekt unter der Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}, veröffentlicht und kann unter deren Bedingungen frei genutzt werden.
+	\item[Google GSON\footnote{\url{https://code.google.com/p/google-gson/}}]
+	Der Datenabruf vom Server erfolgt mittels \ac{JSON}-Objekte im HTML Body. Um diese Objekte schnell und einfach in Java Objekte umzuwandeln bietet GSON entsprechende Klassen an, die das Implementieren von eigenen Parsern etc. überflüssig macht.
+	Die quelloffenen, universell einsetzbare, Java Bibliothek wird ebenfalls unter der Apache License, Version 2.0 veröffentlicht.
+	\item[Android Support Library\footnote{\url{http://developer.android.com/tools/support-library/index.html}}]
+	Diese zusätzliche, nicht im Android SDK enthaltene, Bibliothek bietet zahlreiche zusätzliche Klassen an, die nicht Bestandteil des offiziellen SDK sind, jedoch nützliche Erweiterungen. Z.B. gibt es Klassen für die applikationsinterne Kommunikation und zusätzliche \ac{UI}-Elemente und Layouts.
+	Diese Bibliothek steht unter der \emph{Creative Commons Attribution 2.5}\footnote{http://creativecommons.org/licenses/by/2.5/} Lizenz und kann unter deren Bedingungen verwendet werden.
+\end{description}
 
 \subsection{Bibliotheksmodul}
 
 Zur Entwicklung der Bibliothek wurden zwei Projekte verwendet - Einmal das Projekt für die Bibliothek selbst und weiterhin ein Android-Projekt zum Testen der Funktionen während der Entwicklung. 
+%TODO: weiter ausführen oder woanders einbauen
 
 \subsubsection{Monolithischer Wrapper}
+Im Sinne des Fascade Design Patterns 
+%TODO belege suchen und weiter schreiben
 
 \subsection{Einbinden der Bibliothek in eigene Anwendungen}
 
 \subsubsection{Dynamisches Einbinden - Pre-Dexing}
 
 Beim Pre-Dexing können mehrere Android-Projekte zu einem Projekt hinzugefügt werden. 
-% TODO: updating
+%TODO: updating
 
-Da die Bibliothek neueste Funktionen des Android-Betriebssystems verwendet, muss auf dem  Gerät zur Kompilierung einer Anwendung aktuelle Build-Tools der Android-SDK vorliegen. Im Falle der Bibliothek ist dies API-Level 19. Offenbar hat sich hier ein Bug eingeschlichen und es ist unter der Version 19.0 kein Pre-Dexing möglich. Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Version 19.0.1 verwendet werden muss um Pre-Dexing durchführen zu können. 
-% TODO: update, wichtig? Screenshot? 
+Da die Bibliothek neueste Funktionen des Android-Betriebssystems verwendet, muss auf dem  Gerät zur Kompilierung einer Anwendung aktuelle Build-Tools der Android-SDK vorliegen. Im Falle der Bibliothek ist dies API-Level 19. Offenbar hat sich hier ein Bug eingeschlichen und es ist unter der Version 19.0 kein Pre-Dexing möglich. Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Version 19.0.1 verwendet werden muss um Pre-Dexing durchführen zu können.
+%TODO: Dafuq? ich kann mich nicht daran erinnern mich damit auseinader gesetzt zu haben (oder dass dieses Problem überhaupt aufgetreten wäre)
+%TODO: update, wichtig? Screenshot? 
 
 \subsubsection{Statisches Einbinden als JAR-Archiv}
