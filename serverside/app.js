@@ -5,16 +5,16 @@
 var express = require('express');
 var Query = require('./classes/query');
 
-var backend = require('./routes/backend'); // admin web controllers
-var frontend = require('./routes/frontend'); // frontend web controllers
+var backend = require('./controllers/backend'); // admin web controllers
+var frontend = require('./controllers/frontend'); // frontend web controllers
 
-var videos = require('./routes/api/videos'); // videos API
+var videos = require('./controllers/api/videos'); // videos API
 //var audio = require('./controllers/api/audio'); // microphone / audio API
-var captures = require('./routes/api/captures'); // captures / screenshot API
-var sessions = require('./routes/api/sessions'); // session ID API
-var logs = require('./routes/api/logs'); // logfiles API
-var todos = require('./routes/api/todos'); // todos API
-var tasks = require('./routes/api/tasks'); // tasks API
+var captures = require('./controllers/api/captures'); // captures / screenshot API
+var sessions = require('./controllers/api/sessions'); // session ID API
+var logs = require('./controllers/api/logs'); // logfiles API
+var todos = require('./controllers/api/todos'); // todos API
+var tasks = require('./controllers/api/tasks'); // tasks API
 
 var http = require('http');
 var path = require('path');
@@ -144,7 +144,7 @@ app.post('/auth/?', function (req, res) {
 app.get('/:user_id/admin', backend.index);
 app.get('/:user_id/admin/sessions/?', backend.sessions);
 app.get('/:user_id/admin/sessions/new/?', backend.newSession);
-app.post('/:user_id/admin/sessions/new/?', sessions)
+app.post('/:user_id/admin/sessions/new/?', backend.insertSession);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
 app.get('/:user_id/admin/sessions/:session_id/tasks/:task_id', backend.sessionPartial);
 app.get('/:user_id/admin/sessions/:session_id/todos/new');
