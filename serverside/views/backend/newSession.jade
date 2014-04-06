@@ -9,7 +9,7 @@ block content
             h1.page-header New Session
         .row
             .col-lg-6
-                form#session-new(role="form")
+                form#session-new(role="form", action="/"+id_user+"/admin/sessions/new", method="POST")
                     .form-group
                         label(for="input-name") Name:
                         input.form-control#input-name(type="text", name="input-name")
