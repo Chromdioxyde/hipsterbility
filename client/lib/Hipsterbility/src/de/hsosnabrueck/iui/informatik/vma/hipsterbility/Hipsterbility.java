@@ -28,7 +28,7 @@ public class Hipsterbility {
     private Context context;
     private Application application;
     private Activity activity;
-    private Class startActivity;
+
     private boolean rootFeaturesEnabled;
 
     /**
@@ -93,13 +93,13 @@ public class Hipsterbility {
 //        UploadManager.getInstance().uploadSessionData(s);
     }
 
-    public Class getStartActivityClass() {
-        return startActivity;
-    }
+//    public Class getStartActivityClass() {
+//        return startActivity;
+//    }
 
-    public void setStartActivityClass(Class startActivity) {
-        this.startActivity = startActivity;
-    }
+//    public void setStartActivityClass(Class startActivity) {
+//        this.startActivity = startActivity;
+//    }
 
     public Context getContext() {
         return context;

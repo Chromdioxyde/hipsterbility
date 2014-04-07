@@ -1,6 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
  * Created by albert on 19.02.14.
  */
 public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
+
+    private final static String TAG = TodosExpandableListAdapter.class.getName();
 
     private final ArrayList<Todo> todos;
     public LayoutInflater inflater;
@@ -42,18 +45,21 @@ public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final Task children = (Task) getChild(groupPosition, childPosition);
+        final Task task = (Task) getChild(groupPosition, childPosition);
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.todos_listrow_details, null);
         }
-        TextView text = (TextView) convertView.findViewById(R.id.text_task_name);
-        text.setText(children.getName());
+        Log.d(TAG, task.toString());
+        TextView textName = (TextView) convertView.findViewById(R.id.text_task_name);
+        TextView textId = (TextView) convertView.findViewById(R.id.text_task_id);
+        textName.setText(task.getName());
+        textId.setText(String.valueOf(task.getId()));
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //TODO: do something with selected item
-                Toast.makeText(activity, children.getName(),
+                Toast.makeText(activity, task.getName(),
                         Toast.LENGTH_SHORT).show();
             }
         });

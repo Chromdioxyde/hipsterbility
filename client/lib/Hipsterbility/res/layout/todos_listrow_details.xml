@@ -5,20 +5,17 @@
               android:padding="10dp"
               android:orientation="vertical">
     <TextView
-            android:id="@+id/text_id"
-            android:text="11"
-            android:textSize="20dp"
+            android:id="@+id/text_task_id"
+            android:textSize="20sp"
             android:gravity="center"
             android:layout_width="30dp"
             android:layout_height="match_parent"/>
     <TextView
             android:id="@+id/text_task_name"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="ChangeMe"
             android:textSize="14sp"
-            android:layout_toRightOf="@id/text_id"
-            android:textStyle="bold" >
-    </TextView>
+            android:layout_toRightOf="@id/text_task_id"
+            android:textStyle="bold" />
 
 </RelativeLayout>
