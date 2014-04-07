@@ -3,7 +3,7 @@ var Query = require('../../classes/query');
 exports.all = function(req, res) {
 	var query = new Query;
 
-	qstr = 'SELECT * FROM tasks WHERE todos_idtodos = ' + req.params.todo_id;
+	var qstr = 'SELECT * FROM tasks WHERE todos_idtodos = ' + req.params.todo_id;
 
 	console.log(qstr);
 
@@ -14,9 +14,14 @@ exports.all = function(req, res) {
 	});
 };
 
+/**
+ * 
+ * @param req
+ * @param res
+ */
 exports.get = function(req, res) {
 	var query = new Query;
-	qstr = 'SELECT * FROM tasks WHERE todos_idtodos = ' + req.params.todo_id + ' AND idtasks =' + req.params.task_id;
+	var qstr = 'SELECT * FROM tasks WHERE todos_idtodos = ' + req.params.todo_id + ' AND idtasks =' + req.params.task_id;
 	query.execute(qstr, function(rows) {
 		res.send(rows);
 	});

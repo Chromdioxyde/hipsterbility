@@ -1,0 +1,69 @@
+//
+   Created by olivererxleben on 28.03.14.
+extends ../layout
+
+block content
+    #page-wrapper
+        .row
+            .hidden#user(data='' + id_user)
+            h1.page-header New Session
+        .row
+            .col-lg-6
+                form#session-new(role="form", action="/"+id_user+"/admin/sessions/new", method="POST")
+                    .form-group
+                        label(for="input-name") Name:
+                        input.form-control#input-name(type="text", name="inputname")
+                    .form-group
+                        label(for="input-description") Beschreibung:
+                        textarea.form-control#input-description(name="inputdescription")
+                    .form-group
+                        label(for="inputtodoname") TODO-Name
+                        input.form-control#input-todo-name(type="text", name="inputtodoname")
+
+                        .form-group.col-lg-4
+                            label(for="input_task_") Task:
+                            input.form-control#input-task(type="text", name="input_task_1")
+                            input.form-control#input-task(type="text", name="input_task_2")
+                            input.form-control#input-task(type="text", name="input_task_3")
+                            input.form-control#input-task(type="text", name="input_task_4")
+                            input.form-control#input-task(type="text", name="input_task_5")
+                            input.form-control#input-task(type="text", name="input_task_6")
+                            input.form-control#input-task(type="text", name="input_task_7")
+                            input.form-control#input-task(type="text", name="input_task_8")
+                            input.form-control#input-task(type="text", name="input_task_9")
+                            input.form-control#input-task(type="text", name="input_task_10")
+                    br(style="clear:both")
+                    .form-group
+                        label(for="inputtodo2name") TODO-Name
+                        input.form-control#input-todo-name(type="text", name="inputtodoname2")
+                        .form-group.col-lg-4
+                            label(for="input_task2") Task:
+                            input.form-control#input-task(type="text", name="input_task2_1")
+                            input.form-control#input-task(type="text", name="input_task2_2")
+                            input.form-control#input-task(type="text", name="input_task2_3")
+                            input.form-control#input-task(type="text", name="input_task2_4")
+                            input.form-control#input-task(type="text", name="input_task2_5")
+                            input.form-control#input-task(type="text", name="input_task2_6")
+                            input.form-control#input-task(type="text", name="input_task2_7")
+                            input.form-control#input-task(type="text", name="input_task2_8")
+                            input.form-control#input-task(type="text", name="input_task2_9")
+                            input.form-control#input-task(type="text", name="input_task2_10")
+                    br(style="clear:both")
+                    .form-group
+                        label(for="inputtodo3name") TODO-Name
+                        input.form-control#input-todo-name(type="text", name="inputtodoname3")
+                        .form-group.col-lg-4
+                            label(for="input_task3") Task:
+                            input.form-control#input-task(type="text", name="input_task3_1")
+                            input.form-control#input-task(type="text", name="input_task3_2")
+                            input.form-control#input-task(type="text", name="input_task3_3")
+                            input.form-control#input-task(type="text", name="input_task3_4")
+                            input.form-control#input-task(type="text", name="input_task3_5")
+                            input.form-control#input-task(type="text", name="input_task3_6")
+                            input.form-control#input-task(type="text", name="input_task3_7")
+                            input.form-control#input-task(type="text", name="input_task3_8")
+                            input.form-control#input-task(type="text", name="input_task3_9")
+                            input.form-control#input-task(type="text", name="input_task3_10")
+                    br(style="clear:both")
+                    .form-group
+                        button.btn.btn-primary(type="submit") neue Session erstellen

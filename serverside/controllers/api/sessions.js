@@ -37,7 +37,27 @@ exports.get = function(req, res) {
 		res.send(rows);
 	});
 	
-}
+};
+
+/**
+ * validates and inserts new session data
+ * @param req
+ * @param res
+ */
+exports.post = function(req, res) {
+
+    var qstr = "INSERT INTO sessions " +
+        "(name, description, active, finished, users_idusers, apps_idapps, devices_iddevices)" +
+        "VALUES" +
+        "(";
+
+    // validation
+
+
+
+    qustr += ")";
+
+};
 
 /**
  * updates a session.	
