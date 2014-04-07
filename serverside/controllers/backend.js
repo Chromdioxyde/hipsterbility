@@ -69,7 +69,7 @@ exports.session = function(req, res) {
             });
         }
     });
-}
+};
 
 /**
  *
@@ -90,4 +90,15 @@ exports.newSession = function(req, res) {
     res.render('backend/newSession', {type: 'backend', id_user: req.params.user_id });
 
 	// TODO implementation
-}
+};
+
+/**
+ * Inserts a new session
+ * @param req
+ * @param res
+ */
+exports.insertSession = function(req, res) {
+
+    // validate inputs
+
+};
