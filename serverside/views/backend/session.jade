@@ -15,10 +15,7 @@ block content
 
                         th #
                         th Name
-                        th Aktiv
-                        th
-                        th
-                        th
+                        th erledigt
                         th
 
                 tbody
@@ -27,14 +24,15 @@ block content
                             td= todo.idtodos
                             td= todo.name
                             td= todo.active
-                            td Ergebnis
-                            td abhaken
-                            td entfernen
+
                             if i == todos.length-1
                                 td
                                     a(href='/sessions/')
                             else
                                 td
         .row
+            h2 Ergebnis
+            div
+                a.btn.btn-primary(href='/'+id_user+'/admin/sessions/'+session.idsessions+'/result') zum Ergebnis
 
     script(src='/js/session-ui.js')

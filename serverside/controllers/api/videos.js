@@ -17,7 +17,7 @@ exports.all = function (req, res) {
  */
 exports.get = function (req, res) {
 	var query = new Query;
-	qstr = 'SELECT idvideos, file FROM videos WHERE sessions_idsessions = ' + req.params.session_id + ' AND idvideos =' + req.params.id_logs;
+	qstr = 'SELECT idvideos, file FROM videos WHERE sessions_idsessions = ' + req.params.session_id + ' AND idvideos =' + req.params.id_videos;
 	query.execute(qstr, function(rows) {
 		res.send(rows);
 	});

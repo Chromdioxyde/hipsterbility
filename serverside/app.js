@@ -146,6 +146,8 @@ app.get('/:user_id/admin/sessions/?', backend.sessions);
 app.get('/:user_id/admin/sessions/new/?', backend.newSession);
 app.post('/:user_id/admin/sessions/new/?', backend.insertSession);
 app.get('/:user_id/admin/sessions/:id/?', backend.session);
+app.get('/:user_id/admin/sessions/:session_id/result', backend.sessionResult);
+app.get('/:user_id/admin/sessions/:session_id/result/video', backend.sessionResultVideo);
 app.get('/:user_id/admin/sessions/:session_id/tasks/:task_id', backend.sessionPartial);
 app.get('/:user_id/admin/sessions/:session_id/todos/new');
 
@@ -171,7 +173,7 @@ app.put('/:user_id/sessions/:session_id/?', sessions.put); // finishes a session
 app.get('/:user_id/:session_id/videos/?', videos.all); // get list of videos 
 app.post('/:user_id/:session_id/videos/?', videos.post); // post new video
  
-app.get('/:user_id/:session_id/videos/:id/?', videos.get); // get specific video
+app.get('/:user_id/:session_id/videos/:id_videos/?', videos.get); // get specific video
 // //app.put('/videos/:id/?', videos.update);
 
 // captures API
