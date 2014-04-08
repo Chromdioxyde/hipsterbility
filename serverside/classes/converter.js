@@ -253,7 +253,7 @@ Converter.prototype.createResult = function(user, session, callback) {
                                     stream.once('end', function(exitCode, signal) {
                                         console.log('all fin '+ exitCode );
 
-                                        var qstr = 'INSERT INTO results (file, timestamp, sessions_idsessions VALUES ' +
+                                        var qstr = 'INSERT INTO results (file, timestamp, sessions_idsessions) VALUES ' +
                                             '("'+ finaloutput + '", NOW(),' + session + ')';
 
                                         var query = new Query;
