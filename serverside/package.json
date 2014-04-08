@@ -11,6 +11,8 @@
 	"mysql" : "*",
     "avconv":"*",
     "passport":"*",
-    "passport-local":"*"
+    "passport-local":"*",
+    "string":"*"
+
   }
 }
