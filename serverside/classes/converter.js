@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var avconv = require('avconv');
+var Query = require('./query');
 /*
  * "constructor" function implements all need variable initialization 
  */
@@ -97,7 +98,7 @@ Converter.prototype.addScreenshot = function(screenshot) {
 Converter.prototype.createResult = function(user, session, callback) {
     callback();
     mkdirp.sync('./uploads/'+user+'/'+session +'/results/captures/');
-    
+
     // parameters for each image
     var paramDict = [];
     var input = './uploads/' + user + '/'+ session +'/captures/';
