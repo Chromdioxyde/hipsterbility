@@ -13,6 +13,13 @@ Im Folgenden werden die zwei serverseitigen Komponenten, Datenbank und HTTP-Serv
 
 Als Betriebssystem für den Server dient ein Debian in der Version 7.0. Der Maschine wurde 1 Prozessorkern und 512 MB RAM zugewiesen. Änderungen können im Vagrantfile, siehe Abschnitt \ref{vagrant}, oder der Virtual Box-Konfiguration vorgenommen werden.
 
+Weitere Softwarequellen, welche installiert wurden, sind: 
+\begin{description}
+	\item[openSSH Server] 
+	Dieser 
+\end{description}
+
+
 \subsubsection{Ordnerstruktur}
 % TODO positioning, sizing
 \dirtree{%
@@ -61,8 +68,14 @@ Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet si
 %TODO: Links in footnotes
 
 \subsubsection{Datenbank-Modell}
+Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung \ref{figure-db-model} zeigt das Ergebnis.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\linewidth,keepaspectratio]{img/db_model.png}
+	\caption{Datenbank Modell}
+	\label{figure-db-model}
+\end{figure}
 
-\includegraphics[width=\linewidth,keepaspectratio]{img/db_model.png}
 
 \subsection{NodeJS HTTP-Server und Middleware}
 Die serverseitige Logik wurde mit NodeJS und dem ExpressJS-Framework umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
@@ -104,3 +117,5 @@ http.createServer(app).listen(app.get('port'), function(){
 \subsubsection{APIs}
 
 \subsection{Videoproduktion}
+
+Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{} verwendet. Genauer wird die darin enthaltene Software \emph{avconv} genutzt um die Bilder und Videos zusammenzufügen. 
