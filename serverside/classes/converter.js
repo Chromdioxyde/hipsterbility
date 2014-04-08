@@ -244,10 +244,21 @@ Converter.prototype.createResult = function(user, session, callback) {
 
                                     var stream = avconv(params);
 
-                                    //stream.pipe(process.stdout);
+                                    stream.pipe(process.stdout);
 
                                     stream.once('end', function(exitCode, signal) {
                                         console.log('all fin '+ exitCode );
+
+                                        var qstr = 'INSERT INTO results (file, timestamp, sessions_idsessions VALUES' +
+                                            '("'+ finaloutput + '", NOW(),' + session + ')';
+
+                                        var query = new Query;
+
+                                        query.execute(qstr, function(rows) {
+                                            console.log(rows);
+
+
+                                        });
 
                                     });
 

@@ -303,3 +303,14 @@ exports.insertSession = function(req, res) {
     });
 
 };
+
+exports.sessionResult = function (req, res) {
+
+    res.render('backend/result', {type: 'backend', id_user: req.params.user_id, id_session: req.params.session_id });
+
+};
+
+exports.sessionResultVideo = function (req, res) {
+
+    var qstr = "SELECT * FROM "
+};

@@ -2,15 +2,33 @@
 \label{server}
 Wie in Abschnitt \ref{app_architecture} beschrieben, müssen die aufgezeichneten Daten der Clientbibliothek weiter verarbeitet werden. % nochmal etwas genauer
 
-Im Folgenden wird die Struktur des Server-Moduls beschrieben, welches mit NodeJS\footnote{NodeJS: } umgesetzt wurde.
+Im Folgenden werden die zwei serverseitigen Komponenten, Datenbank und HTTP-Server, vorgestellt. 
+
 %TODO: footnote ++ update
 
 %TODO: subsection title ?!
 %TODO: Vagrant verfassen 
 \subsection{Virtualisierung mit Vagrant}
-Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant konfiguriert. 
+
+Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird zum Beispiel Virtual Box eingesetzt. Die eigene VM wird dann mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, zum Beispiel Portweiterleitungen. Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. Konkret wurde folgendes in Vagrant konfiguriert. 
+
+\subsubsection{Konfiguration}
+
+Als Betriebssystem dient 
+
+\subsubsection{Vagrantfile}
+
+\subsection{Datenbank Backend}
+
+Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition. 
+%TODO: Links in footnotes
+
+\subsubsection{Datenbank-Modell}
 
 \subsection{NodeJS HTTP-Server und Middleware}
+Die serverseitige Logik wurde mit NodeJS und dem ExpressJS-Framework umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
+
+Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. 
 
 \begin{lstlisting}[label=minimal_node_http_server,language=Java, caption=Minimaler Node-HTTP-Server]
 /**
@@ -44,13 +62,6 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 \end{lstlisting}
 
-
-
-\subsection{Datenbank Backend}
-
-Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung %TODO: Links in footnotes
-
-\subsection{APIs}
+\subsubsection{APIs}
 
 \subsection{Videoproduktion}
-
