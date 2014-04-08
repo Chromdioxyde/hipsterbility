@@ -20,11 +20,14 @@ public class Util {
     public final static String IMAGE_JPG = ".jpg";
     public final static String IMAGE_PNG = ".png";
 
+    public static final String VIDEOS_DIR = "videos";
+    public static final String VIDEO_FILE_EXTENSION = ".mp4";
+
     public static final String AUDIO_DIR = "audio";
     public static final String AUDIO_FILE_EXTENSSION = ".aac";
 
-    public static final String URL_SUFFIX_CAMERA = "/videos/";
-    public static final String URL_SUFFIX_CAPTURES = "/captures/"; // for screenshots
+    public static final String URL_SUFFIX_CAMERA = "videos/";
+    public static final String URL_SUFFIX_CAPTURES = "captures/"; // for screenshots
     private static final String TAG = Util.class.getName();
 
     public static String createOutputDirPathName(long sessionId, String subdir) {
@@ -81,9 +84,11 @@ public class Util {
             if (file.exists()) {
                 Log.d(TAG, "Superuser.apk has been found, device may be rooted");
                 return true;
+            } else {
+                Log.d(TAG, "Superuser.apk not found.");
             }
         } catch (Exception e) {
-            Log.d(TAG, "Superuser.apk not found.");
+            Log.e(TAG, "Error while looking for Superuser.apk: " + e.getMessage());
         }
         Process process = null;
         try {

@@ -20,10 +20,10 @@ import java.lang.reflect.Method;
  */
 public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModule {
 
-    public static final String VIDEOS_DIR = "videos";
-    public static final String VIDEO_FILE_EXTENSION = ".mp4";
     private final static String TAG = CameraCaptureModule.class.getName();
+
     private static CameraCaptureModule instance;
+
     private WindowManager windowManager;
     private SurfaceView surfaceView;
     private Camera camera = null;
@@ -32,7 +32,6 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     private Activity activity;
     private boolean audioEnabled;
     private int cameraNumber;
-    private Context context;
 
     private CameraCaptureModule() {}
 
@@ -48,9 +47,8 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
         //Todo: impove activity tracking
         this.activity = Hipsterbility.getInstance().getActivity();
         windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
-        this.context = activity.getApplicationContext();
         // Create new SurfaceView, set its size to 1x1, move it to the top left corner and set this service as a callback
-        surfaceView = new SurfaceView(context);
+        surfaceView = new SurfaceView(activity.getApplicationContext());
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
                 1, 1,
                 WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
@@ -60,25 +58,16 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
         layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         windowManager.addView(surfaceView, layoutParams);
 
-//        boolean found = false;
-        int i;
-        for (i = 0; i < Camera.getNumberOfCameras(); i++) {
+        for (int i = 0; i < Camera.getNumberOfCameras(); i++) {
             Camera.CameraInfo newInfo = new Camera.CameraInfo();
             Camera.getCameraInfo(i, newInfo);
             if (newInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-//                found = true;
+                cameraNumber = i;
                 break;
             }
         }
-        cameraNumber = i;
 
         camera = Camera.open(cameraNumber);
-       /*
-       // set Rotation for portrait display orientation
-        // TODO follow display orientation on change
-        camera.setDisplayOrientation(270);
-        camera.getParameters().setRotation(270);
-        */
         setCameraDisplayOrientation(camera);
         camera.unlock();
         surfaceView.getHolder().addCallback(this);
@@ -86,6 +75,7 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
 
     @Override
     public void stopCapture() {
+        Log.d(TAG, "stopCapture");
         if (mediaRecorder == null) {
             return;
         }
@@ -98,18 +88,20 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
             camera.release();
             windowManager.removeView(surfaceView);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "Error while stopping MediaRecorder");
         }
     }
 
     @Override
     public void pauseCapture() {
+        Log.d(TAG, "pauseCapture");
         //TODO: test pause and resume
         mediaRecorder.stop();
     }
 
     @Override
     public void resumeCapture() {
+        Log.d(TAG, "resumeCapture");
         setRecorderOutputFile();
         mediaRecorder.start();
     }
@@ -140,18 +132,10 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
                 .getRotation();
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
-            case Surface.ROTATION_90:
-                degrees = 90;
-                break;
-            case Surface.ROTATION_180:
-                degrees = 180;
-                break;
-            case Surface.ROTATION_270:
-                degrees = 270;
-                break;
+            case Surface.ROTATION_0:    degrees = 0;    break;
+            case Surface.ROTATION_90:   degrees = 90;   break;
+            case Surface.ROTATION_180:  degrees = 180;  break;
+            case Surface.ROTATION_270:  degrees = 270;  break;
         }
 
         int result;
@@ -170,14 +154,15 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
             downPolymorphic = camera.getClass().getMethod("setDisplayOrientation", new Class[]{int.class});
             if (downPolymorphic != null)
                 downPolymorphic.invoke(camera, new Object[]{angle});
-        } catch (Exception e1) {
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
         }
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         mediaRecorder = new MediaRecorder();
-        mediaRecorder.setOrientationHint(270);
+//        mediaRecorder.setOrientationHint(270);
 
         mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
         mediaRecorder.setCamera(camera);
@@ -197,15 +182,17 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
 
     private void setRecorderOutputFile() {
         mediaRecorder.setOutputFile(
-                Util.createOutputDirPathName(this.session.getId(), VIDEOS_DIR) + System.currentTimeMillis() + VIDEO_FILE_EXTENSION
+                Util.createOutputFileAbsolutePathName(this.session.getId(), Util.VIDEOS_DIR, Util.VIDEO_FILE_EXTENSION)
+//                Util.createOutputDirPathName(
+//                        this.session.getId()
+//                        , Util.VIDEOS_DIR
+//                ) + System.currentTimeMillis() + Util.VIDEO_FILE_EXTENSION
         );
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
-    }
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {}
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-    }
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {}
 }

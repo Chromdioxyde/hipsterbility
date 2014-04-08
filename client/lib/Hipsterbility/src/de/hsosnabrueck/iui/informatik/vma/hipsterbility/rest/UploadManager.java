@@ -68,7 +68,7 @@ public class UploadManager extends Service {
         File[] subdirs = sessionDir.listFiles();
         Log.d(TAG, subdirs.toString());
         for (File f : subdirs) {
-            if (f.getName().equalsIgnoreCase(CameraCaptureModule.VIDEOS_DIR)) {
+            if (f.getName().equalsIgnoreCase(Util.VIDEOS_DIR)) {
                 cameraFilesList = new ArrayList<File>(Arrays.asList(f.listFiles()));
                 fileTotalCount += cameraFilesList.size();
             } else if (f.getName().equalsIgnoreCase(Util.SCREENSHOTS_DIR)) {
@@ -83,10 +83,10 @@ public class UploadManager extends Service {
         }
         Log.d(TAG, "Overall size of files: " + size + " bytes");
         if (uploadFiles(session, cameraFilesList, Util.URL_SUFFIX_CAMERA, PARAM_NAME_CAMERA)) {
-            deleteFiles(cameraFilesList);
+//            deleteFiles(cameraFilesList);
         }
         if (uploadFiles(session, screenshotFileList, Util.URL_SUFFIX_CAPTURES, PARAM_NAME_SCREENSHOT)) {
-            deleteFiles(screenshotFileList);
+//            deleteFiles(screenshotFileList);
         }
         //TODO: upload and delete other file types
         return true;
@@ -119,7 +119,7 @@ public class UploadManager extends Service {
             postFile(Util.createRelativeRoute(session.getUser(), session, suffix), params);
         }
 
-        return false;
+        return true;
     }
 
     private boolean postFile(String relUrl, RequestParams params) {
@@ -185,7 +185,8 @@ public class UploadManager extends Service {
             if (fileTotalCount == fileDoneCount) {
                 RequestParams params = new RequestParams();
                 params.add("finished", "1");
-                HipsterbilityRestClient.put(session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
+                Log.d(TAG, "put finish");
+                HipsterbilityRestClient.put("/" + session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
                     @Override
                     public void onSuccess(String content) {
                         super.onSuccess(content);

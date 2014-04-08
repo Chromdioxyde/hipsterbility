@@ -70,7 +70,7 @@
     <string name="intent_action_stop_capture">STOP_CAPTURE</string>
     <string name="intent_action_pause_capture">PAUSE_CAPTURE</string>
     <string name="intent_action_resume_capture">RESUME_CAPTURE</string>
-    <string name="hipsterbility">Hipstarbility</string>
+    <string name="hipsterbility">Hipsterbility</string>
     <string name="click_for_testing">Tap to start UX testing</string>
     <string name="notification_dismiss">Dismiss</string>
     <string name="action_upload">UPLOAD</string>
