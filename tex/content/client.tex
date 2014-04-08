@@ -23,18 +23,74 @@ Zur Entwicklung der Bibliothek wurden zwei Projekte verwendet - Einmal das Proje
 %TODO: weiter ausführen oder woanders einbauen
 
 \subsubsection{Monolithischer Wrapper}
-Im Sinne des Fascade Design Patterns 
-%TODO belege suchen und weiter schreiben
+Um die Benutzung zu vereinfachen soll sich die Bibliothek möglichst einfach in neue und bestehende Anwendungen integrieren lassen.
+Dies u.a. dadurch erreicht, dass Aufrufe nur an eine einzige Klasse gerichtet werden
+Die dahinter liegenden Klassen werden im Sinne des \emph{Facade}-Entwurfsmusters \cite[vgl.][40\psq]{designpattern} \enquote{abgeschirmt}.
+Die Klasse \texttt{Hipsterbility} bildet die Schnittstelle zu der Applikation, welche die Bibliothek verwendet.
+Diese Art der Abstraktion soll die Benutzung vereinfachen, da nur mit einer einzigen Klasse interagiert werden muss. 
+Dies reduziert die Anzahl der Methodenaufrufe auf ein Minimum, wie im Beispiel angedeutet (siehe Listing \ref{list_hipsterbility_client_init}).
+
+%TODO: ggf überarbeiten, falls nötig
+\begin{lstlisting}[label=list_hipsterbility_client_init,language=Java, caption=Beispiel für Initialisierung der Bibliothek]
+// Singleton Instanz holen und aktuelle Activity uebergeben
+Hipsterbility.getInstance().enableTesting(this);
+
+// Module aktivieren
+Hipsterbility.MODULE.VIDEO.enabled 	= true; 	// Frontkamera
+Hipsterbility.MODULE.AUDIO.enabled 	= true;		// Mikrofon
+Hipsterbility.MODULE.SCREEN.enabled = true;		// Bildschirminhalt
+\end{lstlisting}
+
+Funktionen können über die öffentliche, verschachtelte statische Aufzählung \texttt{MODULE} in der Klasse \texttt{Hipsterbility} gesteuert.
+Jedes Element hat eine boolsche Variable \texttt{enabled}.
+Hat diese den Wert \texttt{true}, wird die entsprechende Funktion aktiviert.
+Die aktivierten Funktionen entscheiden in ihrer Kombination, welche konkrete Implementierung genutzt wird (siehe Abschnitt \ref{sec_module}).
+
+\subsection{Module zur Datenerfassung \label{sec_module}}
+Primärziel der Android Bibliothek ist das Sammeln von Daten, die bei der Interaktion mit der zu testenden Anwendung anfallen.
+Angelehnt an gängige Testmethoden (siehe Abschnitt \ref{sec_testmethoden}) wird ein beispielhafter Testaufbau mit folgenden Elementen abgebildet:
+\begin{enumerate}
+	\item Aufnahme des Gesichts der Testperson durch die Frontkamera des Geräts.
+	\item Mitschnitt von verbalen Äußerungen mittels des integrierten Mikrofons.
+	\item Abgreifen des Bildschirminhalts mit Visualisierung von Eingaben.
+\end{enumerate}
+
+
+\subsubsection{Frontkamera und Mikrofon}
+Bei der Auswertung von Usability-Tests kann die Mimik der Testperson zur Interpretation beitragen.
+Außerdem kann durch das Kamerabild gesehen werden, ob die Testperson sich auf die gestellte Aufgabe konzentriert oder abgelenkt ist.
+Dies ist von Bedeutung, wenn der Zeitfaktor bei der Auswertung berücksichtigt wird.
+Neben dem Kamerabild werden Sprache und Umgebungsgeräusche mit dem integrierten Mikrofon aufgezeichnet.
+Einerseits können so unbewusste Aussagen aufgezeichnet und bewertet werden, andererseits erlaubt dies den Einsatz von \emph{Thinking Aloud Tests}, bei denen die Testperson gezielt subjektive Eindrücke verbal äußert.  %TODO: Belege suchen
+\newline
+Die Herausforderung bei der Implementierung stellt sich durch Beschränkungen des Android Betriebssystems.
+Dieses sieht vor, dass bei der Aufnahme von Videos und Fotos mit der Kamera eine Vorschau auf dem Bildschirm dargestellt wird.
+Dieser soll jedoch vollständig der zu testenden Anwendung zur Verfügung stehen.
+Die Lösung besteht darin einen \texttt{SurvaceView} zu erstellen, welcher als System Overlay über allen anderen Bildschirmelementen gezeichnet wird. 
+Dieser wird mit einem transparenten Pixelformat versehen, auf 1x1 Pixel verkleinert und in die obere linke Bildschirmecke verschoben.
+\newline
+Somit wird eine, für den Benutzer nicht sichtbare, Vorschau erstellt und die Aufzeichnung kann über die vom System bereitgestellten Klassen erfolgen.
+
+
+\subsubsection{Bildschirminhalt}
+
+
+\subsubsection{Weitere Funktionen und Ausblick}
 
 \subsection{Einbinden der Bibliothek in eigene Anwendungen}
+
+
+\subsection{Benutzeroberfläche und Integration in Android Applikationen}
+
 
 \subsubsection{Dynamisches Einbinden - Pre-Dexing}
 
 Beim Pre-Dexing können mehrere Android-Projekte zu einem Projekt hinzugefügt werden. 
 %TODO: updating
 
-Da die Bibliothek neueste Funktionen des Android-Betriebssystems verwendet, muss auf dem  Gerät zur Kompilierung einer Anwendung aktuelle Build-Tools der Android-SDK vorliegen. Im Falle der Bibliothek ist dies API-Level 19. Offenbar hat sich hier ein Bug eingeschlichen und es ist unter der Version 19.0 kein Pre-Dexing möglich. Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Version 19.0.1 verwendet werden muss um Pre-Dexing durchführen zu können.
-%TODO: Dafuq? ich kann mich nicht daran erinnern mich damit auseinader gesetzt zu haben (oder dass dieses Problem überhaupt aufgetreten wäre)
+Da die Bibliothek neueste Funktionen des Android-Betriebssystems verwendet, muss auf dem  Gerät zur Kompilierung einer Anwendung aktuelle Build-Tools der Android-SDK vorliegen.
+Im Falle der Bibliothek ist dies API-Level 19. Offenbar hat sich hier ein Bug eingeschlichen und es ist unter der Version 19.0 kein Pre-Dexing möglich.
+Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Version 19.0.1 verwendet werden muss um Pre-Dexing durchführen zu können.
 %TODO: update, wichtig? Screenshot? 
 
 \subsubsection{Statisches Einbinden als JAR-Archiv}

@@ -23,7 +23,7 @@ public class MyListActivity extends Activity implements Capturable{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Hipsterbility.getInstance().enableTesting(this).setStartActivityClass(MyListActivity.class);
+//        Hipsterbility.getInstance().enableTesting(this).setStartActivityClass(MyListActivity.class);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_activity_layout);

@@ -28,9 +28,6 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     private SurfaceView surfaceView;
     private Camera camera = null;
     private MediaRecorder mediaRecorder = null;
-    //    private CaptureService service = null;
-//    private Surface fakeSurface = null;
-//    private boolean recording = false;
     private Session session;
     private Activity activity;
     private boolean audioEnabled;
@@ -63,13 +60,13 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
         layoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         windowManager.addView(surfaceView, layoutParams);
 
-        boolean found = false;
+//        boolean found = false;
         int i;
         for (i = 0; i < Camera.getNumberOfCameras(); i++) {
             Camera.CameraInfo newInfo = new Camera.CameraInfo();
             Camera.getCameraInfo(i, newInfo);
             if (newInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                found = true;
+//                found = true;
                 break;
             }
         }

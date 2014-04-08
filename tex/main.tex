@@ -12,7 +12,8 @@
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{xcolor}
-\usepackage{jurabib}
+%\usepackage{jurabib}
+\usepackage{csquotes}
 \usepackage{hyperref}
 \usepackage[printonlyused]{acronym}
 %fonts
@@ -20,8 +21,16 @@
 \renewcommand{\familydefault}{\sfdefault}
 \fontfamily{phv}\selectfont
 
-\include{lib/jurabib}
-\bibliographystyle{jurabib}
+%\include{lib/jurabib}
+%\bibliographystyle{jurabib}
+\usepackage[
+	backend=bibtex,
+	style=alphabetic,
+	citestyle=alphabetic,
+	sorting=nty,
+	doi=true,url=true
+]{biblatex}
+\bibliography{bib/bib}
 
 % setup of source code listings
 \usepackage{listings}
@@ -136,12 +145,12 @@
 
 \thispagestyle{empty}
 
-\renewcommand*{\biburlprefix}{(URL: }
-\renewcommand*{\biburlsuffix}{)}
+%\renewcommand*{\biburlprefix}{(URL: }
+%\renewcommand*{\biburlsuffix}{)}
 
 \pagebreak
 \addcontentsline{toc}{section}{Literaturverzeichnis} % Eintrag ins Inhaltsverzeichnis
-\bibliography{bib/bib}
+\printbibliography
 
 \pagebreak
 \appendix

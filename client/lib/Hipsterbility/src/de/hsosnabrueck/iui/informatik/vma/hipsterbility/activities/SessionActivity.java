@@ -175,7 +175,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     }
 
 
-    private void loadSessionsFromServer() {
+    private synchronized void loadSessionsFromServer() {
 
         HipsterbilityRestClient.get("/" + user.getId() + "/sessions", null, new JsonHttpResponseHandler() {
 
@@ -209,7 +209,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 SessionManager.getInstace().setSessions(new ArrayList<Session>(sessionList));
                 dismissProgressDialog();
                 displaySessions();
-
+                listAdapterNotifyDataSetChanged();
             }
 
             @Override
@@ -304,7 +304,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                     getTasksForTodoFromServer(tempTodo, session);
                 }
                 session.setTodos(todoList);
-                adapter.notifyDataSetChanged();
+                listAdapterNotifyDataSetChanged();
             }
 
             @Override
@@ -329,7 +329,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 List<Task> t = gson.fromJson(sessions.toString(), listType);
                 todo.setTasks(new ArrayList<Task>(t));
                 Log.d(TAG, "GET Tasks for Todo " + todo.getId() + " count: " + t.size());
-                adapter.notifyDataSetChanged();
+                listAdapterNotifyDataSetChanged();
             }
 
             @Override
@@ -341,6 +341,10 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                 Log.d(TAG, "GET Tasks request failed: " + e.getMessage());
             }
         });
+    }
+
+    private synchronized void  listAdapterNotifyDataSetChanged(){
+        adapter.notifyDataSetChanged();
     }
 
     private void startSession(){
