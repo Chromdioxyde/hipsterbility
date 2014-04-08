@@ -98,9 +98,8 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
             camera.release();
             windowManager.removeView(surfaceView);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            Log.e(TAG, e.getMessage());
         }
-        ;
     }
 
     @Override

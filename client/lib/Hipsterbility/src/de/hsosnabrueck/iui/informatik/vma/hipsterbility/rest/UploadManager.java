@@ -1,5 +1,8 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest;
 
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 import android.util.Log;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -17,7 +20,7 @@ import java.util.Arrays;
 /**
  * Created by Albert Hoffmann on 25.02.14.
  */
-public class UploadManager {
+public class UploadManager extends Service {
 
     private final static String TAG = UploadManager.class.getName();
     //TODO: set parameter names
@@ -35,7 +38,11 @@ public class UploadManager {
     /**
      * private constructor for static singleton.
      */
-    private UploadManager() {
+    private UploadManager() {}
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     public static UploadManager getInstance() {
@@ -107,6 +114,7 @@ public class UploadManager {
             try {
                 params.put(paramName, f);
             } catch (FileNotFoundException e) {
+                Log.e(TAG, e.getMessage());
             }
             postFile(Util.createRelativeRoute(session.getUser(), session, suffix), params);
         }
