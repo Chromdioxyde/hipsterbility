@@ -16,60 +16,46 @@ import java.util.ArrayList;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
- * a user can use in own application, similar to the facade pattern.
+ * a user can use in own application, following the facade design pattern.
  */
 public class Hipsterbility {
 
-    //Base dir for stored files on SD-Card
 
     private static Hipsterbility instance;
-    private ArrayList<Class> enabledActivities;
 
-    private Context context;
     private Application application;
     private Activity activity;
 
     private boolean rootFeaturesEnabled;
 
     /**
-     * The default constructor to create a Hipsterbility object.
-     * It uses default values.
+     * Private constructor for singleton
      */
+    private Hipsterbility() {}
 
-    private Hipsterbility() {
-        enabledActivities = new ArrayList<Class>();
-    }
-
-    //Modules
-
+    /**
+     * Lazy static singleton
+     * @return Hipsterbility object
+     */
     public static Hipsterbility getInstance() {
         if (instance == null) instance = new Hipsterbility();
         return instance;
     }
 
-    public void stopCapture() {
-        context.stopService(new Intent(context, CaptureService.class));
-        ScreenRecorder.getInstance().stopCapture();
-        startService();
-    }
-
-
-    public Hipsterbility enableTesting(Activity activity) {
-        //TODO usefull stuff
+    /**
+     * This enables usability testing for the calling application
+     * @param activity starting activity from calling application
+     */
+    public void enableTesting(Activity activity) {
         this.application = activity.getApplication();
-        enabledActivities.add(activity.getClass());
         this.activity = activity;
-        this.context = activity.getApplicationContext();
-        //TODO remove after testing
         startService();
-//        startSession();
         ActivityLifecycleWatcher.getInstance().setApp(application);
-//        TODO: remove after testing
-        ActivityLifecycleWatcher.getInstance().startCapture();
-        return instance;
     }
 
     private void startService() {
+        Context context = application.getApplicationContext();
+        assert(context != null);
         Intent i = new Intent(context, HipsterbilityService.class);
         context.startService(i);
     }
@@ -82,29 +68,6 @@ public class Hipsterbility {
         this.activity = activity;
     }
 
-    public void startSession() {
-//        testCapture();
-//        ScreenshotModule st = new ScreenshotModule(SessionManager.getInstace().getSessionInProgress(), activity);
-        Session s = new Session(1);
-        User u = new User(1, "", "");
-        s.setUser(u);
-        Intent i = new Intent();
-        context.sendBroadcast(i);
-//        UploadManager.getInstance().uploadSessionData(s);
-    }
-
-//    public Class getStartActivityClass() {
-//        return startActivity;
-//    }
-
-//    public void setStartActivityClass(Class startActivity) {
-//        this.startActivity = startActivity;
-//    }
-
-    public Context getContext() {
-        return context;
-    }
-
     public boolean isRootFeaturesEnabled() {
         return rootFeaturesEnabled;
     }
@@ -113,6 +76,10 @@ public class Hipsterbility {
         this.rootFeaturesEnabled = rootFeaturesEnabled;
     }
 
+    /**
+     * Small enumeration to store which features should be enabled.
+     * Features are disabled by default.
+     */
     public static enum MODULE {
         AUDIO, VIDEO, SCREEN, TOUCH, LIFECYCLE;
         public boolean enabled = false;

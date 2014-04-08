@@ -12,6 +12,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.UploadManager;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
 /**
  * Created by Albert Hoffmann on 17.02.14.
@@ -38,7 +40,7 @@ public class HipsterbilityService extends Service {
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //TODO: remove after testing
 //        startActivity(intent);
-        createNotification();
+        createTestingNotification();
     }
 
 
@@ -49,31 +51,53 @@ public class HipsterbilityService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO: shutdown Service by intent
-        Log.d(TAG, "Received intent: " + intent + " flags: " + flags);
-        if (intent.getBooleanExtra("shutdown", false)) {
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            manager.cancel(NOTIFICATION_ID);
-            this.stopSelf();
+        String action = intent.getAction();
+        if (action == null){
+            createTestingNotification();
         } else {
-            createNotification();
-        }
-
+                if(action.equals(getString(R.string.action_stop_service))){
+                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    manager.cancel(NOTIFICATION_ID);
+                    this.stopSelf();
+                } else if (action.equals(getString(R.string.action_upload_notification))){
+                    createUploadNotification();
+                } else if (action.equals(getString(R.string.action_upload))){
+                    startUpload();
+                }
+            }
+        Log.d(TAG, "Received intent: " + intent + " flags: " + flags);
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void createNotification() {
+    private void createUploadNotification() {
+        Intent i = new Intent(this, this.getClass());
+        i.setAction(getString(R.string.action_upload));
+        PendingIntent p = PendingIntent.getService(this, 0, i, 0);
+        notification = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_stat_main)
+                .setContentIntent(p)
+                .setContentTitle(getString(R.string.notification_title_upload_data))
+                .setContentText(getString(R.string.notification_text_upload_data))
+                .build();
+        startForeground(1234, notification);
+    }
+
+    private void startUpload(){
+        UploadManager.getInstance().uploadSessionData(SessionManager.getInstace().getSessionInProgress());
+    }
+
+    public void createTestingNotification() {
         Intent intent = new Intent(this, SessionActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         Intent stopServiceIntent = new Intent(this, HipsterbilityService.class);
-        stopServiceIntent.putExtra("shutdown", true);
+        stopServiceIntent.setAction(getString(R.string.action_stop_service));
         PendingIntent pStopIntent = PendingIntent.getService(this, 0, stopServiceIntent, 0);
         notification = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_main)
-                .setContentTitle("Hipsterbility")
-                .setContentText("Usability testing enabled")
+                .setContentTitle(getString(R.string.hipsterbility))
+                .setContentText(getString(R.string.click_for_testing))
                 .setContentIntent(pIntent)
-//                .addAction(android.R.drawable.ic_media_play, "Start testing", pIntent)
-                .addAction(R.drawable.ic_stat_dismiss, "Dismiss", pStopIntent)
+                .addAction(R.drawable.ic_stat_dismiss, getString(R.string.notification_dismiss), pStopIntent)
                 .build();
         startForeground(1234, notification);
     }

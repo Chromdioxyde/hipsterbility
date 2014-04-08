@@ -38,31 +38,31 @@ public class CaptureService extends Service {
     private ImageView overlayIcon;
     //</editor-fold>
 
-    private BroadcastReceiver startCaptureReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            TODO: start capture
-        }
-    };
-    private BroadcastReceiver stopCaptureReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            TODO: stop capture
-            stopCapture();
-        }
-    };
-    private BroadcastReceiver pauseCaptureReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            TODO: pauseCapture
-        }
-    };
-    private BroadcastReceiver resumeCaptureReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-//            TODO: resume capture
-        }
-    };
+//    private BroadcastReceiver startCaptureReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+////            TODO: start capture
+//        }
+//    };
+//    private BroadcastReceiver stopCaptureReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+////            TODO: stop capture
+//            stopCapture();
+//        }
+//    };
+//    private BroadcastReceiver pauseCaptureReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+////            TODO: pauseCapture
+//        }
+//    };
+//    private BroadcastReceiver resumeCaptureReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+////            TODO: resume capture
+//        }
+//    };
 
 
     public CaptureService() {
@@ -94,7 +94,7 @@ public class CaptureService extends Service {
 
         /* Start foreground service to avoid unexpected killing of the service */
         createNotification(false);
-        registerLocalBroadcastReceivers();
+//        registerLocalBroadcastReceivers();
         createCaptureModules();
         startCapture();
     }
@@ -117,6 +117,9 @@ public class CaptureService extends Service {
             m.stopCapture();
         }
         dismissNotification();
+        Intent i = new Intent(this, HipsterbilityService.class);
+        i.setAction(getString(R.string.action_upload_notification));
+        startService(i);
         stopSelf();
     }
 
@@ -180,16 +183,16 @@ public class CaptureService extends Service {
         this.modules = CaptureModuleFactory.getCaptureModules();
     }
 
-    private void registerLocalBroadcastReceivers() {
-        registerLocalBroadcastReceiver(getString(R.string.intent_action_start_capture), startCaptureReceiver);
-        registerLocalBroadcastReceiver(getString(R.string.intent_action_stop_capture), stopCaptureReceiver);
-        registerLocalBroadcastReceiver(getString(R.string.intent_action_pause_capture), pauseCaptureReceiver);
-        registerLocalBroadcastReceiver(getString(R.string.intent_action_resume_capture), resumeCaptureReceiver);
-    }
-
-    private void registerLocalBroadcastReceiver(String intentFilter, BroadcastReceiver receiver) {
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
-                new IntentFilter(intentFilter)
-        );
-    }
+//    private void registerLocalBroadcastReceivers() {
+//        registerLocalBroadcastReceiver(getString(R.string.intent_action_start_capture), startCaptureReceiver);
+//        registerLocalBroadcastReceiver(getString(R.string.intent_action_stop_capture), stopCaptureReceiver);
+//        registerLocalBroadcastReceiver(getString(R.string.intent_action_pause_capture), pauseCaptureReceiver);
+//        registerLocalBroadcastReceiver(getString(R.string.intent_action_resume_capture), resumeCaptureReceiver);
+//    }
+//
+//    private void registerLocalBroadcastReceiver(String intentFilter, BroadcastReceiver receiver) {
+//        LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
+//                new IntentFilter(intentFilter)
+//        );
+//    }
 }
