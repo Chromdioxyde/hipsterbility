@@ -96,6 +96,8 @@ Converter.prototype.addScreenshot = function(screenshot) {
  */
 Converter.prototype.createResult = function(user, session, callback) {
     callback();
+    mkdirp.sync('./uploads/'+user+'/'+session +'/results/captures/');
+    
     // parameters for each image
     var paramDict = [];
     var input = './uploads/' + user + '/'+ session +'/captures/';
@@ -166,6 +168,7 @@ Converter.prototype.createResult = function(user, session, callback) {
                     fs.readdir(dir, function (err, files) {
                         if (err) {
                             mkdirp.sync(dir);
+                            files = fs.readdirSync(dir);
                         }
                         var pushed = 0;
                         files.forEach(function (file) {
