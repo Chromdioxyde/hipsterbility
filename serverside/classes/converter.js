@@ -165,7 +165,7 @@ Converter.prototype.createResult = function(user, session, callback) {
 
                     fs.readdir(dir, function (err, files) {
                         if (err) {
-                            fs.mkdirSync(dir,'0755');
+                            fs.mkdirSync(dir);
                         }
                         var pushed = 0;
                         files.forEach(function (file) {
