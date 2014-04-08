@@ -12,7 +12,8 @@
     "avconv":"*",
     "passport":"*",
     "passport-local":"*",
-    "string":"*"
+    "string":"*",
+    "mkdirp":"*"
 
   }
 }

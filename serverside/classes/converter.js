@@ -1,6 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-
+var mkdirp = require('mkdirp');
 var avconv = require('avconv');
 /*
  * "constructor" function implements all need variable initialization 
@@ -165,7 +165,7 @@ Converter.prototype.createResult = function(user, session, callback) {
 
                     fs.readdir(dir, function (err, files) {
                         if (err) {
-                            fs.mkdirSync(dir);
+                            mkdirp.sync(dir);
                         }
                         var pushed = 0;
                         files.forEach(function (file) {
