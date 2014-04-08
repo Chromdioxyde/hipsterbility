@@ -257,7 +257,7 @@ Converter.prototype.createResult = function(user, session, callback) {
                                         query.execute(qstr, function(rows) {
                                             console.log(rows);
 
-                                            
+
                                         });
 
                                     });
