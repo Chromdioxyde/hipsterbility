@@ -7,28 +7,67 @@ Im Folgenden werden die zwei serverseitigen Komponenten, Datenbank und HTTP-Serv
 %TODO: footnote ++ update
 
 %TODO: subsection title ?!
-%TODO: Vagrant verfassen 
-\subsection{Virtualisierung mit Vagrant}
-
-Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird zum Beispiel Virtual Box eingesetzt. Die eigene VM wird dann mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, zum Beispiel Portweiterleitungen. Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. Konkret wurde folgendes in Vagrant konfiguriert. 
+\subsection{Virtuelle Maschine}
 
 \subsubsection{Konfiguration}
 
-Als Betriebssystem dient 
+Als Betriebssystem für den Server dient ein Debian in der Version 7.0. Der Maschine wurde 1 Prozessorkern und 512 MB RAM zugewiesen. Änderungen können im Vagrantfile, siehe Abschnitt \ref{vagrant}, oder der Virtual Box-Konfiguration vorgenommen werden.
 
-\subsubsection{Vagrantfile}
+\subsubsection{Ordnerstruktur}
+% TODO positioning, sizing
+\dirtree{%
+ .1 /serverside.
+ .2 classes.
+ .2 controllers.
+ 	.3 api.
+ 		.4 audio.js.
+ 		.4 captures.js.
+ 		.4 log.js.
+ 		.4 sessions.js.
+ 		.4 tasks.js.
+ 		.4 todos.js.
+ 		.4 videos.js.
+ 	.3 backend.js.
+ 	.3 frontend.js.
+ .2 node\_modules.
+ .2 public.
+ 	.3 css.
+ 		.4 plugins.
+ 		.4 bootstrap.min.css.
+ 		.4 bootstrap-theme.min.css.
+ 		.4 sb-admin.css.
+ 		.4 style.css.
+ 		.4 video-js.min.css.
+ 	.3 fonts.
+ 	.3 img.
+ 	.3 js.
+ .2 uploads.
+ .2 views.
+}
+\subsubsection{Vagrant}
+\label{vagrant}
+Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird Virtual Box als Virtualisierungssoftware eingesetzt. Aber auch VMware wird unterstützt. 
 
-\subsection{Datenbank Backend}
+Die eigene VM wird mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, zum Beispiel Portweiterleitungen. Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. 
+
+Auf dem Host-System können die gewohnten Entwicklungswerkzeuge eingesetzt werden, da der Ordner, indem Vagrant konfiguriert wurd, mit dem Ordner /Vagrant auf dem Gast-System synchronisiert wird. 
+
+Auch die Entwicklung von Software mittels einer Vagrant VM ergibt einen gut zu bedienenden Arbeitsfluss. So ist es beispielsweise möglich mittels \textbf{vagrant up} und \textbf{vagrant ssh} die Maschine zu starten und darauf zu verbinden, ohne dabei extra overhead, wie zum Beispiel Fenster, zu erzeugen. Die SSH-Credentials folgen dem \textit{Convention over Configuration}-Paradigma. Username, sowie Passwort lauten standardmäßig vagrant. 
+
+
+\subsection{Datenbank}
 
 Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition. 
 %TODO: Links in footnotes
 
 \subsubsection{Datenbank-Modell}
 
+\includegraphics[width=\linewidth,keepaspectratio]{img/db_model.png}
+
 \subsection{NodeJS HTTP-Server und Middleware}
 Die serverseitige Logik wurde mit NodeJS und dem ExpressJS-Framework umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
 
-Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. 
+Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. 
 
 \begin{lstlisting}[label=minimal_node_http_server,language=Java, caption=Minimaler Node-HTTP-Server]
 /**
