@@ -109,4 +109,5 @@ public class Util {
         Log.d(TAG, "Device is probably not rooted");
         return false;
     }
+
 }

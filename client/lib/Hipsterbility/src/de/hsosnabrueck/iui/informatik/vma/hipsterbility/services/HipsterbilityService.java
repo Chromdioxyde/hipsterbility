@@ -12,7 +12,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.UploadManager;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
 /**
@@ -60,30 +59,11 @@ public class HipsterbilityService extends Service {
                     manager.cancel(NOTIFICATION_ID);
                     this.stopSelf();
                 } else if (action.equals(getString(R.string.action_upload_notification))){
-                    createUploadNotification();
-                } else if (action.equals(getString(R.string.action_upload))){
-                    startUpload();
+                    startService(new Intent(this, UploadService.class));
                 }
             }
         Log.d(TAG, "Received intent: " + intent + " flags: " + flags);
         return super.onStartCommand(intent, flags, startId);
-    }
-
-    private void createUploadNotification() {
-        Intent i = new Intent(this, this.getClass());
-        i.setAction(getString(R.string.action_upload));
-        PendingIntent p = PendingIntent.getService(this, 0, i, 0);
-        notification = new Notification.Builder(this)
-                .setSmallIcon(R.drawable.ic_stat_main)
-                .setContentIntent(p)
-                .setContentTitle(getString(R.string.notification_title_upload_data))
-                .setContentText(getString(R.string.notification_text_upload_data))
-                .build();
-        startForeground(1234, notification);
-    }
-
-    private void startUpload(){
-        UploadManager.getInstance().uploadSessionData(SessionManager.getInstace().getSessionInProgress());
     }
 
     public void createTestingNotification() {

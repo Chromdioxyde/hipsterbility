@@ -42,7 +42,7 @@
         credential correctness.
     </string>
     <string name="open_settings">Open Settings</string>
-    <string name="cancel">Cancel and stop testing.</string>
+    <string name="cancel">Cancel</string>
     <string name="pref_key_button_test_server">test_connection</string>
     <string name="authentication_user">Login</string>
     <string name="authentication_user_message">Logging into the service to get sessions</string>
@@ -78,4 +78,11 @@
     <string name="action_upload_notification">UPLOAD_NOTIFICATION</string>
     <string name="notification_title_upload_data">Upload collected data</string>
     <string name="notification_text_upload_data">Tap to start upload</string>
+    <string name="upload_service_label">Hipsterbility Upload Service</string>
+    <string name="session">Session</string>
+    <string name="notification_text_upload_data_complete">Data upload successful.</string>
+    <string name="dialog_title_delete_files">Upload successful</string>
+    <string name="dialog_title_delete_text">Delete temporary files from disk?</string>
+    <string name="notification_action_upload_delete">Delete files</string>
+    <string name="action_delete_files">DELETE_FILES</string>
 </resources>

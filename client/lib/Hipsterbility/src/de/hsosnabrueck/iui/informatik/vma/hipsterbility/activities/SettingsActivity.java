@@ -45,7 +45,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     private void testServerConnection() {
         showProgressDialog();
-        HipsterbilityRestClient.get("ping", null, new TextHttpResponseHandler() {
+        HipsterbilityRestClient.get("/ping", null, new TextHttpResponseHandler() {
             @Override
             public void onFailure(String responseBody, Throwable error) {
                 super.onFailure(responseBody, error);

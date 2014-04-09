@@ -348,12 +348,12 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     }
 
     private void startSession(){
-//        Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());
-//        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         Intent i = new Intent(getString(R.string.intent_action_start_capture));
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
         startService(new Intent(this, CaptureService.class));
-//        this.startActivity(intent);
+        this.startActivity(intent);
         finish();
     }
 
