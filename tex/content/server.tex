@@ -19,9 +19,21 @@ Weitere Softwarequellen, welche installiert wurden, sind:
 	Dieser 
 \end{description}
 
+\subsubsection{Vagrant}
+\label{vagrant}
+Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird Virtual Box als Virtualisierungssoftware eingesetzt. Aber auch VMware wird unterstützt. 
+
+Die eigene VM wird mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, zum Beispiel Portweiterleitungen. Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. 
+
+Auf dem Host-System können die gewohnten Entwicklungswerkzeuge eingesetzt werden, da der Ordner, indem Vagrant konfiguriert wurd, mit dem Ordner /Vagrant auf dem Gast-System synchronisiert wird. 
+
+Auch die Entwicklung von Software mittels einer Vagrant VM ergibt einen gut zu bedienenden Arbeitsfluss. So ist es beispielsweise möglich mittels \textbf{vagrant up} und \textbf{vagrant ssh} die Maschine zu starten und darauf zu verbinden, ohne dabei extra overhead, wie zum Beispiel Fenster, zu erzeugen. Die SSH-Credentials folgen dem \textit{Convention over Configuration}-Paradigma. Username, sowie Passwort lauten standardmäßig vagrant. 
+
+Die VM, welche als Anhang der Arbeit beigefügt ist, beinhaltet alle 
 
 \subsubsection{Ordnerstruktur}
 % TODO positioning, sizing
+Im Folgenden wird die Ordnerstruktur der Serverkomponente gezeigt. 
 \dirtree{%
  .1 /serverside.
  .2 classes.
@@ -51,24 +63,14 @@ Weitere Softwarequellen, welche installiert wurden, sind:
  .2 uploads.
  .2 views.
 }
-\subsubsection{Vagrant}
-\label{vagrant}
-Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird Virtual Box als Virtualisierungssoftware eingesetzt. Aber auch VMware wird unterstützt. 
-
-Die eigene VM wird mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, zum Beispiel Portweiterleitungen. Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. 
-
-Auf dem Host-System können die gewohnten Entwicklungswerkzeuge eingesetzt werden, da der Ordner, indem Vagrant konfiguriert wurd, mit dem Ordner /Vagrant auf dem Gast-System synchronisiert wird. 
-
-Auch die Entwicklung von Software mittels einer Vagrant VM ergibt einen gut zu bedienenden Arbeitsfluss. So ist es beispielsweise möglich mittels \textbf{vagrant up} und \textbf{vagrant ssh} die Maschine zu starten und darauf zu verbinden, ohne dabei extra overhead, wie zum Beispiel Fenster, zu erzeugen. Die SSH-Credentials folgen dem \textit{Convention over Configuration}-Paradigma. Username, sowie Passwort lauten standardmäßig vagrant. 
-
 
 \subsection{Datenbank}
 
-Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition. 
+Zur persistenten Speicherung der Nutzdaten wurde MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition\footnote{http://www.mysql.de/products/community/}. 
 %TODO: Links in footnotes
 
 \subsubsection{Datenbank-Modell}
-Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung \ref{figure-db-model} zeigt das Ergebnis.
+Das Datenbankmodell wurde mit Hilfe des Software MySQL Workbench\footnote{http://www.mysql.de/products/workbench/} erstellt. Die Abbildung \ref{figure-db-model} zeigt das Ergebnis. Die Datenbank besteht aus der zentralen Tabelle \textit{sessions} an denen die einzelnen 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{img/db_model.png}
@@ -78,9 +80,9 @@ Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung 
 
 
 \subsection{NodeJS HTTP-Server und Middleware}
-Die serverseitige Logik wurde mit NodeJS und dem ExpressJS-Framework umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
+Die serverseitige Logik wurde mit NodeJS und dem ExpressJS\footnote{http://expressjs.com/}-Framework umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
 
-Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. 
+Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. Desweiteren befindet sich 
 
 \begin{lstlisting}[label=minimal_node_http_server,language=Java, caption=Minimaler Node-HTTP-Server]
 /**
@@ -114,7 +116,8 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 \end{lstlisting}
 
-\subsubsection{APIs}
+
+\subsubsection{API}
 
 \subsection{Videoproduktion}
 
