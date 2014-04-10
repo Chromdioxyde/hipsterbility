@@ -1,8 +1,18 @@
 \section{Android-Client}
 
-In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur Entwicklung wurde die IDE \textit{IntelliJ Idea}\footnote{IntelliJ Idea: http://www.jetbrains.com/idea/} verwendet. Screenshots und Anleitungen beziehen sich diesbezüglich auf diese Software. Konfigurationen und Einstellungen können sich zu anderen IDEs unterscheiden.
+In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur Entwicklung wurde die plattformübergreifende IDE \emph{IntelliJ Idea}\footnote{\url{http://www.jetbrains.com/idea/}} verwendet.
 
+Alternativ kann auch die offizielle Anroid \ac{IDE}, \emph{Android Studio}\footnote{\url{http://developer.android.com/sdk/installing/studio.html}}, verwendet werden, welches auf der \emph{Community Edition} von \emph{IntelliJ Idea} basiert, sich zum aktuellen Zeitpunkt jedoch nur in einer \emph{early access preview} verfügbar ist.
+Die Projektdateien sind untereinander kompatibel.
+
+Screenshots und Anleitungen beziehen sich diesbezüglich auf diese Software. Konfigurationen und Einstellungen können sich zu anderen IDEs unterscheiden.
 Die Quellen zu den Projekten befinden sich im Github-Repository im Unterordner \texttt{client}.
+
+\subsection{Ziele}
+Bei der Konzeption und Entwicklung der Android Bibliothek wurden mehrere Ziele verfolgt.
+Das Hauptziel ist die Erstellung einer Bibliothek, die sich leicht in Anwendungen integrieren lässt und die Funktionen aufwändiger \ac{UX} Testaufbauten mit externen Kameras, Mikrofonen etc. ersetzt.
+Dazu sollen die technischen Möglichkeiten moderner Endgeräte genutzt werden:
+
 
 \subsection{Verwendete Bibliotheken von Drittanbietern}
 Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.2.2} werden die folgenden externe Bibliotheken eingesetzt:
@@ -12,15 +22,31 @@ Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.2.2} werden 
 	\item[Google GSON\footnote{\url{https://code.google.com/p/google-gson/}}]
 	Der Datenabruf vom Server erfolgt mittels \ac{JSON}-Objekte im HTML Body. Um diese Objekte schnell und einfach in Java Objekte umzuwandeln bietet GSON entsprechende Klassen an, die das Implementieren von eigenen Parsern etc. überflüssig macht.
 	Die quelloffenen, universell einsetzbare, Java Bibliothek wird ebenfalls unter der Apache License, Version 2.0 veröffentlicht.
-	\item[Android Support Library\footnote{\url{http://developer.android.com/tools/support-library/index.html}}]
-	Diese zusätzliche, nicht im Android SDK enthaltene, Bibliothek bietet zahlreiche zusätzliche Klassen an, die nicht Bestandteil des offiziellen SDK sind, jedoch nützliche Erweiterungen. Z.B. gibt es Klassen für die applikationsinterne Kommunikation und zusätzliche \ac{UI}-Elemente und Layouts.
-	Diese Bibliothek steht unter der \emph{Creative Commons Attribution 2.5}\footnote{http://creativecommons.org/licenses/by/2.5/} Lizenz und kann unter deren Bedingungen verwendet werden.
+%	\item[Android Support Library\footnote{\url{http://developer.android.com/tools/support-library/index.html}}]
+%	Diese zusätzliche, nicht im Android SDK enthaltene, Bibliothek bietet zahlreiche zusätzliche Klassen an, die nicht Bestandteil des offiziellen SDK sind, jedoch nützliche Erweiterungen. Z.B. gibt es Klassen für die applikationsinterne Kommunikation und zusätzliche \ac{UI}-Elemente und Layouts.
+%	Diese Bibliothek steht unter der \emph{Creative Commons Attribution 2.5}\footnote{http://creativecommons.org/licenses/by/2.5/} Lizenz und kann unter deren Bedingungen verwendet werden.
 \end{description}
 
 \subsection{Bibliotheksmodul}
-
 Zur Entwicklung der Bibliothek wurden zwei Projekte verwendet - Einmal das Projekt für die Bibliothek selbst und weiterhin ein Android-Projekt zum Testen der Funktionen während der Entwicklung. 
-%TODO: weiter ausführen oder woanders einbauen
+
+Ziel der Entwicklung ist ein funktionsfähiger Prototyp, in welchem geplante Kernfunktionen implementiert sind.
+Die vorliegende Implementierung ist als \emph{Proof of Concept} anzusehen und weder vollständig, noch frei von Fehlern und Bugs.
+
+\subsubsection{Testapplikation}
+Für die Entwicklung und das Testen der Bibliothek wird eine Applikation benötigt in die diese eingebunden wird.
+Dazu wurde eine kleine Testapplikation entwickelt, die verschiedene \ac{UI}-Elemente enthält.
+Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen des Android \ac{SDK} zusammen \footnote{\url{http://developer.android.com/design/building-blocks/index.html}}:
+\begin{itemize}
+	\item Activities
+	\item Views
+	\item Fragments
+	\item Buttons
+	\item Dialoge
+	\item Toasts.
+\end{itemize}
+Anfangs bestand die Testapplikation aus einer einzigen Activity und wurde im Verlauf des Projekts erweitert.
+
 
 \subsubsection{Monolithischer Wrapper}
 Um die Benutzung zu vereinfachen soll sich die Bibliothek möglichst einfach in neue und bestehende Anwendungen integrieren lassen.
@@ -62,20 +88,20 @@ Außerdem kann durch das Kamerabild gesehen werden, ob die Testperson sich auf d
 Dies ist von Bedeutung, wenn der Zeitfaktor bei der Auswertung berücksichtigt wird.
 Neben dem Kamerabild werden Sprache und Umgebungsgeräusche mit dem integrierten Mikrofon aufgezeichnet.
 Einerseits können so unbewusste Aussagen aufgezeichnet und bewertet werden, andererseits erlaubt dies den Einsatz von \emph{Thinking Aloud Tests}, bei denen die Testperson gezielt subjektive Eindrücke verbal äußert.  %TODO: Belege suchen
-\newline
+
 Die Herausforderung bei der Implementierung stellt sich durch Beschränkungen des Android Betriebssystems.
 Dieses sieht vor, dass bei der Aufnahme von Videos und Fotos mit der Kamera eine Vorschau auf dem Bildschirm dargestellt wird.
 Dieser soll jedoch vollständig der zu testenden Anwendung zur Verfügung stehen.
 Die Lösung besteht darin einen \texttt{SurvaceView} zu erstellen, welcher als System Overlay über allen anderen Bildschirmelementen gezeichnet wird. 
 Dieser wird mit einem transparenten Pixelformat versehen, auf 1x1 Pixel verkleinert und in die obere linke Bildschirmecke verschoben.
-\newline
+
 Somit wird eine, für den Benutzer nicht sichtbare, Vorschau erstellt und die Aufzeichnung kann über die vom System bereitgestellten Klassen erfolgen.
 
 
 \subsubsection{Bildschirminhalt}
 
 
-\subsubsection{Weitere Funktionen und Ausblick}
+\subsection{Weitere Funktionen und Ausblick}
 
 \subsection{Einbinden der Bibliothek in eigene Anwendungen}
 
@@ -94,3 +120,5 @@ Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Versio
 %TODO: update, wichtig? Screenshot? 
 
 \subsubsection{Statisches Einbinden als JAR-Archiv}
+
+\subsection{Ausblick und Weiterentwicklung}

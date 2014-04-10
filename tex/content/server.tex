@@ -22,6 +22,7 @@ Weitere Softwarequellen, welche installiert wurden, sind:
 
 \subsubsection{Ordnerstruktur}
 % TODO positioning, sizing
+\begin{minipage}[c]{\textwidth} %Ordnerstruktur in Minipage damit die zusammengehalten wird
 \dirtree{%
  .1 /serverside.
  .2 classes.
@@ -51,6 +52,9 @@ Weitere Softwarequellen, welche installiert wurden, sind:
  .2 uploads.
  .2 views.
 }
+\end{minipage}
+
+
 \subsubsection{Vagrant}
 \label{vagrant}
 Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird Virtual Box als Virtualisierungssoftware eingesetzt. Aber auch VMware wird unterstützt. 
@@ -69,12 +73,12 @@ Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet si
 
 \subsubsection{Datenbank-Modell}
 Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung \ref{figure-db-model} zeigt das Ergebnis.
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\linewidth,keepaspectratio]{img/db_model.png}
-	\caption{Datenbank Modell}
-	\label{figure-db-model}
-\end{figure}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=\linewidth,keepaspectratio]{img/db_model.png}
+%	\caption{Datenbank Modell}
+%	\label{figure-db-model}
+%\end{figure}
 
 
 \subsection{NodeJS HTTP-Server und Middleware}
