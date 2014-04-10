@@ -20,6 +20,7 @@
 \usepackage[colorlinks=false, pdfborder={0 0 0}]{hyperref}
 \usepackage[printonlyused, footnote]{acronym}
 \usepackage{dirtree}
+\usepackage[tracking=true]{microtype}
 %fonts
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
@@ -35,6 +36,19 @@
 	doi=true,url=true
 ]{biblatex}
 \bibliography{bib/bib}
+
+% Volle Namen der Autoren mit \citeauthor*{}
+\DeclareCiteCommand*{\citeauthor}
+{\defcounter{maxnames}{99}%
+\defcounter{minnames}{99}%
+\defcounter{uniquename}{2}%
+\boolfalse{citetracker}%
+\boolfalse{pagetracker}%
+\usebibmacro{prenote}}
+{\ifciteindex{\indexnames{labelname}}{}%
+\printnames{labelname}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
 
 % setup of source code listings
 \usepackage{listings}
@@ -110,7 +124,8 @@
 
 \begingroup
 %\thispagestyle{empty}
-\include{content/abkuerzungen}
+\newpage
+\input{content/abkuerzungen}
 \listoffigures
 %\thispagestyle{empty}
 \lstlistoflistings
@@ -136,7 +151,7 @@
 \include{content/app_architecture}
 \include{content/server}
 \include{content/client}
-\include{content/messdaten}
+%\include{content/messdaten}
 \include{content/ergebnis}
 \include{content/offenePunkte}
 

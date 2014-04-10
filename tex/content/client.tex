@@ -1,31 +1,41 @@
 \section{Android-Client}
 
-In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur Entwicklung wurde die plattformübergreifende IDE \emph{IntelliJ Idea}\footnote{\url{http://www.jetbrains.com/idea/}} verwendet.
+In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur Entwicklung wurde die plattformübergreifende IDE \emph{IntelliJ Idea}\footnote{IntelliJ Idea: \url{http://www.jetbrains.com/idea/}} verwendet.
 
-Alternativ kann auch die offizielle Anroid \ac{IDE}, \emph{Android Studio}\footnote{\url{http://developer.android.com/sdk/installing/studio.html}}, verwendet werden, welches auf der \emph{Community Edition} von \emph{IntelliJ Idea} basiert, sich zum aktuellen Zeitpunkt jedoch nur in einer \emph{early access preview} verfügbar ist.
+Alternativ kann auch die offizielle Anroid \ac{IDE}, \emph{Android Studio}\footnote{Android Studio: \url{http://developer.android.com/sdk/installing/studio.html}}, verwendet werden, welches auf der \emph{Community Edition} von \emph{IntelliJ Idea} basiert, sich zum aktuellen Zeitpunkt jedoch nur in einer \emph{early access preview} verfügbar ist.
 Die Projektdateien sind untereinander kompatibel.
 
 Screenshots und Anleitungen beziehen sich diesbezüglich auf diese Software. Konfigurationen und Einstellungen können sich zu anderen IDEs unterscheiden.
 Die Quellen zu den Projekten befinden sich im Github-Repository im Unterordner \texttt{client}.
 
-\subsection{Ziele}
+Als Hilfen für die Implementierung dienten hauptsächlich das Buch \citetitle{android4} von \citeauthor*{android4}, sowie einige Tutorials von \citeauthor*{androidvogella}\footnote{\citeauthor*{androidvogella}: \url{http://www.vogella.com/}}.
+Außerdem wurden für spezielle Probleme Lösungen Antworten und Quelltextauszüge von der Frage-Antwort-Website StackOverflow\footnote{StackOverflow: \url{http://stackoverflow.com/}} genutzt.
+Diese sind in den Kommentaren in den Quelltexten der jeweiligen Klassen vermerkt.
+
+
+\subsection{Ziele der Implementierung}
 Bei der Konzeption und Entwicklung der Android Bibliothek wurden mehrere Ziele verfolgt.
-Das Hauptziel ist die Erstellung einer Bibliothek, die sich leicht in Anwendungen integrieren lässt und die Funktionen aufwändiger \ac{UX} Testaufbauten mit externen Kameras, Mikrofonen etc. ersetzt.
-Dazu sollen die technischen Möglichkeiten moderner Endgeräte genutzt werden:
+Das Hauptziel ist die Erstellung einer Bibliothek, die sich leicht in Anwendungen integrieren lässt und die Funktionen aufwändiger Mobilgeräte-\ac{UX}-Testaufbauten mit externen Kameras, Mikrofonen etc. ersetzt.
+Dazu sollen die technischen Möglichkeiten moderner Endgeräte genutzt werden.
+Viele Smartphones und Tablets verfügen über eine Frontkamera für Videotelefonie, ein eingebautes, hochempfindliches, Mikrofon für (Freisprech-)Telefonie und Mehrkernprozessoren für Multitasking.
+
+Diese Eigenschaften sollen genutzt werden um klobige Testaufbauten zu ersetzen. Deren Funktionalität besteht meist aus dem Aufzeichnen von Mimik und Sprache der Testperson, sowie Inhalt des Bildschirms und Interaktion mit dem Endgerät bzw. der Applikation.
+Unter der Prämisse, dass moderne Smartphones und Tablets die nötigen Hard- und Softwarevoraussetzungen erfüllen soll nun eine Software Lösung implementiert werden, um die zuvor genannten Funktionen abzubilden.
 
 
 \subsection{Verwendete Bibliotheken von Drittanbietern}
-Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.2.2} werden die folgenden externe Bibliotheken eingesetzt:
+Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.4.2} werden die folgenden externe Bibliotheken eingesetzt:
 \begin{description}
-	\item[Android Asynchronous Http Client\footnote{\url{http://loopj.com/android-async-http/}}] 
+	\item[Android Asynchronous Http Client\footnote{Android Asynchronous Http Client: \url{http://loopj.com/android-async-http/}}] 
 	Ein Callback-basierter HTTP Client, aufbauend auf Apache HTTP\footnote{\url{http://hc.apache.org/httpcomponents-client-ga/}} Bibliotheken. Diese quelloffene Android Bibliothek bietet Klassen und Methoden für asynchrone HTTP Aufrufe und wird auch in großen Projekten wie \emph{Instagram} oder \emph{Pinterest} eingesetzt. Die zusätzliche Abstraktionsschicht übernimmt die Fehlerbehandlung, wiederholte Verbindungsversuche und das übertragen von großen Datenmengen auf einfach anzuwendende Weise. Das Projekt unter der Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}, veröffentlicht und kann unter deren Bedingungen frei genutzt werden.
-	\item[Google GSON\footnote{\url{https://code.google.com/p/google-gson/}}]
+	\item[Google GSON\footnote{Google GSON: \url{https://code.google.com/p/google-gson/}}]
 	Der Datenabruf vom Server erfolgt mittels \ac{JSON}-Objekte im HTML Body. Um diese Objekte schnell und einfach in Java Objekte umzuwandeln bietet GSON entsprechende Klassen an, die das Implementieren von eigenen Parsern etc. überflüssig macht.
 	Die quelloffenen, universell einsetzbare, Java Bibliothek wird ebenfalls unter der Apache License, Version 2.0 veröffentlicht.
 %	\item[Android Support Library\footnote{\url{http://developer.android.com/tools/support-library/index.html}}]
 %	Diese zusätzliche, nicht im Android SDK enthaltene, Bibliothek bietet zahlreiche zusätzliche Klassen an, die nicht Bestandteil des offiziellen SDK sind, jedoch nützliche Erweiterungen. Z.B. gibt es Klassen für die applikationsinterne Kommunikation und zusätzliche \ac{UI}-Elemente und Layouts.
 %	Diese Bibliothek steht unter der \emph{Creative Commons Attribution 2.5}\footnote{http://creativecommons.org/licenses/by/2.5/} Lizenz und kann unter deren Bedingungen verwendet werden.
 \end{description}
+
 
 \subsection{Bibliotheksmodul}
 Zur Entwicklung der Bibliothek wurden zwei Projekte verwendet - Einmal das Projekt für die Bibliothek selbst und weiterhin ein Android-Projekt zum Testen der Funktionen während der Entwicklung. 
@@ -36,7 +46,7 @@ Die vorliegende Implementierung ist als \emph{Proof of Concept} anzusehen und we
 \subsubsection{Testapplikation}
 Für die Entwicklung und das Testen der Bibliothek wird eine Applikation benötigt in die diese eingebunden wird.
 Dazu wurde eine kleine Testapplikation entwickelt, die verschiedene \ac{UI}-Elemente enthält.
-Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen des Android \ac{SDK} zusammen \footnote{\url{http://developer.android.com/design/building-blocks/index.html}}:
+Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen des Android SDK zusammen \footnote{\url{http://developer.android.com/design/building-blocks/index.html}}:
 \begin{itemize}
 	\item Activities
 	\item Views
@@ -46,7 +56,9 @@ Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen
 	\item Toasts.
 \end{itemize}
 Anfangs bestand die Testapplikation aus einer einzigen Activity und wurde im Verlauf des Projekts erweitert.
-
+In Anhang \ref{anhang:test_app_screens} sind die einzelnen Activities der Testapplikation dargestellt.
+Ausgehend von der Haupt-Activity (grau umrandet) lässt sich eine Liste (blau), ein Dialog (grün), ein WebView (violet) und eine einfache Activtiy bestehend aus zwei Fragmenten (rot) öffnen.
+Dies reizt zwar nicht die gesamte Palette an Gestaltungsmöglichkeiten aus, reicht jedoch für erste Tests aus.
 
 \subsubsection{Monolithischer Wrapper}
 Um die Benutzung zu vereinfachen soll sich die Bibliothek möglichst einfach in neue und bestehende Anwendungen integrieren lassen.
@@ -57,7 +69,7 @@ Diese Art der Abstraktion soll die Benutzung vereinfachen, da nur mit einer einz
 Dies reduziert die Anzahl der Methodenaufrufe auf ein Minimum, wie im Beispiel angedeutet (siehe Listing \ref{list_hipsterbility_client_init}).
 
 %TODO: ggf überarbeiten, falls nötig
-\begin{lstlisting}[label=list_hipsterbility_client_init,language=Java, caption=Beispiel für Initialisierung der Bibliothek]
+\begin{lstlisting}[label=list_hipsterbility_client_init,language=Java, caption=Beispiel für Initialisierung der Android-Bibliothek]
 // Singleton Instanz holen und aktuelle Activity uebergeben
 Hipsterbility.getInstance().enableTesting(this);
 
@@ -78,7 +90,7 @@ Angelehnt an gängige Testmethoden (siehe Abschnitt \ref{sec:testmethoden}) wird
 \begin{enumerate}
 	\item Aufnahme des Gesichts der Testperson durch die Frontkamera des Geräts.
 	\item Mitschnitt von verbalen Äußerungen mittels des integrierten Mikrofons.
-	\item Abgreifen des Bildschirminhalts mit Visualisierung von Eingaben.
+	\item Abgreifen des Bildschirminhalts mit Visualisierung von Benutzereingaben.
 \end{enumerate}
 
 
@@ -121,4 +133,43 @@ Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Versio
 
 \subsubsection{Statisches Einbinden als JAR-Archiv}
 
+\subsection{Bekannte Einschränkungen}
+Der gegenwärtige Stand der Bibliothek enthält einige Einschränkungen bei der Nutzung. 
+Einerseits sind Video- und Screenshotaufnahme, basierend auf nativen Funktionen mit Root-Zugriff zwar implementiert und getestet, allerdings nicht vollständig in den Gesamtablauf eingebunden und können entsprechend nicht beim Testen von Applikationen genutzt werden.
+%TODO: Entfernen wenn doch noch implementiert
+Auch der Wechsel von Activities wird aktuell noch nicht voll unterstützt.
+Wenn keine Activity der Testanwendung mehr im Vordergrund ist wird zwar die Aufnahme nach einem Timeout gestoppt, beim Wechsel in eine andere Activty der Testapplikation wird diese nicht weiter aufgezeichnet.
+Nur die Video- und Audioaufzeichnung im Hintergrund wird fortgesetzt, der Bildschirminhalt wird nicht weiter aufgezeichnet.
+
+Auch der Ablauf von Tasks und Todos lässt sich im aktuellen Stand nicht nachverfolgen.
+Außerdem hat die Testperson aktuell keine Möglichkeit sich -- nach dem Start einer Session -- noch einmal die Aufgabenstellung anzusehen.
+
+Eine weitere Hürde stellt der Orientierungswechsel des Geräts während der Datenerfassung dar, da die Orientierung des Kamerabildes nur beim starten der Aufnahme bestimmt wird.
+Das erstellen von Screenshots funktioniert zwar weiterhin, allerdings nicht das native Screen Recording.
+Bei diesem würde ein Teil des Bildbereichs abgeschnitten und schwarze Balken eingefügt.
+ 
+ 
 \subsection{Ausblick und Weiterentwicklung}
+
+\subsubsection{Application Lifecycle}
+Neben den Interaktionen des Benutzers mit einzelnen Activities oder Bildschirmelementen kann auch eine Auswertung des Lebenszyklus der Applikation und enthaltener Activities Aufschlüsse liefern.
+So kann beispielsweise durch das (automatische) statistische Auswerten von entsprechenden Logdateien analysiert werden, in welcher Häufigkeit und Reihenfolge Activities aufgerufen werden, oder ob einzelne gar nicht gestartet werden, weil z.B. ein Button nicht funktioniert oder Testpersonen die Funktion nicht finden.
+
+\subsubsection{Protokollierung von Benutzereingaben}
+Auch wenn Benutzereingaben auf den Aufnahmen vom Bildschirminhalt visualisiert werden, kann eine zusätzliche Protokollierung in maschinenlesbaren weitere (automatisierte) Analysemöglichkeiten bieten.
+Anhand von statistischen Analysen kann z.B. herausgefunden werden, dass Testpersonen Reaktionen auf Gesten erwarten, die nicht implementiert wurden.
+Zusätzlich können Zeitabstände zwischen einzelnen Eingaben ausgewertet und interpretiert werden, um herauszufinden wie leicht verständlich Benutzeroberflächen durch Testpersonen wahrgenommen werden.
+
+\subsection{Benutzeroberfläche und Interaktion}
+Bisher werden Testpersonen nur wenig Möglichkeiten geboten Aufgaben nachzuverfolgen oder nachzuschlagen.
+Beim Start einer Session werden diese Angezeigt, können aktuell, im Verlauf der Datenerfassung, allerdings nicht noch einmal aufgerufen werden.
+Auch das Layout und Design der Benutzeroberfläche können weiter verbessert werden.
+Einige Symbole dienen nur als Platzhalter können gegen passendere ersetzt werden.
+Bisher wurden Layout und Design einzig für Smartphones optimiert, sie funktionieren schlecht auch auf Tablets, da nur wenige Informationen auf einen deutlich größeren Bildschirm dargestellt werden.
+
+\subsection{Sicherheit}
+Die Kommunikation mit dem Server verläuft unverschlüsselt mittels \ac{HTTP}-Methoden.
+Auch Benutzername und Passwort werden aktuell unverschlüsselt im Klartext übertragen und können einfach Mitgelesen werden.
+Die Speicherung des Passworts auf dem Endgerät erfolgt durch das Android Pereferences Framework in unverschlüsselten Textdateien und kann mit Root-Zugriff leicht ausgelesen werden.  
+Um die Kommunikation sicherer zu gestalten sollte die Kommunikation verschlüsselt werden, z.B. mittels \ac{SSL} oder \ac{TLS}, da das Android Betriebssystem Bibliotheken für diese Verfahren mitbringt.
+Zur sichereren Speicherung von Benutzername und Passwort könnte z.B. die Android interne Kontenverwaltung genutzt werden.
