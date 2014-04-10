@@ -50,7 +50,7 @@ Anfangs bestand die Testapplikation aus einer einzigen Activity und wurde im Ver
 
 \subsubsection{Monolithischer Wrapper}
 Um die Benutzung zu vereinfachen soll sich die Bibliothek möglichst einfach in neue und bestehende Anwendungen integrieren lassen.
-Dies u.a. dadurch erreicht, dass Aufrufe nur an eine einzige Klasse gerichtet werden
+Dies wird u.a. dadurch erreicht, dass Aufrufe nur an eine einzige Klasse gerichtet werden.
 Die dahinter liegenden Klassen werden im Sinne des \emph{Facade}-Entwurfsmusters \cite[vgl.][40\psq]{designpattern} \enquote{abgeschirmt}.
 Die Klasse \texttt{Hipsterbility} bildet die Schnittstelle zu der Applikation, welche die Bibliothek verwendet.
 Diese Art der Abstraktion soll die Benutzung vereinfachen, da nur mit einer einzigen Klasse interagiert werden muss. 
@@ -72,9 +72,9 @@ Jedes Element hat eine boolsche Variable \texttt{enabled}.
 Hat diese den Wert \texttt{true}, wird die entsprechende Funktion aktiviert.
 Die aktivierten Funktionen entscheiden in ihrer Kombination, welche konkrete Implementierung genutzt wird (siehe Abschnitt \ref{sec_module}).
 
-\subsection{Module zur Datenerfassung \label{sec_module}}
+\subsection{Module zur Datenerfassung \label{sec:module}}
 Primärziel der Android Bibliothek ist das Sammeln von Daten, die bei der Interaktion mit der zu testenden Anwendung anfallen.
-Angelehnt an gängige Testmethoden (siehe Abschnitt \ref{sec_testmethoden}) wird ein beispielhafter Testaufbau mit folgenden Elementen abgebildet:
+Angelehnt an gängige Testmethoden (siehe Abschnitt \ref{sec:testmethoden}) wird ein beispielhafter Testaufbau mit folgenden Elementen abgebildet:
 \begin{enumerate}
 	\item Aufnahme des Gesichts der Testperson durch die Frontkamera des Geräts.
 	\item Mitschnitt von verbalen Äußerungen mittels des integrierten Mikrofons.

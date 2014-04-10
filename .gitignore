@@ -34,14 +34,21 @@ build/
 .idea/dataSources.ids
 *.iws
 
-# Texpad files
-.texpadtmp
+# IntelliJ Webstorm ignores (all webstorm configs)
+serverside/.idea
 
-#node modules
-#node_modules/
+# ignore all node modules
+serverside/node_modules/
+
+# project ignores
+serverside/uploads/
 
 #vagrant 
 .vagrant
+
+# Texpad files
+.texpadtmp
+
 
 # LaTex
 tex/main.pdf
@@ -62,3 +69,8 @@ serverside/mmk2014.txt
 *.gz
 *.toc
 *.url
+
+# extras
+client/lib/Hipsterbility/.idea/libraries/android_async_http_1_4_4.xml
+client/lib/Hipsterbility/.idea/libraries/android_support_v13.xml
+client/lib/Hipsterbility/.idea/libraries/gson_2_2_4.xml
