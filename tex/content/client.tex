@@ -5,6 +5,8 @@ In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur
 Alternativ kann auch die offizielle Anroid \ac{IDE}, \emph{Android Studio}\footnote{Android Studio: \url{http://developer.android.com/sdk/installing/studio.html}}, verwendet werden, welches auf der \emph{Community Edition} von \emph{IntelliJ Idea} basiert, sich zum aktuellen Zeitpunkt jedoch nur in einer \emph{early access preview} verfügbar ist.
 Die Projektdateien sind untereinander kompatibel.
 
+Für UML-Diagramme wird die quelloffene, Eclipse basierte, Modellierungssoftware \emph{modelio}\footnote{modelio: \url{http://www.modelio.org/}} genutzt.
+
 Screenshots und Anleitungen beziehen sich diesbezüglich auf diese Software. Konfigurationen und Einstellungen können sich zu anderen IDEs unterscheiden.
 Die Quellen zu den Projekten befinden sich im Github-Repository im Unterordner \texttt{client}.
 
@@ -93,6 +95,17 @@ Angelehnt an gängige Testmethoden (siehe Abschnitt \ref{sec:testmethoden}) wird
 	\item Abgreifen des Bildschirminhalts mit Visualisierung von Benutzereingaben.
 \end{enumerate}
 
+Abbildung \ref{pic:modules_class_diagram} zeigt einige Klassen im Paket \texttt{modules}.
+Um die Implementierung der einzelnen \enquote{Module} zu vereinheitlichen gibt es ein Interface \texttt{CaptureModule}, welches die benötigten Methodensignaturen enthält und von den \texttt{*Module} Klassen realisiert wird.
+Die einzelnen Klassen sind als statische Singletons \cite[vgl.][21\psq]{designpattern} implementiert.
+Besonders bei Klassen mit exklusivem Hardwarezugriff (\texttt{CameraCaptureModule, AudioCaptureModule}) wird so verhindert, dass mehrere Objekte erstellt werden, was zu Laufzeitfehlern führen könnte.
+Um die Methodenaufrufe 
+\begin{wrapfigure}[20]{l}{0.5\textwidth}
+\includegraphics[width=\linewidth]{img/modules_Class_diagram}
+\caption{Klassendiagramm des Pakets \mbox{\texttt{modules}}.}
+\label{pic:modules_class_diagram}
+\end{wrapfigure}
+
 
 \subsubsection{Frontkamera und Mikrofon}
 Bei der Auswertung von Usability-Tests kann die Mimik der Testperson zur Interpretation beitragen.
@@ -110,8 +123,74 @@ Dieser wird mit einem transparenten Pixelformat versehen, auf 1x1 Pixel verklein
 Somit wird eine, für den Benutzer nicht sichtbare, Vorschau erstellt und die Aufzeichnung kann über die vom System bereitgestellten Klassen erfolgen.
 
 
-\subsubsection{Bildschirminhalt}
+\subsubsection{Bildschirminhalt mit Root-Zugriff}
+Mit Root-Zugriff ist das erstellen einzelner Screenshots mit wenigen Zeilen Quelltext möglich, wie in Listing \ref{listing:screenshot_root} dargestellt.
 
+\begin{lstlisting}[label=listing:screenshot_root,language=Java, caption=Screenshot Aufnahme mit Root-Zugriff]
+sh = Runtime.getRuntime().exec("su", null, null); // Superuser Rechte holen
+OutputStream os = sh.getOutputStream();
+os.write("/system/bin/screencap -p /sdcard/outputfile.png"); // Screenshot erstellen
+os.flush(); // Schreibpuffer leeren 
+os.close(); // und schliessen
+sh.waitFor(); // Auf Beendigung der o.g. Befehle warten
+\end{lstlisting}
+
+Ab Android 4 wird ein natives Kommandozeilenprogramm \texttt{screencap} mitgeliefert.
+Dieses erlaubt das Erstellen von Screenshots, indem direkt der \emph{FrameBuffer} des Systems ausgelesen wird (siehe Quelltext zu \texttt{screencap}\footnote{screencap Quelltext: \url{https://github.com/android/platform_frameworks_base/blob/master/cmds/screencap/screencap.cpp}}).
+Der Parameter \texttt{-p} gibt an, dass das Ausgabeformat \texttt{PNG} sein soll. 
+Optional kann noch die Nummer des Displays nach dem optionalen Parameter \texttt{-d} angegeben werden.
+Am Ende des Aufrufs steht der Pfad der Ausgabedatei, im Beispiel \texttt{/sdcard/outputfile.png}. 
+
+Das \emph{Rooting} des Android Betriebssystems wird von diesem selbst nicht verhindert, jedoch muss ggf. der Bootloader entsperrt werden, was zu einer Löschung der Gerätedaten aus Sicherheitsgründen führen kann. 
+Neben den Vorteilen, die \emph{Rooting} bietet, wie z.B. erweitertes Debugging oder vollständige Backups, so hat es einige Nachteile oder ist teilweise nicht mit einfachen Möglichkeiten erreichbar \cite[vgl.][]{androidsecurity}.
+Um das \emph{Rooting} oder die Installation von alternativen Betriebssystemen oder Versionen zu verhindern verschlüsseln einige Hersteller die Bootloader ihrer Geräte \cite[vgl.][6\psq]{androiddataintegrity}.
+
+Der Vollzugriff auf das Dateisystem und das Betriebssystem kann jedoch auch zu Sicherheitsproblemen führen und daher z.B. in Unternehmen für betrieblich genutzte Geräte untersagt werden.
+Demnach kann nicht davon ausgegangen werden, dass nicht immer ein Root-Zugriff möglich ist.
+
+\subsubsection{Bildschirminhalt ohne Root-Zugriff}
+Da ohne Root-Zugriff nicht auf die nativen Anwendungen zugegriffen werden kann, wurde eine alternative Lösung entwickelt.
+Die Bibliothek läuft bei der Ausführung der Applikation in deren Kontext und im selben Prozess.
+Dadurch ist es möglich auf die Activities der Applikation zuzugreifen.
+
+In Listing \ref{listing:screenshot} ist dargestellt, wie ein Bild von einer Activity erstellt wird.
+Der direkte Zugriff auf den FrameBuffer oder andere Stationen der Ausgabekette ist nicht möglich, daher wird der Bildschirminhalt \enquote{nachgezeichnet}.
+Mit dieser Implementierung werden allerdings nur grafische Elemente der Anwendung erfasst, ein Zugriff auf die Statusleiste, Navigationsleiste oder andere Anwendungen ist so nicht möglich.
+
+\begin{lstlisting}[label=listing:screenshot,language=Java, caption=Screenshot Aufnahme ohne Root-Zugriff]
+Display display = activity.getWindowManager().getDefaultDisplay();
+Point size = new Point();
+display.getSize(size);
+// RootView holen
+View view = activity.getWindow().getDecorView().getRootView();
+// Bitmap und Canvas erstellen
+Bitmap bitmap = Bitmap.createBitmap(size.x, size.y, Bitmap.Config.ARGB_4444);
+Canvas canvas = new Canvas(bitmap);
+// Theme holen und anwenden
+final Resources.Theme theme = activity.getTheme();
+final TypedArray ta = theme.obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
+final int res = ta.getResourceId(0, 0);
+final Drawable background = activity.getResources().getDrawable(res);
+// Hintergrund zeichnen
+background.draw(canvas);
+// Views zeichnen
+view.draw(canvas);
+// Bild komprimieren und ins Dateisystem schreiben
+FileOutputStream fos = new FileOutputStream("/sdcard/screenshot.png"));
+bitmap.compress(Bitmap.CompressFormat.PNG, 90, fos);
+fos.flush();
+fos.close();
+\end{lstlisting}
+
+Das erstellen eines Bildes der Anwendung verläuft in mehreren Schritten.
+Über die \texttt{Activity} kann auf den \texttt{WindowManager} und auf das Standarddisplayobjekt zugegriffen werden, um die Bildschirmgröße zu bestimmen.
+Danach wird der \texttt{RootView}, der alle anderen grafischen Elemente enthält als Referenz zwischengespeichert.
+Zum erstellen des Bildes wird ein \texttt{Bitmap} in Bildschirmgröße erstellt um anschließend ein \texttt{Canvas} Objekt zu erzeugen, auf dem grafische Elemente gezeichnet werden können.
+Darauf werden nun nacheinander, beginnend mit dem Hintergrund, die grafischen Elemente gezeichnet.
+
+Abschließend wird das Bild komprimiert und in eine Datei geschrieben.
+
+\subsubsection{Visualisieren von Benutzereingaben}
 
 \subsection{Weitere Funktionen und Ausblick}
 
@@ -140,6 +219,8 @@ Einerseits sind Video- und Screenshotaufnahme, basierend auf nativen Funktionen 
 Auch der Wechsel von Activities wird aktuell noch nicht voll unterstützt.
 Wenn keine Activity der Testanwendung mehr im Vordergrund ist wird zwar die Aufnahme nach einem Timeout gestoppt, beim Wechsel in eine andere Activty der Testapplikation wird diese nicht weiter aufgezeichnet.
 Nur die Video- und Audioaufzeichnung im Hintergrund wird fortgesetzt, der Bildschirminhalt wird nicht weiter aufgezeichnet.
+
+Weiterhin werden -- nicht bildschirmfüllende -- Elemente wie Dialoge, Benachrichtigungen und Toasts bei der Bildschirmaufzeichnung nicht erfasst, da i.d.R. über Systemdienste erstellt werden.
 
 Auch der Ablauf von Tasks und Todos lässt sich im aktuellen Stand nicht nachverfolgen.
 Außerdem hat die Testperson aktuell keine Möglichkeit sich -- nach dem Start einer Session -- noch einmal die Aufgabenstellung anzusehen.
@@ -171,5 +252,5 @@ Bisher wurden Layout und Design einzig für Smartphones optimiert, sie funktioni
 Die Kommunikation mit dem Server verläuft unverschlüsselt mittels \ac{HTTP}-Methoden.
 Auch Benutzername und Passwort werden aktuell unverschlüsselt im Klartext übertragen und können einfach Mitgelesen werden.
 Die Speicherung des Passworts auf dem Endgerät erfolgt durch das Android Pereferences Framework in unverschlüsselten Textdateien und kann mit Root-Zugriff leicht ausgelesen werden.  
-Um die Kommunikation sicherer zu gestalten sollte die Kommunikation verschlüsselt werden, z.B. mittels \ac{SSL} oder \ac{TLS}, da das Android Betriebssystem Bibliotheken für diese Verfahren mitbringt.
+Um die Kommunikation sicherer zu gestalten sollte die Kommunikation verschlüsselt werden, z.B. mittels \ac{SSL} bzw. \ac{TLS}, da das Android Betriebssystem Bibliotheken für diese Verfahren mitbringt.
 Zur sichereren Speicherung von Benutzername und Passwort könnte z.B. die Android interne Kontenverwaltung genutzt werden.
