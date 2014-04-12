@@ -21,8 +21,8 @@ Das Programmpaket für die \emph{Secure Shell} beinhaltet alle Softwaretools um 
 	\item[MySQL Server\footnotemark]\footnotetext{http://www.mysql.de/products/community/}
 Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition.
 	
-	\item[Node.js\footnotemark]\footnotetext{http://nodejs.org/}
-Node.js, kurz Node, ist eine Platform basierend auf der JavaScript Laufzeitumgebung des Browsers Chrome. Die Intension von Node ist es schnelle, skalierbare Netzwerkanwendung entwickeln zu können. Dabei wird ein ereignisgetriebenes, nicht blockierendes Eingabe-/Ausgabesystem verwendet.
+	\item[Node.js und NPM\footnotemark]\footnotetext{http://nodejs.org/}
+Node.js, kurz Node, ist eine Platform basierend auf der JavaScript Laufzeitumgebung des Browsers Chrome. Die Intension von Node ist es schnelle, skalierbare Netzwerkanwendung entwickeln zu können. Dabei wird ein ereignisgetriebenes, nicht blockierendes Eingabe-/Ausgabesystem verwendet. Der Node Package Manager, kurz NPM, wird verwendet um weitere Abhängigkeiten der Anwendung zu verwalten.
 	
 \end{description}
 
@@ -49,11 +49,9 @@ Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung 
 
 
 \subsection{HTTP-Server und Middleware}
-Die serverseitige Logik wurde mit dem ExpressJS-Framework\footnote{http://expressjs.com/} umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
+Die serverseitige Logik wurde mit dem Express-Framework\footnote{http://expressjs.com/} umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr gut für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
 
-Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. 
-
-% TODO 
+Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. Eine Express-Anwendung stellt Pfade, sog. \emph{routes}, zur Verfügung auf die der HTTP-Server reagiert. Im Listing wird Zeile 23 wird eine solcher Pfad angelegt. 
 
 \begin{lstlisting}[label=minimal_node_http_server,language=Java, caption=Minimaler Node-HTTP-Server]
 /**
@@ -87,41 +85,38 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 \end{lstlisting}
 
-\subsubsection{Ordnerstruktur}
-% TODO positioning, sizing
-\begin{minipage}[c]{\textwidth} %Ordnerstruktur in Minipage damit die zusammengehalten wird
-\dirtree{%
- .1 /serverside.
- .2 classes.
- .2 controllers.
- 	.3 api.
- 		.4 audio.js.
- 		.4 captures.js.
- 		.4 log.js.
- 		.4 sessions.js.
- 		.4 tasks.js.
- 		.4 todos.js.
- 		.4 videos.js.
- 	.3 backend.js.
- 	.3 frontend.js.
- .2 node\_modules.
- .2 public.
- 	.3 css.
- 		.4 plugins.
- 		.4 bootstrap.min.css.
- 		.4 bootstrap-theme.min.css.
- 		.4 sb-admin.css.
- 		.4 style.css.
- 		.4 video-js.min.css.
- 	.3 fonts.
- 	.3 img.
- 	.3 js.
- .2 uploads.
- .2 views.
-}
-\end{minipage}
+Im Projektrepository befindet sich der Unterordner \textbf{serverside}. In diesem finden sich alle Serverdateien. Die Baumstruktur aus Abbildung \ref{fig:server-tree} zeigt die Ordnerhierachie des Projekts.
 
-\subsubsection{APIs}
+Im Ordner \textit{node\_modules} befinden sich alle weiteren Module die für die Serveranwendung benötigt und durch NPM verwaltet werden. 
+
+Im Unterordner \textit{controllers} werden die Web- und API-Routen-Handler gehalten. Diese werden in \textbf{app.js} als Callback-Funktionen aufgerufen (der Abschnitt \ref{sec: API} beschreibt die Routen detailliert). Im Ordner \textit{public} werden alle Dateien für die Browseranwendung (clientseitiges Javascript, CSS, Bilder und Schriftarten) angelegt und gehalten. Letztlich werden die HTML-Views im Unterordner \textit{views} gehalten. 
+
+
+\begin{figure}[h!]
+	\centering
+			\begin{minipage}[c]{\textwidth} %Ordnerstruktur in Minipage damit die zusammengehalten wird
+				\dirtree{%
+				 .1 /serverside.
+				 .2 classes.
+				 .2 controllers.
+				 	.3 api.
+				 .2 node\_modules.
+				 .2 public.
+				 	.3 css.
+				 	.3 fonts.
+				 	.3 img.
+				 	.3 js.
+				 .2 uploads.
+				 .2 views.
+				}
+			\end{minipage}
+	\caption{Ordnerstruktur des Servers}
+	\label{fig:server-tree}
+\end{figure}
+
+\subsubsection{Node Module}
+
+\subsubsection{API \label{sec: API}}
 
 \subsubsection{Webbasiertes Verwaltungstool}
 
