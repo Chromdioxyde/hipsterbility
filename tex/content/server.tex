@@ -1,10 +1,9 @@
 \section{Server}
 \label{server}
-Wie in Abschnitt \ref{app_architecture} beschrieben, müssen die aufgezeichneten Daten der Clientbibliothek weiter verarbeitet werden. % nochmal etwas genauer
+Wie in Abschnitt \ref{app_architecture} beschrieben, müssen die aufgezeichneten Daten der Clientbibliothek weiter verarbeitet werden. % TODO nochmal etwas genauer
 
 Im Folgenden werden die serverseitigen Komponenten, virtuelle Maschine, Datenbank und HTTP-Server, vorgestellt. 
 
-%TODO: footnote ++ update
 
 
 \subsection{Virtuelle Maschine}
@@ -123,7 +122,7 @@ Wie im Abschnitt \ref{sec:vm-config} beschrieben werden alle Abhängigkeit für 
 
 Im Ordner \textit{serverside} befindet sich die Datei \emph{package.json}. Diese Datei enthält alle benötigten Abhängigkeiten im JSON\footnote{http://www.json.org/}-Format. Das Listing \ref{node-packages} zeigt das Paket-JSON-Objekt. Neben den Projektinformationen beinhaltet es ein weiteres Objekt, \emph{dependencies}. 
 
-In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Beispiel das Express-Framework, enthalten. Jeder Eintrag besteht aus dem Namen des Moduls und der gewünschten Version. Das \emph{*} bedeutet das immer die aktuellste Version genutzt werden soll. Mittels des Befehls \textbf{npm install} im Ordner \textit{serverside} können die Abhängigkeiten installiert werden. 
+In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Beispiel das Express-Framework, enthalten. Jeder Eintrag besteht aus dem Namen des Moduls und der gewünschten Version. Das \emph{*} bedeutet das die aktuellste Version genutzt werden soll. Mittels des Befehls \textbf{npm install} im Ordner \textit{serverside} können die Abhängigkeiten installiert werden. 
 
 \begin{lstlisting}[label=node-packages,language=Java, caption=Abhängigkeiten der Node-Anwendung]
 {
@@ -149,10 +148,55 @@ In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Be
 
 \subsubsection{Webbasiertes Verwaltungstool}
 
-Aus dem 
+Nach Abschnitt \ref{sec: zielsetzung} ist es Ziel eine zentrale Komponente zur Verfügung zu stellen mit der Tests verwaltet werden können. Zudem wurde ein rudimentäres Login-System implementiert. An dieser Stelle sei gesagt, dass die webbasierte Verwaltung nur skizziert ist. Eine vollständige, auf Sicherheit geprüfte und nach allen heutigen Webstandards aufbauende, Webanwendung steht nicht zur Verfügung. Dies ist im Rahmen dieser Semesterarbeit nicht entstanden und auch nicht das Anliegen dieser Arbeit. Vielmehr ist es ein Proof-Of-Concept. 
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=\linewidth,keepaspectratio]{img/index-page.png}
+	\caption{Index-Seite der Anwendung}
+	\label{fig: index-page}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=\linewidth,keepaspectratio]{img/login-page.png}
+	\caption{Login-Seite der Anwendung}
+	\label{fig: login-page}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=\linewidth,keepaspectratio]{img/sessions-page.png}
+	\caption{Listenansicht für Testsessions}
+	\label{fig: sessions-page}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=\linewidth,keepaspectratio]{img/session-detail-page.png}
+	\caption{Detailansicht einer Testsession}
+	\label{fig: session-detail-page}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=\linewidth,keepaspectratio]{img/session-create-page.png}
+	\caption{Neue Session anlegen}
+	\label{fig: session-create-page}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=\linewidth,keepaspectratio]{img/session-result-page.png}
+	\caption{Web-Ansicht der Ergebnisse}
+	\label{fig: session-result-page}
+\end{figure}
 
 \subsubsection{API \label{sec: api}}
 
+Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbindung an die Funktionen des Servers. Dafür eignen sich APIs sehr gut. Das Express-Framework bietet sich auch dafür sehr gut an. Nachfolgend werden die API-Routen beschrieben und anschließend wird die Implementierung einer Route beispielhaft gezeigt. 
+
 \subsection{Videoproduktion}
 
-Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird die darin enthaltene Software \emph{avconv} genutzt um die Bilder und Videos zusammenzufügen. 
+Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird die darin enthaltene Software \emph{avconv} genutzt um die Bilder und Videos zusammenzufügen. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt.
+% TODO fertig machen.
