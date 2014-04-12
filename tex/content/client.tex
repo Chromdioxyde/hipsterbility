@@ -28,14 +28,11 @@ Unter der Prämisse, dass moderne Smartphones und Tablets die nötigen Hard- und
 \subsection{Verwendete Bibliotheken von Drittanbietern}
 Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.4.2} werden die folgenden externe Bibliotheken eingesetzt:
 \begin{description}
-	\item[Android Asynchronous Http Client\footnote{Android Asynchronous Http Client: \url{http://loopj.com/android-async-http/}}] 
-	Ein Callback-basierter HTTP Client, aufbauend auf Apache HTTP\footnote{\url{http://hc.apache.org/httpcomponents-client-ga/}} Bibliotheken. Diese quelloffene Android Bibliothek bietet Klassen und Methoden für asynchrone HTTP Aufrufe und wird auch in großen Projekten wie \emph{Instagram} oder \emph{Pinterest} eingesetzt. Die zusätzliche Abstraktionsschicht übernimmt die Fehlerbehandlung, wiederholte Verbindungsversuche und das übertragen von großen Datenmengen auf einfach anzuwendende Weise. Das Projekt unter der Apache License, Version 2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0}}, veröffentlicht und kann unter deren Bedingungen frei genutzt werden.
-	\item[Google GSON\footnote{Google GSON: \url{https://code.google.com/p/google-gson/}}]
+	\item[Android Asynchronous Http Client\footnotemark] \footnotetext{Android Asynchronous Http Client: \url{http://loopj.com/android-async-http/}} 
+	Ein Callback-basierter HTTP Client, aufbauend auf Apache HTTP\footnote{Apache HTTP: \url{http://hc.apache.org/httpcomponents-client-ga/}} Bibliotheken. Diese quelloffene Android Bibliothek bietet Klassen und Methoden für asynchrone HTTP Aufrufe und wird auch in großen Projekten wie \emph{Instagram} oder \emph{Pinterest} eingesetzt. Die zusätzliche Abstraktionsschicht übernimmt die Fehlerbehandlung, wiederholte Verbindungsversuche und das übertragen von großen Datenmengen auf einfach anzuwendende Weise. Das Projekt unter der Apache License, Version 2.0\footnote{Apache License 2.0: \label{ftn:apache_license} \url{http://www.apache.org/licenses/LICENSE-2.0}}, veröffentlicht und kann unter deren Bedingungen frei genutzt werden.
+	\item[Google GSON\footnotemark] \footnotetext{Google GSON: \url{https://code.google.com/p/google-gson/}}
 	Der Datenabruf vom Server erfolgt mittels \ac{JSON}-Objekte im HTML Body. Um diese Objekte schnell und einfach in Java Objekte umzuwandeln bietet GSON entsprechende Klassen an, die das Implementieren von eigenen Parsern etc. überflüssig macht.
-	Die quelloffenen, universell einsetzbare, Java Bibliothek wird ebenfalls unter der Apache License, Version 2.0 veröffentlicht.
-%	\item[Android Support Library\footnote{\url{http://developer.android.com/tools/support-library/index.html}}]
-%	Diese zusätzliche, nicht im Android SDK enthaltene, Bibliothek bietet zahlreiche zusätzliche Klassen an, die nicht Bestandteil des offiziellen SDK sind, jedoch nützliche Erweiterungen. Z.B. gibt es Klassen für die applikationsinterne Kommunikation und zusätzliche \ac{UI}-Elemente und Layouts.
-%	Diese Bibliothek steht unter der \emph{Creative Commons Attribution 2.5}\footnote{http://creativecommons.org/licenses/by/2.5/} Lizenz und kann unter deren Bedingungen verwendet werden.
+	Die quelloffenen, universell einsetzbare, Java Bibliothek wird ebenfalls unter der Apache License, Version 2.0\footref{ftn:apache_license} veröffentlicht.
 \end{description}
 
 
@@ -48,7 +45,7 @@ Die vorliegende Implementierung ist als \emph{Proof of Concept} anzusehen und we
 \subsubsection{Testapplikation}
 Für die Entwicklung und das Testen der Bibliothek wird eine Applikation benötigt in die diese eingebunden wird.
 Dazu wurde eine kleine Testapplikation entwickelt, die verschiedene \ac{UI}-Elemente enthält.
-Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen des Android SDK zusammen \footnote{\url{http://developer.android.com/design/building-blocks/index.html}}:
+Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen des Android SDK zusammen \footnote{Android Building Blocks: \url{http://developer.android.com/design/building-blocks/index.html}}:
 \begin{itemize}
 	\item Activities
 	\item Views

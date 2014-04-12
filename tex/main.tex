@@ -1,6 +1,6 @@
 %
 %
-\documentclass[11pt]{scrartcl}
+\documentclass[11pt,headsepline,footsepline,plainfootsepline]{scrartcl}
 
 % own geometry
 % siehe Skript "Leitfaden Wissenschaftliches Arbeiten Oktober 2008" WiSo S.52
@@ -96,10 +96,18 @@
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
 
 % Headings
-\usepackage{fancyhdr}
-\renewcommand{\footrulewidth}{0.4pt}
-\cfoot{}
-\rfoot{\thepage}
+%\usepackage{fancyhdr}
+%\renewcommand{\footrulewidth}{0.4pt}
+%\cfoot{}
+%\rfoot{\thepage}
+
+\usepackage[olines]{scrpage2}
+\clearscrheadfoot
+\automark[section]{chapter}
+\automark[subsection]{section}
+\ihead[scrplain-innen] {\leftmark} %Linke Kofpzeile. Einseitig, deshalb ist innen links.
+\ohead[scrplain-außen] {\rightmark} %Rechte Kopfzeile
+\ofoot[scrplain-außen] {\pagemark}
 
 % Document begins now
 \begin{document}
@@ -142,7 +150,8 @@
 \newpage
 % set new page style
 
-\pagestyle{fancy}
+%\pagestyle{fancy}
+\pagestyle{scrheadings}
 \setcounter{page}{1} 
 
 % Einleitung 
@@ -164,13 +173,15 @@
 %\renewcommand*{\biburlsuffix}{)}
 
 \newpage
-\thispagestyle{empty}
+\clearscrheadfoot % Header und Footer entfernen
+\ofoot[scrplain-außen] {\pagemark} % Seitenzahl unten rechts
 
 \addcontentsline{toc}{section}{Literaturverzeichnis} % Eintrag ins Inhaltsverzeichnis
 \printbibliography
 
 \newpage
-\pagestyle{fancyplain}
+%\pagestyle{fancyplain}
+
 \begin{appendix}
 \section{Anhang}
 \input{content/anhang1}
