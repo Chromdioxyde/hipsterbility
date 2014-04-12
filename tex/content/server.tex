@@ -146,13 +146,11 @@ In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Be
 }
 \end{lstlisting}
 
-\subsubsection{Webbasiertes Verwaltungstool}
+\subsection{Webbasiertes Verwaltungstool}
 
 Nach Abschnitt \ref{sec: zielsetzung} ist es Ziel eine zentrale Komponente zur Verfügung zu stellen mit der Tests verwaltet werden können. Zudem wurde ein rudimentäres Login-System implementiert. An dieser Stelle sei gesagt, dass die webbasierte Verwaltung nur skizziert ist. Eine vollständige, auf Sicherheit geprüfte und nach allen heutigen Webstandards aufbauende, Webanwendung steht nicht zur Verfügung. Dies ist im Rahmen dieser Semesterarbeit nicht entstanden und auch nicht das Anliegen dieser Arbeit. Vielmehr ist es ein Proof-Of-Concept. 
 
 Grundlegend wurden die Browserkomponenten der Web-Anwendung mittels jQuery\footnote{http://jquery.com/} und Bootstrap\footnote{http://getbootstrap.com/}
-
-Die Abbildung \ref{fig: index-page} zeigt die Startseite der Anwendung. Über den Link \emph{Login} kann zur Login-Maske gelangt werden, welche in Abbildung \ref{fig: login-page} zu sehen ist. 
 
 \begin{figure}[h!]
 	\centering
@@ -161,6 +159,8 @@ Die Abbildung \ref{fig: index-page} zeigt die Startseite der Anwendung. Über de
 	\label{fig: index-page}
 \end{figure}
 
+Die Abbildung \ref{fig: index-page} zeigt die Startseite der Anwendung. Über den Link \emph{Login} kann zur Login-Maske gelangt werden, welche in Abbildung \ref{fig: login-page} zu sehen ist. 
+
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=\linewidth,keepaspectratio]{img/login-page.png}
@@ -168,14 +168,16 @@ Die Abbildung \ref{fig: index-page} zeigt die Startseite der Anwendung. Über de
 	\label{fig: login-page}
 \end{figure}
 
-Nach erfolgreichen Login gelangt man auf das Dashbaord der Administration, welche zum Zeitpunkt der Abgabe keine Informationen bereitstellt. Im Administrationsbereich hat der User nunmehr die Möglichkeit eine Liste der erstellten Sessions zu sehen (siehe Abbildung \ref{fig: sessions-page}) oder eine neue Session anzulegen (Abbildung \ref{fig: session-create-page}. 
-
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=\linewidth,keepaspectratio]{img/sessions-page.png}
 	\caption{Listenansicht für Testsessions}
 	\label{fig: sessions-page}
 \end{figure}
+
+Nach erfolgreichen Login gelangt man auf das Dashbaord der Administration, welche zum Zeitpunkt der Abgabe keine Informationen bereitstellt. Im Administrationsbereich hat der User nunmehr die Möglichkeit eine Liste der erstellten Sessions zu sehen (siehe Abbildung \ref{fig: sessions-page}) oder eine neue Session anzulegen (Abbildung \ref{fig: session-create-page}). 
+
+
 
 \begin{figure}[h!]
 	\centering
@@ -201,12 +203,77 @@ In der Listenansicht der Sessions erhält der User die Möglichkeit Details zur 
 	\label{fig: session-result-page}
 \end{figure}
 
-\subsubsection{API \label{sec: api}}
+\subsubsection{Web-Routen}
 
-Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbindung an die Funktionen des Servers. Dafür eignen sich APIs sehr gut. Das Express-Framework bietet sich auch dafür sehr gut an. Nachfolgend werden die API-Routen beschrieben und anschließend wird die Implementierung einer Route beispielhaft gezeigt. 
+Dieser Abschnitt zeigt alle Routen des Express-Anwendung für die Webschnittstelle im Überblick. 
+% TODO Webroutes Description
+
+\subsection{RESTful-API \label{sec: api}}
+
+Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbindung an die Funktionen des Servers. Dafür eignen sich APIs sehr gut. Das Express-Framework bietet sich auch dafür sehr gut an. Nachfolgend werden die API-Routen beschrieben und anschließend wird die Implementierung einer Route beispielhaft gezeigt. Sofern nicht anders angegeben sind die Antworten auf die API-Resourcen im JSON-Format. Routenteile beginnend mit einem : werden von Express als Parameter behandelt und stehen in Node als Variablen des Request-Objekts zur Verfügung. 
+
+\subsubsection{Sessions API}
+
+\begin{description}
+	\item[GET /:user\_id/sessions] liefert die Liste aller Sessions eines Users.
+	
+	\item[GET /:user\_id/sessions/:session\_id] liefert die Details einer Session. 
+	
+	\item[PUT /:user\_id/sessions] ein Update auf eine Session. Sendet das Beenden einer Session und beginnt die Erstellung des Ergebnisvideos.
+\end{description}
+
+
+\subsubsection{Videos API}
+
+\begin{description}
+	\item[GET /:user\_id/:session\_id/videos] liefert alle Videos einer Session
+	
+	\item[GET /:user\_id/:session\_id/videos/:id\_videos] liefert Details zu einem Video einer Session
+	
+	\item[POST /:user\_id/:session\_id/videos] sendet ein neues Video zu einer Session
+\end{description}
+
+
+\subsubsection{Captures API}
+
+\begin{description}
+	\item[GET /:user\_id/:session\_id/captures] liefert alle Screenshots einer Session
+	
+	\item[GET /:user\_id/:session\_id/captures/:id] liefert Details zu einem Capture
+	
+	\item[POST /:user\_id/:session\_id/captures] sendet ein neues Capture
+
+\end{description}
+
+\subsubsection{ToDos API}
+
+\begin{description}
+
+	\item[GET /:user\_id/:session\_id/todos] liefert alle Todo-Listen einer Session	
+	\item[GET /:user\_id/:session\_id/todos/:todo\_id] liefert Details zu einer bestimmten TODO-Liste	
+	\item[POST /:user\_id/:session\_id/todos] Sendet eine neue, leere TODO-Liste zu einer Session
+	
+	\item[PUT /:user\_id/:session\_id/todos/:todo\_id] aktualisiert eine TODO-Liste
+	
+\end{description}
+
+\subsubsection{Tasks API}
+
+\begin{description}
+
+	\item[GET /:user\_id/:session\_id/todos/:todo\_id/tasks] aktualisiert die Liste der Tasks einer TODO	
+	\item[POST /:user\_id/:session\_id/todos/:todo\_id/tasks] sendet eine neue Task zu einer TODO
+	
+	\item[GET /:user\_id/:session\_id/todos/:todo\_id/tasks/:task\_id] liefert Details zu einer Task
+	
+	\item[PUT /:user\_id/:session\_id/todos/:todo\_id/tasks/:task\_id] aktualisiert eine Task
+	  
+\end{description}
 
 
 \subsection{Videoproduktion}
 
 Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird die darin enthaltene Software \emph{avconv} genutzt um die Bilder und Videos zusammenzufügen. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt.
 % TODO fertig machen.
+
+\subsection{Server-Fazit}
