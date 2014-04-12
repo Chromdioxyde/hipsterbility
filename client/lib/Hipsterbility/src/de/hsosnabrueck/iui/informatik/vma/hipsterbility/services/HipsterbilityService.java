@@ -12,10 +12,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
 /**
- * Created by Albert Hoffmann on 17.02.14.
+ * Created on 17.02.14.
  * Service class for managing usability testing.
  */
 public class HipsterbilityService extends Service {
@@ -51,17 +50,17 @@ public class HipsterbilityService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //TODO: shutdown Service by intent
         String action = intent.getAction();
-        if (action == null){
+        if (action == null) {
             createTestingNotification();
         } else {
-                if(action.equals(getString(R.string.action_stop_service))){
-                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    manager.cancel(NOTIFICATION_ID);
-                    this.stopSelf();
-                } else if (action.equals(getString(R.string.action_upload_notification))){
-                    startService(new Intent(this, UploadService.class));
-                }
+            if (action.equals(getString(R.string.action_stop_service))) {
+                NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                manager.cancel(NOTIFICATION_ID);
+                this.stopSelf();
+            } else if (action.equals(getString(R.string.action_upload_notification))) {
+                startService(new Intent(this, UploadService.class));
             }
+        }
         Log.d(TAG, "Received intent: " + intent + " flags: " + flags);
         return super.onStartCommand(intent, flags, startId);
     }

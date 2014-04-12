@@ -1,5 +1,5 @@
 /**
- * Created by Albert Hoffmann on 05.03.14.
+ * Created on 05.03.14.
  * Source: http://www.vogella.com/tutorials/AndroidFragments/article.html
  */
 package com.example.android.rssfeed;

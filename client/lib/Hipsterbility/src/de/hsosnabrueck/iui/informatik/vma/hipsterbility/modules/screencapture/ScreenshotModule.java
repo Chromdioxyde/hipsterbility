@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by Albert Hoffmann on 21.02.14.
+ * Created on 21.02.14.
  * Sources: http://stackoverflow.com/questions/16748384/android-take-screenshot-programmatically-of-the-whole-screen
  * http://stackoverflow.com/questions/2661536/how-to-programatically-take-a-screenshot-on-android?rq=1
  */
@@ -44,7 +44,8 @@ public class ScreenshotModule implements View.OnTouchListener, CaptureModule, Ac
     private boolean recording;
     private boolean pause;
 
-    private ScreenshotModule() {}
+    private ScreenshotModule() {
+    }
 
     public static ScreenshotModule getInstance() {
         if (instance == null) {
@@ -90,7 +91,7 @@ public class ScreenshotModule implements View.OnTouchListener, CaptureModule, Ac
                 // Draw views
                 view.draw(canvas);
 
-                if(marker) {
+                if (marker) {
                     // add drawables
                     ShapeDrawable dr = new ShapeDrawable(new OvalShape());
                     dr.getPaint().setColor(Color.RED);

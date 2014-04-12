@@ -5,7 +5,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import java.util.ArrayList;
 
 /**
- * Created by Albert Hoffmann on 13.02.14.
+ * Created on 13.02.14.
  */
 public class SessionManager {
 

@@ -14,7 +14,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 import java.util.ArrayList;
 
 /**
- * Created by Albert Hoffmann on 19.02.14.
+ * Created on 19.02.14.
  */
 public class TodosActivity extends Activity {
 

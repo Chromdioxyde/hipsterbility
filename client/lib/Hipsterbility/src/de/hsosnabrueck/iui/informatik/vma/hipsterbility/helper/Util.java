@@ -2,14 +2,13 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper;
 
 import android.os.Environment;
 import android.util.Log;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 
 import java.io.File;
 
 /**
- * Created by Albert Hoffmann on 25.02.14.
+ * Created on 25.02.14.
  * Class for various utility methods that are being user by several classes.
  */
 public class Util {

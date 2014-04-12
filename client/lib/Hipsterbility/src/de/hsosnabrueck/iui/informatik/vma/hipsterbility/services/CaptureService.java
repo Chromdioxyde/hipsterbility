@@ -4,13 +4,9 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
@@ -23,7 +19,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.Activi
 import java.util.ArrayList;
 
 /**
- * Created by Albert Hoffmann on 13.02.14.
+ * Created on 13.02.14.
  */
 public class CaptureService extends Service {
 
@@ -37,33 +33,6 @@ public class CaptureService extends Service {
     private WindowManager windowManager;
     private ImageView overlayIcon;
     //</editor-fold>
-
-//    private BroadcastReceiver startCaptureReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-////            TODO: start capture
-//        }
-//    };
-//    private BroadcastReceiver stopCaptureReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-////            TODO: stop capture
-//            stopCapture();
-//        }
-//    };
-//    private BroadcastReceiver pauseCaptureReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-////            TODO: pauseCapture
-//        }
-//    };
-//    private BroadcastReceiver resumeCaptureReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-////            TODO: resume capture
-//        }
-//    };
-
 
     public CaptureService() {
         this.modules = new ArrayList<CaptureModule>();
@@ -94,18 +63,17 @@ public class CaptureService extends Service {
 
         /* Start foreground service to avoid unexpected killing of the service */
         createNotification(false);
-//        registerLocalBroadcastReceivers();
         createCaptureModules();
         startCapture();
     }
 
     private void startCapture() {
         ActivityLifecycleWatcher.getInstance().startCapture();
-        if(modules == null) {
+        if (modules == null) {
             Log.e(TAG, "Module list is empty");
             return;
         }
-        for(CaptureModule m :modules){
+        for (CaptureModule m : modules) {
             Log.d(TAG, "Starting module: " + m);
             m.init();
             m.startCapture();
@@ -113,7 +81,7 @@ public class CaptureService extends Service {
     }
 
     private void stopCapture() {
-        for(CaptureModule m :modules){
+        for (CaptureModule m : modules) {
             m.stopCapture();
         }
         dismissNotification();
@@ -126,9 +94,9 @@ public class CaptureService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String action = intent.getAction();
-        Log.d(TAG, "Recieved Intent: " + intent + " Action: "+ action);
-        if(action != null){
-            if(action.equals(getString(R.string.intent_action_stop_capture))){
+        Log.d(TAG, "Recieved Intent: " + intent + " Action: " + action);
+        if (action != null) {
+            if (action.equals(getString(R.string.intent_action_stop_capture))) {
                 stopCapture();
             }
         }
@@ -154,7 +122,7 @@ public class CaptureService extends Service {
         PendingIntent pIntentPauseResume;
         Intent pauseResumeIntent = new Intent(this, this.getClass());
         int icon;
-        if(paused){
+        if (paused) {
             icon = android.R.drawable.ic_media_play;
             pauseResumeIntent.setAction(getString(R.string.intent_action_resume_capture));
         } else {
@@ -164,8 +132,8 @@ public class CaptureService extends Service {
         pIntentPauseResume = PendingIntent.getService(this, 0, pauseResumeIntent, 0);
 
         Notification notification = new Notification.Builder(this)
-                .setContentTitle("Background Video Recorder")
-                .setContentText("")
+                .setContentTitle("Background UX Recorder")
+                .setContentText("Usability test running")
                 .setSmallIcon(R.drawable.ic_notification_recording)
                 .addAction(R.drawable.ic_action_stop_recording, "Stop", pIntentStop)
                 .addAction(icon, "Pause", pIntentPauseResume)
@@ -174,7 +142,7 @@ public class CaptureService extends Service {
         startForeground(NOTIFICATION_ID, notification);
     }
 
-    private void dismissNotification(){
+    private void dismissNotification() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(NOTIFICATION_ID);
     }
@@ -183,16 +151,4 @@ public class CaptureService extends Service {
         this.modules = CaptureModuleFactory.getCaptureModules();
     }
 
-//    private void registerLocalBroadcastReceivers() {
-//        registerLocalBroadcastReceiver(getString(R.string.intent_action_start_capture), startCaptureReceiver);
-//        registerLocalBroadcastReceiver(getString(R.string.intent_action_stop_capture), stopCaptureReceiver);
-//        registerLocalBroadcastReceiver(getString(R.string.intent_action_pause_capture), pauseCaptureReceiver);
-//        registerLocalBroadcastReceiver(getString(R.string.intent_action_resume_capture), resumeCaptureReceiver);
-//    }
-//
-//    private void registerLocalBroadcastReceiver(String intentFilter, BroadcastReceiver receiver) {
-//        LocalBroadcastManager.getInstance(this).registerReceiver(receiver,
-//                new IntentFilter(intentFilter)
-//        );
-//    }
 }

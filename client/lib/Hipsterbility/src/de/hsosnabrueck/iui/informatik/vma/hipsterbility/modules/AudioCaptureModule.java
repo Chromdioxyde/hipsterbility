@@ -9,7 +9,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 import java.io.IOException;
 
 /**
- * Created by Albert Hoffmann on 13.02.14.
+ * Created on 13.02.14.
  * <p/>
  * Example: http://developer.android.com/guide/topics/media/audio-capture.html
  * The application needs to have the permission to write to external storage

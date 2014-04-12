@@ -7,7 +7,7 @@ import android.widget.TextView;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.testApp.R;
 
 /**
- * Created by Albert Hoffmann on 05.03.14.
+ * Created on 05.03.14.
  * Source: http://www.vogella.com/tutorials/AndroidFragments/article.html
  */
 public class DetailActivity extends Activity {

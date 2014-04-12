@@ -5,10 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckedTextView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Task;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Todo;
@@ -102,9 +99,12 @@ public class TodosExpandableListAdapter extends BaseExpandableListAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.todos_listrow_group, null);
         }
+        TextView title = (TextView) convertView.findViewById(R.id.text_todo_name);
+        TextView description = (TextView) convertView.findViewById(R.id.text_todo_description);
         Todo group = (Todo) getGroup(groupPosition);
-        ((CheckedTextView) convertView).setText(group.getName());
-        ((CheckedTextView) convertView).setChecked(isExpanded);
+        title.setText(group.getName());
+        description.setText(group.getDescription());
+//        ((CheckedTextView) convertView).setChecked(isExpanded);
         return convertView;
     }
 

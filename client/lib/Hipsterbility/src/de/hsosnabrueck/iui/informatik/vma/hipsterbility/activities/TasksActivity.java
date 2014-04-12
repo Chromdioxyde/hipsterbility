@@ -5,7 +5,7 @@ import android.os.Bundle;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 
 /**
- * Created by Albert Hoffmann on 17.02.14.
+ * Created on 17.02.14.
  * TODO: delete if not needed
  */
 public class TasksActivity extends Activity {

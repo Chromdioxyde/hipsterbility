@@ -1,7 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
 /**
- * Created by Albert Hoffmann on 05.03.14.
+ * Created on 05.03.14.
  * Interface to unified methods for capture control.
  */
 public interface CaptureModule {

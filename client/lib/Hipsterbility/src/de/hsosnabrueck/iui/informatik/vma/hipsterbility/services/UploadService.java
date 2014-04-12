@@ -1,6 +1,9 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.services;
 
-import android.app.*;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -22,9 +25,8 @@ import java.util.List;
 
 /**
  * Created on 25.02.14.
- *
+ * <p/>
  * Service to handle data uploads to the server after a session has finished.
- *
  */
 public class UploadService extends Service {
 
@@ -113,7 +115,7 @@ public class UploadService extends Service {
     private void createUploadNotification() {
         updateSession();
         String text = getString(R.string.notification_text_upload_data)
-                + "\n" + getString(R.string.session)+ ": " + session.getId()
+                + "\n" + getString(R.string.session) + ": " + session.getId()
                 + "\n" + session.getName();
         Intent i = new Intent(this, this.getClass());
         i.setAction(getString(R.string.action_upload));
@@ -133,7 +135,7 @@ public class UploadService extends Service {
             return;
         }
         for (List<File> flist : files.values()) {
-            for(File f : flist){
+            for (File f : flist) {
                 f.delete();
             }
         }
@@ -160,7 +162,7 @@ public class UploadService extends Service {
         builder.setSmallIcon(R.drawable.ic_stat_main);
         builder.setProgress(totalFileCount, fileDoneCount, false);
         builder.setContentTitle(getString(R.string.notification_title_upload_data));
-        builder.setContentText("Files complete: " +fileDoneCount + " / " + totalFileCount);
+        builder.setContentText("Files complete: " + fileDoneCount + " / " + totalFileCount);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
@@ -168,10 +170,10 @@ public class UploadService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         String action = intent.getAction();
-        if(action !=null){
-            if (action.equals(getString(R.string.action_upload))){
+        if (action != null) {
+            if (action.equals(getString(R.string.action_upload))) {
                 uploadSessionData();
-            } else if (action.equals(getString(R.string.action_delete_files))){
+            } else if (action.equals(getString(R.string.action_delete_files))) {
                 deleteFiles();
             }
         } else {
@@ -185,7 +187,7 @@ public class UploadService extends Service {
      * Creates a notification afterwards, which deletes the uploaded files of tap.
      * TODO: Automatically delete uploaded files after required testing.
      */
-    private synchronized void finishUpload(){
+    private synchronized void finishUpload() {
         RequestParams params = new RequestParams();
         params.add("finished", "1");
         Log.d(TAG, "put finish");
@@ -253,7 +255,7 @@ public class UploadService extends Service {
             // Completed the request (either success or failure)
             // Check if all files were uploaded successfully
             if (totalFileCount == fileDoneCount) {
-               finishUpload();
+                finishUpload();
             }
             Log.d(TAG, "Request finished");
         }

@@ -12,7 +12,7 @@
     <string name="settings_server_group_title">Server Settings</string>
     <string name="pref_summary_server_name">Hostname or IP of the Hipsterbility server</string>
     <string name="pref_title_server_name">Server</string>
-    <string name="pref_summary_server_port">Port for the server where the Node.js API is running on. Default: 3000.
+    <string name="pref_summary_server_port">Port for the server, default: 3000.
     </string>
     <string name="pref_title_server_port">Port</string>
     <string name="pref_summary_user_name">Username for service provider.</string>
@@ -23,13 +23,10 @@
     <string name="loading_sessions">Retreiving Sessions from Server</string>
     <string name="loading_message">Loading...</string>
     <string name="pref_title_enable_root">Enable Root features</string>
-    <string name="pref_summary_enable_root">This enables native methods for taking screenshots and record the screen as
-        a video on KitKat (Android 4.4) devices
+    <string name="pref_summary_enable_root">Enables native methods screenshots and -capture.
     </string>
-    <string name="pref_title_max_connections">Maximum number of connections to the server</string>
-    <string name="pref_summary_max_connections">Sets the maximum number of HTTP connections to the server. This limits
-        the number of files uploaded simultaneously if the server is running on a low performance machine.
-    </string>
+    <string name="pref_title_max_connections">Maximum simultaneous connections</string>
+    <string name="pref_summary_max_connections">High values may be unstable.</string>
     <string name="pref_key_server">server</string>
     <string name="pref_key_port">port</string>
     <string name="pref_key_max_connection">max_connections</string>
@@ -61,7 +58,7 @@
     <string name="pref_title_retries">Maximum retries</string>
     <string name="pref_key_timeout">timeout</string>
     <string name="pref_title_timeout">Connection Timeout</string>
-    <string name="pref_summary_retries">Number of retries when connecting to the server. Only change if errors occur.
+    <string name="pref_summary_retries">Only change if errors occur.
     </string>
     <string name="pref_summary_timeout">Only change on slow network connection.</string>
     <string name="todos">Todos:</string>

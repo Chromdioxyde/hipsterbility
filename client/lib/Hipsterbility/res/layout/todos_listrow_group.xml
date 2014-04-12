@@ -1,12 +1,20 @@
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/text_task_name"
-                 android:layout_width="wrap_content"
-                 android:layout_height="?android:attr/listPreferredItemHeight"
-                 android:layout_marginLeft="8dp"
-                 android:drawableRight="@drawable/ic_todo_group"
-                 android:gravity="left"
-                 android:paddingLeft="32dp"
-                 android:paddingTop="8dp"
-                 android:textSize="14sp"
-                 android:textAlignment="textEnd"
-                 android:textStyle="bold" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="8dp">
+
+
+<TextView
+        android:id="@+id/text_todo_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:textSize="16sp"
+        android:textColor="#ffee746b" />
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content"
+          android:text="description"
+          android:id="@+id/text_todo_description"
+          android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"/>
+
+</LinearLayout>

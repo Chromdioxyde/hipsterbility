@@ -3,22 +3,19 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleListener;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleWatcher;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModuleRoot;
 
 import java.util.ArrayList;
 
 /**
- * Created by Albert Hoffmann on 05.03.14.
+ * Created on 05.03.14.
  */
 public class CaptureModuleFactory {
 
+    private static final String TAG = CameraCaptureModule.class.getName();
     private static boolean rootAvailable = Util.isDeviceRooted();
     private static boolean rootEnabled = Hipsterbility.getInstance().isRootFeaturesEnabled();
-    private static final String TAG = CameraCaptureModule.class.getName();
-
 
     private static CaptureModule getCameraCaptureModule(boolean audio) {
         Log.d(TAG, "Creating camera capture module, audio: " + audio);
@@ -39,11 +36,7 @@ public class CaptureModuleFactory {
 
 
     public static ArrayList<CaptureModule> getCaptureModules() {
-        boolean screen = Hipsterbility.MODULE.SCREEN.enabled
-                , audio = Hipsterbility.MODULE.AUDIO.enabled
-                , lifecycle = Hipsterbility.MODULE.LIFECYCLE.enabled
-                , video = Hipsterbility.MODULE.VIDEO.enabled
-                , touch = Hipsterbility.MODULE.TOUCH.enabled;
+        boolean screen = Hipsterbility.MODULE.SCREEN.enabled, audio = Hipsterbility.MODULE.AUDIO.enabled, lifecycle = Hipsterbility.MODULE.LIFECYCLE.enabled, video = Hipsterbility.MODULE.VIDEO.enabled, touch = Hipsterbility.MODULE.TOUCH.enabled;
         ArrayList<CaptureModule> captureModules = new ArrayList<CaptureModule>();
         Log.d(TAG, "screen: " + Hipsterbility.MODULE.SCREEN.enabled);
         Log.d(TAG, "audio: " + audio);
@@ -72,7 +65,7 @@ public class CaptureModuleFactory {
             Log.d(TAG, "Creating lifecycle capture module");
             captureModules.add(LifecycleCaptureModule.getInstance());
         }
-    return captureModules;
-}
+        return captureModules;
+    }
 
 }

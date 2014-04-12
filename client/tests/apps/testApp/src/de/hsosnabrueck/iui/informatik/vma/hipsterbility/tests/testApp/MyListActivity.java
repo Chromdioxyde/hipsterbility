@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Albert Hoffmann on 05.03.14.
+ * Created on 05.03.14.
  * Source: http://www.vogella.com/tutorials/AndroidListView/article.html
  */
 public class MyListActivity extends Activity implements Capturable{

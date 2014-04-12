@@ -14,7 +14,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
 
 /**
- * Created by Albert Hoffmann on 26.02.14.
+ * Created on 26.02.14.
  */
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 

@@ -14,7 +14,7 @@ import com.loopj.android.http.RequestParams;
 import java.io.IOException;
 
 /**
- * Created by Albert Hoffmann on 23.02.14.
+ * Created on 23.02.14.
  * Sources: http://loopj.com/android-async-http/
  */
 public class HipsterbilityRestClient {

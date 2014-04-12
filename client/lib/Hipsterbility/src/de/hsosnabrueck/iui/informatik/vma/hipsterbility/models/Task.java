@@ -3,12 +3,13 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.models;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Albert Hoffmann on 19.02.14.
+ * Created on 19.02.14.
  * Simple POJO class for tasks of a todos
  */
 public class Task {
 
-    @SerializedName("idtasks") private int id;
+    @SerializedName("idtasks")
+    private int id;
     private String name;
     private Todo todo;
     private boolean done;

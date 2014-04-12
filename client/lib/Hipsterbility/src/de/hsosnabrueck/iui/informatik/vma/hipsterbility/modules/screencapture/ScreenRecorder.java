@@ -9,7 +9,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 import java.io.IOException;
 
 /**
- * Created by Albert Hoffmann on 25.02.14.
+ * Created on 25.02.14.
  */
 public class ScreenRecorder implements CaptureModule {
 

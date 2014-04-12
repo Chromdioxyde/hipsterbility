@@ -4,15 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleWatcher;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenRecorder;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModule;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.CaptureService;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
-
-import java.util.ArrayList;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
@@ -32,10 +25,12 @@ public class Hipsterbility {
     /**
      * Private constructor for singleton
      */
-    private Hipsterbility() {}
+    private Hipsterbility() {
+    }
 
     /**
      * Lazy static singleton
+     *
      * @return Hipsterbility object
      */
     public static Hipsterbility getInstance() {
@@ -45,6 +40,7 @@ public class Hipsterbility {
 
     /**
      * This enables usability testing for the calling application
+     *
      * @param activity starting activity from calling application
      */
     public void enableTesting(Activity activity) {
@@ -57,7 +53,7 @@ public class Hipsterbility {
 
     private void startService() {
         Context context = application.getApplicationContext();
-        assert(context != null);
+        assert (context != null);
         Intent i = new Intent(context, HipsterbilityService.class);
         context.startService(i);
     }

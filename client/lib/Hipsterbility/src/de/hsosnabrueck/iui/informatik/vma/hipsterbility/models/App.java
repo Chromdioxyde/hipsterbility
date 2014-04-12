@@ -3,7 +3,7 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.models;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Albert Hoffmann on 24.02.14.
+ * Created on 24.02.14.
  */
 public class App {
     @SerializedName("idapps")

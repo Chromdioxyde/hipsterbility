@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Albert Hoffmann on 17.02.14.
+ * Created on 17.02.14.
  * Sources: http://developer.android.com/guide/topics/ui/layout/listview.html
  * http://www.vogella.com/tutorials/AndroidListView/article.html
  */
@@ -55,11 +54,10 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     private Context context;
     private SharedPreferences prefs;
 
-    //TODO: sort methods and clean up
     private ListView listView;
     private SessionManager sessionManager;
     private ArrayList<Session> sessions;
-    //TODO improve user management
+
     private User user;
     private AlertDialog alertDialog;
     private ProgressDialog progressDialog;
@@ -343,15 +341,13 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
         });
     }
 
-    private synchronized void  listAdapterNotifyDataSetChanged(){
+    private synchronized void listAdapterNotifyDataSetChanged() {
         adapter.notifyDataSetChanged();
     }
 
-    private void startSession(){
+    private void startSession() {
         Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        Intent i = new Intent(getString(R.string.intent_action_start_capture));
-        LocalBroadcastManager.getInstance(this).sendBroadcast(i);
         startService(new Intent(this, CaptureService.class));
         this.startActivity(intent);
         finish();

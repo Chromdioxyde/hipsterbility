@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Created by Albert Hoffmann on 13.02.14.
+ * Created on 13.02.14.
  */
 public class Session {
 

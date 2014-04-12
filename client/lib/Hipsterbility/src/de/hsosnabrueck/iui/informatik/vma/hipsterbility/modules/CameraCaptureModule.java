@@ -16,7 +16,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 import java.lang.reflect.Method;
 
 /**
- * Created by Albert Hoffmann on 17.02.14.
+ * Created on 17.02.14.
  */
 public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModule {
 
@@ -33,7 +33,8 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     private boolean audioEnabled;
     private int cameraNumber;
 
-    private CameraCaptureModule() {}
+    private CameraCaptureModule() {
+    }
 
     public static CameraCaptureModule getInstance() {
         if (instance == null) {
@@ -132,10 +133,18 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
                 .getRotation();
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0:    degrees = 0;    break;
-            case Surface.ROTATION_90:   degrees = 90;   break;
-            case Surface.ROTATION_180:  degrees = 180;  break;
-            case Surface.ROTATION_270:  degrees = 270;  break;
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
         }
 
         int result;
@@ -191,8 +200,10 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {}
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
+    }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {}
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+    }
 }

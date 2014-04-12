@@ -34,7 +34,7 @@ Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.4.2} werden 
 	Der Datenabruf vom Server erfolgt mittels \ac{JSON}-Objekte im HTML Body. Um diese Objekte schnell und einfach in Java Objekte umzuwandeln bietet GSON entsprechende Klassen an, die das Implementieren von eigenen Parsern etc. überflüssig macht.
 	Die quelloffenen, universell einsetzbare, Java Bibliothek wird ebenfalls unter der Apache License, Version 2.0\footref{ftn:apache_license} veröffentlicht.
 \end{description}
-
+Alle weiteren bisher benötigten Funktionen werden vom integrierten Android Bibliotheken bereitgestellt.
 
 \subsection{Bibliotheksmodul}
 Zur Entwicklung der Bibliothek wurden zwei Projekte verwendet - Einmal das Projekt für die Bibliothek selbst und weiterhin ein Android-Projekt zum Testen der Funktionen während der Entwicklung. 
@@ -196,6 +196,7 @@ Abschließend wird das Bild komprimiert und in eine Datei geschrieben.
 
 \subsection{Benutzeroberfläche und Integration in Android Applikationen}
 
+\subsubsection{Benutzeroberfläche}
 
 \subsubsection{Dynamisches Einbinden - Pre-Dexing}
 
@@ -208,6 +209,9 @@ Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Versio
 %TODO: update, wichtig? Screenshot? 
 
 \subsubsection{Statisches Einbinden als JAR-Archiv}
+Über \textbf{FILE | Project Structure | Artifacts} kann in \emph{IntelliJ} die Bibliothek als \ac{JAR}-Archiv exportiert werden.
+Um diese in ein anderes Projekt einzubinden wird das Archiv in den \texttt{libs} Unterordner kopiert (ggf. muss der Ordner erstellt werden) und über \textbf{Rechtsklick auf das JAR-Archiv in der IntelliJ Projektstruktur | Add as Library...}
+In der IntelliJ Online Hilfe \footnote{IntelliJ Configuring Module Dependencies and Libraries:  \url{http://www.jetbrains.com/idea/webhelp/configuring-module-dependencies-and-libraries.html}}
 
 \subsection{Bekannte Einschränkungen}
 Der gegenwärtige Stand der Bibliothek enthält einige Einschränkungen bei der Nutzung. 
@@ -217,7 +221,7 @@ Auch der Wechsel von Activities wird aktuell noch nicht voll unterstützt.
 Wenn keine Activity der Testanwendung mehr im Vordergrund ist wird zwar die Aufnahme nach einem Timeout gestoppt, beim Wechsel in eine andere Activty der Testapplikation wird diese nicht weiter aufgezeichnet.
 Nur die Video- und Audioaufzeichnung im Hintergrund wird fortgesetzt, der Bildschirminhalt wird nicht weiter aufgezeichnet.
 
-Weiterhin werden -- nicht bildschirmfüllende -- Elemente wie Dialoge, Benachrichtigungen und Toasts bei der Bildschirmaufzeichnung nicht erfasst, da i.d.R. über Systemdienste erstellt werden.
+Weiterhin werden -- nicht-bildschirmfüllende -- Elemente wie Dialoge, Benachrichtigungen und Toasts bei der Bildschirmaufzeichnung nicht erfasst, da i.d.R. über Systemdienste erstellt werden.
 
 Auch der Ablauf von Tasks und Todos lässt sich im aktuellen Stand nicht nachverfolgen.
 Außerdem hat die Testperson aktuell keine Möglichkeit sich -- nach dem Start einer Session -- noch einmal die Aufgabenstellung anzusehen.

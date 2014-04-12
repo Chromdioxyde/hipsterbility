@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
@@ -12,7 +11,7 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 import java.util.ArrayList;
 
 /**
- * Created by Albert Hoffmann on 21.02.14.
+ * Created on 21.02.14.
  * Sources: http://qtcstation.com/2011/01/getting-info-about-your-currently-running-activities/
  */
 public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCallbacks, CaptureModule {
@@ -22,15 +21,16 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
     private static ActivityLifecycleWatcher instance;
     private ArrayList<ActivityLifecycleListener> listeners = new ArrayList<ActivityLifecycleListener>();
     private Thread timeoutThread;
-    
+
     private Application app;
-//    private ActivityManager activityManager = (ActivityManager) app.getSystemService(Context.ACTIVITY_SERVICE);
+    //    private ActivityManager activityManager = (ActivityManager) app.getSystemService(Context.ACTIVITY_SERVICE);
     private boolean capturing = false;
 
-    private ActivityLifecycleWatcher(){}
+    private ActivityLifecycleWatcher() {
+    }
 
-    public static ActivityLifecycleWatcher getInstance(){
-        if(instance == null) instance = new ActivityLifecycleWatcher();
+    public static ActivityLifecycleWatcher getInstance() {
+        if (instance == null) instance = new ActivityLifecycleWatcher();
         return instance;
     }
 
@@ -79,23 +79,23 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
         notifyActivityEvent(new ActivityLifecycleEvent(this, activity), EVENT_TYPE.DESTROYED);
     }
 
-    private void startBackgroundTimeout(){
+    private void startBackgroundTimeout() {
         Log.d(TAG, "Starting timeout thread: " + TIMEOUT_MS);
         Runnable r = new Runnable() {
             @Override
             public void run() {
-                    try {
-                        Thread.sleep(TIMEOUT_MS);
-                        if(!timeoutThread.isInterrupted()){
-                            Log.d(TAG, "Stopping capture after timeout");
-                            stopCaptureTimeout();
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                try {
+                    Thread.sleep(TIMEOUT_MS);
+                    if (!timeoutThread.isInterrupted()) {
+                        Log.d(TAG, "Stopping capture after timeout");
+                        stopCaptureTimeout();
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+            }
         };
-        if(timeoutThread != null){
+        if (timeoutThread != null) {
             timeoutThread.interrupt();
         }
         timeoutThread = new Thread(r);
@@ -104,11 +104,10 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
     private void stopCaptureTimeout() {
         Intent i = new Intent();
         i.setAction(app.getString(R.string.intent_action_stop_capture));
-        LocalBroadcastManager.getInstance(this.app).sendBroadcast(i);
     }
 
     private void cancelBackgroundTimeout() {
-        if(this.timeoutThread != null && timeoutThread.isAlive()){
+        if (this.timeoutThread != null && timeoutThread.isAlive()) {
             timeoutThread.interrupt();
         }
     }
@@ -137,7 +136,7 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
 
     @Override
     public void startCapture() {
-        if(app != null && !capturing) {
+        if (app != null && !capturing) {
             this.app.registerActivityLifecycleCallbacks(this);
             capturing = true;
         }
@@ -145,7 +144,7 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
 
     @Override
     public void stopCapture() {
-        if(app != null){
+        if (app != null) {
             this.app.unregisterActivityLifecycleCallbacks(this);
             capturing = false;
         }
@@ -171,28 +170,40 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
 //        TODO: implement
     }
 
-    public void addActivityLifecycleListener(ActivityLifecycleListener listener){
+    public void addActivityLifecycleListener(ActivityLifecycleListener listener) {
         this.listeners.add(listener);
     }
 
-    public void removeActivityLifecycleListener(ActivityLifecycleListener listener){
+    public void removeActivityLifecycleListener(ActivityLifecycleListener listener) {
         this.listeners.add(listener);
     }
 
-    protected synchronized void notifyActivityEvent(ActivityLifecycleEvent event, EVENT_TYPE type ){
-        for(ActivityLifecycleListener l : listeners){
-            switch (type){
-                case CREATED:   l.activityCreated(event);   break;
-                case STARTED:   l.activityStarted(event);   break;
-                case STOPPED:   l.activityStopped(event);   break;
-                case RESUMED:   l.activityResumed(event);   break;
-                case PAUSED:    l.activityPaused(event);    break;
-                case DESTROYED: l.activityDestroyed(event); break;
+    protected synchronized void notifyActivityEvent(ActivityLifecycleEvent event, EVENT_TYPE type) {
+        for (ActivityLifecycleListener l : listeners) {
+            switch (type) {
+                case CREATED:
+                    l.activityCreated(event);
+                    break;
+                case STARTED:
+                    l.activityStarted(event);
+                    break;
+                case STOPPED:
+                    l.activityStopped(event);
+                    break;
+                case RESUMED:
+                    l.activityResumed(event);
+                    break;
+                case PAUSED:
+                    l.activityPaused(event);
+                    break;
+                case DESTROYED:
+                    l.activityDestroyed(event);
+                    break;
             }
         }
     }
 
-    private static enum EVENT_TYPE{
+    private static enum EVENT_TYPE {
         CREATED, STARTED, STOPPED, PAUSED, RESUMED, DESTROYED
     }
 

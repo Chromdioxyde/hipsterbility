@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by Albert Hoffmann on 18.02.14.
+ * Created on 18.02.14.
  */
 public class SessionListAdapter extends ArrayAdapter<Session> {
     private final Context context;
@@ -35,7 +35,8 @@ public class SessionListAdapter extends ArrayAdapter<Session> {
 
         TextView textId = (TextView) rowView.findViewById(R.id.text_id);
         TextView textName = (TextView) rowView.findViewById(R.id.text_name);
-        TextView textDesc = (TextView) rowView.findViewById(R.id.text_description);
+        // Todo: uncomment when added description in database
+//        TextView textDesc = (TextView) rowView.findViewById(R.id.text_description);
         TextView textTodos = (TextView) rowView.findViewById(R.id.text_todos_number);
         TextView textTasks = (TextView) rowView.findViewById(R.id.text_tasks_number);
         TextView textActive = (TextView) rowView.findViewById(R.id.text_active);
@@ -56,7 +57,7 @@ public class SessionListAdapter extends ArrayAdapter<Session> {
         textId.setBackgroundColor(color);
         textId.setText(String.valueOf(s.getId()));
         textName.setText(s.getName());
-        textDesc.setText(s.getDescription());
+//        textDesc.setText(s.getDescription());
         int tasks = 0;
         int todos = 0;
         ArrayList<Todo> todolist = s.getTodos();
