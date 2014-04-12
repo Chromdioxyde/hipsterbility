@@ -3,7 +3,9 @@
 \documentclass[11pt]{scrartcl}
 
 % own geometry
-%\usepackage[a4paper, left=3cm, right=3cm]{geometry}
+% siehe Skript "Leitfaden Wissenschaftliches Arbeiten Oktober 2008" WiSo S.52
+% oben und unten zusätzliche Korrekturen für Header und Footer + Binderand links
+\usepackage[a4paper, top=3.5cm, left=3cm, right=2cm, bottom=3.5cm]{geometry}
 
 
 \usepackage[ngerman]{babel} 
@@ -12,11 +14,14 @@
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{xcolor}
+\usepackage{wrapfig} %von Text umflossene Bilder
 %\usepackage{jurabib}
 \usepackage{csquotes}
-\usepackage{hyperref}
-\usepackage[printonlyused]{acronym}
+%Links ohne Farbmarkierung und Rahmen, vor allem für Ausdruck.
+\usepackage[colorlinks=false, pdfborder={0 0 0}]{hyperref}
+\usepackage[printonlyused, footnote]{acronym}
 \usepackage{dirtree}
+\usepackage[tracking=true]{microtype}
 %fonts
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
@@ -33,6 +38,19 @@
 ]{biblatex}
 \bibliography{bib/bib}
 
+% Volle Namen der Autoren mit \citeauthor*{}
+\DeclareCiteCommand*{\citeauthor}
+{\defcounter{maxnames}{99}%
+\defcounter{minnames}{99}%
+\defcounter{uniquename}{2}%
+\boolfalse{citetracker}%
+\boolfalse{pagetracker}%
+\usebibmacro{prenote}}
+{\ifciteindex{\indexnames{labelname}}{}%
+\printnames{labelname}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
 % setup of source code listings
 \usepackage{listings}
 %\usepackage{courier}
@@ -45,7 +63,7 @@
 	numbersep=5pt,						% padding between line numbers and code
 	tabsize=2,							% 
 	extendedchars=true,         
-	breaklines=true,						% line breaks 
+	breaklines=true,					% line breaks 
 	keywordstyle=\color{red},
 	frame=b,
 	stringstyle=\color{gray}\ttfamily,	% color of strings in code
@@ -95,19 +113,26 @@
 	Informatik - Mobile und Verteilte Anwendungen\\
 	Mensch-Maschine-Kommunikation - Wintersemester 2013/14 }
 
-\title{\includegraphics[scale=0.75,keepaspectratio]{img/hs_os.png}\linebreak \linebreak Entwicklung eines Usability-Test-Tools für Android}
+\title{\includegraphics[scale=0.75,keepaspectratio]{img/hs_os.png}\linebreak \linebreak Entwicklung eines Usability-Test-Frameworks für Android}
 
 \maketitle
-\thispagestyle{empty}
+\pagestyle{empty}
+%\thispagestyle{empty}
 \pagebreak
-\thispagestyle{empty}
+%\thispagestyle{empty}
 \tableofcontents
 
-\listoffigures
 
+\begingroup
+%\thispagestyle{empty}
+\newpage
+\input{content/abkuerzungen}
+\listoffigures
+%\thispagestyle{empty}
 \lstlistoflistings
-\thispagestyle{empty}
+%\thispagestyle{empty}
 \pagebreak
+\endgroup
 
 \thispagestyle{empty}
 \include{content/abstract}
@@ -119,43 +144,35 @@
 \setcounter{page}{1} 
 
 % Einleitung 
-\include{content/introduction}
-\pagebreak
-
+\include{content/introduction} %
+%\newpage
+% \newpage statt \pagebreak für neue Abschnitte, siehe:
+% http://tex.stackexchange.com/questions/736/pagebreak-vs-newpage
 \include{content/usability_testing}
-\pagebreak
-
 \include{content/app_architecture}
-\pagebreak
-
 \include{content/server}
-\pagebreak
-
 \include{content/client}
-\pagebreak
-
-\include{content/messdaten}
-\pagebreak
-
+%\include{content/messdaten}
 \include{content/ergebnis}
-\pagebreak
-
 \include{content/offenePunkte}
 
 % More content goes here
 
-\thispagestyle{empty}
-
 %\renewcommand*{\biburlprefix}{(URL: }
 %\renewcommand*{\biburlsuffix}{)}
 
-\pagebreak
+\newpage
+\thispagestyle{empty}
+
 \addcontentsline{toc}{section}{Literaturverzeichnis} % Eintrag ins Inhaltsverzeichnis
 \printbibliography
 
-\pagebreak
-\appendix
-\addcontentsline{toc}{section}{Anhänge}
+\newpage
+\pagestyle{fancyplain}
+\begin{appendix}
+\section{Anhang}
+\input{content/anhang1}
+\end{appendix}
 
 \end{document}
 	

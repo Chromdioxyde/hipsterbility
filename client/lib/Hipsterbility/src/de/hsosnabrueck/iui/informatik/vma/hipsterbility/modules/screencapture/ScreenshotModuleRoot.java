@@ -59,7 +59,6 @@ public class ScreenshotModuleRoot implements CaptureModule {
         try {
             sh = Runtime.getRuntime().exec("su", null, null);
             OutputStream os = sh.getOutputStream();
-//            os.write(("/system/bin/screencap -p " + "/sdcard/img.png").getBytes("ASCII"));
             os.write(("/system/bin/screencap -p "
                     + Util.createOutputDirPathName(session.getId(), Util.SCREENSHOTS_DIR)
                     + createOutputFileName(Util.IMAGE_PNG)).getBytes("ASCII"));
