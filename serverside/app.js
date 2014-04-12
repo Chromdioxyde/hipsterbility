@@ -183,10 +183,10 @@ app.post('/:user_id/:session_id/captures/?', captures.post); // post a new captu
 app.get('/:user_id/:session_id/captures/:id/?', captures.get); // get specific capture
 
 // logs API
-app.get('/:user_id/:session_id/logs/?', logs.all); // get list of logs
-app.post('/:user_id/:session_id/logs/?', logs.post); // post a new log
- 
-app.get('/:user_id/:session_id/logs/:id_logs/?', logs.get); // get specific log
+//app.get('/:user_id/:session_id/logs/?', logs.all); // get list of logs
+//app.post('/:user_id/:session_id/logs/?', logs.post); // post a new log
+//
+//app.get('/:user_id/:session_id/logs/:id_logs/?', logs.get); // get specific log
 
 // audio API
 // app.get('/:user_id/:session_id/audio/?', audio.all); // get list of audio files
