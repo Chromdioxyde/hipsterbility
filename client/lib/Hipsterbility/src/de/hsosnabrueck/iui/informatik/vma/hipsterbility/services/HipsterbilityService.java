@@ -78,7 +78,7 @@ public class HipsterbilityService extends Service {
                 .setContentIntent(pIntent)
                 .addAction(R.drawable.ic_stat_dismiss, getString(R.string.notification_dismiss), pStopIntent)
                 .build();
-        startForeground(1234, notification);
+        startForeground(NOTIFICATION_ID, notification);
     }
 
 }

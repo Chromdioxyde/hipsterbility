@@ -92,17 +92,19 @@ Angelehnt an gängige Testmethoden (siehe Abschnitt \ref{sec:testmethoden}) wird
 	\item Abgreifen des Bildschirminhalts mit Visualisierung von Benutzereingaben.
 \end{enumerate}
 
-Abbildung \ref{pic:modules_class_diagram} zeigt einige Klassen im Paket \texttt{modules}.
+\begin{wrapfigure}[16]{l}{0.5\textwidth}
+\includegraphics[width=\linewidth]{img/modules_Class_diagram}
+\caption{Klassendiagramm des Pakets \mbox{\texttt{modules}}.}
+\label{fig:modules_class_diagram}
+\end{wrapfigure}
+Abbildung \ref{fig:modules_class_diagram} zeigt einige Klassen im Paket \texttt{modules}.
 Um die Implementierung der einzelnen \enquote{Module} zu vereinheitlichen gibt es ein Interface \texttt{CaptureModule}, welches die benötigten Methodensignaturen enthält und von den \texttt{*Module} Klassen realisiert wird.
+Durch die Vereinheitlichung können die Module in Schleifen durchlaufen gestartet und angehalten werden, unabhängig von der konkreten Klasse.
 Die einzelnen Klassen sind als statische Singletons \cite[vgl.][21\psq]{designpattern} implementiert.
 Besonders bei Klassen mit exklusivem Hardwarezugriff (\texttt{CameraCaptureModule, AudioCaptureModule}) wird so verhindert, dass mehrere Objekte erstellt werden, was zu Laufzeitfehlern führen könnte.
-Um die Methodenaufrufe 
-\begin{wrapfigure}[20]{l}{0.5\textwidth}
-%\includegraphics[width=\linewidth]{img/modules_Class_diagram}
-\caption{Klassendiagramm des Pakets \mbox{\texttt{modules}}.}
-\label{pic:modules_class_diagram}
-\end{wrapfigure}
 
+Das Erzeugen bzw. die Auswahl der Module erfolgt im Sinne des Factory Design Patterns \cite[4-6]{designpattern}.
+Dadurch wird erst in der \texttt{CaptureModuleFactory} Klasse entschieden, welche Module instanziert und übergeben werden, abhängig davon, ob ein Root-Zugriff möglich und aktiviert ist und von den aktivierten Modulen.
 
 \subsubsection{Frontkamera und Mikrofon}
 Bei der Auswertung von Usability-Tests kann die Mimik der Testperson zur Interpretation beitragen.
@@ -189,33 +191,96 @@ Abschließend wird das Bild komprimiert und in eine Datei geschrieben.
 
 \subsubsection{Visualisieren von Benutzereingaben}
 
-\subsection{Weitere Funktionen und Ausblick}
+
+
+\subsection{Benutzeroberfläche}
+\begin{minipage}[t]{0.45\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/screen_session_list}
+	\captionof{figure}{SessionActivity Screenshot} \label{fig:screen_sessions}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/screen_todos_tasks}
+	\captionof{figure}{TodosActivity Screenshot} \label{fig:screen_todos_tasks}
+\end{minipage}
+
+
+\begin{wrapfigure}[24]{l}{0.45\textwidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/screen_settings}
+	\captionof{figure}{SettingsActivity Screenshot} \label{fig:screen_settings}
+	\vspace{-35mm}
+\end{wrapfigure}
+
+Aus den Anforderungen geht hervor, dass Testpersonen eine Session aussuchen, sich die zugehörigen Todos und Tasks ansehen und diese bearbeiten, wobei entsprechende Daten erfasst werden.
+Außerdem ist es sinnvoll, Einstellungen vornehmen zu können (Serveradresse, Port etc.). Auch die Daten für die Benutzerauthentifizierung sollten aus der Applikation heraus anpassbar sein.
+Um diese Anforderungen umzusetzen wurden drei Activities erstellt, jeweils zum Anzeigen und Auswählen der Sessions (Abbildung \ref{fig:screen_sessions}, für die Anzeige von Todos und Tasks (Abbildung \ref{fig:screen_todos_tasks}) sowie eine weitere für Einstellungen und Optionen (Abbildung \ref{fig:screen_settings}), welche aus dem Menü der SessionActivity heraus gestartet werden kann.
+Beim Starten
+
+
+Ein Großteil der Implementierung sind Services.
+Sie laufen im Hintergrund, meist unabhängig von der jeweiligen Vordergrund-Activitiy.
+Diese Entkopplung von Benutzeroberfläche und Programmlogik ist besonders nützlich, da Daten über die Interaktion mit Activities gesammelt werden, die nicht zur Bibliothek gehören.
+Diese Hintergrunddienste können beispielsweise über Intents gesteuert werden, welche von jeder Komponente gesendet werden können, die über einen \texttt{Context} verfügt.
+Dazu zählen Activites, Services, Applications und jede Klasse, die aus einem Objekt der zuvor genannten den \emph{Context} mittels \texttt{getApplicationContext()} holt.
+Außerdem können \emph{Intents} auch aus \emph{Notifications} gestartet werden, indem sie in \emph{PendigIntents} an diese übergeben werden.
+Dieses Prinzip hat den Vorteil, dass eine Steuerung von Hintergrunddiensten möglich ist, ohne der Activity im Vordergrund den Fokus zu nehmen.
+Dieser Ansatz wurde für die Implementierung gewählt, da die Bibliothek so weitgehend im Hintergrund arbeitet, bei Bedarf jedoch Informationen an den Benutzer weitergegeben und Aktionen ausgelöst werden können.
+
+Abbildung \ref{fig:notification_main} zeigt die Benachrichtigung, welche beim Aktivieren der Bibliothek angezeigt wird. 
+Damit sie nicht versehentlich durch eine Wischgeste entfernt wird, erfolgt das Anzeigen mit der Service-Methode \texttt{startForegroud()}.
+Das Berühren der ausklappbaren Schaltfläche \emph{Dismiss} führt zum Entfernen der Benachrichtigung und dem Beenden des Hintergrunddienstes.
+Die Bibliothek wird dadurch inaktiv, bis die Applikation das nächste Mal gestartet wird.
+
+\begin{minipage}[t]{0.45\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/notification_main}
+	\captionof{figure}{Notification zum Starten der Bibliothek.} \label{fig:notification_main}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/notification_background_recorder}
+	\captionof{figure}{Notification bei laufender Datenerfassung} \label{fig:notification_recorder}
+\end{minipage}
+
+
+Abbildung \ref{fig:notification_recorder} zeigt die Benachrichtigung, welche während der Datenerfassung angezeigt wird.
+Auch sie kann nicht durch eine Wischgeste entfernt werden und bietet die Möglichkeiten die Datensammlung zu unterbrechen (\emph{Pause}) oder zu Beenden (\emph{Stop}), worauf die Benachrichtigung zum Hochladen der Daten zum Server angezeigt wird (Abbildung \ref{fig:notification_upload_data}).
+Wird diese durch eine Berührung aktiviert, startet das Hochladen der gesammelten Daten zum Server und dessen Fortschritt wird angezeigt (Abbildung \ref{fig:notification_upload_progress}).
+
+Im Fall eines Fehlers wird dieser dem Benutzer entweder durch ein \texttt{Toast} oder durch einen \texttt{AlertDialog} angezeigt, abhängig von der Situation.
+
+\begin{minipage}[t]{0.45\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/notification_upload_data}
+	\captionof{figure}{Notification zum Hochladen der Daten} \label{fig:notification_upload_data}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/notification_upload_progress}
+	\captionof{figure}{Notification bei laufendem Hochladen von Daten} \label{fig:notification_upload_progress}
+\end{minipage}
 
 \subsection{Einbinden der Bibliothek in eigene Anwendungen}
-
-
-\subsection{Benutzeroberfläche und Integration in Android Applikationen}
-
-\subsubsection{Benutzeroberfläche}
-
 \subsubsection{Dynamisches Einbinden - Pre-Dexing}
-
 Beim Pre-Dexing können mehrere Android-Projekte zu einem Projekt hinzugefügt werden. 
-%TODO: updating
-
 Da die Bibliothek neueste Funktionen des Android-Betriebssystems verwendet, muss auf dem  Gerät zur Kompilierung einer Anwendung aktuelle Build-Tools der Android-SDK vorliegen.
 Im Falle der Bibliothek ist dies API-Level 19. Offenbar hat sich hier ein Bug eingeschlichen und es ist unter der Version 19.0 kein Pre-Dexing möglich.
 Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Version 19.0.1 verwendet werden muss um Pre-Dexing durchführen zu können.
-%TODO: update, wichtig? Screenshot? 
+
 
 \subsubsection{Statisches Einbinden als JAR-Archiv}
 Über \textbf{FILE | Project Structure | Artifacts} kann in \emph{IntelliJ} die Bibliothek als \ac{JAR}-Archiv exportiert werden.
-Um diese in ein anderes Projekt einzubinden wird das Archiv in den \texttt{libs} Unterordner kopiert (ggf. muss der Ordner erstellt werden) und über \textbf{Rechtsklick auf das JAR-Archiv in der IntelliJ Projektstruktur | Add as Library...}
-In der IntelliJ Online Hilfe \footnote{IntelliJ Configuring Module Dependencies and Libraries:  \url{http://www.jetbrains.com/idea/webhelp/configuring-module-dependencies-and-libraries.html}}
+Um diese in ein anderes Projekt einzubinden wird das Archiv in den \texttt{libs} Unterordner kopiert (ggf. muss der Ordner erstellt werden) und über \textbf{Rechtsklick auf das JAR-Archiv in der IntelliJ Projektstruktur | Add as Library...} als Bibliothek hinzugefügt werden.
+In der IntelliJ Online Hilfe \footnote{IntelliJ Configuring Module Dependencies and Libraries:  \url{http://www.jetbrains.com/idea/webhelp/configuring-module-dependencies-and-libraries.html}} ist eine ausführlichere Beschreibung zu finden.
 
 \subsection{Bekannte Einschränkungen}
 Der gegenwärtige Stand der Bibliothek enthält einige Einschränkungen bei der Nutzung. 
-Einerseits sind Video- und Screenshotaufnahme, basierend auf nativen Funktionen mit Root-Zugriff zwar implementiert und getestet, allerdings nicht vollständig in den Gesamtablauf eingebunden und können entsprechend nicht beim Testen von Applikationen genutzt werden.
+Einerseits sind die Aufnahme von Videos und Screenshots, basierend auf nativen Funktionen mit Root-Zugriff zwar implementiert und getestet, allerdings nicht vollständig in den Gesamtablauf eingebunden und können entsprechend nicht beim Testen von Applikationen genutzt werden.
 %TODO: Entfernen wenn doch noch implementiert
 Auch der Wechsel von Activities wird aktuell noch nicht voll unterstützt.
 Wenn keine Activity der Testanwendung mehr im Vordergrund ist wird zwar die Aufnahme nach einem Timeout gestoppt, beim Wechsel in eine andere Activty der Testapplikation wird diese nicht weiter aufgezeichnet.
