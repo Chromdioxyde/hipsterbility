@@ -2,7 +2,7 @@
 \label{server}
 Wie in Abschnitt \ref{app_architecture} beschrieben, müssen die aufgezeichneten Daten der Clientbibliothek weiter verarbeitet werden. % nochmal etwas genauer
 
-Im Folgenden werden die zwei serverseitigen Komponenten, Datenbank und HTTP-Server, vorgestellt. 
+Im Folgenden werden die serverseitigen Komponenten, virtuelle Maschine, Datenbank und HTTP-Server, vorgestellt. 
 
 %TODO: footnote ++ update
 
@@ -11,13 +11,18 @@ Im Folgenden werden die zwei serverseitigen Komponenten, Datenbank und HTTP-Serv
 
 \subsubsection{Konfiguration}
 
-Als Betriebssystem für den Server dient ein Debian in der Version 7.0. Der Maschine wurde 1 Prozessorkern und 512 MB RAM zugewiesen. Änderungen können im Vagrantfile, siehe Abschnitt \ref{vagrant}, oder der Virtual Box-Konfiguration vorgenommen werden.
+Als Betriebssystem für den Server dient ein Debian in der Version 7.0. Der Maschine wurde 1 Prozessorkern und 512 MB RAM zugewiesen. Änderungen können im Vagrantfile, siehe Abschnitt \ref{vagrant}, oder der Virtual Box-Konfiguration vorgenommen werden. 
 
-Weitere Softwarequellen, welche installiert wurden, sind: 
+\subsubsection{Eingesetzte Software}
+Folgende Software wurde für den Entwicklungsprozess verwendet. 
 \begin{description}
-	\item[openSSH Server] 
-	Dieser 
+	
+	\item[OpenSSH-Server \footnote{http://www.openssh.com/}]
+	\item[MySQL Server\footnote{http://www.mysql.de/products/community/}]
+	\item[NodeJS]
+	\item[]
 \end{description}
+
 
 
 \subsubsection{Ordnerstruktur}
@@ -119,6 +124,8 @@ http.createServer(app).listen(app.get('port'), function(){
 \end{lstlisting}
 
 \subsubsection{APIs}
+
+\subsubsection{Webbasiertes Verwaltungstool}
 
 \subsection{Videoproduktion}
 

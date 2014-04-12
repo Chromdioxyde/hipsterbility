@@ -3,22 +3,52 @@
 
 Dieser Abschnitt stellt mögliche Vorgehen beim Testen von Usability vor, grenzt sie voneinander ab und bewertet sie für die Implementierung der Bibliothek. 
 
-Die Anforderungen an das \textit{Mobile Web} und an \textit{Apps} unterscheiden sich stark von den klassischen Desktop-Anforderungen. Aufgrund der geringeren Displaygröße und Multitouch-Funktionalitäten in der Bedienung lösen neue Anforderungen die klassischen ab oder erweitern die vorhanden Anforderungen. 
+Die Anforderungen an das \textit{Mobile Web} und an \textit{Apps} unterscheiden sich stark von den klassischen Desktop-Anforderungen. Aufgrund der geringeren Displaygröße und Multitouch-Funktionalitäten in der Bedienung lösen neue Anforderungen die klassischen ab oder erweitern die vorhanden Anforderungen. Ebenfalls wichtig sind die Zielgruppen, sowie der Nutzungskontext einer App. 
 
 \subsection{Testmethoden \label{sec:testmethoden}}
 
 % TODO: Testarten, Methoden, Abgrenzung, .... Theorie und Transferleistung
-\subsubsection{Formale Usability-Tests}
+\subsubsection{Formale Usability-Tests \label{sec:formal-usability-test}}
 
 Nach dem Ablauf formaler Usability-Tests, kann eine Anwendung hinsichtlich Usability formativ und summativ evaluiert werden. Während die formative Evaluation die Verbesserung des zu prüfenden Systems zum Ziel hat, soll die summative Evaluation eine zusammenfassende Qualitätskontrolle sicherstellen. 
-Der allgemeine Ablauf ist folgernder: es wird eine Testserie mit sog. Standardaufgaben erstelllt. 
+
+Der allgemeine Ablauf ist folgernder: es wird eine Testserie mit sog. \textit{Standardaufgaben} erstelllt, wobei dies in der aus Sicht des Anwenders formuliert werden sollte. Weiterhin werden Rahmenbedingungen ausgehandelt. 
+
+Der Test selber findet in einem dafür vorgesehenem Testraum statt. Die Beobachter greifen nur ein, wenn es notwendig ist. 
+
+Nach dem Test wird der Testbericht festgehalten und es können die Resultate analysiert werden. 
+% TODO Cite
 
 \subsubsection{Usability Walkthrough}
 
-\subsubsection{Mobiles Usability Lab / Usability Lab}
+Als Alternative zum formalen Usability-Test kann der \textit{Usability-Walkthrough} verwendet werden. Unterschied zum formalen Usability-Test ist dass Testpersonen nicht unter Beobachtung zu gestellt werden. Stattdessen wird der gesamte Test moderiert und aktiv begleitet. Testpersonen können während des Tests fragen stellen und auf bestimmte Situationen reagieren und muss wissen wie Testnutzer angeleitet werden können.
 
+\subsubsection{Usability-Feld-Tests}
 
+Das \textit{mobile Usability Lab} nutzt mobile Geräte, wie etwa Notebooks oder Webcams aus dem Gebrauch des Testnutzers, anstatt Laborausstattung zu verwenden. Eingesetzt wird das mobile Labor sobald Benutzer unter Bedingungen an einem bestimmten Ort getestet werden sollen. Dort wo der Arbeitsplatz einen hohen Einfluss auf die Benutzung hat. Zum Beispiel Bankautomaten an öffentlichen Plätzen. Die Ausstattung ist dementsprechend günstiger. 
 
 \cite{usabilityblog_wasBeachten}
 
 \cite{usabilityblog_eResult}
+
+\subsection{Ergebnis und Zielsetzung}
+
+Mit Hilfe des formalen Usability-Test aus dem Abschnitt \ref{sec:formal-usability-test} lassen sich Schwachstellen von Benutzeroberflächen und Schwierigkeiten in der Anwendung erkennen. Allerdings können derartige Tests nicht ständig durchgeführt werden, da sie aufwändig in der Vorbereitung sind und finanziert werden müssen. Testnutzer, Labor und Durchführung benötigen Zeit und Geld. Resultierend darin kommt der Usability-Test höchstwahrscheinlich erst spät zum Einsatz, wodurch Resultate vielleicht nicht umgesetzt werden können, da das Projektbudget aufgebraucht ist oder der Zeitplan nicht mehr eingehalten werden kann. 
+
+Usability Walkthroughs könnten in einem frühen Projektstadium eingesetzt werden um bereits Schwächen am unfertigen Produkt zu erkennen und ggf. zu beseitigen. Auch bei diesem Test bedarf es Vorbereitung, Testpersonen und Kosten.
+
+% TODO feldtests eval
+
+Nach den vorgestellten Usability-Testmethoden können drei Aspekte extrahiert werden: 
+\begin{itemize}
+	\item{Kostenanspekt}
+	\item{Zeitaspekt}
+	\item{Geräteaspekt}
+\end{itemize}
+
+Die Verwendung von teurer Laborausstattung, der Einsatz mehrerer Testbeobachter und vieler Testnutzer führt zu hohen Kosten von Usability-Tests. Die aktuelle Ausstattung von mobilen Endgeräten ist qualitativ ausreichend hoch und steht im Vergleich zu Laborausstattung günstig zur Verfügung. 
+
+Usability-Walkthroughs können auch ohne Anleitung durchgeführt werden. Die Sensoren, zum Beispiel Bild und Ton, müssen der zu testenden Anwendung zur Verfügung stehen und gesteuert werden können. Wird der Geräteaspekt betrachtet, so stehen alle Sensoren auf aktuellen Endgeräten zur Verfügung.
+
+Die Kosten für Vorbereitungen von Tests müssen nicht bei jedem Testvorgang neu entstehen. Ein geeignetes Werkzeug würde beispielsweise Standardaufgaben für eine Anwendung sichern, sodass diese zu einem späteren Zeitpunkt wiederholt werden können. 
+
