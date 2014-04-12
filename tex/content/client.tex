@@ -248,9 +248,15 @@ Auch das Layout und Design der Benutzeroberfläche können weiter verbessert wer
 Einige Symbole dienen nur als Platzhalter können gegen passendere ersetzt werden.
 Bisher wurden Layout und Design einzig für Smartphones optimiert, sie funktionieren schlecht auch auf Tablets, da nur wenige Informationen auf einen deutlich größeren Bildschirm dargestellt werden.
 
-\subsection{Sicherheit}
+\subsubsection{Sicherheit}
 Die Kommunikation mit dem Server verläuft unverschlüsselt mittels \ac{HTTP}-Methoden.
 Auch Benutzername und Passwort werden aktuell unverschlüsselt im Klartext übertragen und können einfach Mitgelesen werden.
 Die Speicherung des Passworts auf dem Endgerät erfolgt durch das Android Pereferences Framework in unverschlüsselten Textdateien und kann mit Root-Zugriff leicht ausgelesen werden.  
 Um die Kommunikation sicherer zu gestalten sollte die Kommunikation verschlüsselt werden, z.B. mittels \ac{SSL} bzw. \ac{TLS}, da das Android Betriebssystem Bibliotheken für diese Verfahren mitbringt.
 Zur sichereren Speicherung von Benutzername und Passwort könnte z.B. die Android interne Kontenverwaltung genutzt werden.
+
+\subsection{Kommunikation}
+Bisher werden Sessions, Todos und Tasks beim Starten der Bibliothek vom Server abgerufen und nicht lokal zwischengespeichert. 
+Zwischen dem Starten der Aufzeichnung und dem Hochladen der gesammelten Daten wird keine Verbindung zum Server hergestellt.
+Denkbar wäre eine Zwischenspeicherung der Daten für den Offline Einsatz.
+Dieser Ansatz würde auch Tests außerhalb der Laborumgebung ermöglichen.
