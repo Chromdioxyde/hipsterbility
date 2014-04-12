@@ -28,9 +28,9 @@ Node.js, kurz Node, ist eine Platform basierend auf der JavaScript Laufzeitumgeb
 
 \subsubsection{Vagrant \label{sec:Vagrant}}
 \label{vagrant}
-Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird Virtual Box als Virtualisierungssoftware eingesetzt. Aber auch VMware wird unterstützt. 
+Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird Virtual Box\footnote{https://www.virtualbox.org/} als Virtualisierungssoftware eingesetzt. Aber auch VMware wird unterstützt. 
 
-Die eigene VM wird mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, zum Beispiel Portweiterleitungen. Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. 
+Die eigene VM wird mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, wie zum Beispiel Portweiterleitungen. Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. 
 
 Auf dem Host-System können die gewohnten Entwicklungswerkzeuge eingesetzt werden, da der Ordner, indem Vagrant konfiguriert wurd, mit dem Ordner /Vagrant auf dem Gast-System synchronisiert wird. 
 
@@ -85,12 +85,13 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 \end{lstlisting}
 
-Im Projektrepository befindet sich der Unterordner \textbf{serverside}. In diesem finden sich alle Serverdateien. Die Baumstruktur aus Abbildung \ref{fig:server-tree} zeigt die Ordnerhierachie des Projekts.
+Im Projektordner befindet sich der Unterordner \textbf{serverside}. In diesem finden sich alle Serverdateien. Die Baumstruktur aus Abbildung \ref{fig:server-tree} zeigt die Ordnerhierachie des Projekts.
 
-Im Ordner \textit{node\_modules} befinden sich alle weiteren Module die für die Serveranwendung benötigt und durch NPM verwaltet werden. 
+Im Ordner \textit{node\_modules} befinden sich alle weiteren Module die für die Serveranwendung benötigt und durch NPM verwaltet werden (Details zu den Modulen finden sich im Abschnitt \ref{sec:node-mudules}). 
 
-Im Unterordner \textit{controllers} werden die Web- und API-Routen-Handler gehalten. Diese werden in \textbf{app.js} als Callback-Funktionen aufgerufen (der Abschnitt \ref{sec: API} beschreibt die Routen detailliert). Im Ordner \textit{public} werden alle Dateien für die Browseranwendung (clientseitiges Javascript, CSS, Bilder und Schriftarten) angelegt und gehalten. Letztlich werden die HTML-Views im Unterordner \textit{views} gehalten. 
+Im Unterordner \textit{controllers} werden die Web- und API-Routen-Handler gehalten. Diese werden in \textbf{app.js} als Callback-Funktionen aufgerufen (der Abschnitt \ref{sec: api} beschreibt die Routen detailliert). Im Ordner \textit{public} werden alle Dateien für die Browseranwendung (clientseitiges Javascript, CSS, Bilder und Schriftarten) angelegt und gehalten. Letztlich werden die HTML-Views im Unterordner \textit{views} gehalten. 
 
+Die Ordnerstruktur entspricht weitestgehend der Standardkonfiguration einer Express-Web-Anwendung.
 
 \begin{figure}[h!]
 	\centering
@@ -114,12 +115,14 @@ Im Unterordner \textit{controllers} werden die Web- und API-Routen-Handler gehal
 	\label{fig:server-tree}
 \end{figure}
 
-\subsubsection{Node Module}
+\subsubsection{Node Module \label{sec:node-mudules}}
 
-\subsubsection{API \label{sec: API}}
+
+
+\subsubsection{API \label{sec: api}}
 
 \subsubsection{Webbasiertes Verwaltungstool}
 
 \subsection{Videoproduktion}
 
-Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{} verwendet. Genauer wird die darin enthaltene Software \emph{avconv} genutzt um die Bilder und Videos zusammenzufügen. 
+Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird die darin enthaltene Software \emph{avconv} genutzt um die Bilder und Videos zusammenzufügen. 
