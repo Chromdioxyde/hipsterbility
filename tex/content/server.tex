@@ -9,7 +9,7 @@ Im Folgenden werden die serverseitigen Komponenten, virtuelle Maschine, Datenban
 
 \subsection{Virtuelle Maschine}
 
-\subsubsection{Konfiguration}
+\subsubsection{Konfiguration \label{sec:vm-config}}
 
 Als Betriebssystem für den Server dient ein Debian in der Version 7.0. Der Maschine wurde 1 Prozessorkern und 512 MB RAM zugewiesen. Änderungen können im Vagrantfile, siehe Abschnitt \ref{vagrant}, oder der Virtual Box-Konfiguration vorgenommen werden. 
 
@@ -21,7 +21,7 @@ Das Programmpaket für die \emph{Secure Shell} beinhaltet alle Softwaretools um 
 	\item[MySQL Server\footnotemark]\footnotetext{http://www.mysql.de/products/community/}
 Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition.
 	
-	\item[Node.js und NPM\footnotemark]\footnotetext{http://nodejs.org/}
+	\item[Node.js\footnotemark und NPM\footnotemark]\footnotetext{http://nodejs.org/}\footnotetext{https://www.npmjs.org/}
 Node.js, kurz Node, ist eine Platform basierend auf der JavaScript Laufzeitumgebung des Browsers Chrome. Die Intension von Node ist es schnelle, skalierbare Netzwerkanwendung entwickeln zu können. Dabei wird ein ereignisgetriebenes, nicht blockierendes Eingabe-/Ausgabesystem verwendet. Der Node Package Manager, kurz NPM, wird verwendet um weitere Abhängigkeiten der Anwendung zu verwalten.
 	
 \end{description}
@@ -115,13 +115,43 @@ Die Ordnerstruktur entspricht weitestgehend der Standardkonfiguration einer Expr
 	\label{fig:server-tree}
 \end{figure}
 
+Der Node-Server kann mittels des Befehls \textbf{node app.js}, bzw. \textbf{npm start}, ausgeführt werden und lauscht, wenn nicht anders angegeben, auf den Port 3000. 
+
 \subsubsection{Node Module \label{sec:node-mudules}}
 
+Wie im Abschnitt \ref{sec:vm-config} beschrieben werden alle Abhängigkeit für den Node-Server mittels NPM verwaltet. NPM funktioniert wie andere Paketmanager. Auf Im Normalfall wird NPM mit Node ausgeliefert und installiert. 
 
+Im Ordner \textit{serverside} befindet sich die Datei \emph{package.json}. Diese Datei enthält alle benötigten Abhängigkeiten im JSON\footnote{http://www.json.org/}-Format. Das Listing \ref{node-packages} zeigt das Paket-JSON-Objekt. Neben den Projektinformationen beinhaltet es ein weiteres Objekt, \emph{dependencies}. 
 
-\subsubsection{API \label{sec: api}}
+In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Beispiel das Express-Framework, enthalten. Jeder Eintrag besteht aus dem Namen des Moduls und der gewünschten Version. Das \emph{*} bedeutet das immer die aktuellste Version genutzt werden soll. Mittels des Befehls \textbf{npm install} im Ordner \textit{serverside} können die Abhängigkeiten installiert werden. 
+
+\begin{lstlisting}[label=node-packages,language=Java, caption=Abhängigkeiten der Node-Anwendung]
+{
+    "name": "hipsterbility-server",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+    "start": "node app.js"
+    },
+    "dependencies": {
+    "express": "*",
+	"jade": "*",
+	"mysql" : "*",
+    "avconv":"*",
+    "passport":"*",
+    "passport-local":"*",
+    "string":"*",
+    "mkdirp":"*"
+
+  }
+}
+\end{lstlisting}
 
 \subsubsection{Webbasiertes Verwaltungstool}
+
+Aus dem 
+
+\subsubsection{API \label{sec: api}}
 
 \subsection{Videoproduktion}
 
