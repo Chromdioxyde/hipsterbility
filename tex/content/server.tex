@@ -6,61 +6,27 @@ Im Folgenden werden die serverseitigen Komponenten, virtuelle Maschine, Datenban
 
 %TODO: footnote ++ update
 
-%TODO: subsection title ?!
+
 \subsection{Virtuelle Maschine}
 
 \subsubsection{Konfiguration}
 
 Als Betriebssystem für den Server dient ein Debian in der Version 7.0. Der Maschine wurde 1 Prozessorkern und 512 MB RAM zugewiesen. Änderungen können im Vagrantfile, siehe Abschnitt \ref{vagrant}, oder der Virtual Box-Konfiguration vorgenommen werden. 
 
-\subsubsection{Eingesetzte Software}
 Folgende Software wurde für den Entwicklungsprozess verwendet. 
 \begin{description}
+	\item[OpenSSH-Server\footnotemark]\footnotetext{http://www.openssh.org/} 
+Das Programmpaket für die \emph{Secure Shell} beinhaltet alle Softwaretools um Dateien zwischen Host- und Gast- System auszutauschen (scp, sftp) oder sich darauf zu verbinden (ssh). Das Softwarepaket ist notwendig um beispielsweise Vagrant (siehe Abschnitt \ref{sec:Vagrant}) betreiben zu können. 
+
+	\item[MySQL Server\footnotemark]\footnotetext{http://www.mysql.de/products/community/}
+Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition.
 	
-	\item[OpenSSH-Server \footnote{http://www.openssh.com/}]
-	\item[MySQL Server\footnote{http://www.mysql.de/products/community/}]
-	\item[NodeJS]
-	\item[]
+	\item[Node.js\footnotemark]\footnotetext{http://nodejs.org/}
+Node.js, kurz Node, ist eine Platform basierend auf der JavaScript Laufzeitumgebung des Browsers Chrome. Die Intension von Node ist es schnelle, skalierbare Netzwerkanwendung entwickeln zu können. Dabei wird ein ereignisgetriebenes, nicht blockierendes Eingabe-/Ausgabesystem verwendet.
+	
 \end{description}
 
-
-
-\subsubsection{Ordnerstruktur}
-% TODO positioning, sizing
-\begin{minipage}[c]{\textwidth} %Ordnerstruktur in Minipage damit die zusammengehalten wird
-\dirtree{%
- .1 /serverside.
- .2 classes.
- .2 controllers.
- 	.3 api.
- 		.4 audio.js.
- 		.4 captures.js.
- 		.4 log.js.
- 		.4 sessions.js.
- 		.4 tasks.js.
- 		.4 todos.js.
- 		.4 videos.js.
- 	.3 backend.js.
- 	.3 frontend.js.
- .2 node\_modules.
- .2 public.
- 	.3 css.
- 		.4 plugins.
- 		.4 bootstrap.min.css.
- 		.4 bootstrap-theme.min.css.
- 		.4 sb-admin.css.
- 		.4 style.css.
- 		.4 video-js.min.css.
- 	.3 fonts.
- 	.3 img.
- 	.3 js.
- .2 uploads.
- .2 views.
-}
-\end{minipage}
-
-
-\subsubsection{Vagrant}
+\subsubsection{Vagrant \label{sec:Vagrant}}
 \label{vagrant}
 Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird Virtual Box als Virtualisierungssoftware eingesetzt. Aber auch VMware wird unterstützt. 
 
@@ -70,11 +36,7 @@ Auf dem Host-System können die gewohnten Entwicklungswerkzeuge eingesetzt werde
 
 Auch die Entwicklung von Software mittels einer Vagrant VM ergibt einen gut zu bedienenden Arbeitsfluss. So ist es beispielsweise möglich mittels \textbf{vagrant up} und \textbf{vagrant ssh} die Maschine zu starten und darauf zu verbinden, ohne dabei extra overhead, wie zum Beispiel Fenster, zu erzeugen. Die SSH-Credentials folgen dem \textit{Convention over Configuration}-Paradigma. Username, sowie Passwort lauten standardmäßig vagrant. 
 
-
 \subsection{Datenbank}
-
-Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition. 
-%TODO: Links in footnotes
 
 \subsubsection{Datenbank-Modell}
 Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung \ref{figure-db-model} zeigt das Ergebnis.
@@ -86,8 +48,8 @@ Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung 
 \end{figure}
 
 
-\subsection{NodeJS HTTP-Server und Middleware}
-Die serverseitige Logik wurde mit NodeJS und dem ExpressJS-Framework umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
+\subsection{HTTP-Server und Middleware}
+Die serverseitige Logik wurde mit dem ExpressJS-Framework\footnote{http://expressjs.com/} umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
 
 Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. 
 
@@ -124,6 +86,40 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
 \end{lstlisting}
+
+\subsubsection{Ordnerstruktur}
+% TODO positioning, sizing
+\begin{minipage}[c]{\textwidth} %Ordnerstruktur in Minipage damit die zusammengehalten wird
+\dirtree{%
+ .1 /serverside.
+ .2 classes.
+ .2 controllers.
+ 	.3 api.
+ 		.4 audio.js.
+ 		.4 captures.js.
+ 		.4 log.js.
+ 		.4 sessions.js.
+ 		.4 tasks.js.
+ 		.4 todos.js.
+ 		.4 videos.js.
+ 	.3 backend.js.
+ 	.3 frontend.js.
+ .2 node\_modules.
+ .2 public.
+ 	.3 css.
+ 		.4 plugins.
+ 		.4 bootstrap.min.css.
+ 		.4 bootstrap-theme.min.css.
+ 		.4 sb-admin.css.
+ 		.4 style.css.
+ 		.4 video-js.min.css.
+ 	.3 fonts.
+ 	.3 img.
+ 	.3 js.
+ .2 uploads.
+ .2 views.
+}
+\end{minipage}
 
 \subsubsection{APIs}
 
