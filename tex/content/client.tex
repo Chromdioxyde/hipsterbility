@@ -135,11 +135,11 @@ os.close(); // und schliessen
 sh.waitFor(); // Auf Beendigung der o.g. Befehle warten
 \end{lstlisting}
 
-Ab Android 4 wird ein natives Kommandozeilenprogramm \texttt{screencap} mitgeliefert.
+Ab Android~4 wird ein natives Kommandozeilenprogramm \texttt{screencap} mitgeliefert.
 Dieses erlaubt das Erstellen von Screenshots, indem direkt der \emph{FrameBuffer} des Systems ausgelesen wird (siehe Quelltext zu \texttt{screencap}\footnote{screencap Quelltext: \url{https://github.com/android/platform_frameworks_base/blob/master/cmds/screencap/screencap.cpp}}).
 Der Parameter \texttt{-p} gibt an, dass das Ausgabeformat \texttt{PNG} sein soll. 
 Optional kann noch die Nummer des Displays nach dem optionalen Parameter \texttt{-d} angegeben werden.
-Am Ende des Aufrufs steht der Pfad der Ausgabedatei, im Beispiel \texttt{/sdcard/outputfile.png}. 
+Am Ende des Aufrufs steht der Pfad der Ausgabedatei, im Beispiel in Zeile 3 \texttt{/sdcard/outputfile.png}. 
 
 Das \emph{Rooting} des Android Betriebssystems wird von diesem selbst nicht verhindert, jedoch muss ggf. der Bootloader entsperrt werden, was zu einer Löschung der Gerätedaten aus Sicherheitsgründen führen kann. 
 Neben den Vorteilen, die \emph{Rooting} bietet, wie z.B. erweitertes Debugging oder vollständige Backups, so hat es einige Nachteile oder ist teilweise nicht mit einfachen Möglichkeiten erreichbar \cite[vgl.][]{androidsecurity}.
@@ -216,7 +216,7 @@ Bei einem, durch Benutzereingaben ausgelöstem, \emph{MotionEvent} wird die übe
 \end{minipage}
 
 
-\begin{wrapfigure}[24]{l}{0.45\textwidth}
+\begin{wrapfigure}[30]{l}{0.45\textwidth}
 	\centering
 	\includegraphics[width=\linewidth]{img/screen_settings}
 	\captionof{figure}{SettingsActivity Screenshot} \label{fig:screen_settings}
@@ -231,9 +231,9 @@ Beim Starten
 
 Ein Großteil der Implementierung sind Services.
 Sie laufen im Hintergrund, meist unabhängig von der jeweiligen Vordergrund-Activitiy.
-Diese Entkopplung von Benutzeroberfläche und Programmlogik ist besonders nützlich, da Daten über die Interaktion mit Activities gesammelt werden, die nicht zur Bibliothek gehören.
+Diese Entkopplung von Benutzeroberfläche und Programmlogik ist besonders nützlich, da Daten über die Interaktion mit \emph{Activities} gesammelt werden, die nicht zur Bibliothek gehören.
 Diese Hintergrunddienste können beispielsweise über Intents gesteuert werden, welche von jeder Komponente gesendet werden können, die über einen \texttt{Context} verfügt.
-Dazu zählen Activites, Services, Applications und jede Klasse, die aus einem Objekt der zuvor genannten den \emph{Context} mittels \texttt{getApplicationContext()} holt.
+Dazu zählen \emph{Activites}, \emph{Services}, \emph{Applications} und jede Klasse, die aus einem Objekt der zuvor genannten den \emph{Context} mittels \texttt{getApplicationContext()} holt.
 Außerdem können \emph{Intents} auch aus \emph{Notifications} gestartet werden, indem sie in \emph{PendigIntents} an diese übergeben werden.
 Dieses Prinzip hat den Vorteil, dass eine Steuerung von Hintergrunddiensten möglich ist, ohne der Activity im Vordergrund den Fokus zu nehmen.
 Dieser Ansatz wurde für die Implementierung gewählt, da die Bibliothek so weitgehend im Hintergrund arbeitet, bei Bedarf jedoch Informationen an den Benutzer weitergegeben und Aktionen ausgelöst werden können.
