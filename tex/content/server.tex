@@ -287,90 +287,141 @@ Alle Daten werden am Client gesammelt und nach Beendigung einer Testsession an d
 	\item{Das Zwischenergebnis der Screenshots und das aufgenommene Bild werden zu einem Endergebnis verbunden. }
 \end{itemize}
 
-Das Listing \ref{node-imgToVideo} zeigt die Implementierung der Konvertierung von Screenshot in die einzelnen Videos. 
+Das Listing \ref{node-imgToVideo} zeigt die Implementierung der Konvertierung von Screenshot in die einzelnen Videos. Jeder Screenshot wird mit einem timestamp als Dateinamen an den Server gesendet. Damit wird ein Screenshot einem Schlüssel-Wert-Paar in einem Array zugewiesen, welches durchlaufen wird. Es entsteht ein Video als Teilergebnis, welches nummeriert, beginnend mit eins im mpeg-Format ausgegeben wird. Ein Screenshot wird für die Länge des Timestamps wiederholt im Teilergebnis angezeigt (Zeile 117).
 
-\begin{lstlisting}[label=node-imgToVideo,language=Java, caption=Erstellung der Videos aus Screenshots]
+Die Variable \textbf{stream} erzeugt ein avconv-Objekt und startet den Prozess (Zeile 132). 
+
+\begin{lstlisting}[label=node-imgToVideo,language=Java, caption=Erstellung der Videos aus Screenshots, firstnumber=110]
 for (var i = 0; i < paramDict.length; i++ ) {
+	var output = './uploads/' + user + '/'+ session +'/results/captures/'+ (i+1)+'.mpg';
+	var intervall = 0;
+    
+    if (i == paramDict.length-1) {
+    		intervall = 4;
+	} else {
+		var tmp = Math.floor((parseInt(paramDict[i+1].stamp) - parseInt(paramDict[i].stamp)) / 1000);    
+        intervall = tmp;
+	}
+	
+	var input = './uploads/' + user + '/'+ session +'/captures/' + paramDict[i].filename;
+	var paramProc = [
+		'-f', 'image2',
+		'-loop', '1',
+		'-i', input,
+		'-s', '720x1280',
+		'-t', intervall,
+		'-y',
+		output
+	];
 
-            var output = './uploads/' + user + '/'+ session +'/results/captures/'+ (i+1)+'.mpg';
-            var intervall = 0;
-            if (i == paramDict.length-1) {
-               intervall = 4;
-            } else {
-                var tmp = Math.floor((parseInt(paramDict[i+1].stamp) - parseInt(paramDict[i].stamp)) / 1000);
-                //console.log("tmp: "+ tmp);
-                intervall = tmp;
-            }
-
-            var input = './uploads/' + user + '/'+ session +'/captures/' + paramDict[i].filename;
-            var paramProc = [
-                '-f', 'image2',
-                '-loop', '1',
-                '-i', input,
-                '-s', '720x1280',
-                '-t', intervall,
-                '-y',
-               output
-            ];
-
-
-            var stream = avconv(paramProc);
-            stream.pipe(process.stdout);
+	var stream = avconv(paramProc);
+	stream.pipe(process.stdout);
+	
+	// ...
+	
+}
 \end{lstlisting}
 
-Im Listing \ref{node-videoPad} wird die das Doppeln der Videobreite implementiert. Dies ist notwendig, damit das Endergebnis des Videos die richtige Größe hat und die zusammengefügten Screenshots direkt neben dem aufgenommenen Video platziert werden kann.
+Sobald alle Teilergebnisse der Screenshots erstellt wurden, werden sie zu einem Gesamtvideo verbunden. Das Listing \ref{node-imgConcat} zeigt die Implementierung. 
 
-\begin{lstlisting}[label=node-videoPad,language=Java, caption=Erstellung der Ergebnisgrundlage]
+Der Parameter \textit{concat:} erhält eine Liste mit Videopfaden die zuvor aus dem Ordner Ergebnisordner der Resultate einer Session gefiltert wurden (Zeilen 152 bis 164). 
+
+Nach erfolgreicher Erstellung ist ein Video in der Gesamtlänge der Testsession vorhanden und beinhaltet alle Touch-Eingaben am Client. Das Bild eines Touches wird solange angezeigt bis ein neuer Touch-Screenshot vorhanden ist. 
+
+\begin{lstlisting}[label=node-imgConcat,language=Java, caption=Screenshot-Videos zu einem Videos konkatenieren, firstnumber=149]
+
+// ...
+
+files.forEach(function (file) {
+
+	if(file != '.DS_Store' && file != 'result.mpg') {
+
+		if (pushed > 0) {
+			videopaths += "\|"+dir+file;
+		} else {
+			videopaths += dir+file;
+		}
+		
+		pushed++;
+	}
+});
+
+var imgoutput = dir + 'result.mpg';
+//params here
+var params  = [
+	'-i', 'concat:'+videopaths,
+	'-c', 'copy',
+	'-y',
+	imgoutput
+];
+
+var stream = avconv(params);
+
+// ...
+\end{lstlisting}
+
+In den folgenden Schritten wird das Gesamtergebnis vorbereitet und erstellt. 
+
+Im Listing \ref{node-videoPad} wird die das Doppeln der Videobreite implementiert. Dies ist notwendig, damit das Endergebnis des Videos die richtige Größe hat und die zusammengefügten Screenshots direkt neben dem aufgenommenen Video platziert werden kann. 
+
+Der Parameter \textbf{filter:v} erhält als Werte drei mal \textbf{transpose=1}, damit wird die Eingabe drei mal im Urhzeigersinn gedreht, da es um 90 Grad im Uhrzeigersinn gedreht am Server ankommt. Negative Werte werden von transpose nicht akzeptiert. 
+
+\begin{lstlisting}[label=node-videoPad,language=Java, caption=Erstellung der Ergebnisgrundlage, firstnumber=196]
+//...
+
 var output = './uploads/'+user+'/'+session+'/results/pad.mpg';
-                                //params here
-                                var params  = [
-                                    '-i', videopaths,
-                                    '-filter:v', 'transpose=1, transpose=1, transpose=1, pad=2*iw',
-                                    '-strict', 'experimental',
-                                    '-y',
-                                    output
-                                ];
+//params here
+var params  = [
+	'-i', videopaths,
+	'-filter:v', 'transpose=1, transpose=1, transpose=1, pad=2*iw',
+	'-strict', 'experimental',
+	'-y',
+	output
+];
 
-                                var stream = avconv(params);
+var stream = avconv(params);
+
+// ...
 \end{lstlisting}
 
-Zum Schluss wird das Gesamtvideo erstellt, dessen Implementierung im Listing \ref{node-videoResult} zu sehen ist. 
+Zum Schluss wird das Gesamtvideo erstellt, dessen Implementierung im Listing \ref{node-videoResult} zu sehen ist. Als Eingabe wird das zuvor erstellte Video \emph{pad.mpg} genutzt und das Ergebnisvideo der Screenshots wird als overlay-Filter (Zeile 214) ab dem X-Wert 720 auf das Eingabevideo gelegt.
 
-\begin{lstlisting}[label=node-videoResult,language=Java, caption=Gesamtvideo kombinieren]
- var input = output;
-                                    var filter ="movie="+ imgoutput +" [wm];[in][wm] overlay=720:0 [out]";
-                                    var finaloutput = './uploads/'+user+'/'+session+'/results/result.mpg';
-                                    var params = [
-                                        '-i', input,
-                                        '-vf', filter,
-                                        '-strict', 'experimental',
-                                        '-y',
-                                        finaloutput
-                                    ];
+\begin{lstlisting}[label=node-videoResult,language=Java, caption=Gesamtvideo kombinieren, firstnumber=211]
+// ...
 
-                                    var stream = avconv(params);
+var input = output;
+var filter ="movie="+ imgoutput +" [wm];[in][wm] overlay=720:0 [out]";
+var finaloutput = './uploads/'+user+'/'+session+'/results/result.mpg';
+var params = [
+	'-i', input,
+	'-vf', filter,
+	'-strict', 'experimental',
+	'-y',
+	finaloutput
+];
 
-                                    stream.pipe(process.stdout);
+var stream = avconv(params);
 
-                                    stream.once('end', function(exitCode, signal) {
-                                        console.log('all fin '+ exitCode );
+stream.pipe(process.stdout);
 
-                                        var qstr = 'INSERT INTO results (file, timestamp, sessions_idsessions) VALUES ' +
-                                            '("'+ finaloutput + '", NOW(),' + session + ')';
+stream.once('end', function(exitCode, signal) {
+	console.log('all fin '+ exitCode );
 
-                                        var query = new Query;
+	var qstr = 'INSERT INTO results (file, timestamp, sessions_idsessions) VALUES ' +
+			'("'+ finaloutput + '", NOW(),' + session + ')';
 
-                                        query.execute(qstr, function(rows) {
-                                            console.log(rows);
+	var query = new Query;
 
+	query.execute(qstr, function(rows) {
+		console.log(rows);
+	});
+});
 
-                                        });
-
-                                    });
+// ...
 \end{lstlisting}
 
 \subsection{Server-Fazit}
 
-Die Serverkomponente wurde soweit entwickelt, dass der Android-Client damit kommunizieren kann und alle Funktionen des Clients bedienen kann. Weiterhin hat 
+Die Serverkomponente wurde soweit entwickelt, dass der Android-Client damit kommunizieren kann und alle Funktionen des Clients bedienen kann. Weiterhin können die aufgezeichneten Daten zu einem Gesamtergebnis konvertiert werden. 
 
 %TODO beenden
