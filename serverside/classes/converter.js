@@ -3,31 +3,6 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var avconv = require('avconv');
 var Query = require('./query');
-/*
- * "constructor" function implements all need variable initialization 
- */
-//function Converter (camera_files, screen_captures, log, output ) {
-//
-//	// if camera_files is array just add it
-//	if ( typeof camera_files === '[object Array]' ) {
-//		this.camera_files = camera_files;
-//	}
-//
-//	// if camera_files is a string, we create an array and add em to it.
-//	if ( typeof camera_files === '[object String]') {
-//		this.camera_files = [];
-//		this.camera_files.push(camera_files);
-//	}
-//
-//	// output shouldnt be undefined, should be an not empty string
-//	this.output = (typeof output === 'string' && output != '') ? output : null;
-//
-//	// screen captures should be an array > 0
-//	this.screen_captures = (typeof screen_captures === 'array') ? screen_captures : null;
-//
-//	// logs should be an json (object)
-//	this.logs = (typeof log === 'object') ? log : null;
-//}
 
 function Converter() {
 
@@ -157,7 +132,7 @@ Converter.prototype.createResult = function(user, session, callback) {
 
 
             var stream = avconv(paramProc);
-
+            stream.pipe(process.stdout);
             stream.once('end', function(exitCode, signal){
 
                 if (finCount == paramDict.length-1) {
@@ -197,7 +172,7 @@ Converter.prototype.createResult = function(user, session, callback) {
                         ];
 
                         var stream = avconv(params);
-
+                        stream.pipe(process.stdout);
                         stream.once('end', function(exitCode, signal) {
 
                             // errorhandling
@@ -278,74 +253,7 @@ Converter.prototype.createResult = function(user, session, callback) {
             });
         }
     });
-}
+};
 
-///**
-// * merges all videos files from session
-// */
-//Converter.prototype.mergeVideoInput = function(user, session) {
-//
-//	// avconv -i concat:file1.mp4\|file2.mp4 -c copy output.mp4
-//	var dir = '/uploads/'+user+'/'+session+'/video/'; //
-//
-//	var path = require("path");
-//	var videopaths = [];
-//
-//	fs.readdir(dir, function (err, files) {
-//	    if (err) {
-//	        throw err;
-//	    }
-//	    var pushed = 0;
-//	    files.map(function (file) {
-//	        return path.join(p, file);
-//	    }).filter(function (file) {
-//	        return fs.statSync(file).isFile();
-//	    }).forEach(function (file) {
-//	        console.log("%s (%s)", file, path.extname(file));
-//	        if (path.extname(file) == 'mp4') {
-//	        	if (pushed > 0) {
-//	        		videopaths.push('|'+file);
-//	        	} else {
-//	        		videopaths.push(file);
-//	        	}
-//	        	pushed++;
-//	        }
-//	    });
-//	});
-//
-//	//params here
-//	var params  = [
-//		'-i', 'concat:'+videopaths,
-//		'-c', 'copy',
-//		'result.mp4'
-//	];
-//
-//	 var stream = avconv(params);
-//
-//	stream.on('data', function(data) {
-//	    // handling
-//	});
-//
-//	stream.on('progress', function(progress) {
-//	    /*
-//	    Progress is a floating number between 0 ... 1 that keeps you
-//	    informed about the current avconv conversion process.
-//	    */
-//	});
-//
-//	stream.once('end', function(exitCode, signal) {
-//		console.log('fin ' + exitCode);
-//		// errorhandling
-//	});
-//}
-//
-///*
-// * converts video files into one resultsvideo
-// *
-// */
-//Converter.prototype.createResults = function () {
-//	// TODO implementation
-//
-//};
 
 module.exports = Converter;
