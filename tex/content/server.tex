@@ -150,60 +150,17 @@ In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Be
 
 Nach Abschnitt \ref{sec: zielsetzung} ist es Ziel eine zentrale Komponente zur Verfügung zu stellen mit der Tests verwaltet werden können. Zudem wurde ein rudimentäres Login-System implementiert. An dieser Stelle sei gesagt, dass die webbasierte Verwaltung nur skizziert ist. Eine vollständige, auf Sicherheit geprüfte und nach allen heutigen Webstandards aufbauende, Webanwendung steht nicht zur Verfügung. Dies ist im Rahmen dieser Semesterarbeit nicht entstanden und auch nicht das Anliegen dieser Arbeit. Vielmehr ist es ein Proof-Of-Concept. 
 
-Grundlegend wurden die Browserkomponenten der Web-Anwendung mittels jQuery\footnote{http://jquery.com/} und Bootstrap\footnote{http://getbootstrap.com/}
+Aus Gründen der Lesbarkeit wurden die Screenshots des Verwaltungswerkzeugs in den Anhang verlagert. 
 
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=\linewidth,keepaspectratio]{img/index-page.png}
-	\caption{Index-Seite der Anwendung}
-	\label{fig: index-page}
-\end{figure}
+Grundlegend wurden die Browserkomponenten der Web-Anwendung mittels jQuery\footnote{http://jquery.com/} und Bootstrap\footnote{http://getbootstrap.com/}
 
 Die Abbildung \ref{fig: index-page} zeigt die Startseite der Anwendung. Über den Link \emph{Login} kann zur Login-Maske gelangt werden, welche in Abbildung \ref{fig: login-page} zu sehen ist. 
 
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=\linewidth,keepaspectratio]{img/login-page.png}
-	\caption{Login-Seite der Anwendung}
-	\label{fig: login-page}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=\linewidth,keepaspectratio]{img/sessions-page.png}
-	\caption{Listenansicht für Testsessions}
-	\label{fig: sessions-page}
-\end{figure}
-
 Nach erfolgreichen Login gelangt man auf das Dashbaord der Administration, welche zum Zeitpunkt der Abgabe keine Informationen bereitstellt. Im Administrationsbereich hat der User nunmehr die Möglichkeit eine Liste der erstellten Sessions zu sehen (siehe Abbildung \ref{fig: sessions-page}) oder eine neue Session anzulegen (Abbildung \ref{fig: session-create-page}). 
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=\linewidth,keepaspectratio]{img/session-result-page.png}
-	\caption{Web-Ansicht der Ergebnisse}
-	\label{fig: session-result-page}
-\end{figure}
-
-\subsubsection{Web-Routen}
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=\linewidth,keepaspectratio]{img/session-detail-page.png}
-	\caption{Detailansicht einer Testsession}
-	\label{fig: session-detail-page}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=\linewidth,keepaspectratio]{img/session-create-page.png}
-	\caption{Neue Session anlegen}
-	\label{fig: session-create-page}
-\end{figure}
 
 In der Listenansicht der Sessions erhält der User die Möglichkeit Details zur Session anzuzeigen, welches in der Abbildung \ref{fig: session-detail-page} zu sehen ist. Ein weitere Link \emph{zum Ergebnis} öffnet die Ergebnisseite der Session (Abbildung \ref{fig: session-result-page}).
 
-
-
+\subsubsection{Web-Routen}
 
 Dieser Abschnitt zeigt alle Routen des Express-Anwendung für die Webschnittstelle im Überblick. 
 % TODO Webroutes Description
