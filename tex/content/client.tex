@@ -1,4 +1,4 @@
-\section{Android-Client}
+\section{Android-Client\label{sec:android_client}}
 
 In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur Entwicklung wurde die plattformübergreifende IDE \emph{IntelliJ Idea}\footnote{IntelliJ Idea: \url{http://www.jetbrains.com/idea/}} verwendet.
 
@@ -196,7 +196,7 @@ Um die Benutzereingaben von einer \texttt{Activity} zu bekommen, wird ein \textt
 \texttt{activity.getWindow().getDecorView().getRootView().setOnTouchListener(this)}.
 Bei einem, durch Benutzereingaben ausgelöstem, \emph{MotionEvent} wird die überschriebene Funktion \texttt{onTouch()} aufgerufen, welcher der auslösende \texttt{View} und das \texttt{MotionEvent} übergeben werden.
 
- Das \texttt{MotionEvent} wird auf zwei Konstanten geprüft. 
+ Das \texttt{MotionEvent} wird auf zwei konstante Integer-Werte geprüft. 
  \texttt{ACTION\_MOVE} beschreibt einen Teil einer Geste und \texttt{ACTION\_UP} beschreibt deren Ende.
  Die Koordinaten der \emph{MotionEvents} werden so lange gesammelt, wie die Geste andauert, und danach an die Methode \texttt{takeScreenshot} übergeben, in welcher diese zusätzlich auf das \texttt{Canvas} Objekt, als rote Punkte,  gezeichnet werden.
 

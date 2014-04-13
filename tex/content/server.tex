@@ -120,7 +120,7 @@ Der Node-Server kann mittels des Befehls \textbf{node app.js}, bzw. \textbf{npm 
 
 Wie im Abschnitt \ref{sec:vm-config} beschrieben werden alle Abhängigkeit für den Node-Server mittels NPM verwaltet. NPM funktioniert wie andere Paketmanager. Auf Im Normalfall wird NPM mit Node ausgeliefert und installiert. 
 
-Im Ordner \textit{serverside} befindet sich die Datei \emph{package.json}. Diese Datei enthält alle benötigten Abhängigkeiten im JSON\footnote{http://www.json.org/}-Format. Das Listing \ref{node-packages} zeigt das Paket-JSON-Objekt. Neben den Projektinformationen beinhaltet es ein weiteres Objekt, \emph{dependencies}. 
+Im Ordner \textit{serverside} befindet sich die Datei \emph{package.json}. Diese Datei enthält alle benötigten Abhängigkeiten im \ac{JSON}\footnote{http://www.json.org/}-Format. Das Listing \ref{node-packages} zeigt das Paket-JSON-Objekt. Neben den Projektinformationen beinhaltet es ein weiteres Objekt, \emph{dependencies}. 
 
 In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Beispiel das Express-Framework, enthalten. Jeder Eintrag besteht aus dem Namen des Moduls und der gewünschten Version. Das \emph{*} bedeutet das die aktuellste Version genutzt werden soll. Mittels des Befehls \textbf{npm install} im Ordner \textit{serverside} können die Abhängigkeiten installiert werden. 
 
@@ -146,7 +146,7 @@ In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Be
 }
 \end{lstlisting}
 
-\subsection{Webbasiertes Verwaltungstool}
+\subsection{Webbasiertes Verwaltungstool\label{sec:web_verwaltung}}
 
 Nach Abschnitt \ref{sec: zielsetzung} ist es Ziel eine zentrale Komponente zur Verfügung zu stellen mit der Tests verwaltet werden können. Zudem wurde ein rudimentäres Login-System implementiert. An dieser Stelle sei gesagt, dass die webbasierte Verwaltung nur skizziert ist. Eine vollständige, auf Sicherheit geprüfte und nach allen heutigen Webstandards aufbauende, Webanwendung steht nicht zur Verfügung. Dies ist im Rahmen dieser Semesterarbeit nicht entstanden und auch nicht das Anliegen dieser Arbeit. Vielmehr ist es ein Proof-Of-Concept. 
 
@@ -271,23 +271,10 @@ Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbi
 \end{description}
 
 \subsubsection{Beispiel-Route}
-% TODO: schreiben
 \subsection{Videoproduktion}
 
-Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt, um die Bilder und Videos zusammenzufügen. Weiterhin wird noch das Node Modul \emph{avconv} genutzt. 
-% TODO fertig machen. 
-% TODO Concat Listing
-% firstnumber=100
-
-Alle Daten werden am Client gesammelt und nach Beendigung einer Testsession an den Server via HTTP gesandt. Das Abschließen einer Session initiiert den Erstellungsvorgang der Videos. Die Erstellung des Ergebnisvideos geschieht in drei Teilen: 
-
-\begin{itemize}
-	\item{Jedes Bild wird anhand des Timestamps zu einem Video bestimmter länger konvertiert und anschließend konkateniert}
-	\item{Das aufgenommene Video der Frontkamera wird in seiner Breite gedoppelt}
-	\item{Das Zwischenergebnis der Screenshots und das aufgenommene Bild werden zu einem Endergebnis verbunden. }
-\end{itemize}
-
-Das Listing \ref{node-imgToVideo} zeigt die Implementierung der Konvertierung von Screenshot in die einzelnen Videos. 
+Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt, um die Bilder und Videos zusammenzufügen.
+% TODO fertig machen.
 
 \begin{lstlisting}[label=node-imgToVideo,language=Java, caption=Erstellung der Videos aus Screenshots]
 for (var i = 0; i < paramDict.length; i++ ) {
@@ -336,6 +323,7 @@ var output = './uploads/'+user+'/'+session+'/results/pad.mpg';
 
 Zum Schluss wird das Gesamtvideo erstellt, dessen Implementierung im Listing \ref{node-videoResult} zu sehen ist. 
 
+
 \begin{lstlisting}[label=node-videoResult,language=Java, caption=Gesamtvideo kombinieren]
  var input = output;
                                     var filter ="movie="+ imgoutput +" [wm];[in][wm] overlay=720:0 [out]";
@@ -369,8 +357,14 @@ Zum Schluss wird das Gesamtvideo erstellt, dessen Implementierung im Listing \re
                                     });
 \end{lstlisting}
 
-\subsection{Server-Fazit}
 
-Die Serverkomponente wurde soweit entwickelt, dass der Android-Client damit kommunizieren kann und alle Funktionen des Clients bedienen kann. Weiterhin hat 
+
+Das Listing 
 
 %TODO beenden
+
+\subsection{Server-Fazit}
+
+%TODO beenden
+
+Die Serverkomponente wurde soweit entwickelt, dass der Android-Client damit kommunizieren kann und alle Funktionen des Clients bedienen kann. Weiterhin hat 
