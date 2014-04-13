@@ -163,7 +163,23 @@ In der Listenansicht der Sessions erhält der User die Möglichkeit Details zur 
 \subsubsection{Web-Routen}
 
 Dieser Abschnitt zeigt alle Routen des Express-Anwendung für die Webschnittstelle im Überblick. 
-% TODO Webroutes Description
+
+\begin{description}
+
+	\item[GET /] liefert die Index-Seite
+	\item[GET /login] liefert die Login-Seite
+
+	\item[GET /web-auth] Umleitungsroute, ob ein User erfolgreich eingeloggt ist
+	\item[POST /web-auth] validiert das login-Formular und erstellt ggf. eine Session	
+	\item[GET /:user\_id/admin] liefert die Index-Seite nach erfolgreichen Login
+	\item[GET /:user\_id/admin/sessions] liefert die Übersichtsseite der Sessions
+	\item[GET /:user\_id/admin/sessions/new] liefert die Fomularseite zum anlegen einer neuen Session
+	\item[POST /:user\_id/admin/sessions/new] validiert das gesendete Webforumlar und legt einen neuen Eintrag in der Datenbank an.
+	\item[GET /:user\_id/admin/sessions/:session\_id] liefert die Detailseite einer Session
+	\item[GET /:user\_id/admin/sessions/:session\_id] liefert die Ergebnisseite einer Session
+	
+	
+\end{description}
 
 \subsection{RESTful-API \label{sec: api}}
 
