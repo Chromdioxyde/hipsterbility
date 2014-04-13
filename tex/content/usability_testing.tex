@@ -60,5 +60,7 @@ Die Anschaffung evtl. teurer Laborausstattung entfällt, da die Sensoren im mobi
 
 Im Rahmen dieser Arbeit wurde ein Framework, bzw. Programmierbibliothek entwickelt, welches die Schwächen des Usability-Tests umgeht. Vor allem der Einsatz zusätzlicher Geräte entfällt, da die integrierten Module (Kamera, Mikrofon, Touch-Display) verwendet werden. Zudem kann mittels einer Programmierbibliothek der Einsatz von Usability-Tests in den Entwicklungsprozess integriert werden. So können ggf. Schwächen an der Benutzeroberfläche schon früh durch Entwickler erkannt werden.
 
-% TODO: Android? Warum Android? 
+Da Zugriff auf diverse Hardware erfolgt muss dies vom System erlaubt sein. Lediglich die offene Natur des Android-Betriebssystems ermöglicht es ohne Umwege, wie etwa Jailbreaks, Sensoren des mobilen Endgeräts zu steuern. Folglich wird die Programmierbibliothek nur für Android als native Anwendungsbibliothek entwickelt. 
+
+Neben dem Aufzeichnen von Medien, Gesten und Touch-Eingaben müssen diese weiter verarbeitet werden. Es ist unvorteilhaft die Verarbeitung am mobilen Geräten durchzuführen, da die zu testende Anwendung oder das gesamte System unresponsiv werden könnten. Stattdessen wurde eine Client-Server-Architektur implementiert, welche über HTTP mit einer RESTful-API kommuniziert. 
 
