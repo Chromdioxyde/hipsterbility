@@ -271,11 +271,23 @@ Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbi
 \end{description}
 
 \subsubsection{Beispiel-Route}
-
+% TODO: schreiben
 \subsection{Videoproduktion}
 
-Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt, um die Bilder und Videos zusammenzufügen.
-% TODO fertig machen.
+Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt, um die Bilder und Videos zusammenzufügen. Weiterhin wird noch das Node Modul \emph{avconv} genutzt. 
+% TODO fertig machen. 
+% TODO Concat Listing
+% firstnumber=100
+
+Alle Daten werden am Client gesammelt und nach Beendigung einer Testsession an den Server via HTTP gesandt. Das Abschließen einer Session initiiert den Erstellungsvorgang der Videos. Die Erstellung des Ergebnisvideos geschieht in drei Teilen: 
+
+\begin{itemize}
+	\item{Jedes Bild wird anhand des Timestamps zu einem Video bestimmter länger konvertiert und anschließend konkateniert}
+	\item{Das aufgenommene Video der Frontkamera wird in seiner Breite gedoppelt}
+	\item{Das Zwischenergebnis der Screenshots und das aufgenommene Bild werden zu einem Endergebnis verbunden. }
+\end{itemize}
+
+Das Listing \ref{node-imgToVideo} zeigt die Implementierung der Konvertierung von Screenshot in die einzelnen Videos. 
 
 \begin{lstlisting}[label=node-imgToVideo,language=Java, caption=Erstellung der Videos aus Screenshots]
 for (var i = 0; i < paramDict.length; i++ ) {
@@ -306,6 +318,8 @@ for (var i = 0; i < paramDict.length; i++ ) {
             stream.pipe(process.stdout);
 \end{lstlisting}
 
+Im Listing \ref{node-videoPad} wird die das Doppeln der Videobreite implementiert. Dies ist notwendig, damit das Endergebnis des Videos die richtige Größe hat und die zusammengefügten Screenshots direkt neben dem aufgenommenen Video platziert werden kann.
+
 \begin{lstlisting}[label=node-videoPad,language=Java, caption=Erstellung der Ergebnisgrundlage]
 var output = './uploads/'+user+'/'+session+'/results/pad.mpg';
                                 //params here
@@ -319,6 +333,8 @@ var output = './uploads/'+user+'/'+session+'/results/pad.mpg';
 
                                 var stream = avconv(params);
 \end{lstlisting}
+
+Zum Schluss wird das Gesamtvideo erstellt, dessen Implementierung im Listing \ref{node-videoResult} zu sehen ist. 
 
 \begin{lstlisting}[label=node-videoResult,language=Java, caption=Gesamtvideo kombinieren]
  var input = output;
@@ -353,10 +369,8 @@ var output = './uploads/'+user+'/'+session+'/results/pad.mpg';
                                     });
 \end{lstlisting}
 
-
-
-Das Listing 
-
 \subsection{Server-Fazit}
 
 Die Serverkomponente wurde soweit entwickelt, dass der Android-Client damit kommunizieren kann und alle Funktionen des Clients bedienen kann. Weiterhin hat 
+
+%TODO beenden
