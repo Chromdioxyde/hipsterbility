@@ -206,7 +206,7 @@ Converter.prototype.createResult = function(user, session, callback) {
                                 ];
 
                                 var stream = avconv(params);
-
+                                stream.pipe(process.stdout);
                                 stream.once('end', function(exitCode, signal) {
 
 

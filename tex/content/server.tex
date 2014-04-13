@@ -270,11 +270,92 @@ Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbi
 	  
 \end{description}
 
+\subsubsection{Beispiel-Route}
 
 \subsection{Videoproduktion}
 
-Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird die darin enthaltene Software \emph{avconv} genutzt um die Bilder und Videos zusammenzufügen. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt.
+Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt, um die Bilder und Videos zusammenzufügen.
 % TODO fertig machen.
+
+\begin{lstlisting}[label=node-imgToVideo,language=Java, caption=Erstellung der Videos aus Screenshots]
+for (var i = 0; i < paramDict.length; i++ ) {
+
+            var output = './uploads/' + user + '/'+ session +'/results/captures/'+ (i+1)+'.mpg';
+            var intervall = 0;
+            if (i == paramDict.length-1) {
+               intervall = 4;
+            } else {
+                var tmp = Math.floor((parseInt(paramDict[i+1].stamp) - parseInt(paramDict[i].stamp)) / 1000);
+                //console.log("tmp: "+ tmp);
+                intervall = tmp;
+            }
+
+            var input = './uploads/' + user + '/'+ session +'/captures/' + paramDict[i].filename;
+            var paramProc = [
+                '-f', 'image2',
+                '-loop', '1',
+                '-i', input,
+                '-s', '720x1280',
+                '-t', intervall,
+                '-y',
+               output
+            ];
+
+
+            var stream = avconv(paramProc);
+            stream.pipe(process.stdout);
+\end{lstlisting}
+
+\begin{lstlisting}[label=node-videoPad,language=Java, caption=Erstellung der Ergebnisgrundlage]
+var output = './uploads/'+user+'/'+session+'/results/pad.mpg';
+                                //params here
+                                var params  = [
+                                    '-i', videopaths,
+                                    '-filter:v', 'transpose=1, transpose=1, transpose=1, pad=2*iw',
+                                    '-strict', 'experimental',
+                                    '-y',
+                                    output
+                                ];
+
+                                var stream = avconv(params);
+\end{lstlisting}
+
+\begin{lstlisting}[label=node-videoResult,language=Java, caption=Gesamtvideo kombinieren]
+ var input = output;
+                                    var filter ="movie="+ imgoutput +" [wm];[in][wm] overlay=720:0 [out]";
+                                    var finaloutput = './uploads/'+user+'/'+session+'/results/result.mpg';
+                                    var params = [
+                                        '-i', input,
+                                        '-vf', filter,
+                                        '-strict', 'experimental',
+                                        '-y',
+                                        finaloutput
+                                    ];
+
+                                    var stream = avconv(params);
+
+                                    stream.pipe(process.stdout);
+
+                                    stream.once('end', function(exitCode, signal) {
+                                        console.log('all fin '+ exitCode );
+
+                                        var qstr = 'INSERT INTO results (file, timestamp, sessions_idsessions) VALUES ' +
+                                            '("'+ finaloutput + '", NOW(),' + session + ')';
+
+                                        var query = new Query;
+
+                                        query.execute(qstr, function(rows) {
+                                            console.log(rows);
+
+
+                                        });
+
+                                    });
+\end{lstlisting}
+
+
+
+Das Listing 
 
 \subsection{Server-Fazit}
 
