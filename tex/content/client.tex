@@ -59,7 +59,7 @@ In Anhang \ref{anhang:test_app_screens} sind die einzelnen Activities der Testap
 Ausgehend von der Haupt-Activity (grau umrandet) lässt sich eine Liste (blau), ein Dialog (grün), ein WebView (violet) und eine einfache Activtiy bestehend aus zwei Fragmenten (rot) öffnen.
 Dies reizt zwar nicht die gesamte Palette an Gestaltungsmöglichkeiten aus, reicht jedoch für erste Tests aus.
 
-\subsubsection{Monolithischer Wrapper}
+\subsubsection{Monolithischer Wrapper\label{sec:monolithischer_wrapper}}
 Um die Benutzung zu vereinfachen soll sich die Bibliothek möglichst einfach in neue und bestehende Anwendungen integrieren lassen.
 Dies wird u.a. dadurch erreicht, dass Aufrufe nur an eine einzige Klasse gerichtet werden.
 Die dahinter liegenden Klassen werden im Sinne des \emph{Facade}-Entwurfsmusters \cite[vgl.][40\psq]{designpattern} \enquote{abgeschirmt}.
@@ -111,7 +111,8 @@ Bei der Auswertung von Usability-Tests kann die Mimik der Testperson zur Interpr
 Außerdem kann durch das Kamerabild gesehen werden, ob die Testperson sich auf die gestellte Aufgabe konzentriert oder abgelenkt ist.
 Dies ist von Bedeutung, wenn der Zeitfaktor bei der Auswertung berücksichtigt wird.
 Neben dem Kamerabild werden Sprache und Umgebungsgeräusche mit dem integrierten Mikrofon aufgezeichnet.
-Einerseits können so unbewusste Aussagen aufgezeichnet und bewertet werden, andererseits erlaubt dies den Einsatz von \emph{Thinking Aloud Tests}, bei denen die Testperson gezielt subjektive Eindrücke verbal äußert.  %TODO: Belege suchen
+
+Einerseits können so unbewusste Aussagen aufgezeichnet und bewertet werden, andererseits erlaubt dies den Einsatz von \emph{Thinking Aloud Tests}, bei denen die Testperson gezielt subjektive Eindrücke verbal äußert. Das Interpretieren der einzelnen \ac{UI}-Elemente durch die Testperson kann schwerwiegende Probleme bei der Gestaltung der Benutzeroberfläche sichtbar machen \cite[vgl.][73\psq]{usability_engineering_software_developers}. 
 
 Die Herausforderung bei der Implementierung stellt sich durch Beschränkungen des Android Betriebssystems.
 Dieses sieht vor, dass bei der Aufnahme von Videos und Fotos mit der Kamera eine Vorschau auf dem Bildschirm dargestellt wird.
@@ -152,11 +153,11 @@ Da ohne Root-Zugriff nicht auf die nativen Anwendungen zugegriffen werden kann, 
 Die Bibliothek läuft bei der Ausführung der Applikation in deren Kontext und im selben Prozess.
 Dadurch ist es möglich auf die Activities der Applikation zuzugreifen.
 
-In Listing \ref{listing:screenshot} ist dargestellt, wie ein Bild von einer Activity erstellt wird.
+In Listing \ref{lst:client_screenshot} ist dargestellt, wie ein Bild von einer Activity erstellt wird.
 Der direkte Zugriff auf den FrameBuffer oder andere Stationen der Ausgabekette ist nicht möglich, daher wird der Bildschirminhalt \enquote{nachgezeichnet}.
 Mit dieser Implementierung werden allerdings nur grafische Elemente der Anwendung erfasst, ein Zugriff auf die Statusleiste, Navigationsleiste oder andere Anwendungen ist so nicht möglich.
 
-\begin{lstlisting}[label=listing:screenshot,language=Java, caption=Screenshot Aufnahme ohne Root-Zugriff]
+\begin{lstlisting}[label=lst:client_screenshot,language=Java, caption=Screenshot Aufnahme ohne Root-Zugriff]
 Display display = activity.getWindowManager().getDefaultDisplay();
 Point size = new Point();
 display.getSize(size);
@@ -190,6 +191,14 @@ Darauf werden nun nacheinander, beginnend mit dem Hintergrund, die grafischen El
 Abschließend wird das Bild komprimiert und in eine Datei geschrieben.
 
 \subsubsection{Visualisieren von Benutzereingaben}
+Um die Benutzereingaben von einer \texttt{Activity} zu bekommen, wird ein \texttt{View.OnTouchListener} von der Klasse \texttt{ScreenshotModule} implementiert und registriert:
+\\
+\texttt{activity.getWindow().getDecorView().getRootView().setOnTouchListener(this)}.
+Bei einem, durch Benutzereingaben ausgelöstem, \emph{MotionEvent} wird die überschriebene Funktion \texttt{onTouch()} aufgerufen, welcher der auslösende \texttt{View} und das \texttt{MotionEvent} übergeben werden.
+
+ Das \texttt{MotionEvent} wird auf zwei Konstanten geprüft. 
+ \texttt{ACTION\_MOVE} beschreibt einen Teil einer Geste und \texttt{ACTION\_UP} beschreibt deren Ende.
+ Die Koordinaten der \emph{MotionEvents} werden so lange gesammelt, wie die Geste andauert, und danach an die Methode \texttt{takeScreenshot} übergeben, in welcher diese zusätzlich auf das \texttt{Canvas} Objekt, als rote Punkte,  gezeichnet werden.
 
 
 
@@ -238,35 +247,87 @@ Die Bibliothek wird dadurch inaktiv, bis die Applikation das nächste Mal gestar
 \begin{minipage}[t]{0.45\linewidth}
 	\centering
 	\includegraphics[width=\linewidth]{img/notification_main}
-	\captionof{figure}{Notification zum Starten der Bibliothek.} \label{fig:notification_main}
+	\captionof{figure}{Notification zum Starten der Bibliothek (Screenshot)} \label{fig:notification_main}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\linewidth}
 	\centering
 	\includegraphics[width=\linewidth]{img/notification_background_recorder}
-	\captionof{figure}{Notification bei laufender Datenerfassung} \label{fig:notification_recorder}
+	\captionof{figure}{Notification bei laufender Datenerfassung (Screenshot)} \label{fig:notification_recorder}
 \end{minipage}
 
 
 Abbildung \ref{fig:notification_recorder} zeigt die Benachrichtigung, welche während der Datenerfassung angezeigt wird.
+Zusätzlich werden beim Start der Aufzeichnung des Kamerabildes die Standard-Töne des Betriebssystems für die Kamera abgespielt.
+Um die Testperson weiterhin dauerhaft über die laufende Datenerfassung zu informieren wird zusätzlich ein Icon (\texttt{ImageView}) dauerhaft im Vordergrund angezeigt, welches unabhängig von der laufenden \texttt{Activity} ist (Abbildung \ref{fig:icon_record_on_top}).
+
 Auch sie kann nicht durch eine Wischgeste entfernt werden und bietet die Möglichkeiten die Datensammlung zu unterbrechen (\emph{Pause}) oder zu Beenden (\emph{Stop}), worauf die Benachrichtigung zum Hochladen der Daten zum Server angezeigt wird (Abbildung \ref{fig:notification_upload_data}).
 Wird diese durch eine Berührung aktiviert, startet das Hochladen der gesammelten Daten zum Server und dessen Fortschritt wird angezeigt (Abbildung \ref{fig:notification_upload_progress}).
+Wenn das Hochladen abgeschlossen ist, können die gesammelten Daten vom Gerät gelöscht werden (siehe Abbildung \ref{fig:notification_upload_finished}).
 
 Im Fall eines Fehlers wird dieser dem Benutzer entweder durch ein \texttt{Toast} oder durch einen \texttt{AlertDialog} angezeigt, abhängig von der Situation.
 
 \begin{minipage}[t]{0.45\linewidth}
 	\centering
 	\includegraphics[width=\linewidth]{img/notification_upload_data}
-	\captionof{figure}{Notification zum Hochladen der Daten} \label{fig:notification_upload_data}
+	\captionof{figure}{Notification zum Hochladen der Daten (Screenshot)} \label{fig:notification_upload_data}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.45\linewidth}
 	\centering
 	\includegraphics[width=\linewidth]{img/notification_upload_progress}
-	\captionof{figure}{Notification bei laufendem Hochladen von Daten} \label{fig:notification_upload_progress}
+	\captionof{figure}{Notification bei laufendem Hochladen von Daten (Screenshot)} \label{fig:notification_upload_progress}
+\end{minipage}
+
+\begin{minipage}[t]{0.45\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/notification_upload_finished}
+	\captionof{figure}{Notification für vollständigen Upload (Screenshot)} \label{fig:notification_upload_finished}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\linewidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/record_on_top_icon}
+	\captionof{figure}{Overlay Icon bei laufender Datenerfassung (Screenshot)} \label{fig:icon_record_on_top}
 \end{minipage}
 
 \subsection{Einbinden der Bibliothek in eigene Anwendungen}
+Die Bibliothek kann auf zwei Arten in bestehende -- und neue -- Projekte eingebunden werden.
+Zum einen kann sie als zusätzliches Modul hinzugefügt werden (\textbf{File | Import Module...}), wobei zu beachten ist, dass in den Moduleinstellungen (\textbf{File | Project Structure...}), nach dem Import, der Haken \texttt{Library module} gesetzt ist (siehe Abbildung \ref{fig:screen_intellij_library_module}).
+\begin{figure}[htb]
+\includegraphics[width=\linewidth]{img/screen_intellij_library_module}
+\caption{Library module in IntelliJ IDEA aktivieren (Screenshot)}
+\label{fig:screen_intellij_library_module}
+\end{figure}
+
+Auch die Einstellungen für die zu testende Applikation sollten ggf. angepasst werden, da die Bibliothek eine eigene \texttt{AndroidManifest.xml} Datei mitbringt.
+Das aktivieren des Zusammenfügens der Maifeste (Abbildung \ref{fig:screen_intellij_maifest_merging}) sorgt für ein automatisches Zusammenfassen der verschiedenen Manifest-Dateien.
+\begin{figure}[htb]
+\includegraphics[width=\linewidth]{img/screen_intellij_manifest_merging}
+\caption{Manifest merging in IntelliJ IDEA aktivieren (Screenshot)}
+\label{fig:screen_intellij_maifest_merging}
+\end{figure}
+
+Die Bibliothek benötigt für eine korrekte Ausführung die folgenden \emph{Permissions}\footnote{Android Permissions: \url{http://developer.android.com/guide/topics/security/permissions.html}} (\texttt{android.permission.*}):
+
+\begin{description}
+	\item[\texttt{WRITE\_EXTERNAL\_STORAGE}]
+		Dateien in den Massenspeicher schreiben.
+	\item[\texttt{RECORD\_AUDIO}]
+		Aufzeichnung von Ton mittels des integrierten Mikrofons.
+	\item[\texttt{CAMERA}]
+		Zugriff auf die Frontkamera.
+	\item[\texttt{SYSTEM\_ALERT\_WINDOW}]
+		Icon für das Signalisieren der laufenden Datenerfassung.
+	\item[\texttt{ACCESS\_SUPERUSER}]
+		Root-Zugriff (falls verfügbar).
+	\item[\texttt{INTERNET}]
+		Netzwerkzugriff (mobil und lokal).
+\end{description}
+
+Außerdem müssen die \emph{Services} und \emph{Activities} im System registriert werden, damit diese mit \emph{Intents} gestartet werden können. Die vollständige Manifest-Datei befindet sich im Anhang \ref{apdx:manifest} (Listing \ref{lst:androidmanifest}).
+
+
 \subsubsection{Dynamisches Einbinden - Pre-Dexing}
 Beim Pre-Dexing können mehrere Android-Projekte zu einem Projekt hinzugefügt werden. 
 Da die Bibliothek neueste Funktionen des Android-Betriebssystems verwendet, muss auf dem  Gerät zur Kompilierung einer Anwendung aktuelle Build-Tools der Android-SDK vorliegen.
@@ -277,12 +338,11 @@ Dies wurde allerdings bereits behoben. Es sei gesagt, dass mindestens die Versio
 \subsubsection{Statisches Einbinden als JAR-Archiv}
 Über \textbf{FILE | Project Structure | Artifacts} kann in \emph{IntelliJ} die Bibliothek als \ac{JAR}-Archiv exportiert werden.
 Um diese in ein anderes Projekt einzubinden wird das Archiv in den \texttt{libs} Unterordner kopiert (ggf. muss der Ordner erstellt werden) und über \textbf{Rechtsklick auf das JAR-Archiv in der IntelliJ Projektstruktur | Add as Library...} als Bibliothek hinzugefügt werden.
-In der IntelliJ Online Hilfe \footnote{IntelliJ Configuring Module Dependencies and Libraries:  \url{http://www.jetbrains.com/idea/webhelp/configuring-module-dependencies-and-libraries.html}} ist eine ausführlichere Beschreibung zu finden.
+In der IntelliJ Online Hilfe\footnote{IntelliJ -- Configuring Module Dependencies and Libraries:  \url{http://www.jetbrains.com/idea/webhelp/configuring-module-dependencies-and-libraries.html}} ist eine ausführlichere Beschreibung zu finden.
 
 \subsection{Bekannte Einschränkungen}
 Der gegenwärtige Stand der Bibliothek enthält einige Einschränkungen bei der Nutzung. 
 Einerseits sind die Aufnahme von Videos und Screenshots, basierend auf nativen Funktionen mit Root-Zugriff zwar implementiert und getestet, allerdings nicht vollständig in den Gesamtablauf eingebunden und können entsprechend nicht beim Testen von Applikationen genutzt werden.
-%TODO: Entfernen wenn doch noch implementiert
 Auch der Wechsel von Activities wird aktuell noch nicht voll unterstützt.
 Wenn keine Activity der Testanwendung mehr im Vordergrund ist wird zwar die Aufnahme nach einem Timeout gestoppt, beim Wechsel in eine andere Activty der Testapplikation wird diese nicht weiter aufgezeichnet.
 Nur die Video- und Audioaufzeichnung im Hintergrund wird fortgesetzt, der Bildschirminhalt wird nicht weiter aufgezeichnet.
@@ -308,7 +368,7 @@ Auch wenn Benutzereingaben auf den Aufnahmen vom Bildschirminhalt visualisiert w
 Anhand von statistischen Analysen kann z.B. herausgefunden werden, dass Testpersonen Reaktionen auf Gesten erwarten, die nicht implementiert wurden.
 Zusätzlich können Zeitabstände zwischen einzelnen Eingaben ausgewertet und interpretiert werden, um herauszufinden wie leicht verständlich Benutzeroberflächen durch Testpersonen wahrgenommen werden.
 
-\subsection{Benutzeroberfläche und Interaktion}
+\subsubsection{Benutzeroberfläche und Interaktion}
 Bisher werden Testpersonen nur wenig Möglichkeiten geboten Aufgaben nachzuverfolgen oder nachzuschlagen.
 Beim Start einer Session werden diese Angezeigt, können aktuell, im Verlauf der Datenerfassung, allerdings nicht noch einmal aufgerufen werden.
 Auch das Layout und Design der Benutzeroberfläche können weiter verbessert werden.
