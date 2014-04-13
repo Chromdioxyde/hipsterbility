@@ -36,8 +36,6 @@ public class HipsterbilityService extends Service {
         super.onCreate();
         context = getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //TODO: remove after testing
-//        startActivity(intent);
         createTestingNotification();
     }
 
@@ -48,7 +46,6 @@ public class HipsterbilityService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //TODO: shutdown Service by intent
         String action = intent.getAction();
         if (action == null) {
             createTestingNotification();
