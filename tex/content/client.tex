@@ -1,49 +1,55 @@
 \section{Android-Client\label{sec:android_client}}
 
-In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. Zur Entwicklung wurde die plattformübergreifende IDE \emph{IntelliJ Idea}\footnote{IntelliJ Idea: \url{http://www.jetbrains.com/idea/}} verwendet.
+In diesem Abschnitt wird die Entwicklung der Android-Bibliothek beschrieben. 
+Zur Entwicklung wurde die plattformübergreifende IDE \emph{IntelliJ Idea}\footnote{IntelliJ Idea: \url{http://www.jetbrains.com/idea/}} verwendet.
 
-Alternativ kann auch die offizielle Anroid \ac{IDE}, \emph{Android Studio}\footnote{Android Studio: \url{http://developer.android.com/sdk/installing/studio.html}}, verwendet werden, welches auf der \emph{Community Edition} von \emph{IntelliJ Idea} basiert, sich zum aktuellen Zeitpunkt jedoch nur in einer \emph{early access preview} verfügbar ist.
+Alternativ kann auch die offizielle Android \ac{IDE}, \emph{Android Studio}\footnote{Android Studio: \url{http://developer.android.com/sdk/installing/studio.html}}, verwendet werden, welche auf der \emph{Community Edition} von \emph{IntelliJ Idea} basiert, zum aktuellen Zeitpunkt jedoch nur in einer \emph{early access preview} verfügbar ist.
 Die Projektdateien sind untereinander kompatibel.
 
 Für UML-Diagramme wird die quelloffene, Eclipse basierte, Modellierungssoftware \emph{modelio}\footnote{modelio: \url{http://www.modelio.org/}} genutzt.
 
-Screenshots und Anleitungen beziehen sich diesbezüglich auf diese Software. Konfigurationen und Einstellungen können sich zu anderen IDEs unterscheiden.
+Screenshots und Anleitungen beziehen sich diesbezüglich auf diese Software. 
+Konfigurationen und Einstellungen können sich zu anderen IDEs unterscheiden.
 Die Quellen zu den Projekten befinden sich im Github-Repository im Unterordner \texttt{client}.
 
 Als Hilfen für die Implementierung dienten hauptsächlich das Buch \citetitle{android4} von \citeauthor*{android4}, sowie einige Tutorials von \citeauthor*{androidvogella}\footnote{\citeauthor*{androidvogella}: \url{http://www.vogella.com/}}.
-Außerdem wurden für spezielle Probleme Lösungen Antworten und Quelltextauszüge von der Frage-Antwort-Website StackOverflow\footnote{StackOverflow: \url{http://stackoverflow.com/}} genutzt.
+Außerdem wurden für spezielle Probleme Lösungen, Antworten und Quelltextauszüge von der Frage-Antwort-Website StackOverflow\footnote{StackOverflow: \url{http://stackoverflow.com/}} genutzt.
 Diese sind in den Kommentaren in den Quelltexten der jeweiligen Klassen vermerkt.
 
 
 \subsection{Ziele der Implementierung}
 Bei der Konzeption und Entwicklung der Android Bibliothek wurden mehrere Ziele verfolgt.
-Das Hauptziel ist die Erstellung einer Bibliothek, die sich leicht in Anwendungen integrieren lässt und die Funktionen aufwändiger Mobilgeräte-\ac{UX}-Testaufbauten mit externen Kameras, Mikrofonen etc. ersetzt.
+Das Hauptziel ist die Erstellung einer Bibliothek, die sich leicht in Anwendungen integrieren lässt und die Funktionen aufwändiger Mobilgeräte-Usability-Testaufbauten mit externen Kameras, Mikrofonen etc. ersetzt.
 Dazu sollen die technischen Möglichkeiten moderner Endgeräte genutzt werden.
 Viele Smartphones und Tablets verfügen über eine Frontkamera für Videotelefonie, ein eingebautes, hochempfindliches, Mikrofon für (Freisprech-)Telefonie und Mehrkernprozessoren für Multitasking.
 
-Diese Eigenschaften sollen genutzt werden um klobige Testaufbauten zu ersetzen. Deren Funktionalität besteht meist aus dem Aufzeichnen von Mimik und Sprache der Testperson, sowie Inhalt des Bildschirms und Interaktion mit dem Endgerät bzw. der Applikation.
-Unter der Prämisse, dass moderne Smartphones und Tablets die nötigen Hard- und Softwarevoraussetzungen erfüllen soll nun eine Software Lösung implementiert werden, um die zuvor genannten Funktionen abzubilden.
+Diese Eigenschaften sollen genutzt werden um klobige Testaufbauten zu ersetzen. 
+Deren Funktionalität besteht meist aus dem Aufzeichnen von Mimik und Sprache der Testperson, sowie Inhalt des Bildschirms und Interaktion mit dem Endgerät bzw. der Applikation.
+Unter der Prämisse, dass moderne Smartphones und Tablets die nötigen Hard- und Softwarevoraussetzungen erfüllen soll nun eine Software-Lösung implementiert werden, um die zuvor genannten Funktionen abzubilden.
 
 
 \subsection{Verwendete Bibliotheken von Drittanbietern}
 Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.4.2} werden die folgenden externe Bibliotheken eingesetzt:
 \begin{description}
 	\item[Android Asynchronous Http Client\footnotemark] \footnotetext{Android Asynchronous Http Client: \url{http://loopj.com/android-async-http/}} 
-	Ein Callback-basierter HTTP Client, aufbauend auf Apache HTTP\footnote{Apache HTTP: \url{http://hc.apache.org/httpcomponents-client-ga/}} Bibliotheken. Diese quelloffene Android Bibliothek bietet Klassen und Methoden für asynchrone HTTP Aufrufe und wird auch in großen Projekten wie \emph{Instagram} oder \emph{Pinterest} eingesetzt. Die zusätzliche Abstraktionsschicht übernimmt die Fehlerbehandlung, wiederholte Verbindungsversuche und das übertragen von großen Datenmengen auf einfach anzuwendende Weise. Das Projekt unter der Apache License, Version 2.0\footnote{Apache License 2.0: \label{ftn:apache_license} \url{http://www.apache.org/licenses/LICENSE-2.0}}, veröffentlicht und kann unter deren Bedingungen frei genutzt werden.
+	Ein Callback-basierter HTTP Client, aufbauend auf Apache HTTP\footnote{Apache HTTP: \url{http://hc.apache.org/httpcomponents-client-ga/}} Bibliotheken. Diese quelloffene Android Bibliothek bietet Klassen und Methoden für asynchrone HTTP Aufrufe und wird auch in großen Projekten wie \emph{Instagram} oder \emph{Pinterest} eingesetzt. 
+	Die zusätzliche Abstraktionsschicht übernimmt die Fehlerbehandlung, wiederholte Verbindungsversuche und das übertragen von großen Datenmengen auf einfach anzuwendende Weise. 
+	Das Projekt unter der Apache License, Version 2.0\footnote{Apache License 2.0: \label{ftn:apache_license} \url{http://www.apache.org/licenses/LICENSE-2.0}}, veröffentlicht und kann unter deren Bedingungen frei genutzt werden.
 	\item[Google GSON\footnotemark] \footnotetext{Google GSON: \url{https://code.google.com/p/google-gson/}}
 	Der Datenabruf vom Server erfolgt mittels \ac{JSON}-Objekte im HTML Body. Um diese Objekte schnell und einfach in Java Objekte umzuwandeln bietet GSON entsprechende Klassen an, die das Implementieren von eigenen Parsern etc. überflüssig macht.
 	Die quelloffenen, universell einsetzbare, Java Bibliothek wird ebenfalls unter der Apache License, Version 2.0\footref{ftn:apache_license} veröffentlicht.
 \end{description}
-Alle weiteren bisher benötigten Funktionen werden vom integrierten Android Bibliotheken bereitgestellt.
+Alle weiteren bisher benötigten Funktionen werden vom Android-Bibliotheken des \ac{SDK} bereitgestellt.
 
 \subsection{Bibliotheksmodul}
-Zur Entwicklung der Bibliothek wurden zwei Projekte verwendet - Einmal das Projekt für die Bibliothek selbst und weiterhin ein Android-Projekt zum Testen der Funktionen während der Entwicklung. 
+Zur Entwicklung der Bibliothek wurden zwei Projekte verwendet. 
+Einmal das Projekt für die Bibliothek selbst und weiterhin ein Android-Projekt zum Testen der Funktionen während der Entwicklung. 
 
-Ziel der Entwicklung ist ein funktionsfähiger Prototyp, in welchem geplante Kernfunktionen implementiert sind.
+Ziel der Entwicklung ist ein funktionsfähiger Prototyp, in welchem die wichtigsten Kernfunktionen implementiert sind.
 Die vorliegende Implementierung ist als \emph{Proof of Concept} anzusehen und weder vollständig, noch frei von Fehlern und Bugs.
 
 \subsubsection{Testapplikation}
-Für die Entwicklung und das Testen der Bibliothek wird eine Applikation benötigt in die diese eingebunden wird.
+Für die Entwicklung und das Testen der Bibliothek wird eine Wirts-Applikation benötigt in die diese eingebunden wird.
 Dazu wurde eine kleine Testapplikation entwickelt, die verschiedene \ac{UI}-Elemente enthält.
 Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen des Android SDK zusammen \footnote{Android Building Blocks: \url{http://developer.android.com/design/building-blocks/index.html}}:
 \begin{itemize}
@@ -54,9 +60,9 @@ Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen
 	\item Dialoge
 	\item Toasts.
 \end{itemize}
-Anfangs bestand die Testapplikation aus einer einzigen Activity und wurde im Verlauf des Projekts erweitert.
+Anfangs bestand die Testapplikation aus einer einzigen \texttt{Activity} und wurde im Verlauf des Projekts erweitert.
 In Anhang \ref{anhang:test_app_screens} sind die einzelnen Activities der Testapplikation dargestellt.
-Ausgehend von der Haupt-Activity (grau umrandet) lässt sich eine Liste (blau), ein Dialog (grün), ein WebView (violet) und eine einfache Activtiy bestehend aus zwei Fragmenten (rot) öffnen.
+Ausgehend von der Haupt-Activity (grau umrandet) lässt sich eine Liste (blau), ein Dialog (grün), ein WebView (violet) und eine einfache \emph{Activtiy} bestehend aus zwei Fragmenten (rot) öffnen.
 Dies reizt zwar nicht die gesamte Palette an Gestaltungsmöglichkeiten aus, reicht jedoch für erste Tests aus.
 
 \subsubsection{Monolithischer Wrapper\label{sec:monolithischer_wrapper}}
@@ -83,6 +89,8 @@ Jedes Element hat eine boolsche Variable \texttt{enabled}.
 Hat diese den Wert \texttt{true}, wird die entsprechende Funktion aktiviert.
 Die aktivierten Funktionen entscheiden in ihrer Kombination, welche konkrete Implementierung genutzt wird (siehe Abschnitt \ref{sec_module}).
 
+\pagebreak
+
 \subsection{Module zur Datenerfassung \label{sec:module}}
 Primärziel der Android Bibliothek ist das Sammeln von Daten, die bei der Interaktion mit der zu testenden Anwendung anfallen.
 Angelehnt an gängige Testmethoden (siehe Abschnitt \ref{sec:testmethoden}) wird ein beispielhafter Testaufbau mit folgenden Elementen abgebildet:
@@ -92,7 +100,7 @@ Angelehnt an gängige Testmethoden (siehe Abschnitt \ref{sec:testmethoden}) wird
 	\item Abgreifen des Bildschirminhalts mit Visualisierung von Benutzereingaben.
 \end{enumerate}
 
-\begin{wrapfigure}[16]{l}{0.5\textwidth}
+\begin{wrapfigure}[21]{l}{0.5\textwidth}
 \includegraphics[width=\linewidth]{img/modules_Class_diagram}
 \caption{Klassendiagramm des Pakets \mbox{\texttt{modules}}.}
 \label{fig:modules_class_diagram}
@@ -200,8 +208,6 @@ Bei einem, durch Benutzereingaben ausgelöstem, \emph{MotionEvent} wird die übe
  \texttt{ACTION\_MOVE} beschreibt einen Teil einer Geste und \texttt{ACTION\_UP} beschreibt deren Ende.
  Die Koordinaten der \emph{MotionEvents} werden so lange gesammelt, wie die Geste andauert, und danach an die Methode \texttt{takeScreenshot} übergeben, in welcher diese zusätzlich auf das \texttt{Canvas} Objekt, als rote Punkte,  gezeichnet werden.
 
-
-
 \subsection{Benutzeroberfläche}
 \begin{minipage}[t]{0.45\linewidth}
 	\centering
@@ -216,8 +222,9 @@ Bei einem, durch Benutzereingaben ausgelöstem, \emph{MotionEvent} wird die übe
 \end{minipage}
 
 % Figure verschoben
+\pagebreak
 
-\begin{wrapfigure}[30]{l}{0.45\textwidth}
+\begin{wrapfigure}[33]{l}{0.45\textwidth}
 	\centering
 	\includegraphics[width=\linewidth]{img/screen_settings}
 	\captionof{figure}{SettingsActivity Screenshot} \label{fig:screen_settings}
@@ -293,22 +300,15 @@ Im Fall eines Fehlers wird dieser dem Benutzer entweder durch ein \texttt{Toast}
 
 \subsection{Einbinden der Bibliothek in eigene Anwendungen}
 Die Bibliothek kann auf zwei Arten in bestehende -- und neue -- Projekte eingebunden werden.
-Zum einen kann sie als zusätzliches Modul hinzugefügt werden (\textbf{File | Import Module...}), wobei zu beachten ist, dass in den Moduleinstellungen (\textbf{File | Project Structure...}), nach dem Import, der Haken \texttt{Library module} gesetzt ist (siehe Abbildung \ref{fig:screen_intellij_library_module}).
-\begin{figure}[htb]
-\includegraphics[width=\linewidth]{img/screen_intellij_library_module}
-\caption{Library module in IntelliJ IDEA aktivieren (Screenshot)}
-\label{fig:screen_intellij_library_module}
-\end{figure}
+Zum einen kann sie als zusätzliches Modul hinzugefügt werden (\textbf{File | Import Module...}), wobei zu beachten ist, dass in den Moduleinstellungen (\textbf{File | Project Structure...}), nach dem Import, der Haken \texttt{Library module} gesetzt ist (siehe Abbildung \ref{fig:screen_intellij_library_module} im Anhang \ref{apdx:intellij}).
+
 
 Auch die Einstellungen für die zu testende Applikation sollten ggf. angepasst werden, da die Bibliothek eine eigene \texttt{AndroidManifest.xml} Datei mitbringt.
-Das aktivieren des Zusammenfügens der Maifeste (Abbildung \ref{fig:screen_intellij_maifest_merging}) sorgt für ein automatisches Zusammenfassen der verschiedenen Manifest-Dateien.
-\begin{figure}[htb]
-\includegraphics[width=\linewidth]{img/screen_intellij_manifest_merging}
-\caption{Manifest merging in IntelliJ IDEA aktivieren (Screenshot)}
-\label{fig:screen_intellij_maifest_merging}
-\end{figure}
+Das aktivieren des Zusammenfügens der Maifeste (Abbildung \ref{fig:screen_intellij_maifest_merging} im Anhang \ref{apdx:intellij}) sorgt für ein automatisches Zusammenfassen der verschiedenen Manifest-Dateien.
 
-Die Bibliothek benötigt für eine korrekte Ausführung die folgenden \emph{Permissions}\footnote{Android Permissions: \url{http://developer.android.com/guide/topics/security/permissions.html}} (\texttt{android.permission.*}):
+
+
+Die Bibliothek benötigt für eine korrekte Ausführung die folgenden \emph{Permissions}\footnote{Android Permissions: \url{http://developer.android.com/guide/topics/security/permissions.html}}\\ (\texttt{android.permission.*}):
 
 \begin{description}
 	\item[\texttt{WRITE\_EXTERNAL\_STORAGE}]
@@ -358,7 +358,7 @@ Bei diesem würde ein Teil des Bildbereichs abgeschnitten und schwarze Balken ei
  
  
 \subsection{Ausblick und Weiterentwicklung}
-
+\label{sec:client_offene_punkte}
 \subsubsection{Application Lifecycle}
 Neben den Interaktionen des Benutzers mit einzelnen Activities oder Bildschirmelementen kann auch eine Auswertung des Lebenszyklus der Applikation und enthaltener Activities Aufschlüsse liefern.
 So kann beispielsweise durch das (automatische) statistische Auswerten von entsprechenden Logdateien analysiert werden, in welcher Häufigkeit und Reihenfolge Activities aufgerufen werden, oder ob einzelne gar nicht gestartet werden, weil z.B. ein Button nicht funktioniert oder Testpersonen die Funktion nicht finden.
@@ -382,7 +382,7 @@ Die Speicherung des Passworts auf dem Endgerät erfolgt durch das Android Perefe
 Um die Kommunikation sicherer zu gestalten sollte die Kommunikation verschlüsselt werden, z.B. mittels \ac{SSL} bzw. \ac{TLS}, da das Android Betriebssystem Bibliotheken für diese Verfahren mitbringt.
 Zur sichereren Speicherung von Benutzername und Passwort könnte z.B. die Android interne Kontenverwaltung genutzt werden.
 
-\subsection{Kommunikation}
+\subsubsection{Kommunikation}
 Bisher werden Sessions, Todos und Tasks beim Starten der Bibliothek vom Server abgerufen und nicht lokal zwischengespeichert. 
 Zwischen dem Starten der Aufzeichnung und dem Hochladen der gesammelten Daten wird keine Verbindung zum Server hergestellt.
 Denkbar wäre eine Zwischenspeicherung der Daten für den Offline Einsatz.

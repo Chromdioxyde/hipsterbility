@@ -39,7 +39,7 @@ Für gewöhnlich dort, wo der Arbeitsplatz einen hohen Einfluss auf die Benutzun
 Zum Beispiel Bankautomaten an öffentlichen Plätzen. 
 Die Ausstattung ist dementsprechend günstiger. 
 
-\subsection{Exkurs: Thinking aloud\label{sec:thinking_aloud}}
+\subsubsection{Exkurs: Thinking aloud\label{sec:thinking_aloud}}
 Neben den zuvor genannten Methoden gehört auch die \emph{Thinking aloud} zu den gängigen Usability-Tests.
 Bei der Methode soll die Testperson laufend die Gedanken aussprechen die ihr gerade in den Sinn kommen, während sie das zu testende System benutzt.
 Dies führt dazu, dass fehlerhafte Konzepte und Fehleinschätzungen identifiziert werden können, indem die Interpretation des Systems durch die Testperson ausgewertet wird.
@@ -91,7 +91,7 @@ Entweder von Testnutzern, dem Projektmanagement oder gar von Entwicklern selbst.
 
 Die Anschaffung evtl. teurer Laborausstattung entfällt, da die Sensoren im mobilen Endgerät vorhanden sind und vom Rahmenwerk genutzt werden können. 
 
-\subsubsection{Zielsetzung \label{sec: zielsetzung}}
+\subsection{Zielsetzung \label{sec: zielsetzung}}
 
 Im Rahmen dieser Arbeit wurde ein Framework, bzw. Programmierbibliothek entwickelt, welches die Schwächen des Usability-Tests umgeht. 
 Vor allem der Einsatz zusätzlicher Geräte entfällt, da die integrierten Module (Kamera, Mikrofon, Touch-Display) verwendet werden. 
@@ -104,5 +104,17 @@ Folglich wird die Programmierbibliothek nur für Android als native Anwendungsbi
 
 Neben dem Aufzeichnen von Medien, Gesten und Touch-Eingaben müssen diese weiter verarbeitet werden. 
 Es ist unvorteilhaft die Verarbeitung am mobilen Geräten durchzuführen, da die zu testende Anwendung oder das gesamte System unresponsiv werden könnten. 
-Stattdessen wurde eine Client-Server-Architektur implementiert, welche über HTTP mit einer RESTful-API kommuniziert. 
+Stattdessen wurde eine Client-Server-Architektur implementiert, welche über \ac{HTTP} mit einer RESTful-API kommuniziert. 
 
+\subsection{Begriffe}
+Im Verlauf der Ausarbeitung wurden einige Begriffe häufig verwendet und sollen nun kurz beschrieben werden.
+Die Android-Bibliothek wird synonym als \enquote{Bibliothek} bezeichnet.
+Testperson, Testbenutzer oder Tester werden auch synonym verwedet.
+%TODO: ggf ergänzen
+Die Komponenten der Usability-Testsitzungen werden wie folgt verwendet:
+\begin{description}
+	\item[Session] bezeichnet ein Testsitzung, sie enthält Standardaufgaben (Todos), die vom Probanden durchgeführt werden sollen. Eine Session wird einem Testbenutzer zugeordnet.
+	\item[Todo] wird eine Standardaufgabe genannt. Eine Session kann mehrere Todos enthalten, welche wiederum in kleinere Teilaufgaben gegliedert werden (Task).
+	\item[Task] ist die kleinste definierte Aufgabeneinheit. Ein Todo kann mehrere Tasks enthalten, die vom Testbenutzer ausgeführt werden soll.
+\end{description}
+Weiterhin werden Screenshots auch als Bildschirmfotos und \enquote{Captures} bezeichnet. 

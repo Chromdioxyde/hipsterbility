@@ -2,7 +2,7 @@
 \label{server}
 Wie in Abschnitt \ref{app_architecture} beschrieben, müssen die aufgezeichneten Daten der Clientbibliothek weiter verarbeitet werden. % TODO nochmal etwas genauer
 
-Im Folgenden werden die serverseitigen Komponenten, virtuelle Maschine, Datenbank und HTTP-Server, vorgestellt. 
+Im Folgenden werden die serverseitigen Komponenten, virtuelle Maschine, Datenbank und \ac{HTTP}-Server, vorgestellt. 
 
 
 
@@ -15,30 +15,47 @@ Als Betriebssystem für den Server dient ein Debian in der Version 7.0. Der Masc
 Folgende Software wurde für den Entwicklungsprozess verwendet. 
 \begin{description}
 	\item[OpenSSH-Server\footnotemark]\footnotetext{http://www.openssh.org/} 
-Das Programmpaket für die \emph{Secure Shell} beinhaltet alle Softwaretools um Dateien zwischen Host- und Gast- System auszutauschen (scp, sftp) oder sich darauf zu verbinden (ssh). Das Softwarepaket ist notwendig um beispielsweise Vagrant (siehe Abschnitt \ref{sec:Vagrant}) betreiben zu können. 
+	Das Programmpaket für die \emph{Secure Shell} beinhaltet alle Softwaretools um Dateien zwischen Host- und Gast- System auszutauschen (scp, sftp) oder sich darauf zu verbinden (ssh). 
+	Das Softwarepaket ist notwendig um beispielsweise Vagrant (siehe Abschnitt \ref{sec:Vagrant}) betreiben zu können. 
 
 	\item[MySQL Server\footnotemark]\footnotetext{http://www.mysql.de/products/community/}
-Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Das Projekt nutzt die Community-Server-Edition.
+	Zur persistenten Speicherung der Nutzdaten wird MySQL verwendet. MySQL bietet sich an, da es ausreichende Verbreitung und Sicherheit bietet, sowie von Oracle als kommerzielles, wie auch Open Source-Derivat entwickelt wird. Dieses Projekt nutzt die Community-Server-Edition.
 	
 	\item[Node.js\footnotemark und NPM\footnotemark]\footnotetext{http://nodejs.org/}\footnotetext{https://www.npmjs.org/}
-Node.js, kurz Node, ist eine Platform basierend auf der JavaScript Laufzeitumgebung des Browsers Chrome. Die Intension von Node ist es schnelle, skalierbare Netzwerkanwendung entwickeln zu können. Dabei wird ein ereignisgetriebenes, nicht blockierendes Eingabe-/Ausgabesystem verwendet. Der Node Package Manager, kurz NPM, wird verwendet um weitere Abhängigkeiten der Anwendung zu verwalten.
+	Node.js, kurz Node, ist eine Plattform basierend auf der JavaScript Laufzeitumgebung des Browsers Chrome. 
+	Die Intention von Node ist es schnelle, skalierbare Netzwerkanwendung entwickeln zu können.
+	Dabei wird ein ereignisgetriebenes, nicht blockierendes Eingabe-/Ausgabesystem verwendet.
+	Die von Node verwendete Paketverwaltung, kurz \emph{npm}, wird verwendet um weitere Abhängigkeiten der Anwendung zu verwalten.
 	
 \end{description}
 
 \subsubsection{Vagrant \label{sec:Vagrant}}
 \label{vagrant}
-Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. Dabei wird Virtual Box\footnote{https://www.virtualbox.org/} als Virtualisierungssoftware eingesetzt. Aber auch VMware wird unterstützt. 
+Um die Bereitstellung der Serverumgebung zu vereinfachen wurde die virtuelle Maschine mittels Vagrant\footnote{Vagrant: http://www.vagrantup.com/} konfiguriert. 
+Vagrant ist ein Kommandozeilenwerkzeug um schnell reproduzierbare Entwicklungsumgebungen zu schaffen und diese später zu verteilen oder zu exportieren. 
+Dabei wird Virtual Box\footnote{https://www.virtualbox.org/} als Virtualisierungssoftware eingesetzt. 
+Alternativ wird auch VMware unterstützt. 
 
-Die eigene VM wird mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, wie zum Beispiel Portweiterleitungen. Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. 
+Die eigene \ac{VM} wird mittels einer VM-Schablone (die eigentliche VM) und einer Konfigurationsdatei geladen, die alle Eigenschaften der VM bereithält, wie zum Beispiel Portweiterleitungen. 
+Die Schablone kann demnach bereits einige Standardsoftwarepakete beinhalten. 
 
 Auf dem Host-System können die gewohnten Entwicklungswerkzeuge eingesetzt werden, da der Ordner, indem Vagrant konfiguriert wurd, mit dem Ordner /Vagrant auf dem Gast-System synchronisiert wird. 
 
-Auch die Entwicklung von Software mittels einer Vagrant VM ergibt einen gut zu bedienenden Arbeitsfluss. So ist es beispielsweise möglich mittels \textbf{vagrant up} und \textbf{vagrant ssh} die Maschine zu starten und darauf zu verbinden, ohne dabei extra overhead, wie zum Beispiel Fenster, zu erzeugen. Die SSH-Credentials folgen dem \textit{Convention over Configuration}-Paradigma. Username, sowie Passwort lauten standardmäßig vagrant. 
+Auch die Entwicklung von Software mittels einer Vagrant VM ergibt einen gut zu bedienenden Arbeitsfluss. 
+So ist es beispielsweise möglich mittels \textbf{vagrant up} und \textbf{vagrant ssh} die Maschine zu starten und darauf zu verbinden, ohne dabei extra \enquote{overhead}, wie zum Beispiel Fenster, zu erzeugen. 
+Die SSH-Credentials folgen dem \textit{Convention over Configuration}-Paradigma. 
+Benutzername, sowie Passwort lauten standardmäßig vagrant. 
 
 \subsection{Datenbank}
 
 \subsubsection{Datenbank-Modell}
-Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung \ref{figure-db-model} zeigt das Ergebnis.
+Das Datenbankmodell wurde, den Anforderungen entsprechend, mit Hilfe des MySQL Workbench erstellt.
+Einige der Tabellen dienen zum Skizzieren möglicher Funktionalität und wurden noch nicht vollständig vom Datenmodell in die Anwendungen umgesetzt (\texttt{devices, apps, logs, audios}).
+Bei späterer Erweiterung der Applikationen um o.g. Daten muss das Datenmodell nicht verändert werden.
+
+Die Abbildung \ref{figure-db-model} zeigt das Ergebnis der Umsetzung des logischen Datenmodells in MySQL Datentypen.
+Da in MySQL der kein Boolean-Datentyp vorhanden ist, wurde an dessen Stelle \texttt{TINYINT} verwendet, welcher entsprechend interpretiert wird.
+
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=\linewidth,keepaspectratio]{img/db_model.png}
@@ -46,11 +63,20 @@ Das Datenbankmodell wurde mit Hilfe des MySQL Workbench erstellt. Die Abbildung 
 	\label{figure-db-model}
 \end{figure}
 
+Für das Erstellen von Tabellen und Beziehungen wurde ein \ac{SQL}-Skript erstellt (\texttt{init.sql}).
+Diese ist auch im Installationsskript \texttt{install.sh} enthalten.
+Zu Demonstrationszwecken wurde außerdem ein Skript mit Beispieldaten (hipsterbility\_test\_data.sql) hinzugefügt.
+Beide Dateien sind im Ordner \texttt{serverside} zu finden.
+
 
 \subsection{HTTP-Server und Middleware}
-Die serverseitige Logik wurde mit dem Express-Framework\footnote{http://expressjs.com/} umgesetzt. Folglich wurde serverseitig Javascript eingsetzt. Javascript eigenet sich sehr gut für Programmierschnittstellen und HTTP-Anfragen. Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
+Die serverseitige Logik wurde mit dem Express-Framework\footnote{http://expressjs.com/} umgesetzt. 
+Folglich wurde für die Programmierung Javascript eingesetzt. Die Sprache eignet sich sehr gut für Programmierschnittstellen und HTTP-Anfragen. 
+Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
 
-Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit. Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. Eine Express-Anwendung stellt Pfade, sog. \emph{routes}, zur Verfügung auf die der HTTP-Server reagiert. Im Listing wird Zeile 23 wird eine solcher Pfad angelegt. 
+Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit.
+Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. 
+Eine Express-Anwendung stellt Pfade, sog. \emph{routes}, zur Verfügung auf die der HTTP-Server reagiert. Im Listing wird Zeile 23 wird eine solcher Pfad angelegt. 
 
 \begin{lstlisting}[label=minimal_node_http_server,language=Java, caption=Minimaler Node-HTTP-Server]
 /**
@@ -84,11 +110,15 @@ http.createServer(app).listen(app.get('port'), function(){
 });
 \end{lstlisting}
 
-Im Projektordner befindet sich der Unterordner \textbf{serverside}. In diesem finden sich alle Serverdateien. Die Baumstruktur aus Abbildung \ref{fig:server-tree} zeigt die Ordnerhierachie des Projekts.
+Im Projektordner befindet sich der Unterordner \textbf{serverside}. In diesem finden sich alle Serverdateien. 
+Die Baumstruktur aus Abbildung \ref{fig:server-tree} zeigt die Ordnerhierachie des Projekts.
 
 Im Ordner \textit{node\_modules} befinden sich alle weiteren Module die für die Serveranwendung benötigt und durch NPM verwaltet werden (Details zu den Modulen finden sich im Abschnitt \ref{sec:node-mudules}). 
 
-Im Unterordner \textit{controllers} werden die Web- und API-Routen-Handler gehalten. Diese werden in \textbf{app.js} als Callback-Funktionen aufgerufen (der Abschnitt \ref{sec: api} beschreibt die Routen detailliert). Im Ordner \textit{public} werden alle Dateien für die Browseranwendung (clientseitiges Javascript, CSS, Bilder und Schriftarten) angelegt und gehalten. Letztlich werden die HTML-Views im Unterordner \textit{views} gehalten. 
+Im Unterordner \textit{controllers} werden die Web- und API-Routen-Handler abgelegt. 
+Diese werden in \textbf{app.js} als Callback-Funktionen aufgerufen (der Abschnitt \ref{sec: api} beschreibt die Routen detailliert). 
+Im Ordner \textit{public} werden alle Dateien für die Browseranwendung (clientseitiges Javascript, CSS, Bilder und Schriftarten) angelegt und gehalten. 
+Letztlich werden die HTML-Views im Unterordner \textit{views} abgelegt. 
 
 Die Ordnerstruktur entspricht weitestgehend der Standardkonfiguration einer Express-Web-Anwendung.
 
@@ -118,11 +148,14 @@ Der Node-Server kann mittels des Befehls \textbf{node app.js}, bzw. \textbf{npm 
 
 \subsubsection{Node Module \label{sec:node-mudules}}
 
-Wie im Abschnitt \ref{sec:vm-config} beschrieben werden alle Abhängigkeit für den Node-Server mittels NPM verwaltet. NPM funktioniert wie andere Paketmanager. Auf Im Normalfall wird NPM mit Node ausgeliefert und installiert. 
+Wie im Abschnitt \ref{sec:vm-config} beschrieben werden alle Abhängigkeit für den Node-Server mittels \emph{npm} verwaltet. 
+\emph{npm} funktioniert ähnlich wie andere Paketmanager. 
+Im Normalfall wird \emph{npm} mit Node ausgeliefert und installiert. 
 
-Im Ordner \textit{serverside} befindet sich die Datei \emph{package.json}. Diese Datei enthält alle benötigten Abhängigkeiten im JSON\footnote{http://www.json.org/}-Format. Das Listing \ref{node-packages} zeigt das Paket-JSON-Objekt. Neben den Projektinformationen beinhaltet es ein weiteres Objekt, \emph{dependencies}. 
+Im Ordner \textit{serverside} befindet sich die Datei \emph{package.json}. Diese Datei enthält alle benötigten Abhängigkeiten im JSON\footnote{http://www.json.org/}-Format. Das Listing \ref{node-packages} zeigt das Paket-JSON-Objekt. 
+Neben den Projektinformationen beinhaltet es ein weiteres Objekt, \emph{dependencies}. 
 
-In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Beispiel das Express-Framework, enthalten. Jeder Eintrag besteht aus dem Namen des Moduls und der gewünschten Version. Das \emph{*} bedeutet das die aktuellste Version genutzt werden soll. Mittels des Befehls \textbf{npm install} im Ordner \textit{serverside} können die Abhängigkeiten installiert werden. 
+In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Beispiel das Express-Framework, enthalten. Jeder Eintrag besteht aus dem Namen des Moduls und der gewünschten Version. Das \textbf{*} bedeutet das die aktuellste Version genutzt werden soll. Mittels des Befehls \textbf{npm install} im Ordner \textit{serverside} können die Abhängigkeiten installiert werden. 
 
 \begin{lstlisting}[label=node-packages,language=Java, caption=Abhängigkeiten der Node-Anwendung]
 {
@@ -147,43 +180,57 @@ In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Be
 \end{lstlisting}
 
 \subsection{Webbasiertes Verwaltungstool}
+\label{sec:web_verwaltung}
+Nach Abschnitt \ref{sec: zielsetzung} ist es Ziel eine zentrale Komponente zur Verfügung zu stellen mit der Tests verwaltet werden können. 
+Zudem wurde ein rudimentäres Login-System implementiert. 
+An dieser Stelle sei gesagt, dass die webbasierte Verwaltung nur skizziert ist. 
+Eine vollständige, auf Sicherheit geprüfte und nach allen heutigen Webstandards aufbauende, Webanwendung steht nicht zur Verfügung. 
+Dies ist im Rahmen dieser Semesterarbeit nicht entstanden und auch nicht das Anliegen dieser Arbeit. 
+Vielmehr handelt es sich um einen Proof-Of-Concept. 
 
-Nach Abschnitt \ref{sec: zielsetzung} ist es Ziel eine zentrale Komponente zur Verfügung zu stellen mit der Tests verwaltet werden können. Zudem wurde ein rudimentäres Login-System implementiert. An dieser Stelle sei gesagt, dass die webbasierte Verwaltung nur skizziert ist. Eine vollständige, auf Sicherheit geprüfte und nach allen heutigen Webstandards aufbauende, Webanwendung steht nicht zur Verfügung. Dies ist im Rahmen dieser Semesterarbeit nicht entstanden und auch nicht das Anliegen dieser Arbeit. Vielmehr ist es ein Proof-Of-Concept. 
+Aus Gründen der Lesbarkeit wurden die Screenshots des Verwaltungswerkzeugs in den Anhang \ref{anhang:screens-webtool} verlagert. 
 
-Aus Gründen der Lesbarkeit wurden die Screenshots des Verwaltungswerkzeugs in den Anhang verlagert. 
+Grundlegend wurden die Browserkomponenten der Web-Anwendung mittels jQuery\footnote{http://jquery.com/} und Bootstrap\footnote{http://getbootstrap.com/} erstellt.
 
-Grundlegend wurden die Browserkomponenten der Web-Anwendung mittels jQuery\footnote{http://jquery.com/} und Bootstrap\footnote{http://getbootstrap.com/}
+Die Abbildung \ref{fig: index-page} zeigt die Startseite der Anwendung. 
+Über den Link \emph{Login} kann zur Login-Maske gelangt werden, welche in Abbildung \ref{fig: login-page} zu sehen ist. 
 
-Die Abbildung \ref{fig: index-page} zeigt die Startseite der Anwendung. Über den Link \emph{Login} kann zur Login-Maske gelangt werden, welche in Abbildung \ref{fig: login-page} zu sehen ist. 
+Nach erfolgreichen Login erscheint das Dashbaord der Administration, welche zum Zeitpunkt der Abgabe keine Informationen bereitstellt. 
+Im Administrationsbereich hat der User nunmehr die Möglichkeit eine Liste der erstellten Sessions zu sehen (siehe Abbildung \ref{fig: sessions-page}) oder eine neue Session anzulegen (Abbildung \ref{fig: session-create-page}). 
 
-Nach erfolgreichen Login gelangt man auf das Dashbaord der Administration, welche zum Zeitpunkt der Abgabe keine Informationen bereitstellt. Im Administrationsbereich hat der User nunmehr die Möglichkeit eine Liste der erstellten Sessions zu sehen (siehe Abbildung \ref{fig: sessions-page}) oder eine neue Session anzulegen (Abbildung \ref{fig: session-create-page}). 
-
-In der Listenansicht der Sessions erhält der User die Möglichkeit Details zur Session anzuzeigen, welches in der Abbildung \ref{fig: session-detail-page} zu sehen ist. Ein weitere Link \emph{zum Ergebnis} öffnet die Ergebnisseite der Session (Abbildung \ref{fig: session-result-page}).
+In der Listenansicht der Sessions erhält der User die Möglichkeit Details zur Session anzuzeigen, welches in der Abbildung \ref{fig: session-detail-page} zu sehen ist. 
+Ein weitere Link \emph{zum Ergebnis} öffnet die Ergebnisseite der Session (Abbildung \ref{fig: session-result-page}).
 
 \subsubsection{Web-Routen}
 
 Dieser Abschnitt zeigt alle Routen des Express-Anwendung für die Webschnittstelle im Überblick. 
+Die jeweiligen \ac{HTTP}-Methoden (GET, PUT, POST, DELETE, ...) werden vor der Route angegeben.
 
 \begin{description}
 
-	\item[GET /] liefert die Index-Seite
-	\item[GET /login] liefert die Login-Seite
+	\item[GET /] liefert die Index-Seite.
+	\item[GET /login] liefert die Login-Seite.
 
-	\item[GET /web-auth] Umleitungsroute, ob ein User erfolgreich eingeloggt ist
-	\item[POST /web-auth] validiert das login-Formular und erstellt ggf. eine Session	
-	\item[GET /:user\_id/admin] liefert die Index-Seite nach erfolgreichen Login
-	\item[GET /:user\_id/admin/sessions] liefert die Übersichtsseite der Sessions
-	\item[GET /:user\_id/admin/sessions/new] liefert die Fomularseite zum anlegen einer neuen Session
+	\item[GET /web-auth] Umleitungsroute, ob ein User erfolgreich eingeloggt ist.
+	\item[POST /web-auth] validiert das login-Formular und erstellt ggf. eine Session.
+	\item[GET /:user\_id/admin] liefert die Index-Seite nach erfolgreichen Login.
+	\item[GET /:user\_id/admin/sessions] liefert die Übersichtsseite der Sessions.
+	\item[GET /:user\_id/admin/sessions/new] liefert die Fomularseite zum anlegen einer neuen Session.
 	\item[POST /:user\_id/admin/sessions/new] validiert das gesendete Webforumlar und legt einen neuen Eintrag in der Datenbank an.
-	\item[GET /:user\_id/admin/sessions/:session\_id] liefert die Detailseite einer Session
-	\item[GET /:user\_id/admin/sessions/:session\_id] liefert die Ergebnisseite einer Session
+	\item[GET /:user\_id/admin/sessions/:session\_id] liefert die Detailseite einer Session.
+	\item[GET /:user\_id/admin/sessions/:session\_id] liefert die Ergebnisseite einer Session.
 	
 	
 \end{description}
 
 \subsection{RESTful-API \label{sec: api}}
 
-Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbindung an die Funktionen des Servers. Dafür eignen sich APIs sehr gut. Das Express-Framework bietet sich auch dafür sehr gut an. Nachfolgend werden die API-Routen beschrieben und anschließend wird die Implementierung einer Route beispielhaft gezeigt. Sofern nicht anders angegeben sind die Antworten auf die API-Resourcen im JSON-Format. Routenteile beginnend mit einem : werden von Express als Parameter behandelt und stehen in Node als Variablen des Request-Objekts zur Verfügung. 
+Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbindung an die Funktionen des Servers. 
+Dafür eignen sich \ac{API}s sehr gut. 
+Das Express-Framework bietet sich auch dafür sehr gut an. 
+Nachfolgend werden die \ac{API}-Routen beschrieben und anschließend wird die Implementierung einer Route beispielhaft gezeigt. 
+Sofern nicht anders angegeben sind die Antworten auf die \ac{API}-Resourcen im \ac{JSON}-Format. 
+Routenteile beginnend mit einem \textbf{:} werden von Express als Parameter behandelt und stehen in Node als Variablen des Request-Objekts zur Verfügung. 
 
 \subsubsection{Sessions API}
 
@@ -199,22 +246,22 @@ Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbi
 \subsubsection{Videos API}
 
 \begin{description}
-	\item[GET /:user\_id/:session\_id/videos] liefert alle Videos einer Session
+	\item[GET /:user\_id/:session\_id/videos] liefert alle Videos einer Session.
 	
-	\item[GET /:user\_id/:session\_id/videos/:id\_videos] liefert Details zu einem Video einer Session
+	\item[GET /:user\_id/:session\_id/videos/:id\_videos] liefert Details zu einem Video einer Session.
 	
-	\item[POST /:user\_id/:session\_id/videos] sendet ein neues Video zu einer Session
+	\item[POST /:user\_id/:session\_id/videos] sendet ein neues Video zu einer Session.
 \end{description}
 
 
 \subsubsection{Captures API}
 
 \begin{description}
-	\item[GET /:user\_id/:session\_id/captures] liefert alle Screenshots einer Session
+	\item[GET /:user\_id/:session\_id/captures] liefert alle Screenshots einer Session.
 	
-	\item[GET /:user\_id/:session\_id/captures/:id] liefert Details zu einem Capture
+	\item[GET /:user\_id/:session\_id/captures/:id] liefert Details zu einem Capture.
 	
-	\item[POST /:user\_id/:session\_id/captures] sendet ein neues Capture
+	\item[POST /:user\_id/:session\_id/captures] sendet ein neues Capture.
 
 \end{description}
 
@@ -222,11 +269,11 @@ Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbi
 
 \begin{description}
 
-	\item[GET /:user\_id/:session\_id/todos] liefert alle Todo-Listen einer Session	
-	\item[GET /:user\_id/:session\_id/todos/:todo\_id] liefert Details zu einer bestimmten TODO-Liste	
-	\item[POST /:user\_id/:session\_id/todos] Sendet eine neue, leere TODO-Liste zu einer Session
+	\item[GET /:user\_id/:session\_id/todos] liefert alle Todo-Listen einer Session.
+	\item[GET /:user\_id/:session\_id/todos/:todo\_id] liefert Details zu einer bestimmten TODO-Liste.
+	\item[POST /:user\_id/:session\_id/todos] Sendet eine neue, leere TODO-Liste zu einer Session.
 	
-	\item[PUT /:user\_id/:session\_id/todos/:todo\_id] aktualisiert eine TODO-Liste
+	\item[PUT /:user\_id/:session\_id/todos/:todo\_id] aktualisiert eine TODO-Liste.
 	
 \end{description}
 
@@ -234,12 +281,12 @@ Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbi
 
 \begin{description}
 
-	\item[GET /:user\_id/:session\_id/todos/:todo\_id/tasks] aktualisiert die Liste der Tasks einer TODO	
-	\item[POST /:user\_id/:session\_id/todos/:todo\_id/tasks] sendet eine neue Task zu einer TODO
+	\item[GET /:user\_id/:session\_id/todos/:todo\_id/tasks] aktualisiert die Liste der Tasks einer TODO.
+	\item[POST /:user\_id/:session\_id/todos/:todo\_id/tasks] sendet eine neue Task zu einer TODO.
 	
-	\item[GET /:user\_id/:session\_id/todos/:todo\_id/tasks/:task\_id] liefert Details zu einer Task
+	\item[GET /:user\_id/:session\_id/todos/:todo\_id/tasks/:task\_id] liefert Details zu einer Task.
 	
-	\item[PUT /:user\_id/:session\_id/todos/:todo\_id/tasks/:task\_id] aktualisiert eine Task
+	\item[PUT /:user\_id/:session\_id/todos/:todo\_id/tasks/:task\_id] aktualisiert eine Task.
 	  
 \end{description}
 
@@ -247,22 +294,30 @@ Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbi
 % TODO: schreiben
 \subsection{Videoproduktion}
 
-Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt, um die Bilder und Videos zusammenzufügen. Weiterhin wird noch das Node Modul \emph{avconv} genutzt. 
+Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. 
+Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt, um die Bilder und Videos zusammenzufügen. 
+Weiterhin wird noch das Node Modul \emph{avconv} genutzt. 
 % TODO fertig machen. 
 % TODO Concat Listing
 % firstnumber=100
 
-Alle Daten werden am Client gesammelt und nach Beendigung einer Testsession an den Server via HTTP gesandt. Das Abschließen einer Session initiiert den Erstellungsvorgang der Videos. Die Erstellung des Ergebnisvideos geschieht in drei Teilen: 
+Alle Daten werden am Client gesammelt und nach Beendigung einer Testsession an den Server via HTTP gesandt. 
+Das Abschließen einer Session initiiert den Erstellungsvorgang der Videos. 
+Die Erstellung des Ergebnisvideos geschieht in drei Teilen: 
 
 \begin{itemize}
-	\item{Jedes Bild wird anhand des Timestamps zu einem Video bestimmter länger konvertiert und anschließend konkateniert}
-	\item{Das aufgenommene Video der Frontkamera wird in seiner Breite gedoppelt}
-	\item{Das Zwischenergebnis der Screenshots und das aufgenommene Bild werden zu einem Endergebnis verbunden. }
+	\item{Jedes Bild wird anhand des Timestamps zu einem Video bestimmter länger konvertiert und anschließend konkateniert.}
+	\item{Das aufgenommene Video der Frontkamera wird in seiner Breite gedoppelt.}
+	\item{Das Zwischenergebnis der Screenshots und das aufgenommene Bild werden zu einem Endergebnis verbunden.}
 \end{itemize}
 
-Das Listing \ref{node-imgToVideo} zeigt die Implementierung der Konvertierung von Screenshot in die einzelnen Videos. Jeder Screenshot wird mit einem timestamp als Dateinamen an den Server gesendet. Damit wird ein Screenshot einem Schlüssel-Wert-Paar in einem Array zugewiesen, welches durchlaufen wird. Es entsteht ein Video als Teilergebnis, welches nummeriert, beginnend mit eins im mpeg-Format ausgegeben wird. Ein Screenshot wird für die Länge des Timestamps wiederholt im Teilergebnis angezeigt (Zeile 117).
+Das Listing \ref{node-imgToVideo} zeigt die Implementierung der Konvertierung von Screenshot in die einzelnen Videos. 
+Jeder Screenshot wird mit einem Zeitstempel (\texttt{timestamp}) als Dateinamen an den Server gesendet. 
+Damit wird ein Screenshot einem Schlüssel-Wert-Paar in einem Array zugewiesen, welches durchlaufen wird. 
+Es entsteht ein Video als Teilergebnis, welches nummeriert, beginnend mit Eins im mpeg-Format ausgegeben wird. 
+Ein Screenshot wird für die Länge des Timestamps wiederholt im Teilergebnis angezeigt (Zeile 117).
 
-Die Variable \textbf{stream} erzeugt ein avconv-Objekt und startet den Prozess (Zeile 132). 
+Die Variable \textbf{stream} erzeugt ein \texttt{avconv}-Objekt und startet den Prozess (Zeile 132). 
 
 \begin{lstlisting}[label=node-imgToVideo,language=Java, caption=Erstellung der Videos aus Screenshots, firstnumber=110]
 for (var i = 0; i < paramDict.length; i++ ) {
@@ -295,11 +350,13 @@ for (var i = 0; i < paramDict.length; i++ ) {
 }
 \end{lstlisting}
 
-Sobald alle Teilergebnisse der Screenshots erstellt wurden, werden sie zu einem Gesamtvideo verbunden. Das Listing \ref{node-imgConcat} zeigt die Implementierung. 
+Sobald alle Teilergebnisse der Screenshots erstellt wurden, werden sie zu einem Gesamtvideo verbunden. 
+Das Listing \ref{node-imgConcat} zeigt die Implementierung. 
 
 Der Parameter \textit{concat:} erhält eine Liste mit Videopfaden die zuvor aus dem Ordner Ergebnisordner der Resultate einer Session gefiltert wurden (Zeilen 152 bis 164). 
 
-Nach erfolgreicher Erstellung ist ein Video in der Gesamtlänge der Testsession vorhanden und beinhaltet alle Touch-Eingaben am Client. Das Bild eines Touches wird solange angezeigt bis ein neuer Touch-Screenshot vorhanden ist. 
+Nach erfolgreicher Erstellung ist ein Video in der Gesamtlänge der Testsession vorhanden und beinhaltet alle Touch-Eingaben am Client. 
+Das Bild eines Touches wird solange angezeigt bis ein neuer Touch-Screenshot vorhanden ist. 
 
 \begin{lstlisting}[label=node-imgConcat,language=Java, caption=Screenshot-Videos zu einem Videos konkatenieren, firstnumber=149]
 
@@ -335,9 +392,11 @@ var stream = avconv(params);
 
 In den folgenden Schritten wird das Gesamtergebnis vorbereitet und erstellt. 
 
-Im Listing \ref{node-videoPad} wird die das Doppeln der Videobreite implementiert. Dies ist notwendig, damit das Endergebnis des Videos die richtige Größe hat und die zusammengefügten Screenshots direkt neben dem aufgenommenen Video platziert werden kann. 
+Im Listing \ref{node-videoPad} wird die das Verdoppeln der Videobreite implementiert. 
+Dies ist notwendig, damit das Endergebnis des Videos die richtige Größe hat und die zusammengefügten Screenshots direkt neben dem aufgenommenen Video platziert werden können. 
 
-Der Parameter \textbf{filter:v} erhält als Werte drei mal \textbf{transpose=1}, damit wird die Eingabe drei mal im Urhzeigersinn gedreht, da es um 90 Grad im Uhrzeigersinn gedreht am Server ankommt. Negative Werte werden von transpose nicht akzeptiert. 
+Der Parameter \textbf{filter:v} erhält als Werte drei mal \textbf{transpose=1}, damit wird die Eingabe drei mal im Urhzeigersinn gedreht, da es um 90 Grad im Uhrzeigersinn gedreht am Server ankommt. %TODO: warum 3 mal drehen wenn einmal reichen sollte? oder sind es 270 Grad?
+Negative Werte werden von \texttt{transpose} nicht akzeptiert. 
 
 \begin{lstlisting}[label=node-videoPad,language=Java, caption=Erstellung der Ergebnisgrundlage, firstnumber=196]
 //...
@@ -357,7 +416,8 @@ var stream = avconv(params);
 // ...
 \end{lstlisting}
 
-Zum Schluss wird das Gesamtvideo erstellt, dessen Implementierung im Listing \ref{node-videoResult} zu sehen ist. Als Eingabe wird das zuvor erstellte Video \emph{pad.mpg} genutzt und das Ergebnisvideo der Screenshots wird als overlay-Filter (Zeile 214) ab dem X-Wert 720 auf das Eingabevideo gelegt.
+Zum Schluss wird das Gesamtvideo erstellt, dessen Implementierung im Listing \ref{node-videoResult} zu sehen ist. 
+Als Eingabe wird das zuvor erstellte Video \emph{pad.mpg} genutzt und das Ergebnisvideo der Screenshots wird als \texttt{overlay}-Filter (Zeile 214) ab dem X-Wert 720 auf das Eingabevideo gelegt.
 
 \begin{lstlisting}[label=node-videoResult,language=Java, caption=Gesamtvideo kombinieren, firstnumber=211]
 // ...
@@ -395,6 +455,7 @@ stream.once('end', function(exitCode, signal) {
 
 \subsection{Server-Fazit}
 
-Die Serverkomponente wurde soweit entwickelt, dass der Android-Client damit kommunizieren kann und alle Funktionen des Clients bedienen kann. Weiterhin können die aufgezeichneten Daten zu einem Gesamtergebnis konvertiert werden. 
+Die Serverkomponente wurde soweit entwickelt, dass der Android-Client damit kommunizieren kann und alle Funktionen des Clients bedienen kann.
+Weiterhin können die aufgezeichneten Daten zu einem Gesamtergebnis konvertiert werden. 
 
 %TODO beenden
