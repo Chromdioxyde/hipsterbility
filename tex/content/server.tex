@@ -1,10 +1,7 @@
 \section{Server}
 \label{server}
-Wie in Abschnitt \ref{app_architecture} beschrieben, müssen die aufgezeichneten Daten der Clientbibliothek weiter verarbeitet werden. % TODO nochmal etwas genauer
 
 Im Folgenden werden die serverseitigen Komponenten, virtuelle Maschine, Datenbank und \ac{HTTP}-Server, vorgestellt. 
-
-
 
 \subsection{Virtuelle Maschine}
 
@@ -48,7 +45,6 @@ Benutzername, sowie Passwort lauten standardmäßig vagrant.
 
 \subsection{Datenbank}
 
-\subsubsection{Datenbank-Modell}
 Das Datenbankmodell wurde, den Anforderungen entsprechend, mit Hilfe des MySQL Workbench erstellt.
 Einige der Tabellen dienen zum Skizzieren möglicher Funktionalität und wurden noch nicht vollständig vom Datenmodell in die Anwendungen umgesetzt (\texttt{devices, apps, logs, audios}).
 Bei späterer Erweiterung der Applikationen um o.g. Daten muss das Datenmodell nicht verändert werden.
@@ -323,9 +319,6 @@ Routenteile beginnend mit einem \textbf{:} werden von Express als Parameter beha
 Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. 
 Genauer wird das Kommandozeilenwerkzeug \textit{avconv} benötigt, um die Bilder und Videos zusammenzufügen. 
 Weiterhin wird noch das Node Modul \emph{avconv} genutzt. 
-% TODO fertig machen. 
-% TODO Concat Listing
-% firstnumber=100
 
 Alle Daten werden am Client gesammelt und nach Beendigung einer Testsession an den Server via HTTP gesandt. 
 Das Abschließen einer Session initiiert den Erstellungsvorgang der Videos. 
