@@ -50,7 +50,7 @@ Das Datenbankmodell wurde, den Anforderungen entsprechend, mit Hilfe des MySQL W
 Einige der Tabellen dienen zum Skizzieren möglicher Funktionalität und wurden noch nicht vollständig vom Datenmodell in die Anwendungen umgesetzt (\texttt{devices, apps, logs, audios}).
 Bei späterer Erweiterung der Applikationen um o.g. Daten muss das Datenmodell nicht verändert werden.
 
-Die Abbildung \ref{figure-db-model} zeigt das Ergebnis der Umsetzung des logischen Datenmodells in MySQL Datentypen.
+Die Abbildung \ref{figure-db-model} im Anhang \ref{apdx:db} zeigt das Ergebnis der Umsetzung des logischen Datenmodells in MySQL Datentypen als \ac{ER}-Diagramm.
 Da in MySQL der kein Boolean-Datentyp vorhanden ist, wurde an dessen Stelle \texttt{TINYINT} verwendet, welcher entsprechend interpretiert wird.
 
 Für das Erstellen von Tabellen und Beziehungen wurde ein \ac{SQL}-Skript erstellt (\texttt{init.sql}).
@@ -67,6 +67,8 @@ Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da
 Das Express-Framework stellt die grundlegenden Funktionen eines Web-, bzw. HTTP-Servers bereit.
 Ein minimaler HTTP-Server ist im Listing \ref{minimal_node_http_server} zu sehen. 
 Eine Express-Anwendung stellt Pfade, sog. \emph{routes}, zur Verfügung auf die der HTTP-Server reagiert. Im Listing wird Zeile 23 wird eine solcher Pfad angelegt. 
+
+\pagebreak
 
 \begin{lstlisting}[label=minimal_node_http_server,language=Java, caption=Minimaler Node-HTTP-Server]
 /**
@@ -135,6 +137,8 @@ Die Ordnerstruktur entspricht weitestgehend der Standardkonfiguration einer Expr
 \end{figure}
 
 Der Node-Server kann mittels des Befehls \textbf{node app.js}, bzw. \textbf{npm start}, ausgeführt werden und lauscht, wenn nicht anders angegeben, auf den Port 3000. 
+
+\pagebreak
 
 \subsubsection{Node Module \label{sec:node-mudules}}
 
@@ -224,7 +228,7 @@ Ein weitere Link \emph{zum Ergebnis} öffnet die Ergebnisseite der Session (Abbi
 Dieser Abschnitt zeigt alle Routen der Express-Anwendung für die Webschnittstelle im Überblick. 
 Die jeweiligen \ac{HTTP}-Methoden (GET, PUT, POST, DELETE, ...) werden vor der Route angegeben.
 
-\begin{description}
+\begin{compactdesc}
 
 	\item[GET /] liefert die Index-Seite.
 	\item[GET /login] liefert die Login-Seite.
@@ -239,7 +243,9 @@ Die jeweiligen \ac{HTTP}-Methoden (GET, PUT, POST, DELETE, ...) werden vor der R
 	\item[GET /:user\_id/admin/sessions/:session\_id] liefert die Ergebnisseite einer Session.
 	
 	
-\end{description}
+\end{compactdesc}
+
+\pagebreak
 
 \subsection{RESTful-API \label{sec: api}}
 
@@ -249,15 +255,16 @@ Das Express-Framework bietet sich auch dafür sehr gut an.
 Sofern nicht anders angegeben sind die Antworten auf die \ac{API}-Resourcen im \ac{JSON}-Format. 
 Routenteile beginnend mit einem \textbf{:} werden von Express als Parameter behandelt und stehen in Node als Variablen des Request-Objekts zur Verfügung. 
 
+
 \subsubsection{Sessions API}
 
-\begin{description}
+\begin{compactdesc}
 	\item[GET /:user\_id/sessions] liefert die Liste aller Sessions eines Users.
 	
 	\item[GET /:user\_id/sessions/:session\_id] liefert die Details einer Session. 
 	
 	\item[PUT /:user\_id/sessions] ein Update auf eine Session. Sendet das Beenden einer Session und beginnt die Erstellung des Ergebnisvideos.
-\end{description}
+\end{compactdesc}
 
 
 \subsubsection{Videos API}
@@ -273,18 +280,18 @@ Routenteile beginnend mit einem \textbf{:} werden von Express als Parameter beha
 
 \subsubsection{Captures API}
 
-\begin{description}
+\begin{compactdesc}
 	\item[GET /:user\_id/:session\_id/captures] liefert alle Screenshots einer Session.
 	
 	\item[GET /:user\_id/:session\_id/captures/:id] liefert Details zu einem Capture.
 	
 	\item[POST /:user\_id/:session\_id/captures] sendet ein neues Capture.
 
-\end{description}
+\end{compactdesc}
 
 \subsubsection{ToDos API}
 
-\begin{description}
+\begin{compactdesc}
 
 	\item[GET /:user\_id/:session\_id/todos] liefert alle Todo-Listen einer Session.
 	\item[GET /:user\_id/:session\_id/todos/:todo\_id] liefert Details zu einer bestimmten TODO-Liste.
@@ -292,11 +299,11 @@ Routenteile beginnend mit einem \textbf{:} werden von Express als Parameter beha
 	
 	\item[PUT /:user\_id/:session\_id/todos/:todo\_id] aktualisiert eine TODO-Liste.
 	
-\end{description}
+\end{compactdesc}
 
 \subsubsection{Tasks API}
 
-\begin{description}
+\begin{compactdesc}
 
 	\item[GET /:user\_id/:session\_id/todos/:todo\_id/tasks] aktualisiert die Liste der Tasks einer TODO.
 	\item[POST /:user\_id/:session\_id/todos/:todo\_id/tasks] sendet eine neue Task zu einer TODO.
@@ -305,7 +312,7 @@ Routenteile beginnend mit einem \textbf{:} werden von Express als Parameter beha
 	
 	\item[PUT /:user\_id/:session\_id/todos/:todo\_id/tasks/:task\_id] aktualisiert eine Task.
 	  
-\end{description}
+\end{compactdesc}
 
 \subsection{Videoproduktion}
 
@@ -317,19 +324,12 @@ Alle Daten werden am Client gesammelt und nach Beendigung einer Testsession an d
 Das Abschließen einer Session initiiert den Erstellungsvorgang der Videos. 
 Die Erstellung des Ergebnisvideos geschieht in drei Teilen: 
 
-\begin{itemize}
+\begin{compactitem}
 	\item{Jedes Bild wird anhand des Timestamps zu einem Video bestimmter länger konvertiert und anschließend konkateniert.}
 	\item{Das aufgenommene Video der Frontkamera wird in seiner Breite gedoppelt.}
 	\item{Das Zwischenergebnis der Screenshots und das aufgenommene Bild werden zu einem Endergebnis verbunden.}
-\end{itemize}
+\end{compactitem}
 
-Das Listing \ref{node-imgToVideo} zeigt die Implementierung der Konvertierung von Screenshot in die einzelnen Videos. 
-Jeder Screenshot wird mit einem Zeitstempel (\texttt{timestamp}) als Dateinamen an den Server gesendet. 
-Damit wird ein Screenshot einem Schlüssel-Wert-Paar in einem Array zugewiesen, welches durchlaufen wird. 
-Es entsteht ein Video als Teilergebnis, welches nummeriert, beginnend mit Eins im mpeg-Format ausgegeben wird. 
-Ein Screenshot wird für die Länge des Timestamps wiederholt im Teilergebnis angezeigt (Zeile 117).
-
-Die Variable \textbf{stream} erzeugt ein \texttt{avconv}-Objekt und startet den Prozess (Zeile 132). 
 
 \begin{lstlisting}[label=node-imgToVideo,language=Java, caption=Erstellung der Videos aus Screenshots, firstnumber=110]
 for (var i = 0; i < paramDict.length; i++ ) {
@@ -361,6 +361,15 @@ for (var i = 0; i < paramDict.length; i++ ) {
 	
 }
 \end{lstlisting}
+
+Das Listing \ref{node-imgToVideo} zeigt die Implementierung der Konvertierung von Screenshot in die einzelnen Videos. 
+Jeder Screenshot wird mit einem Zeitstempel (\texttt{timestamp}) als Dateinamen an den Server gesendet. 
+Damit wird ein Screenshot einem Schlüssel-Wert-Paar in einem Array zugewiesen, welches durchlaufen wird. 
+Es entsteht ein Video als Teilergebnis, welches nummeriert, beginnend mit Eins im mpeg-Format ausgegeben wird. 
+Ein Screenshot wird für die Länge des Timestamps wiederholt im Teilergebnis angezeigt (Zeile 117).
+
+Die Variable \textbf{stream} erzeugt ein \texttt{avconv}-Objekt und startet den Prozess (Zeile 132). 
+
 
 Sobald alle Teilergebnisse der Screenshots erstellt wurden, werden sie zu einem Gesamtvideo verbunden. 
 Das Listing \ref{node-imgConcat} zeigt die Implementierung. 

@@ -27,6 +27,7 @@ Diese Eigenschaften sollen genutzt werden um klobige Testaufbauten zu ersetzen.
 Deren Funktionalität besteht meist aus dem Aufzeichnen von Mimik und Sprache der Testperson, sowie Inhalt des Bildschirms und Interaktion mit dem Endgerät bzw. der Applikation.
 Unter der Prämisse, dass moderne Smartphones und Tablets die nötigen Hard- und Softwarevoraussetzungen erfüllen soll nun eine Software-Lösung implementiert werden, um die zuvor genannten Funktionen abzubilden.
 
+\pagebreak
 
 \subsection{Verwendete Bibliotheken von Drittanbietern}
 Neben dem offiziellen Android SDK \footnote{API Level 19, Android 4.4.2} werden die folgenden externe Bibliotheken eingesetzt:
@@ -51,15 +52,8 @@ Die vorliegende Implementierung ist als \emph{Proof of Concept} anzusehen und we
 \subsubsection{Testapplikation}
 Für die Entwicklung und das Testen der Bibliothek wird eine Wirts-Applikation benötigt in die diese eingebunden wird.
 Dazu wurde eine kleine Testapplikation entwickelt, die verschiedene \ac{UI}-Elemente enthält.
-Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen des Android SDK zusammen \footnote{Android Building Blocks: \url{http://developer.android.com/design/building-blocks/index.html}}:
-\begin{itemize}
-	\item Activities
-	\item Views
-	\item Fragments
-	\item Buttons
-	\item Dialoge
-	\item Toasts.
-\end{itemize}
+Diese setzen sich aus einigen häufig verwendeten, gewöhnlichen \ac{UI}-Klassen des Android SDK zusammen \footnote{Android Building Blocks: \url{http://developer.android.com/design/building-blocks/index.html}}.
+
 Anfangs bestand die Testapplikation aus einer einzigen \texttt{Activity} und wurde im Verlauf des Projekts erweitert.
 In Anhang \ref{anhang:test_app_screens} sind die einzelnen Activities der Testapplikation dargestellt.
 Ausgehend von der Haupt-Activity (grau umrandet) lässt sich eine Liste (blau), ein Dialog (grün), ein WebView (violet) und eine einfache \emph{Activtiy} bestehend aus zwei Fragmenten (rot) öffnen.
@@ -87,7 +81,7 @@ Hipsterbility.MODULE.SCREEN.enabled = true;		// Bildschirminhalt
 Funktionen können über die öffentliche, verschachtelte statische Aufzählung \texttt{MODULE} in der Klasse \texttt{Hipsterbility} gesteuert.
 Jedes Element hat eine boolsche Variable \texttt{enabled}.
 Hat diese den Wert \texttt{true}, wird die entsprechende Funktion aktiviert.
-Die aktivierten Funktionen entscheiden in ihrer Kombination, welche konkrete Implementierung genutzt wird (siehe Abschnitt \ref{sec_module}).
+Die aktivierten Funktionen entscheiden in ihrer Kombination, welche konkrete Implementierung genutzt wird (siehe Abschnitt \ref{sec:module}).
 
 \pagebreak
 
@@ -120,7 +114,7 @@ Außerdem kann durch das Kamerabild gesehen werden, ob die Testperson sich auf d
 Dies ist von Bedeutung, wenn der Zeitfaktor bei der Auswertung berücksichtigt wird.
 Neben dem Kamerabild werden Sprache und Umgebungsgeräusche mit dem integrierten Mikrofon aufgezeichnet.
 
-Einerseits können so unbewusste Aussagen aufgezeichnet und bewertet werden, andererseits erlaubt dies den Einsatz von \emph{Thinking Aloud Tests}, bei denen die Testperson gezielt subjektive Eindrücke verbal äußert. Das Interpretieren der einzelnen \ac{UI}-Elemente durch die Testperson kann schwerwiegende Probleme bei der Gestaltung der Benutzeroberfläche sichtbar machen \cite[vgl.][73\psq]{usability_engineering_software_developers}. 
+Das Aufzeichnen von Bild und Ton erlaubt, neben anderen Testmethoden, auch die \emph{Thinking aloud} Methode (siehe Abschnitt \ref{sec:thinking_aloud});
 
 Die Herausforderung bei der Implementierung stellt sich durch Beschränkungen des Android Betriebssystems.
 Dieses sieht vor, dass bei der Aufnahme von Videos und Fotos mit der Kamera eine Vorschau auf dem Bildschirm dargestellt wird.
@@ -155,6 +149,8 @@ Um das \emph{Rooting} oder die Installation von alternativen Betriebssystemen od
 
 Der Vollzugriff auf das Dateisystem und das Betriebssystem kann jedoch auch zu Sicherheitsproblemen führen und daher z.B. in Unternehmen für betrieblich genutzte Geräte untersagt werden.
 Demnach kann nicht davon ausgegangen werden, dass nicht immer ein Root-Zugriff möglich ist.
+
+\pagebreak
 
 \subsubsection{Bildschirminhalt ohne Root-Zugriff}
 Da ohne Root-Zugriff nicht auf die nativen Anwendungen zugegriffen werden kann, wurde eine alternative Lösung entwickelt.
@@ -198,15 +194,19 @@ Darauf werden nun nacheinander, beginnend mit dem Hintergrund, die grafischen El
 
 Abschließend wird das Bild komprimiert und in eine Datei geschrieben.
 
+\pagebreak
+
 \subsubsection{Visualisieren von Benutzereingaben}
 Um die Benutzereingaben von einer \texttt{Activity} zu bekommen, wird ein \texttt{View.OnTouchListener} von der Klasse \texttt{ScreenshotModule} implementiert und registriert:
 \\
 \texttt{activity.getWindow().getDecorView().getRootView().setOnTouchListener(this)}.
 Bei einem, durch Benutzereingaben ausgelöstem, \emph{MotionEvent} wird die überschriebene Funktion \texttt{onTouch()} aufgerufen, welcher der auslösende \texttt{View} und das \texttt{MotionEvent} übergeben werden.
 
- Das \texttt{MotionEvent} wird auf zwei konstante Integer-Werte geprüft. 
- \texttt{ACTION\_MOVE} beschreibt einen Teil einer Geste und \texttt{ACTION\_UP} beschreibt deren Ende.
- Die Koordinaten der \emph{MotionEvents} werden so lange gesammelt, wie die Geste andauert, und danach an die Methode \texttt{takeScreenshot} übergeben, in welcher diese zusätzlich auf das \texttt{Canvas} Objekt, als rote Punkte,  gezeichnet werden.
+Das \texttt{MotionEvent} wird auf zwei konstante Integer-Werte geprüft. 
+\texttt{ACTION\_MOVE} beschreibt einen Teil einer Geste und \texttt{ACTION\_UP} beschreibt deren Ende.
+Die Koordinaten der \emph{MotionEvents} werden so lange gesammelt, wie die Geste andauert, und danach an die Methode \texttt{takeScreenshot} übergeben, in welcher diese zusätzlich auf das \texttt{Canvas} Objekt, als rote Punkte,  gezeichnet werden.
+
+
 
 \subsection{Benutzeroberfläche}
 \begin{minipage}[t]{0.45\linewidth}
