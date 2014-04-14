@@ -52,13 +52,6 @@ Bei späterer Erweiterung der Applikationen um o.g. Daten muss das Datenmodell n
 Die Abbildung \ref{figure-db-model} zeigt das Ergebnis der Umsetzung des logischen Datenmodells in MySQL Datentypen.
 Da in MySQL der kein Boolean-Datentyp vorhanden ist, wurde an dessen Stelle \texttt{TINYINT} verwendet, welcher entsprechend interpretiert wird.
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=\linewidth,keepaspectratio]{img/db_model.png}
-	\caption{Datenbank Modell}
-	\label{figure-db-model}
-\end{figure}
-
 Für das Erstellen von Tabellen und Beziehungen wurde ein \ac{SQL}-Skript erstellt (\texttt{init.sql}).
 Diese ist auch im Installationsskript \texttt{install.sh} enthalten.
 Zu Demonstrationszwecken wurde außerdem ein Skript mit Beispieldaten (hipsterbility\_test\_data.sql) hinzugefügt.
