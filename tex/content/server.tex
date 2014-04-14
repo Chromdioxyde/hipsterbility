@@ -7,7 +7,7 @@ Im Folgenden werden die serverseitigen Komponenten, virtuelle Maschine, Datenban
 
 \subsubsection{Konfiguration \label{sec:vm-config}}
 
-Als Betriebssystem für den Server dient ein Debian in der Version 7.0. Der Maschine wurde 1 Prozessorkern und 512 MB RAM zugewiesen. Änderungen können im Vagrantfile, siehe Abschnitt \ref{vagrant}, oder der Virtual Box-Konfiguration vorgenommen werden. 
+Als Betriebssystem für den Server dient ein Debian-Linux in der Version 7.0. Der Maschine wurde 1 Prozessorkern und 512 MB RAM zugewiesen. Änderungen können im Vagrantfile, siehe Abschnitt \ref{vagrant}, oder der Virtual Box-Konfiguration vorgenommen werden. 
 
 Folgende Software wurde für den Entwicklungsprozess verwendet. 
 \begin{description}
@@ -59,7 +59,7 @@ Zu Demonstrationszwecken wurde außerdem ein Skript mit Beispieldaten (hipsterbi
 Beide Dateien sind im Ordner \texttt{serverside} zu finden.
 
 
-\subsection{HTTP-Server und Middleware}
+\subsection{HTTP-Server und Middleware \label{sec:http-server-middleware}}
 Die serverseitige Logik wurde mit dem Express-Framework\footnote{http://expressjs.com/} umgesetzt. 
 Folglich wurde für die Programmierung Javascript eingesetzt. Die Sprache eignet sich sehr gut für Programmierschnittstellen und HTTP-Anfragen. 
 Nicht nur, da Javascript aus dem Web nicht mehr wegzudenken ist, sondern auch da es komplett asynchron programmiert werden kann. 
@@ -208,14 +208,14 @@ Zudem wurde ein rudimentäres Login-System implementiert.
 An dieser Stelle sei gesagt, dass die webbasierte Verwaltung nur skizziert ist. 
 Eine vollständige, auf Sicherheit geprüfte und nach allen heutigen Webstandards aufbauende, Webanwendung steht nicht zur Verfügung. 
 Dies ist im Rahmen dieser Semesterarbeit nicht entstanden und auch nicht das Anliegen dieser Arbeit. 
-Vielmehr handelt es sich um einen Proof-Of-Concept. 
+Vielmehr handelt es sich um ein \emph{Proof Of Concept}. 
 
 Aus Gründen der Lesbarkeit wurden die Screenshots des Verwaltungswerkzeugs in den Anhang \ref{anhang:screens-webtool} verlagert. 
 
 Grundlegend wurden die Browserkomponenten der Web-Anwendung mittels jQuery\footnote{http://jquery.com/} und Bootstrap\footnote{http://getbootstrap.com/} erstellt.
 
 Die Abbildung \ref{fig: index-page} zeigt die Startseite der Anwendung. 
-Über den Link \emph{Login} kann zur Login-Maske gelangt werden, welche in Abbildung \ref{fig: login-page} zu sehen ist. 
+Über den Link \emph{Login} kann zur Login-Maske gelangt werden, welches in Abbildung \ref{fig: login-page} zu sehen ist. 
 
 Nach erfolgreichen Login erscheint das Dashbaord der Administration, welche zum Zeitpunkt der Abgabe keine Informationen bereitstellt. 
 Im Administrationsbereich hat der User nunmehr die Möglichkeit eine Liste der erstellten Sessions zu sehen (siehe Abbildung \ref{fig: sessions-page}) oder eine neue Session anzulegen (Abbildung \ref{fig: session-create-page}). 
@@ -225,7 +225,7 @@ Ein weitere Link \emph{zum Ergebnis} öffnet die Ergebnisseite der Session (Abbi
 
 \subsubsection{Web-Routen}
 
-Dieser Abschnitt zeigt alle Routen des Express-Anwendung für die Webschnittstelle im Überblick. 
+Dieser Abschnitt zeigt alle Routen der Express-Anwendung für die Webschnittstelle im Überblick. 
 Die jeweiligen \ac{HTTP}-Methoden (GET, PUT, POST, DELETE, ...) werden vor der Route angegeben.
 
 \begin{compactdesc}
@@ -252,7 +252,6 @@ Die jeweiligen \ac{HTTP}-Methoden (GET, PUT, POST, DELETE, ...) werden vor der R
 Neben der webbasierten Verwaltung benötigt der mobile Client eine einfache Anbindung an die Funktionen des Servers. 
 Dafür eignen sich \ac{API}s sehr gut. 
 Das Express-Framework bietet sich auch dafür sehr gut an. 
-Nachfolgend werden die \ac{API}-Routen beschrieben und anschließend wird die Implementierung einer Route beispielhaft gezeigt. 
 Sofern nicht anders angegeben sind die Antworten auf die \ac{API}-Resourcen im \ac{JSON}-Format. 
 Routenteile beginnend mit einem \textbf{:} werden von Express als Parameter behandelt und stehen in Node als Variablen des Request-Objekts zur Verfügung. 
 
