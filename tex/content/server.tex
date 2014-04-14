@@ -421,8 +421,7 @@ In den folgenden Schritten wird das Gesamtergebnis vorbereitet und erstellt.
 Im Listing \ref{node-videoPad} wird die das Verdoppeln der Videobreite implementiert. 
 Dies ist notwendig, damit das Endergebnis des Videos die richtige Größe hat und die zusammengefügten Screenshots direkt neben dem aufgenommenen Video platziert werden können. 
 
-Der Parameter \textbf{filter:v} erhält als Werte drei mal \textbf{transpose=1}, damit wird die Eingabe drei mal im Urhzeigersinn gedreht, da es um 90 Grad im Uhrzeigersinn gedreht am Server ankommt. %TODO: warum 3 mal drehen wenn einmal reichen sollte? oder sind es 270 Grad?
-Negative Werte werden von \texttt{transpose} nicht akzeptiert. 
+Der Parameter \textbf{filter:v} erhält als Werte drei mal \textbf{transpose=1}, damit wird die Eingabe 270 Grad (im Uhrzeigersinn) gedreht, da es um 90 Grad im Uhrzeigersinn gedreht am Server ankommt. Negative Werte werden von \texttt{transpose} nicht akzeptiert. Der zweite Parameterwert \emph{pad=2*iw} ergänzt die Videobreite um zwei mal der Eingabebreite (\emph{iw}, input width).
 
 \begin{lstlisting}[label=node-videoPad,language=Java, caption=Erstellung der Ergebnisgrundlage, firstnumber=196]
 //...
