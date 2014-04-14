@@ -179,7 +179,35 @@ In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Be
 }
 \end{lstlisting}
 
-\subsection{Webbasiertes Verwaltungstool}
+\subsubsection{Request-Response-Ablauf \label{sec:req-res-cycle}}
+
+Um den Zyklus einer HTTP-Anfrage und -Antwort zu veranschaulichen wird im Folgenden ein beispielhafter Ablauf gezeigt. Als Beispiel dient die Auslieferung wird das \emph{Holen einer speziellen Session}.  
+
+\begin{lstlisting}[label=node-getSessionRoute,language=Java, caption=Routenlistener für eine spezielle Session, firstnumber=169] 
+app.get('/:user_id/sessions/:session_id/?', sessions.get);
+\end{lstlisting}
+
+Die Ressource kann durch die Implementierung der Route aus dem Listing \ref{node-getSessionRoute} angefragt werden. Der erste Parameter der Funktion \textbf{.get} bestimmt die Route. Anhand dieser Route wird die Zuordnung zum Benutzer (\emph{:user\_id}) gewährleistet und über den Parameter \emph{:session\_id} wird die spezielle Session zugewiesen. Der zweite Parameter ist der sog. Callback. Dieser Funktion wird von Express aufgerufen sobald die Route zutrifft um eine Antwort zu generieren. In diesem Beispiel wird die Funktion \textbf{.get} vom Sessions-Objekt aufgerufen.
+
+\begin{lstlisting}[label=node-getSessionHandler,language=Java, caption=Routenbehandlung für eine spezielle Session, firstnumber=29]
+exports.get = function(req, res) {
+	
+	var qstr = 'SELECT * FROM sessions WHERE users_idusers = ' + req.params.user_id + ' AND idsessions = ' + req.params.session_id;
+	var query = new Query;
+	
+	query.execute(qstr, function(rows){
+		res.send(rows);
+	});
+	
+};
+\end{lstlisting}
+
+Das Listing \ref{node-getSessionHandler} zeigt die Implementierung der Behandlungsroutine für eine bestimmte Session. Der Funktion werden zwei Parameter übergeben. Das \emph{req}-Objekt (Request) beinhaltet alle Informationen der Anfrage und das \emph{res}-Objekt (Response) alle Informationen für die Antwort. Über das Objekt \emph{req.params} kann auf die Benutzer-ID und die Session-ID zugegriffen werden. In diesem Beispiel werden beide Parameter in der SQL-Abfrage genutzt um die Zeile aus der Sessions-Tabelle zu holen, welche alle Informationen zu dieser Session beinhaltet (Zeile 31). 
+
+Nachdem die SQL-Anfrage abgesetzt wurde und ggf. Daten enthält, werden diese dem Response-Objekt übergeben und die Methode \textbf{.send} wird aufgerufen, welche den Request-Response-Zyklus beendet und die Daten im JSON-Format ausliefert. 
+
+\subsection{Webbasiertes Verwaltungstool \label{sec:webtool}}
+
 \label{sec:web_verwaltung}
 Nach Abschnitt \ref{sec: zielsetzung} ist es Ziel eine zentrale Komponente zur Verfügung zu stellen mit der Tests verwaltet werden können. 
 Zudem wurde ein rudimentäres Login-System implementiert. 
@@ -290,8 +318,6 @@ Routenteile beginnend mit einem \textbf{:} werden von Express als Parameter beha
 	  
 \end{description}
 
-\subsubsection{Beispiel-Route}
-% TODO: schreiben
 \subsection{Videoproduktion}
 
 Zur Erstellung der Zwischenergebnisse und des Endergebnisses wird die Open Source-Bibliothek \emph{libav}\footnote{https://libav.org/} verwendet. 
