@@ -235,7 +235,6 @@ Aus den Anforderungen geht hervor, dass Testpersonen eine Session aussuchen, sic
 Außerdem ist es sinnvoll, Einstellungen vornehmen zu können (Serveradresse, Port etc.). Auch die Daten für die Benutzerauthentifizierung sollten aus der Applikation heraus anpassbar sein.
 Um diese Anforderungen umzusetzen wurden drei Activities erstellt, jeweils zum Anzeigen und Auswählen der Sessions (Abbildung \ref{fig:screen_sessions}, für die Anzeige von Todos und Tasks (Abbildung \ref{fig:screen_todos_tasks}) sowie eine weitere für Einstellungen und Optionen (Abbildung \ref{fig:screen_settings}), welche aus dem Menü der SessionActivity heraus gestartet werden kann.
 
-
 Ein Großteil der Implementierung sind Services.
 Sie laufen im Hintergrund, meist unabhängig von der jeweiligen Vordergrund-Activitiy.
 Diese Entkopplung von Benutzeroberfläche und Programmlogik ist besonders nützlich, da Daten über die Interaktion mit \emph{Activities} gesammelt werden, die nicht zur Bibliothek gehören.

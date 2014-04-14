@@ -18,23 +18,3 @@ The unordered feature list:
 * capture test subject and log each interaction with your application
 * write captured data to host machine (or cloud service)
 * colors are included!
-
-
-
-TODOs
-=====
-
-* Recherche aktueller Stand
-* UI-Elements
-* Logging system
-* Reactive? ;)
-* Was auswerten? Wann auswerten? 
-* Motivation / Einleitung
-* Eye-/Face-Tracking
-* Logging der Blickrichtung
-
-Links
-=====
-
-http://romanhosek.cz/android-eye-detection-and-tracking-with-opencv/
-http://opencv.org/
