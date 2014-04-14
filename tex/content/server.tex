@@ -175,7 +175,7 @@ In diesem sind die jeweiligen Abhängigkeiten zu den verwendeten Modulen, zum Be
 
 \subsubsection{Request-Response-Ablauf \label{sec:req-res-cycle}}
 
-Um den Zyklus einer HTTP-Anfrage und -Antwort zu veranschaulichen wird im Folgenden ein beispielhafter Ablauf gezeigt. Als Beispiel dient die Auslieferung wird das \emph{Holen einer speziellen Session}.  
+Um den Zyklus einer HTTP-Anfrage und -Antwort zu veranschaulichen wird im Folgenden ein beispielhafter Ablauf gezeigt. Als Beispiel dient das \emph{Holen einer speziellen Session}.  
 
 \begin{lstlisting}[label=node-getSessionRoute,language=Java, caption=Routenlistener für eine spezielle Session, firstnumber=169] 
 app.get('/:user_id/sessions/:session_id/?', sessions.get);
