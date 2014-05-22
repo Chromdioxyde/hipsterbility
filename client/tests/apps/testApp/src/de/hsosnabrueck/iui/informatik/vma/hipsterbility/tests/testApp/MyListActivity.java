@@ -1,6 +1,5 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.testApp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -8,8 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Capturable;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +17,7 @@ import java.util.List;
  * Created on 05.03.14.
  * Source: http://www.vogella.com/tutorials/AndroidListView/article.html
  */
-public class MyListActivity extends Activity implements Capturable{
+public class MyListActivity extends HipsterbilityActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

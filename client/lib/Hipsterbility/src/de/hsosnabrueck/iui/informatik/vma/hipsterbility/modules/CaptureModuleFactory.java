@@ -3,6 +3,8 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.logger.LifecycleCaptureModule;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.logger.TouchCaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture.ScreenshotModuleRoot;
 

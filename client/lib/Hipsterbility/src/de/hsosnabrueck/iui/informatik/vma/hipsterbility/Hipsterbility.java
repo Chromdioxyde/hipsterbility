@@ -17,7 +17,7 @@ public class Hipsterbility {
     private static Hipsterbility instance;
 
     private Application application;
-    private Activity activity;
+    //    private Activity activity;
     private Class startActivityClass;
 
     private boolean rootFeaturesEnabled;
@@ -46,7 +46,7 @@ public class Hipsterbility {
     public void enableTesting(Activity activity) {
         this.application = activity.getApplication();
         this.startActivityClass = activity.getClass();
-        this.activity = activity;
+//        this.activity = activity;
         startService();
         ActivityLifecycleWatcher.getInstance().setApp(application);
     }
@@ -58,13 +58,13 @@ public class Hipsterbility {
         context.startService(i);
     }
 
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
+//    public Activity getActivity() {
+//        return activity;
+//    }
+//
+//    public void setActivity(Activity activity) {
+//        this.activity = activity;
+//    }
 
     public boolean isRootFeaturesEnabled() {
         return rootFeaturesEnabled;

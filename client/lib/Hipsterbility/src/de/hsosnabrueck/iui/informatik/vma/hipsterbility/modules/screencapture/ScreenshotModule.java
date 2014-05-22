@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import android.view.ViewGroup;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * Sources: http://stackoverflow.com/questions/16748384/android-take-screenshot-programmatically-of-the-whole-screen
  * http://stackoverflow.com/questions/2661536/how-to-programatically-take-a-screenshot-on-android?rq=1
  */
-public class ScreenshotModule implements View.OnTouchListener, CaptureModule, ActivityLifecycleListener {
+public class ScreenshotModule implements ViewGroup.OnTouchListener, CaptureModule, ActivityLifecycleListener {
 
     private final static String TAG = ScreenshotModule.class.getSimpleName();
     private static ScreenshotModule instance;
@@ -194,8 +194,7 @@ public class ScreenshotModule implements View.OnTouchListener, CaptureModule, Ac
     @Override
     public void startCapture() {
         this.session = SessionManager.getInstace().getSessionInProgress();
-        this.activity = Hipsterbility.getInstance().getActivity();
-
+        this.activity = ActivityLifecycleWatcher.getInstance().getCurrentActivity();
         takeScreenshot(0, 0, false);
     }
 
@@ -255,7 +254,9 @@ public class ScreenshotModule implements View.OnTouchListener, CaptureModule, Ac
     }
 
     private void registerTouchListener() {
-        this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(this);
+//        this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(this);
+        this.activity.findViewById(android.R.id.content).setOnTouchListener(this);
+
     }
 
     @Override

@@ -1,19 +1,17 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.testApp;
 
 import android.app.Activity;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 import com.example.android.rssfeed.RssfeedActivity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Capturable;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 
 /**
  * Sources: http://www.vogella.com/tutorials/AndroidDialogs/article.html
@@ -30,6 +28,8 @@ public class MyActivity extends Activity implements Capturable{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+//        TODO remove unused calls
+        Util.getDeviceInfo(this);
 
 //        h.testAlert(this);
 //        h.testCapture();
@@ -38,9 +38,11 @@ public class MyActivity extends Activity implements Capturable{
         Hipsterbility hipsterbility = Hipsterbility.getInstance();
         hipsterbility.enableTesting(this);
 //        hipsterbility.setStartActivityClass(this.getClass());
-        Hipsterbility.MODULE.VIDEO.enabled = true;
-        Hipsterbility.MODULE.AUDIO.enabled = true;
-        Hipsterbility.MODULE.SCREEN.enabled = true;
+//        Hipsterbility.MODULE.VIDEO.enabled = true;
+//        Hipsterbility.MODULE.AUDIO.enabled = true;
+//        Hipsterbility.MODULE.SCREEN.enabled = true;
+//        Hipsterbility.MODULE.LIFECYCLE.enabled = true;
+        Hipsterbility.MODULE.TOUCH.enabled = true;
 
     }
 

@@ -8,9 +8,9 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.*;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleWatcher;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
 
 import java.lang.reflect.Method;
@@ -46,7 +46,7 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     @Override
     public void startCapture() {
         //Todo: impove activity tracking
-        this.activity = Hipsterbility.getInstance().getActivity();
+        this.activity = ActivityLifecycleWatcher.getInstance().getCurrentActivity();
         windowManager = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
         // Create new SurfaceView, set its size to 1x1, move it to the top left corner and set this service as a callback
         surfaceView = new SurfaceView(activity.getApplicationContext());

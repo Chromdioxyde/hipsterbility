@@ -75,10 +75,14 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             ab.setSubtitle(getString(R.string.choose_session));
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setHomeButtonEnabled(true);
+            ab.setIcon(R.drawable.ic_launcher);
         }
         setContentView(R.layout.session_activity_layout);
         this.listView = (ListView) findViewById(R.id.sessionslistView);
-        loadUserIdFromServer();
+        // TODO uncomment after testing
+        SessionManager.getInstace().setSessionInProgress(new Session(0));
+        startSession();
+//        loadUserIdFromServer();
     }
 
     private void loadSettings() {
@@ -276,7 +280,9 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
             if (!sessionChosen) {
                 Toast.makeText(this, getString(R.string.select_session_first), Toast.LENGTH_SHORT)
                         .show();
-                return false;
+                // TODO: remove after debug
+                SessionManager.getInstace().setSessionInProgress(new Session(0));
+//                return false;
             }
             startSession();
         } else if (id == R.id.action_settings) {

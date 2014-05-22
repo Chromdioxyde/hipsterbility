@@ -21,6 +21,7 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
     private static ActivityLifecycleWatcher instance;
     private ArrayList<ActivityLifecycleListener> listeners = new ArrayList<ActivityLifecycleListener>();
     private Thread timeoutThread;
+    private Activity currentActivity;
 
     private Application app;
     //    private ActivityManager activityManager = (ActivityManager) app.getSystemService(Context.ACTIVITY_SERVICE);
@@ -49,6 +50,7 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
     @Override
     public void onActivityResumed(Activity activity) {
         Log.v(TAG, "Activity resumed: " + activity);
+        this.currentActivity = activity;
         notifyActivityEvent(new ActivityLifecycleEvent(this, activity), EVENT_TYPE.RESUMED);
         cancelBackgroundTimeout();
     }
@@ -180,6 +182,7 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
 
     protected synchronized void notifyActivityEvent(ActivityLifecycleEvent event, EVENT_TYPE type) {
         for (ActivityLifecycleListener l : listeners) {
+            Log.d(TAG, "notifyActivityEvent: " + l.getClass().getSimpleName());
             switch (type) {
                 case CREATED:
                     l.activityCreated(event);
@@ -203,9 +206,12 @@ public class ActivityLifecycleWatcher implements Application.ActivityLifecycleCa
         }
     }
 
+    public Activity getCurrentActivity() {
+        return currentActivity;
+    }
+
     private static enum EVENT_TYPE {
         CREATED, STARTED, STOPPED, PAUSED, RESUMED, DESTROYED
     }
-
 
 }

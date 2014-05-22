@@ -1,19 +1,17 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.testApp;
 
-import android.app.Activity;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Capturable;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityActivity;
 
 /**
  * Created by Albert on 25.03.2014.
  */
-public class MyWebView extends Activity implements Capturable {
+public class MyWebView extends HipsterbilityActivity {
     WebView webView;
     public void onCreate(Bundle savedInstanceState) {
         Hipsterbility.getInstance().enableTesting(this);

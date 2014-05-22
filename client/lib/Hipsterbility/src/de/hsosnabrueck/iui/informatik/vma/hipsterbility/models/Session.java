@@ -9,12 +9,6 @@ import java.util.ArrayList;
  */
 public class Session {
 
-    // TODO: Implementation
-
-    //================================================================================
-    // Properties
-    //================================================================================
-
     @SerializedName("idsessions")
     private long id;
     private String name;
@@ -122,23 +116,5 @@ public class Session {
     public void setUser(User user) {
         this.user = user;
     }
-
-//    private class SessionDeserializer implements JsonDeserializer<Session> {
-//        public Session deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
-//                throws JsonParseException {
-//
-//            // The variable 'json' is passed as a parameter to the deserialize() method
-//            final JsonObject jsonObject = json.getAsJsonObject();
-//            final long id = jsonObject.get("idsessions").getAsLong();
-//            final String name = jsonObject.get("name").getAsString();
-//            final boolean active = jsonObject.get("active").getAsBoolean();
-////            final long appId = jsonObject.get("apps_idapps").getAsLong();
-//            Session s = new Session();
-//            s.setId(id);
-//            s.setName(name);
-//            s.setActive(active);
-//            return s;
-//        }
-//    }
 
 }
