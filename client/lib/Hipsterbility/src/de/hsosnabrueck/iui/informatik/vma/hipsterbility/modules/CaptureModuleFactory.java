@@ -17,7 +17,7 @@ public class CaptureModuleFactory {
 
     private static final String TAG = CameraCaptureModule.class.getName();
     private static boolean rootAvailable = Util.isDeviceRooted();
-    private static boolean rootEnabled = Hipsterbility.getInstance().isRootFeaturesEnabled();
+    private static boolean rootEnabled = Hipsterbility.isRootFeaturesEnabled();
 
     private static CaptureModule getCameraCaptureModule(boolean audio) {
         Log.d(TAG, "Creating camera capture module, audio: " + audio);

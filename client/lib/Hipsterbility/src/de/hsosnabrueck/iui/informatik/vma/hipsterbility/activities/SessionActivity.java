@@ -94,7 +94,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
                         prefs.getString(getString(R.string.pref_key_max_connection), "1")
                 )
         );
-        Hipsterbility.getInstance().setRootFeaturesEnabled(
+        Hipsterbility.setRootFeaturesEnabled(
                 prefs.getBoolean(getString(R.string.pref_key_enable_root), false)
         );
 
@@ -352,7 +352,7 @@ public class SessionActivity extends Activity implements AdapterView.OnItemClick
     }
 
     private void startSession() {
-        Intent intent = new Intent(this, Hipsterbility.getInstance().getStartActivityClass());
+        Intent intent = new Intent(this, Hipsterbility.getStartActivityClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startService(new Intent(this, CaptureService.class));
         this.startActivity(intent);

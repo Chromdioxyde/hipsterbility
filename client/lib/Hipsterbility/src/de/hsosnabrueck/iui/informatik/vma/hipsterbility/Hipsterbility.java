@@ -4,8 +4,16 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.view.MotionEvent;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEvent;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEventListener;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleWatcher;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilityService;
+
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * The Hipsterbility class is a monolithic wrapper for the Hipsterbility-library and implements all public methods which
@@ -13,68 +21,51 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.services.HipsterbilitySe
  */
 public class Hipsterbility {
 
+    private static Application application;
+    private static Class startActivityClass;
+    private static boolean rootFeaturesEnabled;
+    private static HashMap<Class<?>, List<EventListener>> listeners = new HashMap<Class<?>, List<EventListener>>();
 
-    private static Hipsterbility instance;
-
-    private Application application;
-    //    private Activity activity;
-    private Class startActivityClass;
-
-    private boolean rootFeaturesEnabled;
-
-    /**
-     * Private constructor for singleton
-     */
-    private Hipsterbility() {
-    }
-
-    /**
-     * Lazy static singleton
-     *
-     * @return Hipsterbility object
-     */
-    public static Hipsterbility getInstance() {
-        if (instance == null) instance = new Hipsterbility();
-        return instance;
-    }
+    private Hipsterbility(){}
 
     /**
      * This enables usability testing for the calling application
      *
      * @param activity starting activity from calling application
      */
-    public void enableTesting(Activity activity) {
-        this.application = activity.getApplication();
-        this.startActivityClass = activity.getClass();
-//        this.activity = activity;
+    public static void enableTesting(Activity activity) throws Exception{
+        application = activity.getApplication();
+        startActivityClass = activity.getClass();
+        boolean moduleEnabled = false;
+        for(MODULE m : MODULE.values()){
+            if(m.enabled){
+                moduleEnabled = true;
+                break;
+            }
+        }
+        if(!moduleEnabled){
+            throw new Exception("UX Library error: No Modules Enabled!");
+        }
         startService();
         ActivityLifecycleWatcher.getInstance().setApp(application);
     }
 
-    private void startService() {
+    private static void startService() {
         Context context = application.getApplicationContext();
         assert (context != null);
         Intent i = new Intent(context, HipsterbilityService.class);
         context.startService(i);
     }
 
-//    public Activity getActivity() {
-//        return activity;
-//    }
-//
-//    public void setActivity(Activity activity) {
-//        this.activity = activity;
-//    }
-
-    public boolean isRootFeaturesEnabled() {
+    public static boolean isRootFeaturesEnabled() {
         return rootFeaturesEnabled;
     }
 
-    public void setRootFeaturesEnabled(boolean rootFeaturesEnabled) {
-        this.rootFeaturesEnabled = rootFeaturesEnabled;
+    public static void setRootFeaturesEnabled(boolean enabled) {
+        rootFeaturesEnabled = enabled;
     }
 
-    public Class getStartActivityClass() {
+    public static Class getStartActivityClass() {
         return startActivityClass;
     }
 
@@ -85,5 +76,32 @@ public class Hipsterbility {
     public static enum MODULE {
         AUDIO, VIDEO, SCREEN, TOUCH, LIFECYCLE;
         public boolean enabled = false;
+    }
+
+    public static void relayMotionEvent(Activity activity, MotionEvent motionEvent){
+        notifyTouchEventListener(new TouchEvent(activity,motionEvent));
+    }
+
+    private static void notifyTouchEventListener(TouchEvent event) {
+        List<EventListener> list = listeners.get(TouchEventListener.class);
+        for(EventListener l : list){
+            ((TouchEventListener)l).onTouchEvent(event);
+        }
+    }
+
+    public static void addEventListener(Class<?> type , EventListener listener){
+        List<EventListener> list = listeners.get(type);
+        if(null == list){
+            list = new ArrayList<EventListener>();
+            listeners.put(type, list);
+        }
+        list.add(listener);
+    }
+
+    public static void removeEventListener(Class<?> type, EventListener listener){
+        List<EventListener> list = listeners.get(type);
+        if(null != list) {
+            list.remove(listener);
+        }
     }
 }

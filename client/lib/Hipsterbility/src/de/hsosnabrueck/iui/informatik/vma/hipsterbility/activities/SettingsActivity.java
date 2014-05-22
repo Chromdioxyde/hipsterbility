@@ -109,7 +109,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     Integer.valueOf(prefs.getString(connections, "1"))
             );
         } else if (key.equals(root)) {
-            Hipsterbility.getInstance().setRootFeaturesEnabled(
+            Hipsterbility.setRootFeaturesEnabled(
                     prefs.getBoolean(root, false)
             );
         }

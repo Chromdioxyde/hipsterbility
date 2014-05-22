@@ -11,7 +11,7 @@ public abstract class HipsterbilityActivity extends Activity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.d("TouchEvent", ev.toString());
+        Hipsterbility.relayMotionEvent(this, ev);
         return super.dispatchTouchEvent(ev);
     }
 }

@@ -35,8 +35,11 @@ public class MyActivity extends Activity implements Capturable{
 //        h.testCapture();
         addListenerOnButton();
         // Enable UX testing for this activity
-        Hipsterbility hipsterbility = Hipsterbility.getInstance();
-        hipsterbility.enableTesting(this);
+        try {
+            Hipsterbility.enableTesting(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        hipsterbility.setStartActivityClass(this.getClass());
 //        Hipsterbility.MODULE.VIDEO.enabled = true;
 //        Hipsterbility.MODULE.AUDIO.enabled = true;

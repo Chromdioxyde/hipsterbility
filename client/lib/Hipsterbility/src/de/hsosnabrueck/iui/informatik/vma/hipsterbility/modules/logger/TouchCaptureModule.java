@@ -6,12 +6,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEvent;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEventListener;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleEvent;
 
 /**
  * Created by Albert on 25.03.2014.
  */
-public class TouchCaptureModule extends AbstractLoggerModule implements ViewGroup.OnTouchListener, GestureDetector.OnGestureListener,
+public class TouchCaptureModule extends AbstractLoggerModule implements TouchEventListener, GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
 
     private static TouchCaptureModule instance;
@@ -29,38 +32,38 @@ public class TouchCaptureModule extends AbstractLoggerModule implements ViewGrou
         return instance;
     }
 
-    private void registerTouchListener() {
-//        this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(this);
-//        this.activity.getWindow().getDecorView().findViewById(android.R.id.content).setOnTouchListener(this);
-//        ViewGroup group = (ViewGroup)this.activity.getWindow().getDecorView().getRootView();
-//        for(int i = 0; i < group.getChildCount(); i++){
-//            group.getChildAt(i).setOnTouchListener(this);
-//
-        this.activity.findViewById(android.R.id.content).setOnTouchListener(this);
-//        group.setOnTouchListener(this);
+    @Override
+    public void startCapture() {
+        super.startCapture();
+        registerTouchListener();
     }
 
-//    private void unregisterTouchListener() {
-//        try {
-//            //Remove touch listener from activity's view
-//            this.activity.getWindow().getDecorView().getRootView().setOnTouchListener(null);
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (capture) {
-            detector.onTouchEvent(motionEvent);
-        }
-        return true;
+    public void stopCapture() {
+        super.stopCapture();
+        unregisterTouchListener();
+    }
+
+    private void logTouch(Activity activity, String method, MotionEvent event){
+        writeLine(
+                activity.getClass().getName(),
+                method
+
+
+                );
+    }
+
+    private void registerTouchListener() {
+        Hipsterbility.addEventListener(TouchEventListener.class, this);
+    }
+
+    private void unregisterTouchListener() {
+        Hipsterbility.removeEventListener(TouchEventListener.class, this);
     }
 
     @Override
     public void activityResumed(ActivityLifecycleEvent activityLifecycleEvent) {
         this.activity = activityLifecycleEvent.getActivity();
-        registerTouchListener();
     }
 
     @Override
@@ -113,5 +116,29 @@ public class TouchCaptureModule extends AbstractLoggerModule implements ViewGrou
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float velocityX, float velocityY) {
         Log.d(tag, "onFling: " + motionEvent + motionEvent2);
         return true;
+    }
+
+    @Override
+    public void onTouchEvent(TouchEvent e) {
+        if (capture) {
+            detector.onTouchEvent(e.getMotionEvent());
+        }
+    }
+
+    private void printSamples(MotionEvent ev) {
+        final int historySize = ev.getHistorySize();
+        final int pointerCount = ev.getPointerCount();
+        for (int h = 0; h < historySize; h++) {
+            System.out.printf("At time %d:", ev.getHistoricalEventTime(h));
+            for (int p = 0; p < pointerCount; p++) {
+                System.out.printf("  pointer %d: (%f,%f)",
+                        ev.getPointerId(p), ev.getHistoricalX(p, h), ev.getHistoricalY(p, h));
+            }
+        }
+        System.out.printf("At time %d:", ev.getEventTime());
+        for (int p = 0; p < pointerCount; p++) {
+            System.out.printf("  pointer %d: (%f,%f)",
+                    ev.getPointerId(p), ev.getX(p), ev.getY(p));
+        }
     }
 }

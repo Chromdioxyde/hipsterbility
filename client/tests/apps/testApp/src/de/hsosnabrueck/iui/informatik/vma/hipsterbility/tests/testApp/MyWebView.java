@@ -14,7 +14,6 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityActivity;
 public class MyWebView extends HipsterbilityActivity {
     WebView webView;
     public void onCreate(Bundle savedInstanceState) {
-        Hipsterbility.getInstance().enableTesting(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_web_view);
