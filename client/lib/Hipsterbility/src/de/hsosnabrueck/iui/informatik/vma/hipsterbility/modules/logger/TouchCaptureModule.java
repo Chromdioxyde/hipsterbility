@@ -51,6 +51,7 @@ public class TouchCaptureModule extends AbstractLoggerModule implements TouchEve
 
 
                 );
+        // TODO: log into memory and/or file
     }
 
     private void registerTouchListener() {
@@ -64,57 +65,67 @@ public class TouchCaptureModule extends AbstractLoggerModule implements TouchEve
     @Override
     public void activityResumed(ActivityLifecycleEvent activityLifecycleEvent) {
         this.activity = activityLifecycleEvent.getActivity();
+        // TODO: do something on detection
     }
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
         Log.d(tag, "onSingleTapConfirmed " + motionEvent);
+        // TODO: do something on detection
         return true;
     }
 
     @Override
     public boolean onDoubleTap(MotionEvent motionEvent) {
         Log.d(tag, "onDoubleTap " + motionEvent);
+        // TODO: do something on detection
         return true;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent motionEvent) {
         Log.d(tag, "onDoubleTapEvent: " + motionEvent);
+        // TODO: do something on detection
         return true;
     }
 
     @Override
     public boolean onDown(MotionEvent motionEvent) {
         Log.d(tag, "onDown: " + motionEvent);
+        // TODO: do something on detection
         return true;
     }
 
     @Override
     public void onShowPress(MotionEvent motionEvent) {
         Log.d(tag, "onShowPress: " + motionEvent);
+        // TODO: do something on detection
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent motionEvent) {
         Log.d(tag, "onSingleTapUp: " + motionEvent);
+        // TODO: do something on detection
         return true;
     }
 
     @Override
     public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
         Log.d(tag, "onScroll: " + motionEvent + motionEvent2);
+        // TODO: do something on detection
         return true;
     }
 
     @Override
     public void onLongPress(MotionEvent motionEvent) {
+        // TODO: do something on detection
         Log.d(tag, "onLongPress: " + motionEvent);
     }
 
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent2, float velocityX, float velocityY) {
         Log.d(tag, "onFling: " + motionEvent + motionEvent2);
+        // TODO: do something on detection
         return true;
     }
 

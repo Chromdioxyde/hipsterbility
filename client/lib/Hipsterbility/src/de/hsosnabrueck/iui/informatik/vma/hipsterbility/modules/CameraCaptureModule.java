@@ -191,7 +191,11 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
 
     private void setRecorderOutputFile() {
         mediaRecorder.setOutputFile(
-                Util.createOutputFileAbsolutePathName(this.session.getId(), Util.VIDEOS_DIR, Util.VIDEO_FILE_EXTENSION)
+                Util.getFullFilePath(
+                        this.session.getId(),
+                        Util.VIDEOS_DIR,
+                        String.valueOf(System.nanoTime()),
+                        Util.VIDEO_FILE_EXTENSION)
 //                Util.createOutputDirPathName(
 //                        this.session.getId()
 //                        , Util.VIDEOS_DIR

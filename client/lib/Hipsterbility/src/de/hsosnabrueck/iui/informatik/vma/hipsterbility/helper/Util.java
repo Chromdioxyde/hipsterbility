@@ -2,6 +2,7 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
@@ -41,22 +42,22 @@ public class Util {
     private static final String TAG = Util.class.getSimpleName();
 
     public static String createOutputDirPathName(long sessionId, String subdir) {
-        String path = createSessionDirPathName(sessionId)
+        return createSessionDirPathName(sessionId)
                 + subdir
                 + File.separator;
-        new File(path).mkdirs();
-        return path;
     }
 
     public static String createSessionDirPathName(long sessionId) {
-        String path = Environment.getExternalStorageDirectory()
+        return Environment.getExternalStorageDirectory()
                 + File.separator
                 + BASE_DIR
                 + File.separator
                 + sessionId
                 + File.separator;
-        new File(path).mkdirs();
-        return path;
+    }
+
+    public static boolean makeDirectoriesForPath(String path){
+        return new File(path).mkdirs();
     }
 
     /**
@@ -67,8 +68,9 @@ public class Util {
      * @param fileExtension File extension for output file. Constants provided by this class.
      * @return
      */
-    public static String createOutputFileAbsolutePathName(long sessionId, String subdir, String fileExtension) {
-        return createOutputDirPathName(sessionId, subdir) + System.currentTimeMillis() + fileExtension;
+    public static String getFullFilePath(long sessionId, String subdir, String filename, String fileExtension) {
+        return createOutputDirPathName(sessionId, subdir)
+                + filename + fileExtension;
     }
 
     public static String createRelativeRoute(User u, Session s, String suffix) {
@@ -201,6 +203,36 @@ public class Util {
         } else if (layout == Device.ScreenLayoutSize.NORMAL || layout == Device.ScreenLayoutSize.SMALL) {
             return Device.DeviceType.PHONE;
         } else return Device.DeviceType.OTHER;
+    }
+
+    /**
+     * (Source http://stackoverflow.com/a/9563438)
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    public static float convertDpToPixel(float dp, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return px;
+    }
+
+    /**
+     * (Source: http://stackoverflow.com/a/9563438)
+     * This method converts device specific pixels to density independent pixels.
+     *
+     * @param px A value in px (pixels) unit. Which we need to convert into db
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent dp equivalent to px value
+     */
+    public static float convertPixelsToDp(float px, Context context){
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        float dp = px / (metrics.densityDpi / 160f);
+        return dp;
     }
 
 }

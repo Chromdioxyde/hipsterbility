@@ -5,18 +5,22 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.Toast;
 import com.example.android.rssfeed.RssfeedActivity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Capturable;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.HipsterbilityActivity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
 
 /**
  * Sources: http://www.vogella.com/tutorials/AndroidDialogs/article.html
  */
-public class MyActivity extends Activity implements Capturable{
+public class MyActivity extends HipsterbilityActivity{
     /**
      * Called when the activity is first created.
      */
@@ -35,17 +39,15 @@ public class MyActivity extends Activity implements Capturable{
 //        h.testCapture();
         addListenerOnButton();
         // Enable UX testing for this activity
+        Hipsterbility.MODULE.SCREEN.enabled = true;
+//        Hipsterbility.MODULE.TOUCH.enabled = true;
         try {
+
             Hipsterbility.enableTesting(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        hipsterbility.setStartActivityClass(this.getClass());
-//        Hipsterbility.MODULE.VIDEO.enabled = true;
-//        Hipsterbility.MODULE.AUDIO.enabled = true;
-//        Hipsterbility.MODULE.SCREEN.enabled = true;
-//        Hipsterbility.MODULE.LIFECYCLE.enabled = true;
-        Hipsterbility.MODULE.TOUCH.enabled = true;
+
 
     }
 
@@ -103,7 +105,7 @@ public class MyActivity extends Activity implements Capturable{
     private final class CancelOnClickListener implements
             DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            Toast.makeText(getApplicationContext(), "Cancle selected, activity continues",
+            Toast.makeText(getApplicationContext(), "Cancel selected, activity continues",
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -113,5 +115,14 @@ public class MyActivity extends Activity implements Capturable{
         public void onClick(DialogInterface dialog, int which) {
             MyActivity.this.finish();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        Display display = this.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        Log.d("Display size test: ", size.toString());
+        super.onResume();
     }
 }

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
+import android.util.Log;
 import android.view.MotionEvent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEvent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEventListener;
@@ -20,6 +22,8 @@ import java.util.List;
  * a user can use in own application, following the facade design pattern.
  */
 public class Hipsterbility {
+
+    private static final String TAG = Hipsterbility.class.getSimpleName();
 
     private static Application application;
     private static Class startActivityClass;
@@ -84,6 +88,7 @@ public class Hipsterbility {
 
     private static void notifyTouchEventListener(TouchEvent event) {
         List<EventListener> list = listeners.get(TouchEventListener.class);
+        if(null == list) return;
         for(EventListener l : list){
             ((TouchEventListener)l).onTouchEvent(event);
         }

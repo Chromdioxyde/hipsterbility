@@ -47,7 +47,12 @@ public class AudioCaptureModule implements CaptureModule {
     public void startCapture() {
 
         // TODO change path to a unified one
-        String mFileName = Util.createOutputFileAbsolutePathName(session.getId(), Util.AUDIO_DIR, Util.AUDIO_FILE_EXTENSSION);
+        String mFileName = Util.getFullFilePath(
+                session.getId(),
+                Util.AUDIO_DIR,
+                String.valueOf(System.nanoTime()),
+                Util.AUDIO_FILE_EXTENSSION
+        );
 
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
