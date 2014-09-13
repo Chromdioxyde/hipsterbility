@@ -1,10 +1,15 @@
 package de.hsosnabrueck.hipsterbility.model;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Created by Albert on 08.09.2014.
  */
 public class Todo {
 
+    @Id
+    @GeneratedValue
     private int id;
     private String name;
     private String description;

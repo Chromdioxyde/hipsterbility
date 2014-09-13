@@ -1,5 +1,7 @@
 package de.hsosnabrueck.hipsterbility.model;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -7,6 +9,8 @@ import java.util.Date;
  */
 public class Result {
 
+    @Id
+    @GeneratedValue
     private int id;
     private String filePath;
     private Date timestamp;
