@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/HipsterbilityLibrary/HipsterbilityLibrary.iml" filepath="$PROJECT_DIR$/HipsterbilityLibrary/HipsterbilityLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/HipsterbilityServer/HipsterbilityServer.iml" filepath="$PROJECT_DIR$/HipsterbilityServer/HipsterbilityServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/testApp/testApp.iml" filepath="$PROJECT_DIR$/testApp/testApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/HipsterbilityLibrary/tests/tests.iml" filepath="$PROJECT_DIR$/HipsterbilityLibrary/tests/tests.iml" />
     </modules>
   </component>
 </project>

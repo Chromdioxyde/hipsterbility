@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+    <persistence-unit name="HipsterbilityService" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>java:app/jdbc/hipsterbility</jta-data-source>
+        <!--<class>de.hsosnabrueck.hipsterbility.entities.DeviceEntity</class>-->
+        <properties>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.ddl-generation.output-mode"
+                      value="database"/>
+            <property name="eclipselink.ddl-generation"
+                      value="create-or-extend-tables"/>
+        </properties>
+
+        <!--<class>de.hsosnabrueck.hipsterbility.entities.Log</class>-->
+        <!--<class>de.hsosnabrueck.hipsterbility.entities.Result</class>-->
+        <!--<class>de.hsosnabrueck.hipsterbility.entities.Session</class>-->
+        <!--<class>de.hsosnabrueck.hipsterbility.entities.User</class>-->
+        <!--<class>de.hsosnabrueck.hipsterbility.entities.UserGroup</class>-->
+    </persistence-unit>
+</persistence>

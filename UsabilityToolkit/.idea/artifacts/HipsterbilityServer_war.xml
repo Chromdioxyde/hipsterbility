@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="HipsterbilityServer:war">
+    <output-path>$PROJECT_DIR$/HipsterbilityServer/target</output-path>
+    <root id="archive" name="hipsterbility.war">
+      <element id="artifact" artifact-name="HipsterbilityServer:war exploded" />
+    </root>
+  </artifact>
+</component>
