@@ -1,10 +1,6 @@
 package de.hsosnabrueck.hipsterbility.persistence;
 
-import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
-import de.hsosnabrueck.hipsterbility.model.Device;
-
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Albert on 14.09.2014.
@@ -14,7 +10,7 @@ public interface Dao<T> {
 
     public void delete(int id);
 
-    public void save(T object);
+    public T save(T object);
 
     public void update(int id, T object);
 

@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
-    <persistence-unit name="HipsterbilityService" transaction-type="JTA">
-
+    <persistence-unit name="HipsterbilityService" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <!--<non-jta-data-source>java:app/jdbc/hipsterbility</non-jta-data-source>-->
 
-        <jta-data-source>java:app/jdbc/hipsterbility</jta-data-source>
-        <!--<class>de.hsosnabrueck.hipsterbility.entities.DeviceEntity</class>-->
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
+
         <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hipsterbility" />
+            <property name="javax.persistence.jdbc.user" value="hipsterbility" />
+            <property name="javax.persistence.jdbc.password" value="hipsterbility123" />
+
             <property name="eclipselink.logging.level" value="FINE"/>
             <property name="eclipselink.ddl-generation.output-mode"
                       value="database"/>
             <property name="eclipselink.ddl-generation"
-                      value="create-or-extend-tables"/>
+                      value="drop-and-create-tables"/>
         </properties>
-
-        <!--<class>de.hsosnabrueck.hipsterbility.entities.Log</class>-->
-        <!--<class>de.hsosnabrueck.hipsterbility.entities.Result</class>-->
-        <!--<class>de.hsosnabrueck.hipsterbility.entities.Session</class>-->
-        <!--<class>de.hsosnabrueck.hipsterbility.entities.User</class>-->
-        <!--<class>de.hsosnabrueck.hipsterbility.entities.UserGroup</class>-->
     </persistence-unit>
 </persistence>

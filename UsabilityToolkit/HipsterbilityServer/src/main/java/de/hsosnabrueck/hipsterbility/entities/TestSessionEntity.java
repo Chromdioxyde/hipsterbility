@@ -1,9 +1,6 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 /**
  * Created by Albert on 08.09.2014.
@@ -12,13 +9,15 @@ import javax.persistence.ManyToOne;
 @Entity(name = "Session")
 public class TestSessionEntity {
 
+    public static final String TABLE_NAME = "Session";
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     private String name;
     private boolean active;
-    @ManyToOne
-    private UserEntity user;
+//    @ManyToOne
+//    private UserEntity user;
     @ManyToOne
     private TestAppEntity testApp;
     @ManyToOne
@@ -48,13 +47,13 @@ public class TestSessionEntity {
         this.active = active;
     }
 
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
+//    public UserEntity getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(UserEntity user) {
+//        this.user = user;
+//    }
 
     public TestAppEntity getTestAppEntity() {
         return testApp;

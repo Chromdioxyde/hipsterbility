@@ -1,8 +1,6 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -11,10 +9,14 @@ import java.util.Date;
 @Entity(name = "Result")
 public class TestResultEntity {
 
+    public static final String TABLE_NAME = "Result";
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     private String filePath;
+    @Column(insertable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
 
     public int getId() {

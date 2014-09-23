@@ -1,0 +1,42 @@
+\subsection{Stand bei Projektbeginn}
+Dieses Projekt basiert auf einer Arbeit, welche zusammen mit Oliver Erxleben (\href{mailto:oliver.erxleben@hs-osnabrueck.de}{oliver.erxleben@hs-osnabrueck.de}) im Modul \emph{Mensch-Maschine-Kommunikation} (Wintersemester 2013/2014) des Informatik--Masterstudiengangs \emph{Verteilte und mobile Anwendungen} erstellt wurde.
+Die Ergebnisse zum Stand der Abgabe können aus dem Git-Repository von Oliver Erxleben unter der folgenden \ac{URL} abgerufen werden:
+
+\url{https://github.com/olivererxleben/hipsterbility/releases/tag/v1.0_semester_final}
+
+Der Vollständigkeit halber wird der Stand der vorausgehenden Arbeit an dieser Stelle kurz wiedergegeben.
+Es wurde ein Prototyp erstellt, welcher aus einer Android Bibliothek und einem kleinen \ac{REST}-Server besteht.
+Zum Testen der Bibliothek wurde weiterhin eine kleine Android Applikation erstellt.
+Insgesamt wurde folgender Funktionsumfang skizziert:
+\begin{compactitem}
+	\item Android 4.x Bibliothek
+	\begin{itemize}
+		\item Abrufen von Testsitzungen und Testaufgaben vom Server.
+		\item Benutzeroberfläche zum Auswählen und Starten von Testsitzungen.
+		\item Aufzeichnen des Kamerabildes der Frontkamera mit Ton, nach dem Starten einer Testsitzung.
+		\item Erstellen von Screenshots der Applikation bei Benutzereingaben auf dem Touchscreen und Visualisierung der Eingaben auf dem Screenshot.
+		\item Hochladen der gesammelten Daten zum Server.
+	\end{itemize}
+	\item Node.js basierter Server mit REST-Schnittstelle und Webinterface
+	\begin{itemize}
+		\item Bereitstellen von Testsitzungen und -aufgaben.
+		\item Rudimentäres Benutzermanagement.
+		\item Weboberfläche zum Erstellen von Testsitzungen und -aufgaben
+		\item Speichern der hochgeladenen Daten in einer Datenbank und im Dateisystem.
+		\item Aufbereiten der Screenshots und des Videos von der Frontkamera in ein Ergebnisvideo für die Auswertung.
+	\end{itemize}
+\end{compactitem}
+
+Die Idee und die ursprüngliche Planung stammen von Oliver Erxleben, welcher auch für die Serverkomponente zuständig war.
+
+Da viele Funktionen in der Implementierung nur skizziert wurden eignet sich der Prototyp nicht für die Verwendung in einer produktiven Umgebung.
+
+Folgende Komponenten wurden aus der vorhergehenden Arbeit übernommen und weiterentwickelt:
+\begin{compactitem}
+	\item das grundlegende Konzept,
+	\item Teile des Datenmodells,
+	\item und Quellen der Android Bibliothek und Testapplikation.
+\end{compactitem}
+
+Der Server wird auf der Basis von \emph{Java EE 7} neu aufgebaut.
+%TODO: Querverweis

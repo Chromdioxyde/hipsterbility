@@ -10,6 +10,8 @@ import javax.persistence.*;
 @Entity(name = "Device")
 public class DeviceEntity {
 
+    public static final String TABLE_NAME = "Device";
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;

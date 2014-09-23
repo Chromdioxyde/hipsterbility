@@ -1,8 +1,7 @@
 package de.hsosnabrueck.hipsterbility.rest.api;
 
-import de.hsosnabrueck.hipsterbility.model.Device;
+import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
 import de.hsosnabrueck.hipsterbility.rest.service.DeviceService;
-import de.hsosnabrueck.hipsterbility.rest.service.Service;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -26,14 +25,14 @@ public class DeviceResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Device> getDeviceList() {
+    public Collection<DeviceEntity> getDeviceList() {
         return deviceService.list();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Device getDevice(@PathParam("id") int id) {
+    public DeviceEntity getDevice(@PathParam("id") int id) {
         return deviceService.read(id);
     }
 
@@ -42,13 +41,12 @@ public class DeviceResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteDevice(@PathParam("id") int id) {
         deviceService.delete(id);
-
         return Response.status(Response.Status.OK).entity("device has been successfully deleted").type(MediaType.APPLICATION_JSON).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createDevice(Device device) {
+    public Response createDevice(DeviceEntity device) {
         deviceService.create(device);
         return Response.status(Response.Status.CREATED).entity("device has been successfully created").type(MediaType.APPLICATION_JSON).build();
     }
@@ -56,7 +54,7 @@ public class DeviceResource {
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateDevice(@PathParam("id") int id, Device device) {
+    public Response updateDevice(@PathParam("id") int id, DeviceEntity device) {
         deviceService.update(id, device);
         return Response.status(Response.Status.OK).entity("device has been successfully updated").type(MediaType.APPLICATION_JSON).build();
     }

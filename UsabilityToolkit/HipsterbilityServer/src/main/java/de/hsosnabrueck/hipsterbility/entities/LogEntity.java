@@ -11,6 +11,8 @@ import javax.persistence.Id;
 @Entity(name = "TestLog")
 public class LogEntity {
 
+    public static final String TABLE_NAME = "TestLog";
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;

@@ -1,12 +1,8 @@
 package de.hsosnabrueck.hipsterbility.rest.api;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
-import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import de.hsosnabrueck.hipsterbility.model.Device;
+import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
 import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
-import de.hsosnabrueck.hipsterbility.rest.api.DeviceResource;
-import de.hsosnabrueck.hipsterbility.rest.config.ApplicationBinder;
-import de.hsosnabrueck.hipsterbility.rest.config.ApplicationConfig;
+import de.hsosnabrueck.hipsterbility.config.ApplicationBinder;
 import de.hsosnabrueck.hipsterbility.rest.service.DeviceService;
 import de.hsosnabrueck.hipsterbility.rest.service.Service;
 import org.glassfish.hk2.api.Factory;
@@ -14,23 +10,16 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import javax.inject.Singleton;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.persistence.Persistence;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.doNothing;
@@ -73,7 +62,7 @@ public class DeviceResourceTest extends JerseyTest {
 
         Response response = target("devices/1").request().get();
 
-        Device deviceEntity = response.readEntity(Device.class);
+        DeviceEntity deviceEntity = response.readEntity(DeviceEntity.class);
 
         assertEquals(200, response.getStatus());
         assertEquals(1, deviceEntity.getId());
@@ -91,7 +80,7 @@ public class DeviceResourceTest extends JerseyTest {
 
         Entity<Integer> deivceId = Entity.entity(getMockDevice().getId(), MediaType.APPLICATION_JSON_TYPE);
 
-        doNothing().when(serviceMock).create(Mockito.any(Device.class));
+        doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
 
         Response response = target("devices/"+deivceId.getEntity()).request().delete();
 
@@ -105,9 +94,9 @@ public class DeviceResourceTest extends JerseyTest {
     @Test
     public void testDeviceCreateResponse() {
 
-        Entity<Device> deviceEntity = Entity.entity(getMockDevice(), MediaType.APPLICATION_JSON_TYPE);
+        Entity<DeviceEntity> deviceEntity = Entity.entity(getMockDevice(), MediaType.APPLICATION_JSON_TYPE);
 
-        doNothing().when(serviceMock).create(Mockito.any(Device.class));
+        doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
 
         Response response = target("devices").request().post(deviceEntity);
 
@@ -118,9 +107,9 @@ public class DeviceResourceTest extends JerseyTest {
     @Test
     public void testDeviceUpdateResponse() {
 
-        Entity<Device> deviceEntity = Entity.entity(getMockDevice(), MediaType.APPLICATION_JSON_TYPE);
+        Entity<DeviceEntity> deviceEntity = Entity.entity(getMockDevice(), MediaType.APPLICATION_JSON_TYPE);
 
-        doNothing().when(serviceMock).create(Mockito.any(Device.class));
+        doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
 
         Response response = target("devices/1").request().put(deviceEntity);
 
@@ -136,8 +125,8 @@ public class DeviceResourceTest extends JerseyTest {
      *
      * @return the device object
      */
-    private Device getMockDevice() {
-        Device device = new Device();
+    private DeviceEntity getMockDevice() {
+        DeviceEntity device = new DeviceEntity();
         device.setId(1);
         device.setCustomName("My Nexus");
         device.setDeviceClass(DeviceClass.PHONE);

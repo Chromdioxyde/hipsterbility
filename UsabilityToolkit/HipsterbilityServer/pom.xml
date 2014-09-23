@@ -24,6 +24,8 @@
         <jackson.version>LATEST</jackson.version>
         <mysql_connector.version>5.1.32</mysql_connector.version>
         <spring_security.version>3.2.5.RELEASE</spring_security.version>
+        <guave.version>LATEST</guave.version>
+        <primefaces.version>LATEST</primefaces.version>
 	</properties>
 
 	<dependencies>
@@ -102,7 +104,17 @@
             <!--<artifactId>spring-security-web</artifactId>-->
             <!--<version>${spring_security.version}</version>-->
         <!--</dependency>-->
-	</dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guave.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>${primefaces.version}</version>
+        </dependency>
+    </dependencies>
 
 
 
@@ -112,7 +124,7 @@
         <outputDirectory>target/classes</outputDirectory>
         <testOutputDirectory>target/test-classes</testOutputDirectory>
         <sourceDirectory>src/main/java</sourceDirectory>
-        <!--<scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>-->
+        <scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>
         <testSourceDirectory>src/test/java</testSourceDirectory>
         <resources>
             <resource>

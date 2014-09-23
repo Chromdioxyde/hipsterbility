@@ -1,6 +1,5 @@
 package de.hsosnabrueck.hipsterbility.rest.service;
 
-import de.hsosnabrueck.hipsterbility.model.Device;
 
 import java.util.Collection;
 
@@ -16,7 +15,7 @@ public interface Service<T> {
 
     public void delete(int id);
 
-    public void create(T object);
+    public T create(T object);
 
     public void update(int id, T object);
 }

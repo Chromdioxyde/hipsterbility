@@ -6,11 +6,13 @@ import java.util.List;
 /**
  * Created by Albert on 14.09.2014.
  */
-@Entity(name = "TestTemplate")
+@Entity(name = "Template")
 public class TestTemplateEntity {
 
+    public static final String TABLE_NAME = "Template";
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
     private String name;

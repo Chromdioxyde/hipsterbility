@@ -1,4 +1,4 @@
-package de.hsosnabrueck.hipsterbility.rest.config;
+package de.hsosnabrueck.hipsterbility.config;
 
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -7,7 +7,7 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class ApplicationConfig extends ResourceConfig {
     public ApplicationConfig() {
-        register(new ApplicationBinder());
+//        register(new ApplicationBinder());
         packages(true, "de.hsosnabrueck.hipsterbility.rest.api");
     }
 }

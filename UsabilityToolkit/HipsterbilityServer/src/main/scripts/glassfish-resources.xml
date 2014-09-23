@@ -3,7 +3,7 @@
   Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
 
 <resources>
-    <jdbc-connection-pool name="java:app/hipsterbilityPool"
+    <jdbc-connection-pool name="jdbc_hipsterbilityPool"
                           res-type="javax.sql.ConnectionPoolDataSource"
                           datasource-classname="com.mysql.jdbc.jdbc2.optional.MysqlDataSource">
 
@@ -19,9 +19,9 @@
     </jdbc-connection-pool>
 
     <jdbc-resource enabled="true"
-                   jndi-name="java:app/jdbc/hipsterbility"
+                   jndi-name="jdbc/hipsterbility"
                    object-type="user"
-                   pool-name="java:app/hipsterbilityPool">
+                   pool-name="jdbc_hipsterbilityPool">
         <description />
     </jdbc-resource>
 </resources>

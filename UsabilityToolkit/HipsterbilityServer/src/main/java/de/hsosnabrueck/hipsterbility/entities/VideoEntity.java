@@ -10,8 +10,10 @@ import javax.persistence.*;
 @Entity(name = "Video")
 public class VideoEntity {
 
+    public static final String TABLE_NAME = "Video";
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     private String filePath;
     @Enumerated(EnumType.STRING)

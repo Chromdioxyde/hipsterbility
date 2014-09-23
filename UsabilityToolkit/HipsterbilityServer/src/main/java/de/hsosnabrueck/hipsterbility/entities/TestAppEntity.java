@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"NAME","VERSION"}))
 public class TestAppEntity {
 
+    public static final String TABLE_NAME = "App";
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;

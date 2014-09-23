@@ -10,7 +10,7 @@
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage[right]{eurosym}
-\usepackage[printonlyused]{acronym}
+\usepackage[printonlyused,footnote]{acronym}
 \usepackage{subfig}
 \usepackage{floatflt}
 \usepackage[usenames,dvipsnames]{color}
@@ -21,8 +21,12 @@
 \usepackage{parskip}
 \usepackage[right]{eurosym}
 \usepackage{picins}
+\usepackage{textcomp} %Eurozeichen und andere Symbole
+\usepackage{xspace} %Leerzeichen nach LaTeX -Befehlen
 \usepackage[subfigure,titles]{tocloft}
 \usepackage[pdfpagelabels=true]{hyperref}
+\usepackage[babel,german=quotes]{csquotes}
+\usepackage{romannum}
 
 \usepackage[
 	backend=biber,
@@ -51,6 +55,11 @@
 	pdfnewwindow=true,
 	colorlinks=true,linkcolor=black,citecolor=black,filecolor=magenta,urlcolor=black}
 \pdfinfo{/CreationDate (D:20110620133321)}
+
+% Hurenkinder und Schusterjungen verhindern
+\clubpenalty10000
+\widowpenalty10000
+\displaywidowpenalty=10000
 
 % Benutzerdefinierte Befehle für späteren Werteabruf
 \def\title#1{\gdef\@title{#1}\gdef\THETITLE{#1}}
@@ -118,26 +127,42 @@
 \section{Einleitung}
 \input{txt/einleitung/motivation}
 \input{txt/einleitung/problemstellung}
-\input{txt/einleitung/stand_der_technik}
+\input{txt/einleitung/stand_bei_projektbeginn}
 
+\section{Stand der Technik}
+\input{txt/sdt/methoden}
+\input{txt/sdt/anbieter}
+\input{txt/sdt/werkzeuge}
+\input{txt/sdt/technologien}
 
 \section{Konzept}
+\input{txt/konzept/anforderungen}
+An das Projekt ergeben sich die folgenden Anforderungen:
+\begin{compactitem}
+	\item  
+\end{compactitem}
 
-\section{Realisierung}
+\section{Realisierung des Servers}
+\input{txt/realisiertung/rest-server}
+\section{Realisierung der Android Bibliothek}
+\section{Realisierung des Testleiter-Clients}
+
 
 \section{Ergebnisse}
 
 \section{Fazit}
+\input{txt/fazit/weiterentwicklung}
 
 % ----------------------------------------------------------------------------------------------------------
 % Literatur
 % ----------------------------------------------------------------------------------------------------------
 \renewcommand\refname{Quellenverzeichnis}
 \pagebreak
-
+\printbibliography
 % ----------------------------------------------------------------------------------------------------------
 % Anhang
 % ----------------------------------------------------------------------------------------------------------
+\clearpage
 \pagenumbering{Roman}
 \setcounter{page}{1}
 \lhead{Anhang \thesection}
@@ -158,21 +183,6 @@ Unterkategorie, die nicht im Inhaltsverzeichnis auftaucht.
 \end{appendix}
 
 
-\newpage
-\thispagestyle{empty}
-\begin{center}
-	\vspace*{5em}
-	\huge\textbf{Erklärung}\\
-\end{center}
-\vspace{2em}
-Hiermit versichere ich, dass ich meine Abschlussarbeit selbständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe.
-
-\vspace{4em}
-\begin{minipage}{\linewidth}
-	\begin{tabular}{p{15em}p{15em}}
-		Datum: &  .......................................................\\
-		& \centering (Unterschrift)\\
-	\end{tabular}
-\end{minipage}
+\input{erklaerung}
 
 \end{document}

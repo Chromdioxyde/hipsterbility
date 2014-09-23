@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.hsosnabrueck.hipsterbility</groupId>
+    <artifactId>hipsterbility_client</artifactId>
+    <packaging>war</packaging>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>hipsterbility_client Hipsterbility Client</name>
+    <properties>
+        <!--<jackson.version>2.12</jackson.version>-->
+        <jersey.version>LATEST</jersey.version>
+        <genson.version>LATEST</genson.version>
+        <eclipselink.version>LATEST</eclipselink.version>
+        <!--<derby.version>10.10.1.1</derby.version>-->
+        <junit.version>LATEST</junit.version>
+        <mockito.version>LATEST</mockito.version>
+        <jackson.version>LATEST</jackson.version>
+        <mysql_connector.version>5.1.32</mysql_connector.version>
+        <!--<spring_security.version>3.2.5.RELEASE</spring_security.version>-->
+        <guave.version>LATEST</guave.version>
+    </properties>
+    <dependencies>
+
+    </dependencies>
+    <build>
+        <finalName>hipsterbility</finalName>
+        <directory>target</directory>
+        <outputDirectory>target/classes</outputDirectory>
+        <testOutputDirectory>target/test-classes</testOutputDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+    </build>
+    <developers>
+        <developer>
+            <name>Albert Hoffmann</name>
+            <roles>
+                <role>Developer</role>
+                <role>Architect</role>
+            </roles>
+        </developer>
+    </developers>
+</project>
