@@ -26,27 +26,35 @@
         <spring_security.version>3.2.5.RELEASE</spring_security.version>
         <guave.version>LATEST</guave.version>
         <primefaces.version>LATEST</primefaces.version>
+        <jackson-jaxrs.version>2.4.0</jackson-jaxrs.version>
+        <servlet.version>LATEST</servlet.version>
+        <jsf.version>LATEST</jsf.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-server</artifactId>
-			<version>${jersey.version}</version>
-            <scope>provided</scope>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.glassfish.jersey.core</groupId>-->
+			<!--<artifactId>jersey-server</artifactId>-->
+			<!--<version>${jersey.version}</version>-->
+            <!--<scope>provided</scope>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
 			<artifactId>jersey-container-servlet</artifactId>
 			<version>${jersey.version}</version>
             <scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.core</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>${jersey.version}</version>
-            <scope>provided</scope>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.glassfish.jersey.core</groupId>-->
+			<!--<artifactId>jersey-client</artifactId>-->
+			<!--<version>${jersey.version}</version>-->
+            <!--<scope>provided</scope>-->
+		<!--</dependency>-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson-jaxrs.version}</version>
+        </dependency>
 		<!--<dependency>-->
 			<!--<groupId>com.owlike</groupId>-->
 			<!--<artifactId>genson</artifactId>-->
@@ -87,12 +95,12 @@
 			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
-            <version>${jackson.version}</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.glassfish.jersey.media</groupId>-->
+            <!--<artifactId>jersey-media-json-jackson</artifactId>-->
+            <!--<version>${jackson.version}</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -113,6 +121,24 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>${primefaces.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>${jsf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>${jsf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${servlet.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

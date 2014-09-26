@@ -26,13 +26,13 @@ public class TaskResource implements Resource<TaskEntity> {
 
 
     @Override
-    public TaskEntity get(int id) {
-        return taskService.read(id);
+    public Response get(int id) {
+        return Response.ok(taskService.read(id)).build();
     }
 
     @Override
-    public Collection<TaskEntity> list() {
-        return taskService.list();
+    public Response list() {
+        return Response.ok(taskService.list()).build();
     }
 
     @Override

@@ -14,29 +14,23 @@ public interface Resource<T> {
 
         @GET
         @Path("{id}")
-        @RolesAllowed(value = "User")
         @Produces(MediaType.APPLICATION_JSON)
-        public T get(@PathParam("id") int id);
+        public Response get(@PathParam("id") int id);
 
         @GET
-        @RolesAllowed(value = "User")
         @Produces(MediaType.APPLICATION_JSON)
-        public Collection<T> list();
+        public Response list();
 
         @DELETE
         @Path("{id}")
-        @RolesAllowed(value = "User")
-        @Consumes(MediaType.APPLICATION_JSON)
         public Response delete(@PathParam("id") int id);
 
         @POST
-        @RolesAllowed(value = "User")
         @Consumes(MediaType.APPLICATION_JSON)
         public Response create(UriInfo uriInfo, T object);
 
         @PUT
         @Path("{id}")
-        @RolesAllowed(value = "User")
         @Consumes(MediaType.APPLICATION_JSON)
         public Response update(@PathParam("id") int id, T object);
 

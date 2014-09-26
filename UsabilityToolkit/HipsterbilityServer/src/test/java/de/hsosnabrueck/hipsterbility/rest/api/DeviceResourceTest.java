@@ -45,7 +45,7 @@ public class DeviceResourceTest extends JerseyTest {
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
 
-        ResourceConfig config = new ResourceConfig(DeviceResource.class);
+        ResourceConfig config = new ResourceConfig(DeviceResourceImpl.class);
 //        ResourceConfig config = new ApplicationConfig();
         config.register(new InjectableProvider());
         config.register(new ApplicationBinder());

@@ -4,7 +4,7 @@
     <string name="capture_service_label">Hipsterbility Capture Service</string>
     <string name="choose_session">Select session </string>
     <string name="err_no_todos_for_session">This session has no todos yet.</string>
-    <string name="start_session">Start de.hsosnabrueck.hipsterbility.entities.Session</string>
+    <string name="start_session">Start Session</string>
     <string name="todos_title">Todos preview</string>
     <string name="sessions_for_user">Sessions</string>
     <string name="select_session_first">No session selected. Please select a session first.</string>
@@ -48,7 +48,7 @@
     </string>
     <string name="action_reload">Reload</string>
     <string name="menu_settings">Settings</string>
-    <string name="action_start_session">Start de.hsosnabrueck.hipsterbility.entities.Session</string>
+    <string name="action_start_session">Start Session</string>
     <string name="msg_server_found">Server is online</string>
     <string name="msg_server_not_found">Connection to server could not be established. Check server address and port.
     </string>
@@ -76,7 +76,7 @@
     <string name="notification_title_upload_data">Upload collected data</string>
     <string name="notification_text_upload_data">Tap to start upload</string>
     <string name="upload_service_label">Hipsterbility Upload Service</string>
-    <string name="session">de.hsosnabrueck.hipsterbility.entities.Session</string>
+    <string name="session">Session</string>
     <string name="notification_text_upload_data_complete">Data upload successful.</string>
     <string name="dialog_title_delete_files">Upload successful</string>
     <string name="dialog_title_delete_text">Delete temporary files from disk?</string>

@@ -1,0 +1,1 @@
+asadmin multimode --file glassfish-delete.txt

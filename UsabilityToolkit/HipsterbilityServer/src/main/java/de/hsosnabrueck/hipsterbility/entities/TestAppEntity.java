@@ -1,5 +1,7 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
+import de.hsosnabrueck.hipsterbility.model.enums.DevicePlatform;
+
 import javax.persistence.*;
 
 /**
@@ -16,7 +18,10 @@ public class TestAppEntity {
     private int id;
     @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private String version;
+    @Enumerated(EnumType.STRING)
+    private DevicePlatform platform;
 
     public int getId() {
         return id;
@@ -40,5 +45,13 @@ public class TestAppEntity {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public DevicePlatform getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(DevicePlatform platform) {
+        this.platform = platform;
     }
 }

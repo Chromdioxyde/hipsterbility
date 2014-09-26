@@ -2,53 +2,80 @@ package de.hsosnabrueck.hipsterbility.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Albert on 08.09.2014.
  */
 @Entity(name = "User")
+@JsonIgnoreProperties({"password"})
+@NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username=:username")
 public class UserEntity {
 
     public static final String TABLE_NAME = "User";
 
-//    @Id
-//    @GeneratedValue(strategy= GenerationType.IDENTITY)
-//    private int id;
     @Id
-//    @Column(unique = true, nullable = false, updatable = false)
-    private String userName;
-    private String firstName;
-    private String lastName;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
+    @Column(unique = true, nullable = false, updatable = false)
+    private String username;
+    private String firstname;
+    private String lastname;
     @Column(nullable = false)
     private String email;
     @Column(nullable = false) @XmlTransient @JsonIgnore
-    private String password; // TODO encrypt or hash
+    private String password;
     private boolean active;
-//    @ManyToOne
-//    private GroupEntity groups;
     @OneToMany
     private List<TestSessionEntity> sessions;
     @OneToMany
     private List<DeviceEntity> devices;
+    private Locale locale;
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
 
-    public String getUserName() {
-        return userName;
+    public int getId() {
+        return id;
     }
 
-    public void setUserName(String name) {
-        this.userName = name;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -67,37 +94,12 @@ public class UserEntity {
         this.active = active;
     }
 
-
     public List<TestSessionEntity> getSessions() {
         return sessions;
     }
 
     public void setSessions(List<TestSessionEntity> sessions) {
         this.sessions = sessions;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public List<DeviceEntity> getDevices() {
@@ -108,11 +110,11 @@ public class UserEntity {
         this.devices = devices;
     }
 
-//    public GroupEntity getGroups() {
-//        return groups;
-//    }
-//
-//    public void setGroups(GroupEntity groups) {
-//        this.groups = groups;
-//    }
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
 }

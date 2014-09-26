@@ -13,4 +13,5 @@ public interface UserService extends Service<UserEntity> {
     public Collection<DeviceEntity> readDevices(int userId);
     public Collection<TestSessionEntity> readSessions(int userId);
     public DeviceEntity readDevice(int userId, int deviceId);
+    public UserEntity findByName(String username);
 }

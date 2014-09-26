@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper,bibliography=totocnumbered,listof=totocnumbered]{scrartcl}
+\documentclass[11pt,a4paper,bibliography=totocnumbered,listof=totocnumbered]{scrartcl}
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -21,19 +21,20 @@
 \usepackage{parskip}
 \usepackage[right]{eurosym}
 \usepackage{picins}
-\usepackage{textcomp} %Eurozeichen und andere Symbole
-\usepackage{xspace} %Leerzeichen nach LaTeX -Befehlen
+\usepackage{textcomp} % Eurozeichen und andere Symbole
+\usepackage{xspace} % Leerzeichen nach LaTeX -Befehlen
 \usepackage[subfigure,titles]{tocloft}
 \usepackage[pdfpagelabels=true]{hyperref}
 \usepackage[babel,german=quotes]{csquotes}
 \usepackage{romannum}
+\usepackage{enumitem} % Konfigurierbare Aufzählungen und Listen
 
 \usepackage[
 	backend=biber,
 	style=alphabetic,
 	citestyle=alphabetic,
 	sorting=nty,
-	doi=true,url=true
+	doi=true,url=true,
 ]{biblatex}
 \bibliography{bib}
 
@@ -46,15 +47,20 @@
 \geometry{a4paper, top=27mm, left=30mm, right=20mm, bottom=35mm, headsep=10mm, footskip=12mm}
 
 \hypersetup{unicode=false, pdftoolbar=true, pdfmenubar=true, pdffitwindow=false, pdfstartview={FitH},
-	pdftitle={Abschlussarbeit},
-	pdfauthor={Daniel Brettschneider},
-	pdfsubject={Abschlussarbeit},
-	pdfcreator={\LaTeX\ with package \flqq hyperref\frqq},
-	pdfproducer={pdfTeX \the\pdftexversion.\pdftexrevision},
-	pdfkeywords={Abschlussarbeit},
-	pdfnewwindow=true,
+%	pdftitle={Abschlussarbeit}, 
+%	pdfauthor={Daniel Brettschneider},
+%	pdfsubject={Abschlussarbeit},
+%	pdfcreator={\LaTeX\ with package \flqq hyperref\frqq},
+%	pdfproducer={pdfTeX \the\pdftexversion.\pdftexrevision},
+%	pdfkeywords={Abschlussarbeit},
+%	pdfnewwindow=true,
 	colorlinks=true,linkcolor=black,citecolor=black,filecolor=magenta,urlcolor=black}
-\pdfinfo{/CreationDate (D:20110620133321)}
+%\pdfinfo{/CreationDate (D:20110620133321)}
+
+% Schriftart auf Helvetica ändern
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\fontfamily{phv}\selectfont
 
 % Hurenkinder und Schusterjungen verhindern
 \clubpenalty10000
@@ -137,14 +143,14 @@
 
 \section{Konzept}
 \input{txt/konzept/anforderungen}
-An das Projekt ergeben sich die folgenden Anforderungen:
-\begin{compactitem}
-	\item  
-\end{compactitem}
 
-\section{Realisierung des Servers}
-\input{txt/realisiertung/rest-server}
+\section{Realisierung des Servers\label{sec:realisierung_server}}
+\input{txt/realisierung/datenbank}
+\input{txt/realisierung/rest-server}
+\input{txt/realisierung/server-sicherheit}
+
 \section{Realisierung der Android Bibliothek}
+
 \section{Realisierung des Testleiter-Clients}
 
 
@@ -155,9 +161,11 @@ An das Projekt ergeben sich die folgenden Anforderungen:
 
 % ----------------------------------------------------------------------------------------------------------
 % Literatur
-% ----------------------------------------------------------------------------------------------------------
+% ---------------------------------------------------------------------------------------------------------
 \renewcommand\refname{Quellenverzeichnis}
 \pagebreak
+\singlespacing % Einfacher Zeilenabstand
+\setlength{\bibitemsep}{12pt} % Größerer Abstand zwischen den Zeilen
 \printbibliography
 % ----------------------------------------------------------------------------------------------------------
 % Anhang
@@ -172,6 +180,8 @@ An das Projekt ergeben sich die folgenden Anforderungen:
 \phantomsection
 \addcontentsline{toc}{section}{Anhang}
 \addtocontents{toc}{\vspace{-0.5em}}
+
+\input{txt/anhang/screenshots}
 
 \section{GUI}
 Ein toller Anhang.

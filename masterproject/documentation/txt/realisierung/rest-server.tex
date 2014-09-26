@@ -1,0 +1,57 @@
+\subsection{RESTFul Webservice}
+Um die Android Bibliothek und den Testleiter-Client anzubinden wird eine \ac{REST}-\ac{API} verwendet.
+Da der \emph{Glassfish} \ac{AS} die Grundlage für die Serverkomponente darstellt, kommt die \ac{JAX-RS} 2.0 Implementierung \emph{Jersey} (\url{https://jersey.java.net/}) zum Einsatz, welche beim \ac{AS} mitgeliefert wird.
+Als Referenz für die Implementierung der Schnittstelle und den Aufbau der Ressourcen dient \citetitle{Burke.2014} von \citeauthor{Burke.2014} \cite{Burke.2014}.
+
+Eine möglichst lose Kopplung der verschiedenen Klassen wird durch die Verwendung von Interfaces und Dependency Injection erreicht.
+Ein gutes Beispiel dafür zeigt Robert Leggett mit seinem GitHub Projekt \emph{jersey\_restful\_webservice}\footnote{GitHub Repository: \url{https://github.com/Robert-Leggett/jersey_restful_webservice}}, welches vom Ressourcenaufbau eher dem \ac{REST}-\ac{RPC} Schema folgt.
+
+Aktuell wird nur das \ac{JSON} Datenformat unterstützt.
+Für das (Un--)Marshalling wird serverseitig die \emph{Jackson} (\url{http://jackson.codehaus.org/}) Bibliothek verwendet.
+
+Eine Implementierung des \ac{HATEOAS} Prinzips \cite[vgl.][11-13]{Burke.2014} wurde nicht vorgenommen, da die entwickelte \ac{API} nicht öffentlich zugänglich sein wird.
+Außerdem wird sie aktuell nur von den eigenen Clients genutzt, welchen der Aufbau der \ac{API} nd Ressourcen bekannt ist.
+Ein detaillierte Beschreibung der Ressourcen mit Pfaden und \ac{HTTP}"~Methoden befindet sich in Abschnitt \ref{subsubsec:rest_ressourcen}.
+
+\subsubsection{Java REST-API mit JAX-RS Annotationen und CDI}
+
+\subsubsection{Implementierte Ressourcen\label{subsubsec:rest_ressourcen}}
+Die Ressourcen werden als Gruppen von Objekten angesehen und es werden Nomen im Plural verwendet \cite[vgl.][20\psqq]{Burke.2014} um die Benennung einheitlich zu gestalten (z.B. \texttt{users, sessions, devices}).
+Dies weicht vom Datenbankmodell ab, da dort die Tabellen im Singular benannt sind. %TODO: Referenz zum Datenbankabschnitt einfügen
+Wie auch bei den \acp{DAO} in der Persistenzschicht der Serveranwendung wurden die vier grundlegenden Datenoperationen \ac{CRUD} implementiert.
+Die Zuordnung zwischen Operation und \ac{HTTP}"~Methoden bzw. \ac{SQL}"~Befehlen ist in Tabelle \ref{tbl:crud} zu sehen.
+
+\begin{minipage}[t]{\textwidth}
+	\centering
+	\begin{tabular}{|l|l|l|}
+		\hline \textbf{Operation} & \textbf{HTTP} & \textbf{SQL} \\ 
+		\hline Create & \texttt{POST} & \texttt{INSERT} \\ 
+		\hline Read / Retrieve & \texttt{GET} & \texttt{SELECT} \\ 
+		\hline Update / Modify & \texttt{PUT} & \texttt{UPDATE} \\ 
+		\hline Delete & \texttt{DELETE} & \texttt{DELETE} \\ 
+		\hline 
+	\end{tabular}
+	\captionof{table}{Zuweisung der CRUD Operationen und HTTP-Methoden / SQL-Befehlen.}
+	\label{tbl:crud}
+\end{minipage}
+
+
+Nachfolgend werden die Resourcen mit den implementierten \ac{HTTP}"~Methoden aufgelistet.
+Die Pfadangabe erfolgt relativ zur Basis"~\ac{URL}.
+Angaben in geschweiften Klammern sind Pfad-Parameter, welchen im Aufruf ein Wert zugewiesen ist.
+%TODO: fehlende Ressourcen nachpflegen
+
+\subsubsection*{Daten mit Benutzerbezug (Administrator, Benutzer eingeschränkt) }
+\begin{description}[nosep, style=multiline, leftmargin=5cm, font=\small]
+	\item[GET, POST] \texttt{/users}
+	\item[GET, POST, PUT, DELETE] \texttt{/users/\{id\}}
+	\item[GET, POST] \texttt{/users/\{id\}/devices}
+	\item[GET, POST] \texttt{/users/\{id\}/sessions}
+\end{description}
+
+\subsubsection*{Gerätedaten (Administrator)}
+\begin{description}[nosep, style=multiline, leftmargin=5cm, font=\small]
+	\item[GET, POST] \texttt{/devices}
+	\item[GET, POST, PUT, DELETE] \texttt{/devices/\{id\}}
+\end{description}
+

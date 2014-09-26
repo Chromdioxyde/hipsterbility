@@ -1,8 +1,10 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Albert on 08.09.2014.
@@ -15,11 +17,12 @@ public class TodoEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false)
     private String name;
     private String description;
     private boolean active;
     @OneToMany
-    private List<TaskEntity> tasks;
+    private Collection<TaskEntity> tasks;
     @ManyToOne
     private UserEntity creator;
     @ManyToOne
@@ -30,7 +33,7 @@ public class TodoEntity {
     @Column(insertable = false, updatable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestampModified;
-
+    private Locale locale;
 
     public int getId() {
         return id;
@@ -64,11 +67,11 @@ public class TodoEntity {
         this.active = active;
     }
 
-    public List<TaskEntity> getTasks() {
+    public Collection<TaskEntity> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<TaskEntity> tasks) {
+    public void setTasks(Collection<TaskEntity> tasks) {
         this.tasks = tasks;
     }
 
@@ -102,5 +105,13 @@ public class TodoEntity {
 
     public void setTimestampModified(Date timestampModified) {
         this.timestampModified = timestampModified;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 }

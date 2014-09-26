@@ -1,5 +1,7 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -22,6 +24,8 @@ public class TaskEntity {
     private Date started;
     @Temporal(TemporalType.TIMESTAMP)
     private Date finished;
+    @ManyToOne @JsonBackReference
+    private TodoEntity todo;
 
     public int getId() {
         return id;
@@ -69,5 +73,13 @@ public class TaskEntity {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public TodoEntity getTodo() {
+        return todo;
+    }
+
+    public void setTodo(TodoEntity todo) {
+        this.todo = todo;
     }
 }

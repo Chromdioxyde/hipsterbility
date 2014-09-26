@@ -70,4 +70,9 @@ public class UserServiceImpl implements UserService {
     public DeviceEntity readDevice(int userId, int deviceId) {
         return userDao.retrieveDevice(userId,deviceId);
     }
+
+    @Override
+    public UserEntity findByName(String username) {
+        return userDao.findByUsername(username);
+    }
 }

@@ -5,7 +5,7 @@ import java.util.Collection;
 /**
  * Created by Albert on 14.09.2014.
  */
-public interface Dao<T> {
+public abstract interface Dao<T> {
     public T retrieve(int id);
 
     public void delete(int id);

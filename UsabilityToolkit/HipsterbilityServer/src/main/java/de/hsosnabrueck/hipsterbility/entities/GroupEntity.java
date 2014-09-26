@@ -6,26 +6,27 @@ import javax.persistence.*;
  * Created by Albert on 13.09.2014.
  */
 
-@Entity(name = "UserGroup")
+@Entity(name = "RealmGroup")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"NAME, USER_ID"}))
 public class GroupEntity {
 
     public static final String TABLE_NAME = "UserGroup";
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
-    @Column(nullable = false)
+    @Column(nullable=false)
     private String name;
     @ManyToOne
     private UserEntity user;
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

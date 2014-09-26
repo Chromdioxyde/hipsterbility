@@ -1,0 +1,3 @@
+delete-auth-realm hipsterbility-realm
+delete-jdbc-resource jdbc/hipsterbility
+delete-jdbc-connection-pool jdbc_hipsterbilityPool

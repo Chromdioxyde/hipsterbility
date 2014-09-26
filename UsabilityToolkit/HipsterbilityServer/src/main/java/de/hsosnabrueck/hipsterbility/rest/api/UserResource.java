@@ -3,67 +3,48 @@ package de.hsosnabrueck.hipsterbility.rest.api;
 import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
 import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.hipsterbility.entities.UserEntity;
-import de.hsosnabrueck.hipsterbility.rest.service.UserService;
 
-import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.Collection;
 
 /**
- * Created by Albert on 08.09.2014.
+ * Created by Albert on 23.09.2014.
  */
-@Path("/users")
-public class UserResource implements Resource<UserEntity> {
+public interface UserResource {
 
-    private final UserService userService;
+    @GET
+    @Path("{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response get(@PathParam("id") int id);
 
-    @Inject
-    public UserResource(UserService userService) {
-        this.userService = userService;
-    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response list();
 
-    @Override
-    public UserEntity get(int id) {
-        return userService.read(id);
-    }
+    @DELETE
+    @Path("{id}")
+    public Response delete(@PathParam("id") int id);
 
-    @Override
-    public Collection<UserEntity> list() {
-        return userService.list();
-    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(UriInfo uriInfo, UserEntity userEntity);
 
-    @Override
-    public Response delete(int id) {
-        return Response.notModified().build();
-    }
-
-    @Override
-    public Response create(@Context UriInfo uriInfo, UserEntity object) {
-        UserEntity e = userService.create(object);
-//        UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder().path(String.valueOf(e.getId()));
-//        Response.ResponseBuilder builder = Response.created(uriBuilder.build()).entity(e);
-//        return builder.build();
-        return null;
-    }
-
-    @Override
-    public Response update(int id, UserEntity object) {
-        userService.update(id, object);
-        return Response.ok().build();
-    }
+    @PUT
+    @Path("{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response update(@PathParam("id") int id, UserEntity userEntity);
 
     @GET
     @Path("{id}/sessions")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<TestSessionEntity> getSessions(@PathParam("id") int userId){
-        return userService.readSessions(userId);
-    }
+    public Response getSessions(@PathParam("id") int userId);
 
     @GET
     @Path("{id}/devices")
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<DeviceEntity> getDevices(@PathParam("id") int userId){
-        return userService.readDevices(userId);
-    }
+    public Response getDevices(@PathParam("id") int userId);
+
 }

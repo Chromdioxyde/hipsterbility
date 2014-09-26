@@ -21,12 +21,12 @@ public class TodoResource implements Resource<TodoEntity> {
 
 
     @Override
-    public TodoEntity get(int id) {
+    public Response get(int id) {
         return null;
     }
 
     @Override
-    public List<TodoEntity> list() {
+    public Response list() {
         return null;
     }
 
