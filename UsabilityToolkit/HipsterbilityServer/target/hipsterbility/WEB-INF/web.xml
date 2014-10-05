@@ -6,15 +6,6 @@
            version="3.0">
 
     <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.xhtml</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>Jersey Web Application</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
@@ -23,40 +14,85 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Web Application</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>/index.jsp</welcome-file><!-- 1 -->
+        <welcome-file>/index.jsp</welcome-file>
     </welcome-file-list>
-    <security-constraint><!-- 2 -->
-        <display-name>RESTConstraint</display-name>
+
+    <security-constraint>
         <web-resource-collection>
-            <web-resource-name>RESTResources</web-resource-name>
-            <description>REST API of the Hipsterbility Server</description>
-            <url-pattern>/rest/*</url-pattern>
+            <web-resource-name>Rest API</web-resource-name>
+            <url-pattern>/api/*</url-pattern>
+        </web-resource-collection>
+        <!--<auth-constraint>-->
+            <!--<description>constraint for REST API</description>-->
+            <!--<role-name>ADMIN</role-name>-->
+            <!--<role-name>USER</role-name>-->
+        <!--</auth-constraint>-->
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>User Resources</web-resource-name>
+            <url-pattern>/api/users/*</url-pattern>
+            <http-method-omission>POST</http-method-omission><!--allow POST for all users-->
         </web-resource-collection>
         <auth-constraint>
-            <description>constraint for REST API</description>
             <role-name>ADMIN</role-name>
             <role-name>USER</role-name>
         </auth-constraint>
     </security-constraint>
-    <login-config><!-- 3 -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Sessions Resources</web-resource-name>
+            <url-pattern>/api/sessions/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Tests Resources</web-resource-name>
+            <url-pattern>/api/tests/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Devices Resources</web-resource-name>
+            <url-pattern>/api/devices/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+            <role-name>USER</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
         <auth-method>BASIC</auth-method>
         <realm-name>hipsterbility-realm</realm-name>
-        <!--<form-login-config>-->
-            <!--<form-login-page>/login.html</form-login-page>-->
-            <!--<form-error-page>/error.html</form-error-page>-->
-        <!--</form-login-config>-->
     </login-config>
-    <security-role><!-- 4 -->
-        <description/>
+    <security-role>
+        <description>Standard service users</description>
         <role-name>USER</role-name>
     </security-role>
-    <security-role><!-- 5 -->
-        <description/>
+    <security-role>
+        <description>Admin and test supervisors</description>
         <role-name>ADMIN</role-name>
     </security-role>
 </web-app>

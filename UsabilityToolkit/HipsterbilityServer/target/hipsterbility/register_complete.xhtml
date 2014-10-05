@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="../style/main.css" />
+</head>
+<h:body styleClass="body">
+    <h:form>
+        <h:outputText value="Registration Confirmation" styleClass="header"></h:outputText>
+        <h:messages errorClass="errorMessage" infoClass="infoMessage"
+                    warnClass="warnMessage"></h:messages>
+        <h:panelGrid columns="2">
+            <h:outputText value="Username :"></h:outputText>
+            <h:outputText value="#{regBean.username}"></h:outputText>
+
+            <h:outputText value="Password :"></h:outputText>
+            <h:outputText value="**************"></h:outputText>
+
+            <h:outputText value="First name :"></h:outputText>
+            <h:outputText value="#{regBean.firstname}"></h:outputText>
+
+            <h:outputText value="Last name :"></h:outputText>
+            <h:outputText value="#{regBean.lastname}"></h:outputText>
+
+            <h:outputText value="Date of Birth :"></h:outputText>
+            <h:outputText value="#{regBean.dob}"></h:outputText>
+
+            <h:outputText value="Email :"></h:outputText>
+            <h:outputText value="#{regBean.email}"></h:outputText>
+
+            <h:outputText value="Role : "></h:outputText>
+            <h:dataTable value="#{regBean.selectedGroups}" var="group">
+                <h:column>
+                    <h:outputText value="#{group}" />
+                </h:column>
+            </h:dataTable>
+
+            <h:outputText value="Street Name :"></h:outputText>
+            <h:outputText value="#{regBean.street}"></h:outputText>
+
+            <h:outputText value="Suburb :"></h:outputText>
+            <h:outputText value="#{regBean.suburb}"></h:outputText>
+
+            <h:outputText value="City :"></h:outputText>
+            <h:outputText value="#{regBean.city}"></h:outputText>
+
+            <h:outputText value="Zip :"></h:outputText>
+            <h:outputText value="#{regBean.zip}"></h:outputText>
+
+            <h:outputText value="State/Province :"></h:outputText>
+            <h:outputText value="#{regBean.province}"></h:outputText>
+
+            <h:outputText value="Country :"></h:outputText>
+            <h:outputText value="#{regBean.country}"></h:outputText>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>

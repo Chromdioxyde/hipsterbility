@@ -19,7 +19,7 @@ public class PasswordTest {
 
     @Test
     public void testPasswords(){
-        String pw1 = "test123";
+        String pw1 = "dummy";
         String pwhash1 = generateTestPasswords(pw1);
         String pwhash2 = generateHash(pw1);
         System.out.println(pw1+"|"+pwhash1+"|"+pwhash2);

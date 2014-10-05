@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 import java.util.Locale;
@@ -13,29 +15,47 @@ import java.util.Locale;
  * Created by Albert on 08.09.2014.
  */
 @Entity(name = "User")
-@JsonIgnoreProperties({"password"})
-@NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username=:username")
+
+@NamedQueries({
+        @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username=:username"),
+        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email=:email")
+        })
 public class UserEntity {
+    @JsonIgnoreProperties({"password"})
 
     public static final String TABLE_NAME = "User";
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+
+    @NotNull
+    @Size(min = 4, max = 32)
     @Column(unique = true, nullable = false, updatable = false)
     private String username;
+
     private String firstname;
+
     private String lastname;
-    @Column(nullable = false)
+
+    @NotNull
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @NotNull
     @Column(nullable = false) @XmlTransient @JsonIgnore
     private String password;
+
     private boolean active;
-    @OneToMany
+
+    @OneToMany(mappedBy = "tester")
     private List<TestSessionEntity> sessions;
-    @OneToMany
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<DeviceEntity> devices;
     private Locale locale;
+
+    private String inviteCode;
 
 
     public int getId() {
@@ -116,5 +136,13 @@ public class UserEntity {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
     }
 }

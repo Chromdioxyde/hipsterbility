@@ -7,7 +7,7 @@ Eine möglichst lose Kopplung der verschiedenen Klassen wird durch die Verwendun
 Ein gutes Beispiel dafür zeigt Robert Leggett mit seinem GitHub Projekt \emph{jersey\_restful\_webservice}\footnote{GitHub Repository: \url{https://github.com/Robert-Leggett/jersey_restful_webservice}}, welches vom Ressourcenaufbau eher dem \ac{REST}-\ac{RPC} Schema folgt.
 
 Aktuell wird nur das \ac{JSON} Datenformat unterstützt.
-Für das (Un--)Marshalling wird serverseitig die \emph{Jackson} (\url{http://jackson.codehaus.org/}) Bibliothek verwendet.
+Für das (Un--)Marshalling wird serverseitig die \emph{Jackson} (\url{https://github.com/FasterXML/jackson}) Bibliothek verwendet.
 
 Eine Implementierung des \ac{HATEOAS} Prinzips \cite[vgl.][11-13]{Burke.2014} wurde nicht vorgenommen, da die entwickelte \ac{API} nicht öffentlich zugänglich sein wird.
 Außerdem wird sie aktuell nur von den eigenen Clients genutzt, welchen der Aufbau der \ac{API} nd Ressourcen bekannt ist.
@@ -17,41 +17,63 @@ Ein detaillierte Beschreibung der Ressourcen mit Pfaden und \ac{HTTP}"~Methoden 
 
 \subsubsection{Implementierte Ressourcen\label{subsubsec:rest_ressourcen}}
 Die Ressourcen werden als Gruppen von Objekten angesehen und es werden Nomen im Plural verwendet \cite[vgl.][20\psqq]{Burke.2014} um die Benennung einheitlich zu gestalten (z.B. \texttt{users, sessions, devices}).
-Dies weicht vom Datenbankmodell ab, da dort die Tabellen im Singular benannt sind. %TODO: Referenz zum Datenbankabschnitt einfügen
+Dies weicht vom Datenbankmodell ab, da dort die Tabellen im Singular benannt sind (siehe Abschnitt \ref{subsec:datenbank}).
+
 Wie auch bei den \acp{DAO} in der Persistenzschicht der Serveranwendung wurden die vier grundlegenden Datenoperationen \ac{CRUD} implementiert.
 Die Zuordnung zwischen Operation und \ac{HTTP}"~Methoden bzw. \ac{SQL}"~Befehlen ist in Tabelle \ref{tbl:crud} zu sehen.
 
 \begin{minipage}[t]{\textwidth}
 	\centering
-	\begin{tabular}{|l|l|l|}
-		\hline \textbf{Operation} & \textbf{HTTP} & \textbf{SQL} \\ 
-		\hline Create & \texttt{POST} & \texttt{INSERT} \\ 
-		\hline Read / Retrieve & \texttt{GET} & \texttt{SELECT} \\ 
-		\hline Update / Modify & \texttt{PUT} & \texttt{UPDATE} \\ 
-		\hline Delete & \texttt{DELETE} & \texttt{DELETE} \\ 
+	\begin{tabu}{|X|>{\ttfamily}X|>{\ttfamily}X|}
+	\rowfont[l]{\normalfont\bfseries} 
+		\hline Operation & HTTP & SQL \\ 
+		\hline Create & POST & INSERT \\ 
+		\hline Read / Retrieve & GET & SELECT \\ 
+		\hline Update / Modify & PUT & UPDATE \\ 
+		\hline Delete & DELETE & DELETE \\ 
 		\hline 
-	\end{tabular}
-	\captionof{table}{Zuweisung der CRUD Operationen und HTTP-Methoden / SQL-Befehlen.}
+	\end{tabu}
+	\captionof{table}{Zuweisung der CRUD Operationen und HTTP-Methoden und SQL-Befehlen.}
 	\label{tbl:crud}
 \end{minipage}
 
+\subsubsection{Aufbau von Ressourcen und Zugriffsrechte}
+Die Ressourcen sind flach gehalten.
+Je nach Benutzerrolle führen Aufrufe der Methoden zu verschiedenen Ergebnissen.
+Bei Ressourcen mit Benutzerbezug (z.~B. Geräte und Testsitzungen) bekommt ein angemeldeter Benutzer in der Rolle \texttt{USER} nur Objekte, welche mit ihm in Relation stehen.
+Dadurch wird sichergestellt, dass einfache Benutzer nicht auf Daten anderer Benutzer zugreifen können.
+Benutzer in der Rolle \texttt{ADMIN} können hingegen auf alle Objekte in einer Ressource zugreifen.
+
+Das erstellen von Objekten mit Benutzerbezug über die \texttt{POST}"~Methode erfordert in der Rolle \texttt{ADMIN} zusätzlich zu dem zu erstellenden Objekt auch noch die \texttt{ID} des Benutzers, für welchen diese erstellt werden soll, sofern die Objekte keine bidirektionale Beziehung haben und sich der Bezug daraus herstellen lässt. 
 
 Nachfolgend werden die Resourcen mit den implementierten \ac{HTTP}"~Methoden aufgelistet.
 Die Pfadangabe erfolgt relativ zur Basis"~\ac{URL}.
 Angaben in geschweiften Klammern sind Pfad-Parameter, welchen im Aufruf ein Wert zugewiesen ist.
 %TODO: fehlende Ressourcen nachpflegen
 
-\subsubsection*{Daten mit Benutzerbezug (Administrator, Benutzer eingeschränkt) }
-\begin{description}[nosep, style=multiline, leftmargin=5cm, font=\small]
-	\item[GET, POST] \texttt{/users}
-	\item[GET, POST, PUT, DELETE] \texttt{/users/\{id\}}
-	\item[GET, POST] \texttt{/users/\{id\}/devices}
-	\item[GET, POST] \texttt{/users/\{id\}/sessions}
-\end{description}
 
-\subsubsection*{Gerätedaten (Administrator)}
-\begin{description}[nosep, style=multiline, leftmargin=5cm, font=\small]
-	\item[GET, POST] \texttt{/devices}
-	\item[GET, POST, PUT, DELETE] \texttt{/devices/\{id\}}
-\end{description}
+\begin{minipage}[t]{\textwidth}
+	\centering
+	\begin{tabu}{>{\ttfamily}X[2]X[1]>{\ttfamily}X[3]>{\small}X[4]}
+		\rowfont[l]{\normalfont\bfseries\normalsize}
+		Rollen & Methode & Pfad &   Beschreibung\\
+		USER & GET & /users &   Daten des angemeldeten Benutzers\\ 
+		ADMIN & GET & /users &  Liste aller Benutzer\\
+		USER & PUT & /users & Bestätigung oder Fehlermeldung\\
+		ADMIN & PUT & /users/\{id\} & Bestätigung oder Fehlermeldung\\ 
+		ALL, ADMIN & POST & /users &  ID des neu erstellten Benutzers\\
+		ADMIN & GET & /users/\{id\} & Ausgabe des Benutzers mit der ID \texttt{id}\\
+		ADMIN & DELETE & /users/\{id\} & Löschen des Benutzers mit der ID \texttt{id}\\
+		\\
+		USER & GET & /devices & Liste mit Geräten des Benutzers\\
+		ADMIN & GET & /devices & Liste mit allen Geräten\\
+		ADMIN & GET & /devices/\{id\} & Gerät mit der ID \texttt{id}\\
+		
+		ADMIN & DELETE & /devices/\{id\} & Gerät mit der ID \texttt{id}\\
+		ADMIN & PUT & /devices/\{id\} & Gerät mit der ID \texttt{id}\\
+	\end{tabu}
+	\captionof{table}{REST"~Ressourcen mit HTTP"~Methoden, Pfad, Benutzerrolle und Beschreibung.}
+	\label{tbl:rest_ressourcen}
+\end{minipage}
+
 

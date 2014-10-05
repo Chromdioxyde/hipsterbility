@@ -10,4 +10,6 @@ public interface UserDao extends Dao<UserEntity> {
 
     public UserEntity findByUsername(String username);
     public DeviceEntity retrieveDevice(int userId, int deviceId);
+
+    public UserEntity findByEmail(String email);
 }

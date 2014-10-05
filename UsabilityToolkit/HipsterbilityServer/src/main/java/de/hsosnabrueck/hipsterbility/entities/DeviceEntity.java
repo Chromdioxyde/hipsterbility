@@ -5,6 +5,7 @@ import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
 import de.hsosnabrueck.hipsterbility.model.enums.DevicePlatform;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by Albert on 08.09.2014.
@@ -17,18 +18,28 @@ public class DeviceEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+
     @Column(nullable = false)
     private String name;
+
     private String osVersion;
+
     private String customName;
+
     @Enumerated(EnumType.STRING)
     private DeviceClass deviceClass;
+
     @Column(unique = true)
     private String uuid;
+
     @Enumerated(EnumType.STRING)
     private DevicePlatform platform;
+
     @ManyToOne @JsonBackReference
     private UserEntity user;
+
+    @OneToMany(mappedBy = "device")
+    private Collection<TestSessionEntity> sessions;
 
     public int getId() {
         return id;
@@ -92,5 +103,13 @@ public class DeviceEntity {
 
     public void setUser(UserEntity user) {
         this.user = user;
+    }
+
+    public Collection<TestSessionEntity> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Collection<TestSessionEntity> sessions) {
+        this.sessions = sessions;
     }
 }

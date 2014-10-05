@@ -28,6 +28,9 @@
 \usepackage[babel,german=quotes]{csquotes}
 \usepackage{romannum}
 \usepackage{enumitem} % Konfigurierbare Aufzählungen und Listen
+\usepackage{array} % Erweiterungen für Tabellen
+\usepackage{tabu} % Erweiterte Formatierung in Tabellen
+\usepackage{wrapfig} % von Text umflossene Elemente
 
 \usepackage[
 	backend=biber,
@@ -143,16 +146,19 @@
 
 \section{Konzept}
 \input{txt/konzept/anforderungen}
+\input{txt/konzept/architektur}
+\input{txt/konzept/technologien}
 
 \section{Realisierung des Servers\label{sec:realisierung_server}}
 \input{txt/realisierung/datenbank}
 \input{txt/realisierung/rest-server}
 \input{txt/realisierung/server-sicherheit}
+\input{txt/realisierung/server-deployment}
 
-\section{Realisierung der Android Bibliothek}
+\section{Realisierung des Testleiter-Clients\label{sec:relisierung_client}}
+\input{txt/realisierung/client_allgemein}
 
-\section{Realisierung des Testleiter-Clients}
-
+\section{Weiterentwicklung der Android Bibliothek}
 
 \section{Ergebnisse}
 
@@ -165,7 +171,7 @@
 \renewcommand\refname{Quellenverzeichnis}
 \pagebreak
 \singlespacing % Einfacher Zeilenabstand
-\setlength{\bibitemsep}{12pt} % Größerer Abstand zwischen den Zeilen
+\setlength{\bibitemsep}{12pt} % Größerer Abstand zwischen den Einträgen
 \printbibliography
 % ----------------------------------------------------------------------------------------------------------
 % Anhang
@@ -181,14 +187,7 @@
 \addcontentsline{toc}{section}{Anhang}
 \addtocontents{toc}{\vspace{-0.5em}}
 
-\input{txt/anhang/screenshots}
-
-\section{GUI}
-Ein toller Anhang.
-
-\subsection*{Screenshot}
-\label{app:screenshot}
-Unterkategorie, die nicht im Inhaltsverzeichnis auftaucht.
+\input{txt/anhang/glassfish_konfiguration}
 
 \end{appendix}
 

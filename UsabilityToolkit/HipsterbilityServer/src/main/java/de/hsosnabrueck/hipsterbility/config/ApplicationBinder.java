@@ -3,7 +3,7 @@ package de.hsosnabrueck.hipsterbility.config;
 import de.hsosnabrueck.hipsterbility.persistence.DeviceDao;
 import de.hsosnabrueck.hipsterbility.persistence.impl.DeviceDaoImpl;
 import de.hsosnabrueck.hipsterbility.rest.service.DeviceService;
-import de.hsosnabrueck.hipsterbility.rest.service.DeviceServiceImpl;
+import de.hsosnabrueck.hipsterbility.rest.service.impl.DeviceServiceImpl;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import javax.inject.Singleton;

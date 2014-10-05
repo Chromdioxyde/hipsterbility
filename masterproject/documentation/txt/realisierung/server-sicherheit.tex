@@ -79,8 +79,11 @@ Die Anpassungen sind in Listings \ref{lst:jdbcrealm_klasse_benutzer_code} und \r
 Um die Verwendung von numerischen Benutzer--IDs zu ermöglichen wurde eine View erstellt, die das erwartete Schema abbildet, siehe Listing \ref{lst:jdbcrealm_view_code}.
 Außerdem wurden entsprechende Beschränkungen in den Tabellen eingeführt.
 \begin{lstlisting}[language=SQL,caption={SQL Befehl zum erstellen einer View mit Benutzername und Gruppenname}, label=lst:jdbcrealm_view_code]
-CREATE VIEW usergroup AS SELECT u.USERNAME, g.NAME FROM USER u INNER JOIN realmgroup g on g.USER_ID = u.ID;
+CREATE VIEW usergroup AS SELECT u.USERNAME, g.NAME FROM USER u INNER JOIN realmgroup g on g.USER_ID = u.ID WHERE u.ACTIVE=1;
 \end{lstlisting}
+Die View hat weiterhin den Vorteil, dass die Auswahl nur aktive Benutzerkonten enthält.
+Wenn das Feld \texttt{ACTIVE} in der Tabelle \texttt{user} den Wert \texttt{1} hat, wird der Benutzer gelistet, hat das Feld den Wert \texttt{0}, so wird er nicht in der Auswahl erfasst.
+So lassen sich Benutzerkonten deaktivieren um die Anmeldung zu verhindern, müssen jedoch nicht aus der Datenbank entfernt werden.
 
 Da der Benutzername nicht mehr der Primärschlüssel ist, wurde eine Beschränkung eingeführt, um den Benutzernamen in der Tabelle eindeutig zu halten.
 Außerdem darf er, nach dem Erstellen, nicht mehr geändert werden und muss einen Wert enthalten.
@@ -122,5 +125,4 @@ public class GroupEntity {
 Wenn die nötigen \ac{JDBC}"~Ressourcen bereits erstellt wurde, kann das \texttt{JDBCRealm} mit dem Befehl aus Listing \ref{lst:asadmin_create_realm} mit dem \texttt{asadmin}"~Werkzeug erzeugt werden.
 Das Erstellen und Bearbeiten von Realms ist auch über die Weboberfläche möglich, siehe Abbildung \ref{fig:realm_screenshot}.
 
-\subsection{Webservice und REST-API}
 

@@ -3,6 +3,7 @@ package de.hsosnabrueck.hipsterbility.entities;
 import de.hsosnabrueck.hipsterbility.model.enums.DevicePlatform;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by Albert on 08.09.2014.
@@ -16,12 +17,19 @@ public class TestAppEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private String version;
+
     @Enumerated(EnumType.STRING)
     private DevicePlatform platform;
+
+    @OneToMany(mappedBy = "testApp")
+    private Collection<TestSessionEntity> sessions;
+
 
     public int getId() {
         return id;
@@ -53,5 +61,13 @@ public class TestAppEntity {
 
     public void setPlatform(DevicePlatform platform) {
         this.platform = platform;
+    }
+
+    public Collection<TestSessionEntity> getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Collection<TestSessionEntity> sessions) {
+        this.sessions = sessions;
     }
 }

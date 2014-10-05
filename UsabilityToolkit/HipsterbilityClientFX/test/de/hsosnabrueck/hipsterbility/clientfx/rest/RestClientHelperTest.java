@@ -1,0 +1,83 @@
+package de.hsosnabrueck.hipsterbility.clientfx.rest;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.hsosnabrueck.hipsterbility.clientfx.Settings;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
+import de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity;
+import org.junit.Test;
+
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
+public class RestClientHelperTest {
+
+    @Test
+    public void testClientConnection(){
+        RestClientHelper client = new RestClientHelper();
+//        client.init();
+
+    }
+
+    @Test
+    public void testPingServer(){
+        RestClientHelper client = new RestClientHelper();
+        try {
+//            assertTrue(client.pingServer("localhost", 8080));
+//            assertFalse(client.pingServer("localhost", 80));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void fileUpload(){
+        RestClientHelper clientHelper = new RestClientHelper();
+        Settings settings = new Settings();
+        settings.init();
+//        settings.setServer("localhost");
+//        settings.setPort(8080);
+        settings.setUser("admin");
+        settings.setPassword("test123");
+        clientHelper.settings = settings;
+        File file = new File("test" + File.separator +"testimg.jpg");
+        System.out.println(file.getAbsolutePath());
+        try {
+            System.out.println(file.getCanonicalPath());
+            System.out.println(file.getFreeSpace());
+            System.out.println(file.length());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(file.getPath());
+        AudioFileEntity audio = new AudioFileEntity();
+        audio.setType(AudioFileEntity.Type.MICROPHONE);
+        audio.setTimestamp(new Date());
+        audio.setFile(file);
+        TestSessionEntity session = new TestSessionEntity();
+        session.setName("test");
+        try {
+            System.out.println(clientHelper.checkLogin());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            System.out.println(mapper.writeValueAsString(session));
+            System.out.println(mapper.writeValueAsString(audio));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(Entity.json(session));
+        Response response = clientHelper.getTarget().path("sessions").request(MediaType.APPLICATION_JSON).post(Entity.json(session));
+        System.out.println(response);
+        Response r = clientHelper.getTarget().path("sessions").path("1").path("audios").request().post(Entity.json(audio));
+        System.out.println(r);
+    }
+
+}

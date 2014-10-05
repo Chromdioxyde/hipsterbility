@@ -1,6 +1,6 @@
 package de.hsosnabrueck.hipsterbility.persistence.impl;
 
-import de.hsosnabrueck.hipsterbility.entities.ScreenshotEntity;
+import de.hsosnabrueck.hipsterbility.entities.files.ScreenshotFileEntity;
 
 import javax.inject.Singleton;
 
@@ -8,8 +8,8 @@ import javax.inject.Singleton;
  * Created by Albert on 25.09.2014.
  */
 @Singleton
-public class ScreenshotDaoImpl extends BasicDaoImpl<ScreenshotEntity> {
+public class ScreenshotDaoImpl extends BasicDaoImpl<ScreenshotFileEntity> {
     protected ScreenshotDaoImpl() {
-        super(ScreenshotEntity.class, ScreenshotEntity.TABLE_NAME);
+        super(ScreenshotFileEntity.class, ScreenshotFileEntity.TABLE_NAME);
     }
 }

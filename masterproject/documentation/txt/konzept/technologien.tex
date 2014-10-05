@@ -1,0 +1,66 @@
+\subsection{Evaluierung und Auswahl von Technologien}
+Im Gegensatz zu dem Ursprünglichen Projekt (siehe Abschnitt \ref{subsec:stand_bei_projektbeginn}) liegt hier nicht der Fokus auf der möglichst schnellen und einfachen Entwicklung von Prototypen, sondern eines weitgehend einsatzfähigen Frameworks.
+
+Aus diesem Grund werden Technologien unter verschiedenen Gesichtspunkten neu evaluiert und ausgewählt.
+
+Da das Framework später quelloffen und kostenlos bereitgestellt werden soll, wird der Einsatz kommerzieller Software und Bibliotheken von Anfang an ausgeschlossen.
+
+Nachfolgend werden die einzelnen Komponenten des Frameworks näher betrachtet und mögliche Technologien, sowie die finale Auswahl, dargestellt.
+
+Besonderes Gewicht bei der Auswahl bekommt die Zielgruppe, welche aus Android-Entwicklern besteht.
+Android Applikationen werden vorwiegend in der Java-Programmiersprache entwickelt, weshalb zumindest deren Grundkenntnisse vorausgesetzt werden können.
+Aus den Android \ac{SDK} Systemvoraussetzungen \cite[vgl.][]{AndroidOpenSourceProject.2014c} geht außerdem hervor, dass für das Entwickeln ein Computer vorhanden sein muss, welcher als Betriebssystem ein halbwegs aktuelles Windows, Max OS X oder Linux besitzt, auf dem mindestens das \ac{JDK} 6 vorhanden ist.
+
+Begonnen wird mit der Auswahl der Server-Plattform, da diese die Auswahl der Technologie für den Testleiter-Client beeinflusst.
+Besonderer Wert wird auch auf die schnelle und einfache Entwicklung gelegt.
+
+\subsubsection{Server}
+Da das Framework ein verteiltes System mit klassischer Client"~Server Architektur ist (siehe Abschnitt \ref{subsec:architektur}), wird eine Serverkomponente benötigt.
+
+Aus den allgemeinen Anforderungen, welche in Abschnitt \ref{subsec:anforderungen}
+aufgestellt wurde, werden nun Kriterien zur Auswahl der Server-Plattform definiert.
+
+Anforderungen an den Server:
+\begin{compactitem}
+	\item Implementierung einer \ac{REST}-\ac{API},
+	\item Anbindung eines Datenbanksystems und
+	\item Unterstützung der Java Programmiersprache für geteilte Klassen.
+\end{compactitem}
+
+Für den Prototyp wurde \emph{Node.js} (\url{http://nodejs.org/}) eingesetzt.
+\emph{Node.js} ist ein ereignisgesteuertes Framework, für welches vorwiegend in der JavaScript-Sprache \cite[vgl.][]{Joyent.2014} programmiert wird.
+
+Zwar existiert ein Bridge-\ac{API} um Java Code in JavaScript verwenden zu können .
+Die Aufrufe erfolgen intern über \ac{JNI} und bieten somit keinen Ersatz für eine vollständige Java (EE) Umgebung. \cite[Vgl.][]{Ferner.2014}
+
+Das geteilte Verwenden von Java-Klassen in Client und Server wäre demnach nur eingeschränkt möglich.
+
+Eine Alternative, welche die o.g. Anforderungen erfüllt, sind Java EE Application Server.
+Sie bieten den vollen Java Sprachumfang und erlauben das Teilen von Klassen zwischen verschiedenen Modulen.
+Die aktuelle Java EE 7 Spezifikation beinhaltet u.~a. \emph{Java Persistence 2.1} für den Datenbankzugriff und die \emph{Java API for RESTful Web Services (JAX-RS) 2.0} zum Aufbau eines RESTful Webservice.
+\cite[Vgl.][]{Oracle.2014}
+
+Als Java EE 7 Implementierung wird der \emph{Glassfish 4.1} (\url{https://glassfish.java.net/})
+\ac{AS} verwendet, da er die Referenzimplementierung der Plattform darstellt \cite[vgl.][14]{OracleCorporation.2013b}.
+Außerdem ist er quelloffen (Open Source Edition) und kostenlos verfügbar.
+
+Basierend auf dieser Auswahl erfolgt im nächsten Abschnitt die Technologie- und Plattformauswahl für den Testleiter-Client. 
+
+\subsubsection{Testleiter Client}
+Wie auch beim Server soll der Client nicht von kostenpflichtiger Software oder Bibliotheken abhängen.
+Es bietet sich an, auch beim Client die Java Programmiersprache als Basis zu nehmen.
+Der Client ist eine Anwendung mit grafischer Oberfläche.
+Zum Erstellen einer solchen stehen verschiedenen Standardbibliotheken bereit.
+Einerseits wäre ein Web-Client denkbar, der auf der Servlet-Engine und \ac{JSP} bzw. \ac{JSF}/Facelets basiert.
+Eine Neuerung in Java EE 7 ist die \ac{HTML} 5 Unterstützung \cite[vgl.][5]{OracleCorporation.2013b}, mit welcher auch die WebSocket Technologie eingeführt wurde.
+Sie erlaubt eine bidirektionale, ereignisgesteuerte Kommunikation mit niedriger Latenz zwischen Client und Server.
+
+Wie im Konzept beschrieben ist es nötig zwei oder mehr dynamische Inhalte in einer Benutzeroberfläche anzuzeigen und zeitlich zu synchronisieren.
+Es wurde keine einfache Möglichkeit gefunden dies mit den zuvor genannten Technologien zu erreichen.
+Es gibt zwar mehrere HTML5 Beispielimplementierungen, die das synchrone Abspielen von zwei oder mehr Videos zeigen sollen \cite{Waldron.2011,HTML5demos.2011}, dabei wurde jedoch jeweils das selbe Video mit der gleichen Bildwiederholrate, Auflösung, Dauer usw. gewählt.
+Diese Demonstration ist nicht ausreichend um die Entwicklung des Clients zu bestimmen.
+
+Aus diesem Grund gibt es JavaScript Frameworks wie \emph{Popcorn.js} (\url{http://popcornjs.org/}), die es erlauben z.~B. Videos und andere Medien/Inhalte synchron darzustellen.
+Diese Framework bietet zwar die nötige Funktionalität, erfordert jedoch zusätzlich den Einsatz der JavaScript Sprache und in Kombination mit WebSockets um das gewünschte Ergebnis zu erreichen. \cite[Vgl.][]{bocoup.2014}
+
+%TODO: JavaFX auswahl Gründe

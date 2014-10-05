@@ -1,5 +1,7 @@
 package de.hsosnabrueck.hipsterbility.persistence;
 
+import com.sun.istack.internal.Nullable;
+
 import java.util.Collection;
 
 /**
@@ -8,11 +10,12 @@ import java.util.Collection;
 public abstract interface Dao<T> {
     public T retrieve(int id);
 
-    public void delete(int id);
+    public boolean delete(int id);
 
+    @Nullable
     public T save(T object);
 
-    public void update(int id, T object);
+    public boolean update(int id, T object);
 
     public Collection<T> list(int offset, int count);
 

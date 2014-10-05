@@ -11,6 +11,8 @@ import javax.persistence.*;
 public class GroupEntity {
 
     public static final String TABLE_NAME = "UserGroup";
+    public static final String ADMIN = "ADMIN";
+    public static final String USER = "USER";
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

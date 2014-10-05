@@ -1,6 +1,8 @@
 package de.hsosnabrueck.hipsterbility.rest.api;
 
 import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
+import de.hsosnabrueck.hipsterbility.rest.api.Resource;
+import de.hsosnabrueck.hipsterbility.rest.data.CreatedId;
 import de.hsosnabrueck.hipsterbility.rest.service.TaskService;
 
 import javax.inject.Inject;
@@ -37,21 +39,18 @@ public class TaskResource implements Resource<TaskEntity> {
 
     @Override
     public Response delete(int id) {
-        taskService.delete(id);
-        return Response.status(Response.Status.OK).entity("task has been successfully deleted").type(MediaType.APPLICATION_JSON).build();
+        return taskService.delete(id) ?  Response.status(Response.Status.OK).entity("task has been successfully deleted").type(MediaType.APPLICATION_JSON).build()
+                : Response.notModified("could not deleta task").build();
     }
 
     @Override
-    public Response create(@Context UriInfo uriInfo, TaskEntity object) {
-//        return taskService.create(object);
-        taskService.create(object);
-        //TODO: change to created
-        return Response.ok().build();
+    public Response create(@Context UriInfo uriInfo, TaskEntity task) {
+        task = taskService.create(task);
+        return null != task ? Response.ok(new CreatedId(task.getId())).build() : Response.notModified("could not create task").build();
     }
 
     @Override
     public Response update(int id, TaskEntity object) {
-        taskService.update(id, object);
-        return Response.status(Response.Status.OK).entity("task has been successfully updated").type(MediaType.APPLICATION_JSON).build();
+        return taskService.update(id, object) ? Response.ok("task has been successfully updated").build() : Response.notModified("could not update task").build();
     }
 }

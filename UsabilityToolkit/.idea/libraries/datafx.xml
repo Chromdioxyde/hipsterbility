@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="datafx">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/HipsterbilityClientFX/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/HipsterbilityClientFX/lib" recursive="false" />
+  </library>
+</component>

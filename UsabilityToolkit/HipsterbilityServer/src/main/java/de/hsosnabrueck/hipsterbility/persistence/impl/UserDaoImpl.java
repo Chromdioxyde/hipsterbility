@@ -23,9 +23,7 @@ public class UserDaoImpl extends BasicDaoImpl<UserEntity> implements UserDao {
         EntityManager em = emf.createEntityManager();
         UserEntity user = null;
         try {
-//            TypedQuery<UserEntity> query = em.createQuery("SELECT u FROM user u WHERE USERNAME=" + username, UserEntity.class);
             user = em.createNamedQuery("User.findByUsername", UserEntity.class).setParameter("username", username).getSingleResult();
-//            user = query.getSingleResult();
         } catch (Exception e){
             System.err.println(e.getMessage());
         } finally {
@@ -48,5 +46,19 @@ public class UserDaoImpl extends BasicDaoImpl<UserEntity> implements UserDao {
             em.close();
         }
         return deviceEntity;
+    }
+
+    @Override
+    public UserEntity findByEmail(String email) {
+        EntityManager em = emf.createEntityManager();
+        UserEntity user = null;
+        try {
+            user = em.createNamedQuery("User.findByEmail", UserEntity.class).setParameter("email", email).getSingleResult();
+        } catch (Exception e){
+            System.err.println(e.getMessage());
+        } finally {
+            em.close();
+        }
+        return user;
     }
 }

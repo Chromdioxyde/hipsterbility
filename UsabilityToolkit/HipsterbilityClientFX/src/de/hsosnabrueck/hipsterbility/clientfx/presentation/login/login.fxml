@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsosnabrueck.hipsterbility.clientfx.presentation.login.LoginPresenter">
+   <children>
+      <Accordion fx:id="container" layoutY="75.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <panes>
+          <TitledPane fx:id="tpLogin" text="Login">
+            <content>
+                  <VBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Username" />
+                        <TextField fx:id="username" prefHeight="25.0" prefWidth="200.0" />
+                        <Label text="Password" />
+                        <PasswordField fx:id="password" prefHeight="25.0" prefWidth="200.0" />
+                        <CheckBox fx:id="savepassword" mnemonicParsing="false" text="Save Password" />
+                        <Button fx:id="btnLogin" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#login" prefHeight="59.0" prefWidth="378.0" text="Login" />
+                        <Label fx:id="status" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" />
+                     </children>
+                  </VBox>
+            </content>
+          </TitledPane>
+          <TitledPane fx:id="tpServer" text="Server">
+            <content>
+                  <VBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Server" />
+                        <TextField fx:id="server" />
+                        <Label text="Port" />
+                        <HBox alignment="CENTER_LEFT" spacing="20.0">
+                           <children>
+                              <TextField fx:id="port" />
+                              <CheckBox fx:id="usessl" mnemonicParsing="false" text="Use SSL" />
+                              <Button mnemonicParsing="false" onAction="#ping" prefHeight="25.0" prefWidth="126.0" text="Ping" />
+                           </children>
+                        </HBox>
+                        <Label fx:id="serverStatus" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                     </children>
+                  </VBox>
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </children>
+</AnchorPane>

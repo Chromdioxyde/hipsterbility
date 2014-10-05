@@ -13,8 +13,6 @@
         <property name="ServerName" value="localhost" />
         <property name="Url" value="jdbc:mysql://localhost:3306/hipsterbility"/>
         <property name="URL" value="jdbc:mysql://localhost:3306/hipsterbility"/>
-        <!--<property name="Url" value="jdbc:mysql://localhost:3306"/>-->
-        <!--<property name="URL" value="jdbc:mysql://localhost:3306"/>-->
         <property name="Password" value="hipsterbility123" />
     </jdbc-connection-pool>
 

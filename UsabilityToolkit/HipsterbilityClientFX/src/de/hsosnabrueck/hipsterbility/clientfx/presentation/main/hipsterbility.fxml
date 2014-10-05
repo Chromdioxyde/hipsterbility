@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane fx:id="mainpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsosnabrueck.hipsterbility.clientfx.presentation.main.HipsterbilityPresenter">
+   <top>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <Button fx:id="btnTests" mnemonicParsing="false" text="Tests" />
+            <Button fx:id="btnSessions" mnemonicParsing="false" text="Sessions" />
+            <Button fx:id="btnUsers" mnemonicParsing="false" onAction="#openUsers" text="Users" />
+            <Button mnemonicParsing="false" text="Button" />
+        </items>
+      </ToolBar>
+   </top>
+</BorderPane>

@@ -1,5 +1,6 @@
 package de.hsosnabrueck.hipsterbility.persistence.impl;
 
+import com.sun.istack.internal.Nullable;
 import de.hsosnabrueck.hipsterbility.persistence.Dao;
 
 import javax.persistence.*;
@@ -15,6 +16,8 @@ public abstract class BasicDaoImpl<T> implements Dao<T> {
 
     private Class<T> type;
     private String tableName;
+//    @PersistenceContext(name = "HipsterbilityService" )
+//    protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("HipsterbilityServiceTest");
     protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("HipsterbilityService");
 
     protected BasicDaoImpl(Class<T> type, String tableName){
@@ -35,7 +38,7 @@ public abstract class BasicDaoImpl<T> implements Dao<T> {
     }
 
     @Override
-    public void delete(int id) {
+    public boolean delete(int id) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -43,14 +46,18 @@ public abstract class BasicDaoImpl<T> implements Dao<T> {
             T entity = em.find(type, id);
             if(entity == null) {
                 System.err.println("Error Deleting" + type.getSimpleName() + ": TodoEntity not found");
+                transaction.rollback();
+                return false;
             }
             else {
                 em.remove(entity);
+
             }
             transaction.commit();
+            return true;
         } catch (Exception e) {
             System.err.println("Error Deleting " + type.getSimpleName() + ": " + e.getMessage());
-            transaction.rollback();
+            return false;
         } finally {
             em.close();
         }
@@ -66,7 +73,7 @@ public abstract class BasicDaoImpl<T> implements Dao<T> {
             transaction.commit();
         } catch (Exception e) {
             System.err.println("Error Saving " + type.getSimpleName() + ": " + e.getMessage());
-            transaction.rollback();
+            object = null;
         } finally {
             em.close();
         }
@@ -74,23 +81,25 @@ public abstract class BasicDaoImpl<T> implements Dao<T> {
     }
 
     @Override
-    public void update(int id, T object) {
+    public boolean update(int id, T object) {
         EntityManager em = emf.createEntityManager();
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
             em.merge(object);
             transaction.commit();
+            return true;
         } catch (Exception e) {
             System.err.println("Error Updating " + type.getSimpleName() + ": " + e.getMessage());
-            transaction.rollback();
+            return false;
         } finally {
             em.close();
         }
     }
 
     @Override
-    public Collection<T> list(int offset, int count) {emf.createEntityManager();
+    public Collection<T> list(int offset, int count) {
+        emf.createEntityManager();
         EntityManager em = emf.createEntityManager();
         List<T> entity = null;
         try {

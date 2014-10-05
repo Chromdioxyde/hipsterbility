@@ -1,6 +1,10 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity;
+import de.hsosnabrueck.hipsterbility.entities.files.LogFileEntity;
+import de.hsosnabrueck.hipsterbility.entities.files.ScreenshotFileEntity;
+import de.hsosnabrueck.hipsterbility.entities.files.VideoFileEntity;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -18,33 +22,45 @@ public class TestSessionEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
+
     @Column(nullable = false)
     private String name;
+
+    private String description;
+
     private boolean active;
-    @ManyToOne
+
+    @ManyToOne @JoinColumn
     private TestAppEntity testApp;
-    @ManyToOne
+
+    @ManyToOne @JoinColumn
     private DeviceEntity device;
-    @OneToMany
-    private Collection<VideoEntity> videos;
-    @OneToMany(mappedBy = LogEntity.TABLE_NAME)
-    private Collection<LogEntity> logs;
-    @OneToMany
-    private Collection<AudioEntity> audios;
-    @OneToMany
-    private Collection<TodoEntity> todos;
+
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    private Collection<VideoFileEntity> videos;
+
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    private Collection<LogFileEntity> logs;
+
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    private Collection<AudioFileEntity> audios;
+
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+    private Collection<ScreenshotFileEntity> screenshots;
+
+    @ManyToOne
+    private TestEntity test;
+
     @ManyToOne @JsonBackReference
     private UserEntity tester;
-    @ManyToOne
-    private UserEntity creator;
-    @ManyToOne
-    private UserEntity modifier;
-    @Column(insertable = false, updatable = false)
+
+    @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date timestampCreated;
-    @Column(insertable = false, updatable = true)
+    private Date timeStarted;
+
+    @Column(updatable = true)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date timestampModified;
+    private Date timeFinished;
 
     public int getId() {
         return id;
@@ -102,68 +118,44 @@ public class TestSessionEntity {
         this.device = device;
     }
 
-    public Collection<VideoEntity> getVideos() {
+    public Collection<VideoFileEntity> getVideos() {
         return videos;
     }
 
-    public void setVideos(Collection<VideoEntity> videos) {
+    public void setVideos(Collection<VideoFileEntity> videos) {
         this.videos = videos;
     }
 
-    public Collection<LogEntity> getLogs() {
+    public Collection<LogFileEntity> getLogs() {
         return logs;
     }
 
-    public void setLogs(Collection<LogEntity> logs) {
+    public void setLogs(Collection<LogFileEntity> logs) {
         this.logs = logs;
     }
 
-    public Collection<AudioEntity> getAudios() {
+    public Collection<AudioFileEntity> getAudios() {
         return audios;
     }
 
-    public void setAudios(Collection<AudioEntity> audios) {
+    public void setAudios(Collection<AudioFileEntity> audios) {
         this.audios = audios;
     }
 
-    public Collection<TodoEntity> getTodos() {
-        return todos;
+    public Date getTimeStarted() {
+        return timeStarted;
     }
 
-    public void setTodos(Collection<TodoEntity> todos) {
-        this.todos = todos;
+    public void setTimeStarted(Date timestampCreated) {
+        this.timeStarted = timestampCreated;
     }
 
-    public UserEntity getCreator() {
-        return creator;
+    public Date getTimeFinished() {
+        return timeFinished;
     }
 
-    public void setCreator(UserEntity creator) {
-        this.creator = creator;
-    }
-
-    public UserEntity getModifier() {
-        return modifier;
-    }
-
-    public void setModifier(UserEntity modifier) {
-        this.modifier = modifier;
-    }
-
-    public Date getTimestampCreated() {
-        return timestampCreated;
-    }
-
-    public void setTimestampCreated(Date timestampCreated) {
-        this.timestampCreated = timestampCreated;
-    }
-
-    public Date getTimestampModified() {
-        return timestampModified;
-    }
-
-    public void setTimestampModified(Date timestampModified) {
-        this.timestampModified = timestampModified;
+    public void setTimeFinished(Date timestampModified) {
+        this.timeFinished = timestampModified;
     }
 
     public UserEntity getTester() {
@@ -172,5 +164,29 @@ public class TestSessionEntity {
 
     public void setTester(UserEntity testUser) {
         this.tester = testUser;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Collection<ScreenshotFileEntity> getScreenshots() {
+        return screenshots;
+    }
+
+    public void setScreenshots(Collection<ScreenshotFileEntity> screenshots) {
+        this.screenshots = screenshots;
+    }
+
+    public TestEntity getTest() {
+        return test;
+    }
+
+    public void setTest(TestEntity test) {
+        this.test = test;
     }
 }

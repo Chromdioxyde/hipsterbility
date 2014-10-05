@@ -16,17 +16,4 @@ public class DeviceDaoImpl extends BasicDaoImpl<DeviceEntity> implements DeviceD
     public DeviceDaoImpl() {
         super(DeviceEntity.class, DeviceEntity.TABLE_NAME);
     }
-
-    @Override
-    public Collection<DeviceEntity> listDevicesForUser(int userId) {
-        EntityManager em = emf.createEntityManager();
-        // TODO implement or remove
-        return null;
-    }
-
-    @Override
-    public DeviceEntity retrieveDeviceForUser(int userId, int deviceId) {
-        // TODO implement or remove
-        return null;
-    }
 }
