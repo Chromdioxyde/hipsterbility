@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEvent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEventListener;

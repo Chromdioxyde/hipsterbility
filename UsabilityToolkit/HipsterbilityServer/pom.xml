@@ -8,7 +8,7 @@
 	<name>hipsterbility_server Hipsterbility Server</name>
 
 	<properties>
-        <jersey.version>2.12</jersey.version>
+        <jersey.version>2.13</jersey.version>
         <eclipselink.version>2.6.0-M3</eclipselink.version>
         <junit.version>4.11</junit.version>
         <mockito.version>1.9.5</mockito.version>
@@ -28,6 +28,11 @@
 			<version>${jersey.version}</version>
             <scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>

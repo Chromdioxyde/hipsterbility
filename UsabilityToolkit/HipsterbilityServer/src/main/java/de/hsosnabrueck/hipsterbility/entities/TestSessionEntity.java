@@ -33,7 +33,7 @@ public class TestSessionEntity {
     @ManyToOne @JoinColumn
     private TestAppEntity testApp;
 
-    @ManyToOne @JoinColumn
+    @ManyToOne @JoinColumn @JsonBackReference("device-session")
     private DeviceEntity device;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
@@ -51,7 +51,7 @@ public class TestSessionEntity {
     @ManyToOne
     private TestEntity test;
 
-    @ManyToOne @JsonBackReference
+    @ManyToOne @JsonBackReference("user-session")
     private UserEntity tester;
 
     @Column(updatable = false)

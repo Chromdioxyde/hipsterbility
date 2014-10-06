@@ -1,5 +1,6 @@
 package de.hsosnabrueck.hipsterbility.rest.service.impl;
 
+import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
 import de.hsosnabrueck.hipsterbility.entities.TestEntity;
 import de.hsosnabrueck.hipsterbility.persistence.TestDao;
 import de.hsosnabrueck.hipsterbility.rest.service.TestService;
@@ -39,6 +40,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public TestEntity create(TestEntity test) {
+        for(TaskEntity t : test.getTasks()){
+            if(null == t.getTest()) t.setTest(test);
+        }
         return testDao.save(test);
     }
 

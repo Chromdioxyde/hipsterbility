@@ -1,7 +1,6 @@
 package de.hsosnabrueck.hipsterbility.clientfx.presentation.main;
 
-import de.hsosnabrueck.hipsterbility.clientfx.presentation.login.LoginView;
-import de.hsosnabrueck.hipsterbility.clientfx.presentation.usercreation.UserCreationView;
+import de.hsosnabrueck.hipsterbility.clientfx.presentation.usermanagement.UserView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -24,7 +23,7 @@ public class HipsterbilityPresenter implements Initializable{
 
     @FXML
     public void openUsers(){
-        UserCreationView userCreationView = new UserCreationView();
+        UserView userCreationView = new UserView();
         Parent view = userCreationView.getView();
         mainpane.setCenter(view);
     }

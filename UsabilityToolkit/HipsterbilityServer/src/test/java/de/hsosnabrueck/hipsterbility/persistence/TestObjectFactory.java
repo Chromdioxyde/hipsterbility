@@ -96,4 +96,13 @@ public class TestObjectFactory {
         t.setVersion("1.0");
         return t;
     }
+
+    public static TestEntity getTestEntity() {
+        TestEntity t = new TestEntity();
+        t.setName(Utils.randomString(8));
+        t.setDescription(Utils.randomString(32));
+        t.setTemplate(false);
+        t.setTimestampCreated(new Date());
+        return t;
+    }
 }

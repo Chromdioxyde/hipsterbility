@@ -52,7 +52,8 @@ public class HipsterbilityRestClient {
             }
         }
     };
-    private final static String TAG = HipsterbilityRestClient.class.getName();
+    private final static String TAG = HipsterbilityRestClient.class.getSimpleName();
+    private final static String APP_PATH = "/hipsterbility/api";
     private static int MAX_RETRIES = 0;
     private static int TIMEOUT = 1000;
     private static int PORT;
@@ -84,8 +85,10 @@ public class HipsterbilityRestClient {
         client.setMaxConnections(connections);
     }
 
-    public static void setServer(String server, int port) {
-        BASE_URL = "http://" + server;
+    public static void setServer(String server, int port, boolean ssl) {
+        BASE_URL = ssl ? "https://" : "http://";
+        BASE_URL += server;
+        BASE_URL += APP_PATH;
         PORT = port;
         createHTTPClient();
     }
@@ -95,6 +98,10 @@ public class HipsterbilityRestClient {
         asyncHttpClient.setMaxConnections(MAX_CONNECTIONS);
         asyncHttpClient.setMaxRetriesAndTimeout(MAX_RETRIES, TIMEOUT);
         client = asyncHttpClient;
+    }
+
+    public static void setBasicAuthCredentials(String username, String password){
+        client.setBasicAuth(username, password);
     }
 
     public static void setMaxRetriesAndTimeout(int retries, int timeout) {

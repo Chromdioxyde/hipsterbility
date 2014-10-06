@@ -3,6 +3,7 @@ package de.hsosnabrueck.hipsterbility.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,6 +25,9 @@ public class UserEntity {
     @JsonIgnoreProperties({"password"})
 
     public static final String TABLE_NAME = "User";
+
+    public UserEntity() {
+    }
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -49,13 +53,19 @@ public class UserEntity {
     private boolean active;
 
     @OneToMany(mappedBy = "tester")
+    @JsonProperty("sessions")
     private List<TestSessionEntity> sessions;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonProperty("devices")
     private List<DeviceEntity> devices;
     private Locale locale;
 
     private String inviteCode;
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<GroupEntity> groups;
 
 
     public int getId() {
@@ -145,4 +155,12 @@ public class UserEntity {
     public void setInviteCode(String inviteCode) {
         this.inviteCode = inviteCode;
     }
+
+//    public List<GroupEntity> getGroups() {
+//        return groups;
+//    }
+//
+//    public void setGroups(List<GroupEntity> group) {
+//        this.groups = group;
+//    }
 }

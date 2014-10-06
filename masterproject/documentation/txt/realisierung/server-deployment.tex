@@ -1,2 +1,8 @@
-\subsection{Server Deployment}
-%TODO: Server Deployment
+\subsection{Testen des Servers}
+Das Testen des Servers ist aufgrund der Dependency Injection nicht einfach mit JUnit testbar, da JUnit keinen Servlet Container bereitstellt.
+Aus diesem Grund wurden während der Entwicklung verschiedenen Integrationstests durchgeführt, teilweise auch mit JUnit.
+Auf die Erstellung einer vollständigen Testsuite der Komponenten wurde aus Zeigründen verzichtet.
+Das dies ein Fehler war zeigte sich im Verlauf der Entwicklung, da z.~B. führten Veränderungen an Entitätsklassen zu Fehlermeldungen, dass die Entity dem \ac{JPA} \texttt{EntityManager} nicht bekannt sei.
+Wie sich später herausstellte wurde durch das erneute Deployment der Anwendung die \texttt{EntityManagerFactory} im Glassfish \ac{AS} nicht geschlossen und neu erstellt, sondern die vorherige Version weiterverwendet, was zu schwer erklärbaren Fehlermeldungen führte.
+
+Die \ac{REST}-\ac{API} wurde Anfangs mit der Browsererweiterung \emph{Postman}\footnote{Postman im Chrome Webstore: \url{https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm}} für den Google Chrome Browser, später mit Unit-Tests im Testleiter-Client. 

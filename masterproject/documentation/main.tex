@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,bibliography=totocnumbered,listof=totocnumbered]{scrartcl}
+\documentclass[12pt,a4paper,bibliography=totocnumbered,listof=totocnumbered]{scrartcl}
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -9,11 +9,12 @@
 \usepackage{tabularx}
 \usepackage{geometry}
 \usepackage{setspace}
+\usepackage{xcolor}
 \usepackage[right]{eurosym}
-\usepackage[printonlyused,footnote]{acronym}
+\usepackage[printonlyused]{acronym}
 \usepackage{subfig}
 \usepackage{floatflt}
-\usepackage[usenames,dvipsnames]{color}
+\PassOptionsToPackage{usenames,dvipsnames}{color}
 \usepackage{colortbl}
 \usepackage{paralist}
 \usepackage{array}
@@ -31,6 +32,7 @@
 \usepackage{array} % Erweiterungen für Tabellen
 \usepackage{tabu} % Erweiterte Formatierung in Tabellen
 \usepackage{wrapfig} % von Text umflossene Elemente
+\usepackage{dirtree}
 
 \usepackage[
 	backend=biber,
@@ -42,10 +44,42 @@
 \bibliography{bib}
 
 \usepackage{listings}
-\lstset{basicstyle=\footnotesize, captionpos=b, breaklines=true, showstringspaces=false, tabsize=2, frame=lines, numbers=left, numberstyle=\tiny, xleftmargin=2em, framexleftmargin=2em}
-\makeatletter
-\def\l@lstlisting#1#2{\@dottedtocline{1}{0em}{1em}{\hspace{1,5em} Lst. #1}{#2}}
-\makeatother
+%\lstset{basicstyle=\footnotesize, captionpos=b, breaklines=true, showstringspaces=false, tabsize=2, frame=lines, numbers=left, numberstyle=\tiny, xleftmargin=2em, framexleftmargin=2em}
+%\makeatletter
+%\def\l@lstlisting#1#2{\@dottedtocline{1}{0em}{1em}{\hspace{1,5em} Lst. #1}{#2}}
+%\makeatother
+
+\lstset{
+	basicstyle=\footnotesize\ttfamily,	% default font
+	numbers=left,						% line numbers placement
+	numberstyle=\tiny,					% line numbers style
+	%stepnumber=2,						% line number padding
+	numbersep=5pt,						% padding between line numbers and code
+	tabsize=2,							% 
+	extendedchars=true,         
+	breaklines=true,					% line breaks 
+	keywordstyle=\color{red},
+%	frame=b,
+	stringstyle=\color{gray}\ttfamily,	% color of strings in code
+	showspaces=false,					% visualize spaces
+    showtabs=false,						% visualize tabs
+    xleftmargin=17pt,
+	framexleftmargin=17pt,
+	framexrightmargin=5pt,
+	framexbottommargin=4pt,
+	captionpos=b,
+	frame=single,
+	showstringspaces=false				% visualize spaces in strings        
+ }
+ 
+ \lstloadlanguages{% Check docs for further languages ...
+         C,
+         C++,
+         bash,
+         HTML,
+         Java,
+         Clean % use this for CSS
+ }
 
 \geometry{a4paper, top=27mm, left=30mm, right=20mm, bottom=35mm, headsep=10mm, footskip=12mm}
 
@@ -114,9 +148,9 @@
 % Inhalt
 % ----------------------------------------------------------------------------------------------------------
 % Abstände Überschrift
-\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
-\titlespacing{\subsubsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+%\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+%\titlespacing{\subsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
+%\titlespacing{\subsubsection}{0pt}{12pt plus 4pt minus 2pt}{-6pt plus 2pt minus 2pt}
 
 % Kopfzeile
 \renewcommand{\sectionmark}[1]{\markright{#1}}
@@ -138,31 +172,39 @@
 \input{txt/einleitung/problemstellung}
 \input{txt/einleitung/stand_bei_projektbeginn}
 
-\section{Stand der Technik}
+\section{Stand der Technik}\label{sec:stand_der_technik}
 \input{txt/sdt/methoden}
 \input{txt/sdt/anbieter}
 \input{txt/sdt/werkzeuge}
 \input{txt/sdt/technologien}
+\pagebreak
 
 \section{Konzept}
 \input{txt/konzept/anforderungen}
+\pagebreak
 \input{txt/konzept/architektur}
 \input{txt/konzept/technologien}
+\pagebreak
 
 \section{Realisierung des Servers\label{sec:realisierung_server}}
 \input{txt/realisierung/datenbank}
 \input{txt/realisierung/rest-server}
 \input{txt/realisierung/server-sicherheit}
 \input{txt/realisierung/server-deployment}
+\pagebreak
 
-\section{Realisierung des Testleiter-Clients\label{sec:relisierung_client}}
+\section{Realisierung des Testleiter-Clients und der Android Bibliothek}\label{sec:relisierung_client}
 \input{txt/realisierung/client_allgemein}
-
-\section{Weiterentwicklung der Android Bibliothek}
+\input{txt/realisierung/android}
+\input{txt/realisierung/testen}
+\pagebreak
 
 \section{Ergebnisse}
+\input{txt/ergebnisse}
 
+\pagebreak
 \section{Fazit}
+\input{txt/fazit}
 \input{txt/fazit/weiterentwicklung}
 
 % ----------------------------------------------------------------------------------------------------------
@@ -188,6 +230,8 @@
 \addtocontents{toc}{\vspace{-0.5em}}
 
 \input{txt/anhang/glassfish_konfiguration}
+\input{txt/anhang/diagramme}
+\input{txt/anhang/screenshots}
 
 \end{appendix}
 

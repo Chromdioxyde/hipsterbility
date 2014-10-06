@@ -8,10 +8,11 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.*;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleWatcher;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
 import java.lang.reflect.Method;
 
@@ -28,7 +29,7 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
     private SurfaceView surfaceView;
     private Camera camera = null;
     private MediaRecorder mediaRecorder = null;
-    private Session session;
+    private TestSessionEntity session;
     private Activity activity;
     private boolean audioEnabled;
     private int cameraNumber;
@@ -114,7 +115,7 @@ public class CameraCaptureModule implements SurfaceHolder.Callback, CaptureModul
 
     @Override
     public void init() {
-        this.session = SessionManager.getInstace().getSessionInProgress();
+        this.session = SessionManager.sessionInProgress;
     }
 
     public boolean isAudioEnabled() {

@@ -104,7 +104,6 @@ public class RestClientHelper {
 
 
     public boolean checkLogin() throws Exception{
-        // TODO: SSL protocol prefix
         closeClient();
         client = ClientBuilder.newClient();
         addCredetials();
@@ -135,10 +134,6 @@ public class RestClientHelper {
         boolean ssl = settings.getSsl();
         return UriBuilder.fromUri(ssl?"https://":"http://"+server+APP_PATH).port(port).build();
     }
-
-//    public Client getClient() {
-//        return client;
-//    }
 
     public WebTarget getTarget(){
        return client.target(getBaseUri());

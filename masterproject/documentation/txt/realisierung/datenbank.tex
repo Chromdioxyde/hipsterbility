@@ -1,10 +1,23 @@
 \subsection{Datenbank und Persistenz\label{subsec:datenbank}}
-%TODO Kapitel schreiben
+Um die gesammelten Daten von den Testsessions, Metadaten, Tests und Aufgaben verwalten und speichern zu können, wird ein \ac{DBMS} verwendet.
+Bei der Entwicklung wurde weitgehend darauf geachtet keine herstellerspezifischen Funktionen und Eigenschaften zu verwenden.
+Für die Entwicklung wird eine \emph{MySQL}-Datenbank verwendet, welche laut Aussage des Anbieters \enquote{The world's most popular open source database} \cite{OracleCorporation.2014} sei.
+Die Datenbank kommt in der quelloffenen \enquote{Community Edition} (\ac{GPL}-Lizenz) in der Version 5.7 zum Einsatz.
 
+Als Abstraktionsschicht wird die \ac{JPA} verwendet, als Provider \emph{EclipseLink}.
+Letzterer ist der \ac{JPA} Standardprovider des \emph{Glassfish} \ac{AS}. 
 
 \subsubsection{Konfiguration des Glassfish AS zur Verwendung einer MySQL Datenbank}
+Mit dem kostenlos verfügbarem Werkzeug \emph{MySQL Workbench} \cite{Oracle.2014b} wurden zuerst ein Datenbankschema \texttt{hipsterbility} und ein Benutzer \texttt{hipsterbility} angelegt.
+Dieser Benutzer erhält volle Zugriffsrechte auf das erstellte Schema.
+Da der \emph{Glassfish}-Server und die \emph{MySQL}-Datenbank auf dem selben System betrieben wurden, erhält der Benutzer nur lokale Anmelderechte.
+Bei Fernanmeldungen sollte ein starkes Passwort verwendet werden.
 
-\subsection{Datenmodell und Datenbankschema}
+Im nächsten Schritt wird der \emph{MySQL}-\ac{JDBC} Treiber in das entsprechende Verzeichnis des \emph{Glassfish}-Server kopiert. Dieser Schritt ist in der Dokumentation \cite{OracleCorporation.2014b} ausführlich beschrieben.
+
+
+
+\subsubsection{Datenmodell und Datenbankschema}
 Die Datenbank wurde nach dem \enquote{Code first} Ansatz entwickelt.
 Diese Vorgehensweise wurde gewählt, da das bisherige Datenmodell erweitert wurde und die Datenbank nach belieben angepasst werden kann, da keine anderen Anwendungen direkt auf die Datenbank zugreifen.
 
@@ -14,13 +27,6 @@ Dies sind mit \ac{JPA}"~Annotationen versehene \ac{POJO}-Klassen sind \cite[vgl.
 Das resultierende Datenbankschema (siehe Abbildung \ref{fig:datenmankschema}) wird durch den \ac{ORM}"~Provider erstellt und bedarf keine manuellen Anpassungen, da Schlüssel, Beziehungen und Einschränkungen der Tabellen direkt in den Entitätsklassen mit Annotationen festgelegt werden können.
 
 Lediglich eine View wurde manuell erstellt, um die Vorgabe des Authentifizierungsproviders zu erfüllen (siehe Abschnitt \ref{subsubsec:anmeldedaten_datenbank})
-
-\begin{minipage}[t]{\textwidth}
-	\centering
-	\includegraphics[width=\linewidth]{img/datenbankschema}
-	\captionof{figure}{Datenbankschema des Hipsterbility-Servers.}
-	\label{fig:datenmankschema}
-\end{minipage}
 
 \begin{minipage}[t]{\textwidth}
 

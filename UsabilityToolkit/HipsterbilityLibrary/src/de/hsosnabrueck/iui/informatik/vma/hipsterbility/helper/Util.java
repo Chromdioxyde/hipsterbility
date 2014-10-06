@@ -9,9 +9,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Device;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.User;
+import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
+import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
+import de.hsosnabrueck.hipsterbility.model.enums.DevicePlatform;
 
 import java.io.File;
 
@@ -94,13 +95,12 @@ public class Util {
     /**
      * Creates a relative route which can be attached to the base URL of the server to create a full URL string.
      *
-     * @param u User object which is currently active for id.
      * @param s Session for id.
      * @param suffix last (custom) URL path String
      * @return String containing the route.
      */
-    public static String createRelativeRoute(User u, Session s, String suffix) {
-        return "/" + u.getId() + "/" + s.getId() + "/" + suffix;
+    public static String createRelativeRoute(TestSessionEntity s, String suffix) {
+        return "/sessions/" + s.getId() + "/" + suffix;
     }
 
     /**
@@ -155,44 +155,45 @@ public class Util {
      * @param context Android Context (Activity, Application...)
      * @return Device object containing gathered information.
      */
-    public static Device getDeviceInfo(Context context) {
-        Device device = new Device();
+    public static DeviceEntity getDeviceInfo(Context context) {
+        DeviceEntity device = new DeviceEntity();
 
         // "Unique" ID (may change after factory reset)
         String android_id = Settings.Secure.getString(context.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
-        device.setAndroidId(android_id);
+        device.setUuid(android_id);
 
         // Basic information provided by the Build class
         device.setName(Build.DEVICE);
-        device.setBrand(Build.BRAND);
-        device.setModel(Build.MODEL);
-        device.setManufacturer(Build.MANUFACTURER);
-        device.setRomVersion(Build.PRODUCT);
-        device.setBuildNumber(Build.ID);
-        device.setAndroidVersion(Build.VERSION.RELEASE);
+//        device.setBrand(Build.BRAND);
+//        device.setModel(Build.MODEL);
+//        device.setManufacturer(Build.MANUFACTURER);
+//        device.setRomVersion(Build.PRODUCT);
+//        device.setBuildNumber(Build.ID);
+        device.setOsVersion(Build.VERSION.RELEASE);
+        device.setPlatform(DevicePlatform.ANDROID);
 
         // Additional configuration parameters
         Configuration conf = context.getResources().getConfiguration();
-        device.setLocale(conf.locale);
+//        device.setLocale(conf.locale);
 
         // Display metrics
         Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getRealMetrics(outMetrics);
 
-        device.setScreenWidthInPixels(outMetrics.widthPixels);
-        device.setScreenHeightInPixels(outMetrics.heightPixels);
+//        device.setScreenWidthInPixels(outMetrics.widthPixels);
+//        device.setScreenHeightInPixels(outMetrics.heightPixels);
 
         // Calculate screen diameter (may not be very precise)
         double x = outMetrics.heightPixels / outMetrics.xdpi;
         double y = outMetrics.widthPixels / outMetrics.ydpi;
         double screenInches = Math.sqrt(x * x + y * y);
-        device.setScreenSizeInInch(screenInches);
+//        device.setScreenSizeInInch(screenInches);
 
         // Estimate device class
-        device.setScreenLayoutSize(estimateScreenLayoutSize(context));
-        device.setType(estimateDeviceClass(device));
+//        device.setScreenLayoutSize(estimateScreenLayoutSize(context));
+//        device.setDeviceClass(estimateDeviceClass(device));
 
         Log.i(TAG, device.toString());
         return device;
@@ -204,20 +205,9 @@ public class Util {
      * @param context Android Context (Activity, Application...)
      * @return String with basic layout name ("xlarge","large",...)
      */
-    public static Device.ScreenLayoutSize estimateScreenLayoutSize(Context context) {
+    public static int estimateScreenLayoutSize(Context context) {
         int layout = context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-        switch (layout) {
-            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
-                return Device.ScreenLayoutSize.XLARGE;
-            case Configuration.SCREENLAYOUT_SIZE_LARGE:
-                return Device.ScreenLayoutSize.LARGE;
-            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
-                return Device.ScreenLayoutSize.NORMAL;
-            case Configuration.SCREENLAYOUT_SIZE_SMALL:
-                return Device.ScreenLayoutSize.SMALL;
-            default:
-                return Device.ScreenLayoutSize.UNDEFINED;
-        }
+        return layout;
     }
 
     /**
@@ -226,17 +216,17 @@ public class Util {
      * @param device the device to be estimated
      * @return Devce.DeviceType which matches basic classification properties or DeviceType.OTHER for no match.
      */
-    public static Device.DeviceType estimateDeviceClass(Device device) {
-        double screenSize = device.getScreenSizeInInch();
-        Device.ScreenLayoutSize layout = device.getScreenLayoutSize();
-        if (screenSize >= 7.0 || layout == Device.ScreenLayoutSize.XLARGE) {
-            return Device.DeviceType.TABLET;
-        } else if ((7.0 > screenSize || 5.0 <= screenSize) || layout == Device.ScreenLayoutSize.LARGE) {
-            return Device.DeviceType.PHABLET;
-        } else if (layout == Device.ScreenLayoutSize.NORMAL || layout == Device.ScreenLayoutSize.SMALL) {
-            return Device.DeviceType.PHONE;
-        } else return Device.DeviceType.OTHER;
-    }
+//    public static DeviceClass estimateDeviceClass(DeviceEntity device, double screensize, ) {
+//        double screenSize = device.getScreenSizeInInch();
+//        int layout = device.getScreenLayoutSize();
+//        if (screenSize >= 7.0 || layout == Device.ScreenLayoutSize.XLARGE) {
+//            return Device.DeviceType.TABLET;
+//        } else if ((7.0 > screenSize || 5.0 <= screenSize) || layout == Device.ScreenLayoutSize.LARGE) {
+//            return Device.DeviceType.PHABLET;
+//        } else if (layout == Device.ScreenLayoutSize.NORMAL || layout == Device.ScreenLayoutSize.SMALL) {
+//            return Device.DeviceType.PHONE;
+//        } else return Device.DeviceType.OTHER;
+//    }
 
     /**
      * (Source http://stackoverflow.com/a/9563438)

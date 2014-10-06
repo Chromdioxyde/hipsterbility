@@ -1,0 +1,15 @@
+\subsection{Server}
+Die Arbeit an der Serverkomponente war die umfangreichste am Projekt.
+Probleme mit der \emph{Glassfish} Konfiguration und dessen teilweise unzureichende Dokumentation haben sehr viel Zeit in Anspruch genommen.
+Das Ergebnis ist ein Server mit Datenbankanbindung und \ac{REST}-API, die weitgehend implementiert wurde.
+Einzig Funktionen zum Dateiupload konnten aus Zeitgründen nicht mehr implementiert werden, wodurch die Android Bibliothek die gesammelten Daten nicht hochladen kann und die Daten entsprechend nicht für die Auswertung bereitstehen.
+
+\subsection{Testleiter-Client und Android Bibliothek}
+Umgesetzt wurden die Anmeldung und die Benutzerverwaltung.
+Die Kommunikation mit dem Server wurde in Ansätzen implementiert, verläuft aktuell jedoch synchron im UI-Thread, was zum Blockieren der \ac{GUI} führt, wenn große Datenmengen abgerufen werden.
+Um dies zu verhindern sollte der Datentransfer in JavaFX Tasks nebenläufig durchgeführt werden, dies konnte jedoch in der vorgegebenen maximalen Bearbeitungsdauer nicht mehr umgesetzt werde.
+
+Die Android Bibliothek wurde ein wenig verbessert, bei der Erkennung von Eingaben und Gesten und die Persistenzschicht wurde eingeführt, ist jedoch noch nicht voll implementiert.
+Es wurde viel Zeit investiert, um eine bessere Möglichkeit zu finden den Bildschirminhalt zu erfassen, ohne Root-Zugriff das System zu haben.
+Dies verlief jedoch weitgehend ergebnislos.
+Zwar wäre es möglich eine Systemapplikation zu erstellen, dies würde allerdings die Integration in andere Anwendungen erschweren, da Systemanwendungen eine besondere Signatur erfordern. 

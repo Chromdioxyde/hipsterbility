@@ -1,46 +1,42 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
 
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
+import android.content.Context;
+import android.util.Log;
+import de.hsosnabrueck.hipsterbility.entities.TestEntity;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.persistence.DatabaseHelper;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 
 /**
- * Created on 13.02.14.
+ * Created by Albert on 06.10.2014.
  */
 public class SessionManager {
+    private static final String TAG = SessionManager.class.getSimpleName();
 
-    private static SessionManager instance;
+    public static TestSessionEntity sessionInProgress;
 
-    private ArrayList<Session> sessions;
-    private Session sessionInProgress;
+    private DatabaseHelper databaseHelper;
 
-    private SessionManager() {
-        sessionInProgress = null;
-        this.sessions = new ArrayList<Session>();
+    public SessionManager(Context context) {
+        databaseHelper = new DatabaseHelper(context);
+        Log.i(TAG, this.getClass().getSimpleName() + " created");
     }
 
-    public static SessionManager getInstace() {
-        if (instance == null) {
-            instance = new SessionManager();
+
+    public TestSessionEntity createNewSession(String name, String description, TestEntity testEntity){
+        TestSessionEntity session = new TestSessionEntity();
+        session.setName(name);
+        session.setTest(testEntity);
+        session.setDescription(description);
+        try {
+            databaseHelper.getSessionDao().create(session);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return instance;
-    }
+        sessionInProgress = session;
+        return session;
 
-    public ArrayList<Session> getSessions() {
-        return sessions;
     }
-
-    public void setSessions(ArrayList<Session> sessions) {
-        this.sessions = sessions;
-    }
-
-    public Session getSessionInProgress() {
-        return sessionInProgress;
-    }
-
-    public void setSessionInProgress(Session sessionInProgress) {
-        this.sessionInProgress = sessionInProgress;
-    }
-
 
 }

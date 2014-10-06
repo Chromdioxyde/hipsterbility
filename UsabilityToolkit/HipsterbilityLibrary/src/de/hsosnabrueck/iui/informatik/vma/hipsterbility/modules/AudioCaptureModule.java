@@ -2,9 +2,10 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
 import android.media.MediaRecorder;
 import android.util.Log;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
 import java.io.IOException;
 
@@ -33,7 +34,7 @@ public class AudioCaptureModule implements CaptureModule {
 
     private MediaRecorder mRecorder = null;
     private boolean capture = false;
-    private Session session;
+    private TestSessionEntity session;
 
     private AudioCaptureModule() {
     }
@@ -93,7 +94,7 @@ public class AudioCaptureModule implements CaptureModule {
 
     @Override
     public void init() {
-        session = SessionManager.getInstace().getSessionInProgress();
+        session = SessionManager.sessionInProgress;
     }
 
 }

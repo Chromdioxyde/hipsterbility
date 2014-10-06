@@ -48,7 +48,7 @@ public class TestRessource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(@Context UriInfo uriInfo, TestEntity test){
         test = testService.create(test);
-        return null != test ? Response.ok().build() : Response.notModified("could not create test").build();
+        return null != test ? Response.status(Response.Status.CREATED).build() : Response.notModified("could not create test").build();
     }
 
     @PUT

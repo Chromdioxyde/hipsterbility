@@ -1,10 +1,8 @@
 package de.hsosnabrueck.hipsterbility.rest.service.impl;
 
-import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
-import de.hsosnabrueck.hipsterbility.entities.InviteCodeEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
-import de.hsosnabrueck.hipsterbility.entities.UserEntity;
+import de.hsosnabrueck.hipsterbility.entities.*;
 import de.hsosnabrueck.hipsterbility.persistence.DeviceDao;
+import de.hsosnabrueck.hipsterbility.persistence.GroupDao;
 import de.hsosnabrueck.hipsterbility.persistence.TestSessionDao;
 import de.hsosnabrueck.hipsterbility.persistence.UserDao;
 import de.hsosnabrueck.hipsterbility.rest.service.InviteCodeService;
@@ -28,6 +26,8 @@ public class UserServiceImpl implements UserService {
     DeviceDao deviceDao;
     @Inject
     InviteCodeService inviteCodeService;
+    @Inject
+    GroupDao groupDao;
 
 
     @Override
@@ -75,5 +75,30 @@ public class UserServiceImpl implements UserService {
         if(null == code) return false;
         InviteCodeEntity i = inviteCodeService.getInvite(code);
         return null != i && i.isValid();
+    }
+
+    @Override
+    public UserEntity create(UserEntity user, GroupEntity group) {
+        userDao.save(user);
+        group.setUser(user);
+        groupDao.save(group);
+        return user;
+    }
+
+    @Override
+    public boolean addGroup(UserEntity user, GroupEntity group) {
+        userDao.save(user);
+        group.setUser(user);
+        groupDao.save(group);
+        return group.getId()>0;
+    }
+
+    @Override
+    public boolean addGroup(int userId, GroupEntity group) {
+        UserEntity user = userDao.retrieve(userId);
+        if(null == user) return false;
+        group.setUser(user);
+        groupDao.save(group);
+        return group.getId() > 0;
     }
 }

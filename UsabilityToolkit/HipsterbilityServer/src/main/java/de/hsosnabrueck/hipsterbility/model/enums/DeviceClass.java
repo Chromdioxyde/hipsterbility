@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * Created by Albert on 14.09.2014.
  */
-@JsonFormat(shape= JsonFormat.Shape.OBJECT)
+//@JsonFormat(shape= JsonFormat.Shape.OBJECT)
 public enum DeviceClass {
     PHONE("PHONE"),
     TABLET("TABLET"),

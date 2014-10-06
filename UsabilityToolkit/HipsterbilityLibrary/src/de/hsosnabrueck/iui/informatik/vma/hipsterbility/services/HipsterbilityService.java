@@ -11,7 +11,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.SessionActivity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.TestsActivity;
 
 /**
  * Created on 17.02.14.
@@ -63,7 +63,7 @@ public class HipsterbilityService extends Service {
     }
 
     public void createTestingNotification() {
-        Intent intent = new Intent(this, SessionActivity.class);
+        Intent intent = new Intent(this, TestsActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
         Intent stopServiceIntent = new Intent(this, HipsterbilityService.class);
         stopServiceIntent.setAction(getString(R.string.action_stop_service));

@@ -10,11 +10,12 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 import org.apache.http.Header;
 
 import java.io.File;
@@ -44,7 +45,7 @@ public class UploadService extends Service {
     private volatile int bytesDone = 0;
     private int totalFileCount = 0;
     private volatile int fileDoneCount = 0;
-    private Session session;
+    private TestSessionEntity session;
     private NotificationManager notificationManager;
 
     private HashMap<String, List<File>> files;
@@ -105,7 +106,7 @@ public class UploadService extends Service {
     }
 
     private void updateSession() {
-        this.session = SessionManager.getInstace().getSessionInProgress();
+        this.session = SessionManager.sessionInProgress;
     }
 
     /**
@@ -141,7 +142,7 @@ public class UploadService extends Service {
         }
     }
 
-    private void uploadFiles(Session session, List<File> mFilesList, String suffix, String paramName) {
+    private void uploadFiles(TestSessionEntity session, List<File> mFilesList, String suffix, String paramName) {
         for (File f : mFilesList) {
             RequestParams params = new RequestParams();
             try {
@@ -151,7 +152,7 @@ public class UploadService extends Service {
             }
             FileUploadAsyncHttpResponseHandler responseHandler = new FileUploadAsyncHttpResponseHandler();
             HipsterbilityRestClient.post(
-                    Util.createRelativeRoute(session.getUser(), session, suffix),
+                    Util.createRelativeRoute(session, suffix),
                     params, responseHandler);
         }
     }
@@ -188,15 +189,15 @@ public class UploadService extends Service {
      * TODO: Automatically delete uploaded files after required testing.
      */
     private synchronized void finishUpload() {
-        RequestParams params = new RequestParams();
-        params.add("finished", "1");
-        Log.d(TAG, "put finish");
-        HipsterbilityRestClient.put("/" + session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
-            @Override
-            public void onSuccess(String content) {
-                super.onSuccess(content);
-            }
-        });
+//        RequestParams params = new RequestParams();
+//        params.add("finished", "1");
+//        Log.d(TAG, "put finish");
+//        HipsterbilityRestClient.put("/" + session.getUser().getId() + "/sessions/" + session.getId(), params, new TextHttpResponseHandler() {
+//            @Override
+//            public void onSuccess(String content) {
+//                super.onSuccess(content);
+//            }
+//        });
 
         Intent i = new Intent(this, UploadService.class);
         i.setAction(getString(R.string.action_delete_files));

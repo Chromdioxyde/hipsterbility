@@ -18,7 +18,8 @@ public abstract class BasicDaoImpl<T> implements Dao<T> {
     private String tableName;
 //    @PersistenceContext(name = "HipsterbilityService" )
 //    protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("HipsterbilityServiceTest");
-    protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("HipsterbilityService");
+    @PersistenceUnit(name = "HipsterbilityService" )
+    protected EntityManagerFactory emf; // = Persistence.createEntityManagerFactory("HipsterbilityService");
 
     protected BasicDaoImpl(Class<T> type, String tableName){
         this.type = type;

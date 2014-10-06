@@ -1,10 +1,5 @@
 \subsection{Server Sicherheitsmaßnahmen}
 
-
-\subsubsection{Authentisierung und Autorisierung}
-
-
-
 \subsubsection{Speichern von Anmeldedaten in der Datenbank\label{subsubsec:anmeldedaten_datenbank}}
 Um die Skalierbarkeit der Anwendung zu gewährleisten, werden die Anmeldedaten der Benutzer in der Datenbank gespeichert.
 Das hat den Vorteil, dass der Bezug zwischen Benutzer, Anmeldedaten und weiteren Informationen jederzeit gegeben ist, da keine externen Referenzen verwaltet werden müssen.
@@ -23,13 +18,13 @@ Zu den Hauptfunktionen gehört das Authentisieren, Identifizieren und Autorisier
 Da für die Datenspeicherung ein \ac{DBMS} verwendet wird, bietet es sich an dort auch die Anmeldedaten der Benutzer zu speichern.
 
 \subsubsection{JDBCRealm Datenbankschema und Entitätsklassen}
-Das \texttt{JDBCRealm} sieht dazu ein Schema vor, welches mindestens aus zwei Tabellen besteht (siehe Abbildung \ref{fig:jdbcrealm_minimal_schema}), eine für die Benutzer und eine für Gruppen bzw. Rollen, welche von Benutzern eingenommen werden.
+Das \texttt{JDBCRealm} sieht zum Speichern der Benutzerdaten und Rollen ein Schema vor, welches mindestens aus zwei Tabellen besteht (siehe Abbildung \ref{fig:jdbcrealm_minimal_schema}), eine für die Benutzer und eine für Gruppen bzw. Rollen, welche von Benutzern eingenommen werden.
 Die Namen der Tabellen und Spalten können bei der Konfiguration angegebene werden und sind entsprechend flexibel.
 Benötigt werden eine Tabelle mit Benutzernamen und Passwort (\texttt{Users}) und eine mit der Zuordnung von Gruppenname und Benutzername (\texttt{Groups}).
 
 Bei der Verwendung der \ac{JPA} könnten die zugehörigen Entity-Klassen beispielsweise aussehen, wie in Listings \ref{lst:jdbcrealm_klasse_benutzer} und \ref{lst:jdbcrealm_klasse_gruppe}.
 
-\begin{minipage}[t]{0.5\textwidth}
+\begin{minipage}[t]{0.45\textwidth}
 \begin{lstlisting}[language=Java,caption={Beispiel für eine UserEntity Klasse.}, label=lst:jdbcrealm_klasse_benutzer]
 // [...] Imports etc.
 @Entity(name = "Users")
@@ -42,7 +37,8 @@ public class UserEntity {
 }
 \end{lstlisting}
 \end{minipage}
-\begin{minipage}[t]{0.5\textwidth}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
 \begin{lstlisting}[language=Java,caption={Beispiel für eine GroupEntity Klasse.}, label=lst:jdbcrealm_klasse_gruppe]
 // [...] Imports etc.
 @Entity(name = "Groups")
@@ -124,5 +120,23 @@ public class GroupEntity {
 
 Wenn die nötigen \ac{JDBC}"~Ressourcen bereits erstellt wurde, kann das \texttt{JDBCRealm} mit dem Befehl aus Listing \ref{lst:asadmin_create_realm} mit dem \texttt{asadmin}"~Werkzeug erzeugt werden.
 Das Erstellen und Bearbeiten von Realms ist auch über die Weboberfläche möglich, siehe Abbildung \ref{fig:realm_screenshot}.
+Der folgende Abschnitt beschreibt die Sicherung der \ac{REST}-Ressourcen vor unzulässigen Zugriffen.
 
+\subsubsection{Authentifizierung und Autorisierung von REST-Ressourcen}
+Für die Autorisierung und Authentifizierung wird die \emph{Glassfish} Implementierung der \ac{JAAS} API genutzt.
+Wie zuvor beschrieben, sind Rollen und Benutzer in der Datenbank hinterlegt.
+Für ein die Zuweisung der Rollen aus der Datenbank zu den Rollen, die im Webdienst verwendet werden dient die Konfigurationsdatei \texttt{glassfish-web.xml}.
+Listing \ref{lst:glassfish-web-xml-auszug} zeigt den relevanten Teil der Konfiguration, indem die SecurityRealm Gruppen den Rollen des Webservice zugewiesen werden (im Anhang ist die vollständige Konfigurationsdatei zu finden).
 
+Anschließend wurden in der \texttt{web.xml} Servlet-Konfigurationsdatei (siehe Anhang Listing \ref{lst:web_xml}) die \texttt{SecurityContraints} mit den erlaubten Rollen und \ac{URL} Pfaden eingetragen.
+
+Die verwendete Authentisierung ist die \ac{HTTP} \emph{Basic Authentication}, bei der werden Benutzername und Passwort Base 64 kodiert im Header übertragen \cite[vgl.][216\psq]{Burke.2014}.
+
+In den Ressourcenklassen werden Pfade und Methoden mit Annotationen versehen, die zur Verwaltung der Zugriffsrechte dienen.
+Um die Funktion in Jersey zu aktivieren muss sie mit \texttt{register(RolesAllowedDynamicFeature.class)} in der Konfiguration der Anwendung aktiviert werden.
+Danach stehen die Annotationen \texttt{@RolesAllowed}, \texttt{@PermitAll} und \texttt{@DenyAll}.
+Die erste der drei legt die erlaubten Rollen für authentifizierte Benutzer fest. \texttt{@PermitAll} erlaubt den Zugriff für alle Rollen und \texttt{@DenyAll} erlaubt nur den Zugriff aus der Anwendung selbst. \cite[Vgl.][219\psqq]{Burke.2014}
+
+\lstinputlisting[caption={glassfish-web.xml Mapping von SecurityRealm Rollen.},language=XML,firstline=5, lastline=12, label=lst:glassfish-web-xml-auszug]{../../UsabilityToolkit/HipsterbilityServer/src/main/webapp/WEB-INF/glassfish-web.xml}
+
+Im folgenden Abschnitt wird kurz beschrieben, wie der Server getestet wurde.

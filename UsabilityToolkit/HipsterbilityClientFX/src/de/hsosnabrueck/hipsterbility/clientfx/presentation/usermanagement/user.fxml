@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.5" orientation="VERTICAL" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsosnabrueck.hipsterbility.clientfx.presentation.usermanagement.UserPresenter">
+   <items>
+      <TableView fx:id="tblUsers" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="colUsername" prefWidth="75.0" text="Username" />
+          <TableColumn fx:id="colFirst" prefWidth="75.0" text="First name" />
+            <TableColumn fx:id="colLast" prefWidth="75.0" text="Last name" />
+            <TableColumn fx:id="colEmail" prefWidth="75.0" text="E-Mail" />
+            <TableColumn fx:id="colActive" prefWidth="75.0" text="Active" />
+        </columns>
+      </TableView>
+      <SplitPane dividerPositions="0.5">
+         <items>
+            <Accordion>
+              <panes>
+                <TitledPane animated="false" text="Groups">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="lstGroups" layoutY="-12.0" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" text="Devices">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="lstDevices" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+            <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+              <columnConstraints>
+                <ColumnConstraints />
+                <ColumnConstraints />
+                  <ColumnConstraints />
+                  <ColumnConstraints hgrow="NEVER" maxWidth="295.0" minWidth="10.0" prefWidth="88.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="525.0" minWidth="10.0" prefWidth="468.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="First name" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                  <Label text="Last name" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <Label text="Username *" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Label text="E-Mail *" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                  <Label text="Password *" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <Label text="Language" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                  <HBox alignment="CENTER_LEFT" spacing="20.0" GridPane.columnIndex="4" GridPane.rowIndex="7">
+                     <children>
+                        <ComboBox fx:id="locale" prefWidth="70.0" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                        <CheckBox fx:id="active" mnemonicParsing="false" selected="true" text="Active" />
+                     </children>
+                  </HBox>
+                  <TextField fx:id="username" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <PasswordField fx:id="password" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <TextField fx:id="firstname" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                  <TextField fx:id="lastname" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                  <TextField fx:id="email" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                  <HBox alignment="CENTER_LEFT" spacing="20.0" GridPane.columnIndex="4" GridPane.rowIndex="8">
+                     <children>
+                        <ComboBox fx:id="group" prefWidth="100.0" />
+                        <Button fx:id="create" mnemonicParsing="false" onAction="#handleCreateButtonAction" text="Create user" />
+                     </children>
+                  </HBox>
+                  <Label text="Group" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </GridPane>
+         </items>
+      </SplitPane>
+   </items>
+</SplitPane>

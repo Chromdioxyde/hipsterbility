@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
-import android.util.Log;
 import android.view.MotionEvent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEvent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEventListener;

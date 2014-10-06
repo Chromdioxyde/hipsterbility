@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Device;
+import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
 
 /**
  * Created by Albert on 30.05.2014.
  */
 public class DeviceDetailsFragment extends Fragment {
 
-    private Device device;
+    private DeviceEntity device;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

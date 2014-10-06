@@ -1,12 +1,14 @@
 package de.hsosnabrueck.hipsterbility.rest.service.impl;
 
 import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
+import de.hsosnabrueck.hipsterbility.entities.files.*;
 import de.hsosnabrueck.hipsterbility.persistence.FileDao;
 import de.hsosnabrueck.hipsterbility.persistence.TestSessionDao;
 import de.hsosnabrueck.hipsterbility.rest.service.TestSessionService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -42,8 +44,18 @@ public class TestSessionServiceImpl implements TestSessionService {
     }
 
     @Override
-    public TestSessionEntity create(TestSessionEntity object) {
-        return sessionDao.save(object);
+    public TestSessionEntity create(TestSessionEntity session) {
+        ArrayList<FileEntity> files = new ArrayList<>();
+        if(null != session.getAudios()) files.addAll(session.getAudios());
+        if(null != session.getVideos()) files.addAll(session.getVideos());
+        if(null != session.getLogs()) files.addAll(session.getLogs());
+        if(null != session.getScreenshots()) files.addAll(session.getScreenshots());
+        for(FileEntity f : files){
+            if(null == f.getSession()){
+                f.setSession(session);
+            }
+        }
+        return sessionDao.save(session);
     }
 
     @Override

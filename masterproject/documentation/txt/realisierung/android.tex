@@ -1,0 +1,13 @@
+\subsection{Weiterentwicklung der Android Bibliothek}
+Es wurden die folgenden Änderungen an der Android Bibliothek durchgeführt:
+
+\begin{compactitem}
+	\item Anpassen des \ac{REST}-Clients an den neuen Server.
+	\item Verwendung geteilter Entitätsklassen zwischen Bibliothek und Server.
+	\item Überarbeitung der Bildschirmerfassung und Visualisierung von Eingaben.
+	\item Anpassung der Oberfläche an die veränderte Terminologie und kleinere Verbesserungen.
+\end{compactitem}
+
+Die Screenshots im Anhang \ref{appendix:android} zeigen einen Teil der Änderungen.
+MotionEvents werden nun direkt an die Bibliothek weitergereicht.
+Dies führt dazu, dass alle Eingaben registriert werden, auch in Views die diese normalerweise konsumieren und so nicht mehr weitergeben. 

@@ -1,9 +1,10 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture;
 
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,7 +15,7 @@ import java.io.OutputStream;
 public class ScreenshotModuleRoot implements CaptureModule {
 
     private static ScreenshotModuleRoot instance;
-    private Session session;
+    private TestSessionEntity session;
 
     public static ScreenshotModuleRoot getInstance() {
         if (instance == null) instance = new ScreenshotModuleRoot();
@@ -50,7 +51,7 @@ public class ScreenshotModuleRoot implements CaptureModule {
 
     @Override
     public void init() {
-        this.session = SessionManager.getInstace().getSessionInProgress();
+        this.session = SessionManager.sessionInProgress;
     }
 
 

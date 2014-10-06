@@ -3,8 +3,13 @@ package de.hsosnabrueck.hipsterbility.clientfx.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hsosnabrueck.hipsterbility.clientfx.Settings;
+import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
+import de.hsosnabrueck.hipsterbility.entities.TestEntity;
 import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity;
+import de.hsosnabrueck.hipsterbility.persistence.TestObjectFactory;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.ws.rs.client.Entity;
@@ -13,9 +18,29 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class RestClientHelperTest {
+
+    RestClientHelper clientHelper;
+
+    @Before
+    public void init(){
+        clientHelper = new RestClientHelper();
+        Settings settings = new Settings();
+        settings.init();
+        settings.setServer("localhost");
+        settings.setPort(8080);
+        settings.setUser("admin");
+        settings.setPassword("test123");
+        clientHelper.settings = settings;
+        try {
+            clientHelper.checkLogin();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testClientConnection(){
@@ -36,14 +61,7 @@ public class RestClientHelperTest {
     }
     @Test
     public void fileUpload(){
-        RestClientHelper clientHelper = new RestClientHelper();
-        Settings settings = new Settings();
-        settings.init();
-//        settings.setServer("localhost");
-//        settings.setPort(8080);
-        settings.setUser("admin");
-        settings.setPassword("test123");
-        clientHelper.settings = settings;
+        System.out.println("fileUpload");
         File file = new File("test" + File.separator +"testimg.jpg");
         System.out.println(file.getAbsolutePath());
         try {
@@ -77,6 +95,29 @@ public class RestClientHelperTest {
         Response response = clientHelper.getTarget().path("sessions").request(MediaType.APPLICATION_JSON).post(Entity.json(session));
         System.out.println(response);
         Response r = clientHelper.getTarget().path("sessions").path("1").path("audios").request().post(Entity.json(audio));
+        System.out.println(r);
+    }
+
+    @Test
+    public void testCreateTest(){
+        System.out.println("testCreateTest");
+        TestEntity test = TestObjectFactory.getTestEntity();
+        Response r = clientHelper.getTarget().path("tests").request().post(Entity.json(test));
+        System.out.println(r);
+    }
+
+    @Test
+    public void createTestWithTasks(){
+        System.out.println("createTestWithTasks");
+        TestEntity test = TestObjectFactory.getTestEntity();
+        test.setTasks(new ArrayList<>());
+        for(int i = 0 ; i<10 ;i++) {
+            TaskEntity taskEntity = TestObjectFactory.getTaskEntity();
+            taskEntity.setOrderNr(i);
+            taskEntity.setTest(test);
+            test.getTasks().add(taskEntity);
+        }
+        Response r = clientHelper.getTarget().path("tests").request().post(Entity.json(test));
         System.out.println(r);
     }
 

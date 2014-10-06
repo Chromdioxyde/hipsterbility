@@ -1,6 +1,8 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
 import de.hsosnabrueck.hipsterbility.model.enums.DevicePlatform;
 
@@ -15,6 +17,9 @@ public class DeviceEntity {
 
     public static final String TABLE_NAME = "Device";
 
+    public DeviceEntity() {
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
@@ -26,19 +31,19 @@ public class DeviceEntity {
 
     private String customName;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @JsonProperty
     private DeviceClass deviceClass;
 
     @Column(unique = true)
     private String uuid;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) @JsonProperty
     private DevicePlatform platform;
 
-    @ManyToOne @JsonBackReference
+    @ManyToOne @JsonBackReference("user-device")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "device")
+    @OneToMany(mappedBy = "device") @JsonIgnore
     private Collection<TestSessionEntity> sessions;
 
     public int getId() {

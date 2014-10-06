@@ -36,10 +36,15 @@
              android:label="@string/upload_service_label"
              android:name=".services.UploadService">
     </service>
-    <activity android:name=".activities.SessionActivity"/>
+    <activity android:name=".activities.TestsActivity"
+              android:label="@string/title_hipsterbility_activity"
+              android:icon="@drawable/ic_launcher">
+        <intent-filter android:label="@string/app_name">
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
     <activity android:name=".activities.TasksActivity"/>
-    <activity android:name=".activities.TodosActivity"
-              android:theme="@android:style/Theme.Holo.Dialog.NoActionBar"/>
     <activity android:name=".activities.SettingsActivity" android:label="Preferences"/>
         <activity android:name=".activities.DeviceActivity" android:label="Devices"/>
     </application>

@@ -1,5 +1,7 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 /**
@@ -19,7 +21,7 @@ public class GroupEntity {
     private int id;
     @Column(nullable=false)
     private String name;
-    @ManyToOne
+    @ManyToOne @JsonBackReference("user-group")
     private UserEntity user;
 
     public int getId() {

@@ -1,6 +1,7 @@
 package de.hsosnabrueck.hipsterbility.rest.service;
 
 import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
+import de.hsosnabrueck.hipsterbility.entities.GroupEntity;
 import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.hipsterbility.entities.UserEntity;
 
@@ -13,4 +14,7 @@ public interface UserService extends Service<UserEntity> {
     public UserEntity findByName(String username);
     public UserEntity findByEmail(String email);
     public boolean checkValidInvite(String code);
+    public UserEntity create(UserEntity user, GroupEntity group);
+    public boolean addGroup(UserEntity user, GroupEntity group);
+    public boolean addGroup(int userId, GroupEntity group);
 }

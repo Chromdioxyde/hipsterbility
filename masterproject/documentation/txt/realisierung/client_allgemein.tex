@@ -1,2 +1,86 @@
 \subsection{Realisierung des Clients für Testleiter und Administratoren}
-%TODO: Testleiter Client
+Der Testleiter Client wurde auf Basis von JavaFX mit dem \ac{JDK} 8 erstellt.
+JavaFX ist seit Java 8 Bestandteil der Java SE Laufzeitumgebung und unterstützt viele Neuerungen wie Lambda-Methoden und Property-Bindings.
+Neben der einfachen \ac{GUI} Entwicklung, wird auch das Rendern von dreidimensionalen Objekten und Szenen mit Hardwarebeschleunigung unterstützt.
+Bei JavaFX bietet außerdem Zahlreiche Methoden an um Animationen zu gestalten und Medien wiederzugeben und zu manipulieren.
+
+Das Hauptnachschlagewerk für die Implementierung wird das Buch \citetitle{Dea.2014} von \citeauthor{Dea.2014} \cite{Dea.2014}.
+
+Nachfolgend wir die Erstellung von grafischen Oberflächen in JavaFX kurz beschrieben.
+
+\subsubsection{Grafische Oberflächen mit dem JavaFX Scene Builder 2.0}
+Ähnlich der \ac{XML} Layouts bei der Android Plattform, bietet JavaFX die Möglichkeit Oberflächen deklarativ und außerhalb des Quellcodes zu definieren.
+Dies geschieht durch \ac{XML} basierte \texttt{FXML}-Dateien.
+Um diese nicht manuell erstellen zu müssen, stellt Oracle das Werkzeug \emph{Scene Builder} \cite{OracleCorporation.2014c} zur Verfügung, mit welchen sich Oberflächen im \ac{WYSIWYG} Stil erstellen lassen.
+
+Abbildung \ref{fig:scenebuilder_screenshot} zeigt, den \emph{Scene Builder} mit einer geöffneten \texttt{FXML}-Datei.
+Wichtige Elemente für das Erstellen von Oberflächen sind die Zuweisung einer Controller Klasse, die Vergabe der \texttt{fx:id} und bei Schaltflächen oder interaktiven \ac{GUI}"~Elementen die \texttt{On Action} Methode.
+
+Die Möglichkeit eine Controller-Klasse zu vergeben zeigt, dass die Verwendung des \ac{MVC} oder \ac{MVP} Entwurfsmuster vorgesehen, bzw. leicht möglich, ist.  
+Bei der Implementierung wurde das \ac{MVP} Entwurfsmuster umgesetzt, welches sich dadurch auszeichnet, dass möglichst wenig Programmlogik im View, der Oberfläche, verwendet wir.
+Der Presenter beherbergt einen Großteil der Programmlogik und stellt das Bindeglied zwischen Model und View dar. \cite[Vgl.][74]{Dea.2014}
+
+Wenn ein \ac{GUI}-Element eine zugewiesene \texttt{fx:id} (Abbildung \ref{fig:scenebuilder_screenshot} rechts oben) besitzt, so kann es mit der \texttt{@FXML} Annotation an einer Objektvariable in der zugewiesenen Controller-Klasse direkt injiziert werden.
+Dies erleichtert die Entwicklung, da diese Objekte nicht mehr manuell instanziert und der Oberfläche zugewiesen werden müssen.
+Das injizieren mit der \texttt{@FXML} Annotation ist auch bei Methoden möglich, denen eine \texttt{On Action} Methode vergeben wird.
+Dadurch entfällt das manuelle Zuweisen eines \texttt{ActionListeners}.
+
+\subsubsection{Properties und Binding}
+Das neu eingeführte Property-Binding ermöglicht das Verknüpfen von \ac{GUI}-Elementen, teilweise auch als \emph{Node}, \emph{Control} oder \emph{View} bezeichnet, mit Properties, welche in der einfachsten Form Wrapper für primitive Objekte darstellen.
+
+Nachfolgend einige Beispiele für Property-Klassen (\texttt{javafx.beans.property} ) in JavaFX:
+\begin{compactitem}
+	\item \texttt{SimpleBooleanProperty}
+	\item \texttt{ReadOnlyBooleanWrapper}
+	\item \texttt{SimpleIntegerProperty}
+	\item \texttt{ReadOnlyIntegerWrapper}
+	\item \texttt{SimpleStringProperty}
+	\item \texttt{ReadOnlyStringWrapper}
+\end{compactitem}
+Diese Beispiele zeigen einige der Property Klassen, welche in zwei Gruppen eingeteilt werden können, Properties mit Lese-/Schreibzugriff und schreibgeschützte Properties.
+Der Hauptvorteil dieser Wrapper-Klassen liegt darin, dass sie sowohl die Schnittstelle \texttt{Obervable}, als auch \texttt{ObservableValue} implementieren und sich mit \texttt{addListener()} \texttt{ChangeListener} und \texttt{InvalidationListener} registrieren lassen.
+Dadurch müssen die Werte nicht durch Polling abgefragt werden und die Listener werden bei Ereignissen benachrichtigt.
+Die Implementierung der Listener ist durch Java-Klassen, anonyme Klassen oder Lambda-Ausdrücke möglich. \cite[Vgl.][75-79]{Dea.2014}
+
+Ein weitere Eigenschaft von Properties sind Bindings.
+Dadurch lassen sich zwei oder mehrere Werte synchron halten, indem Properties an \ac{GUI} Elemente gebunden werden.
+Einfache Bindings, bei denen nur die Werte synchronisiert werden, gibt es in zwei Varianten, unidirektional und bidirektional. 
+Beim unidirektionalen Binding mit \texttt{bind()} wird die Property aktualisiert, an welcher \texttt{bind()} aufgerufen wurde.
+Bei bidirektionaler Wertebindung mit \texttt{bindBidirectional()} werden die Werte in beide Richtungen synchronisiert.
+Neben der einfachen Wertebindung gibt es noch weitere Bindings die sich wie boolsche Operatoren oder mathematische Funktionen verhalten. \cite[Vgl.][79-81]{Dea.2014}
+
+Diese werden hier jedoch nicht weiter behandelt. 
+
+\subsubsection{Dependency Injection mit afterburner.fx}
+\emph{afterburner.fx} \cite{Bien.2014} ist ein minimalistisches Framework, bestehend aus zwei Java Klassen, welches die beiden Prinzipien \emph{Convention over Configuration} und \emph{Dependency Injection} in JavaFX Anwendungen ermöglicht.
+Durch das Befolgen eines vorgegebenen Dateischemas und Packageaufbaus können Views praktisch ohne Code erstellt werden, einzig durch eine \texttt{FXML}"~Datei und eine Klasse die von \texttt{FXMLView} erbt.
+
+Das Vorgegebene Schema sieht für \enquote{MyClass} etwa wie folgt aus:
+
+\dirtree{%
+.1 /.
+.2 MyClassPresenter.java.
+.2 MyClassView.java.
+.2 myclass.css.
+.2 myclass.properties.
+.2 myclass.fxml.
+}
+
+Es werden eine \texttt{*View.java} und eine \texttt{*Presenter.java} Klasse erwartet, sowie eine \ac{CSS}"~Datei, für die Gestaltung der View, eine \texttt{*.properties}-Datei mit Key-Value Inhalt, z.~B. für Strings, und die \texttt{FXML}"~Datei für das \ac{GUI}"~Layout erwartet.
+Die \texttt{.css} und \texttt{.properties} Dateien benötigen nicht zwingend einen Inhalt, sollten jedoch vorhanden sein.
+
+Neben der vereinfachten Oberflächenerstellung bietet das Framework noch eine zweite nützliche Eigenschaft.
+Es erlaubt, ohne weitere Konfiguration, Java EE Annotationen (\texttt{javax.inject.*}) für Dependency Injection zu benutzen, wozu andernfalls Frameworks wie \emph{Google Guice}\footnote{Google Guice Webseite: \url{https://code.google.com/p/google-guice/}}, benötigt würden, die eine umfangreiche Konfiguration verlangen. \cite[Vgl.][]{Bien.2014}
+
+Die Verbindung zum Server wird auch hier über einen \ac{REST}"~Client hergestellt.
+
+\subsubsection{REST-Client}
+Als \ac{REST}-Client wird der Client der Jersey 2 Implementierung verwendet.
+Für Aufrufe erfolgen fließend und erlauben es unnötige Zuweisungen zu vermeiden, z.~B.
+\begin{center}
+\texttt{Response r = client.target(getBaseUri()).path(<Pfad>).request().head();}
+\end{center}
+
+Aus dem Response Objekt können Objekte mit \texttt{.readEntity()} abgerufen werden, dazu muss der Typ des Abzurufenden Objekts im Aufruf übergeben werden und die Entitäten werden automatisch deserialisert. \cite[Vgl.][113\psqq]{Burke.2014}
+
+

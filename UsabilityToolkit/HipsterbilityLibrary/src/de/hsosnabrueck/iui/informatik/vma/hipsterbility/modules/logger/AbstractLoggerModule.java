@@ -1,8 +1,8 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.logger;
 
 import android.util.Log;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleEvent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleListener;
@@ -21,7 +21,7 @@ public abstract class AbstractLoggerModule implements CaptureModule, ActivityLif
     public final String logFileName;
     protected final String tag;
     protected boolean capture;
-    protected Session session;
+    protected TestSessionEntity session;
     protected BufferedWriter writer;
 
     protected AbstractLoggerModule(String tag, String logFileName) {
@@ -49,7 +49,7 @@ public abstract class AbstractLoggerModule implements CaptureModule, ActivityLif
 
     @Override
     public void startCapture() {
-        this.session = SessionManager.getInstace().getSessionInProgress();
+        this.session = SessionManager.sessionInProgress;
         try {
             capture = true;
             writer = new BufferedWriter(

@@ -33,7 +33,7 @@ public class MyActivity extends HipsterbilityActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 //        TODO remove unused calls
-        Util.getDeviceInfo(this);
+//        Util.getDeviceInfo(this);
 
 //        h.testAlert(this);
 //        h.testCapture();

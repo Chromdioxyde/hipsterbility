@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEvent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEventListener;
@@ -21,14 +21,16 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.Activi
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleListener;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleWatcher;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created on 21.02.14.
@@ -49,7 +51,7 @@ public class ScreenshotModule implements TouchEventListener, CaptureModule, Acti
     private final static String TAG = ScreenshotModule.class.getSimpleName();
 
     private static ScreenshotModule instance;
-    private Session session;
+    private TestSessionEntity session;
     private Activity activity;
 //    private ArrayList<Coordinates> touches = new ArrayList<Coordinates>();
     private boolean capture;
@@ -190,7 +192,7 @@ public class ScreenshotModule implements TouchEventListener, CaptureModule, Acti
 
     @Override
     public void startCapture() {
-        this.session = SessionManager.getInstace().getSessionInProgress();
+        this.session = SessionManager.sessionInProgress;
         Util.makeDirectoriesForPath(Util.createOutputDirPathName(session.getId(), Util.SCREENSHOTS_DIR));
         registerTouchListener();
         this.capture = true;

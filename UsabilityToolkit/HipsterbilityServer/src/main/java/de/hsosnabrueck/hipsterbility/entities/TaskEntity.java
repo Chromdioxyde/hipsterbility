@@ -1,5 +1,7 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
@@ -10,7 +12,7 @@ import java.util.Locale;
  * Created by Albert on 08.09.2014.
  */
 @Entity(name = "Task")
-public class TaskEntity {
+public class TaskEntity implements Comparable<TaskEntity>{
 
     public static final String TABLE_NAME = "Task";
 
@@ -30,7 +32,7 @@ public class TaskEntity {
     private boolean success;
     private String comment;
 
-    @ManyToOne
+    @ManyToOne @JoinColumn @JsonBackReference
     private TestEntity test;
 
     @ManyToOne
@@ -160,5 +162,10 @@ public class TaskEntity {
 
     public void setTest(TestEntity test) {
         this.test = test;
+    }
+
+    @Override
+    public int compareTo(TaskEntity o) {
+        return Integer.valueOf(orderNr).compareTo(o.getOrderNr());
     }
 }

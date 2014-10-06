@@ -14,6 +14,25 @@ Außerdem wird sie aktuell nur von den eigenen Clients genutzt, welchen der Aufb
 Ein detaillierte Beschreibung der Ressourcen mit Pfaden und \ac{HTTP}"~Methoden befindet sich in Abschnitt \ref{subsubsec:rest_ressourcen}.
 
 \subsubsection{Java REST-API mit JAX-RS Annotationen und CDI}
+Die Serveranwendung besteht insgesamt aus den folgenden drei Schichten:
+\begin{compactenum}
+	\item Data Access Layer
+	\item Service Layer
+	\item Resource Layer
+\end{compactenum}
+Der Data Access Layer abstrahiert die Datenbankanbindung und implementiert die \ac{CRUD}-Methoden für den Datenzugriff.
+Für jeden Entitätentyp wurde ein eigenes \ac{DAO} erstellt, lediglich die Verwaltung von \texttt{FileEntity} Subklassen wurde in einem \ac{DAO} zusammengefasst, da sich diese Objekte in ihrer Struktur sehr ähnlich sind.
+Der Service Layer nutzt ein oder mehrere \acp{DAO} für die Persistenz und abstrahiert diese wiederum für den Resource Layer, welcher die \ac{REST}-\ac{API} bildet und selbst auch ein oder mehrere Services nutzt.
+
+Die \ac{DAO} und Service~Objekte werden per \ac{CDI} in die Objekte der Jeweils nächsten Schicht injiziert.
+Dies eliminiert einen Teil der Objektverwaltung zur Laufzeit, da sich der Container derer annimmt.
+Der Container scannt die Klassen automatisch nach entsprechenden Annotationen ab, sofern die Bindings nicht manuell spezifiziert werden.
+Neben fast allen Java-Klassen lassen sich u.~a. auch Session Beans, Java EE Ressourcen und Kontext Objekte injizieren.
+Außerdem besteht so die Möglichkeit verschiedene Implementierungen für ein Interface bereitzustellen, von denen eine während der Laufzeit ausgewählt wird. \cite[Vgl.][497\psqq]{Juneau.2013}
+
+Bei den \ac{DAO} und Services wurde die \texttt{@Singleton} Annotation gewählt, wodurch diese als Singleton Session Beans deklariert werden \cite[vgl.][]{Oracle.2013b}.
+Dies wurde gewählt, weil die Objekte keinen Zustand speichern -- \texttt{@Stateless} hätte dies auch erfüllt -- und der Dienst insgesamt nicht auf die Bewältigung von einer Großen Anzahl von Anfragen ausgelegt ist.
+
 
 \subsubsection{Implementierte Ressourcen\label{subsubsec:rest_ressourcen}}
 Die Ressourcen werden als Gruppen von Objekten angesehen und es werden Nomen im Plural verwendet \cite[vgl.][20\psqq]{Burke.2014} um die Benennung einheitlich zu gestalten (z.B. \texttt{users, sessions, devices}).
@@ -49,31 +68,34 @@ Das erstellen von Objekten mit Benutzerbezug über die \texttt{POST}"~Methode er
 Nachfolgend werden die Resourcen mit den implementierten \ac{HTTP}"~Methoden aufgelistet.
 Die Pfadangabe erfolgt relativ zur Basis"~\ac{URL}.
 Angaben in geschweiften Klammern sind Pfad-Parameter, welchen im Aufruf ein Wert zugewiesen ist.
-%TODO: fehlende Ressourcen nachpflegen
-
 
 \begin{minipage}[t]{\textwidth}
 	\centering
 	\begin{tabu}{>{\ttfamily}X[2]X[1]>{\ttfamily}X[3]>{\small}X[4]}
 		\rowfont[l]{\normalfont\bfseries\normalsize}
 		Rollen & Methode & Pfad &   Beschreibung\\
-		USER & GET & /users &   Daten des angemeldeten Benutzers\\ 
+		USER & GET & /users &   Abrufen der Daten des angemeldeten Benutzers\\ 
 		ADMIN & GET & /users &  Liste aller Benutzer\\
-		USER & PUT & /users & Bestätigung oder Fehlermeldung\\
-		ADMIN & PUT & /users/\{id\} & Bestätigung oder Fehlermeldung\\ 
-		ALL, ADMIN & POST & /users &  ID des neu erstellten Benutzers\\
+		USER & PUT & /users & Angemeldeten Benutzer aktualisieren\\
+		ADMIN & PUT & /users/\{id\} & Benutzer mit der ID \texttt{id} aktualisieren\\ 
+		ALL, ADMIN & POST & /users &  Neuen Benutzer erstellen\\
 		ADMIN & GET & /users/\{id\} & Ausgabe des Benutzers mit der ID \texttt{id}\\
 		ADMIN & DELETE & /users/\{id\} & Löschen des Benutzers mit der ID \texttt{id}\\
 		\\
 		USER & GET & /devices & Liste mit Geräten des Benutzers\\
 		ADMIN & GET & /devices & Liste mit allen Geräten\\
-		ADMIN & GET & /devices/\{id\} & Gerät mit der ID \texttt{id}\\
+		ADMIN & GET & /devices/\{id\} & Abrufen Gerät mit der ID \texttt{id}\\
 		
-		ADMIN & DELETE & /devices/\{id\} & Gerät mit der ID \texttt{id}\\
-		ADMIN & PUT & /devices/\{id\} & Gerät mit der ID \texttt{id}\\
+		ADMIN & DELETE & /devices/\{id\} & Löschen des Geräts mit der ID \texttt{id}\\
+		ADMIN & PUT & /devices/\{id\} & Aktualisieren des Geräts mit der ID \texttt{id}\\
 	\end{tabu}
-	\captionof{table}{REST"~Ressourcen mit HTTP"~Methoden, Pfad, Benutzerrolle und Beschreibung.}
+	\captionof{table}{Einige REST"~Ressourcen mit HTTP"~Methoden, Pfad, Benutzerrolle und Beschreibung.}
 	\label{tbl:rest_ressourcen}
 \end{minipage}
 
+Tabelle \ref{tbl:rest_ressourcen} zeigt den Aufbau einiger Ressourcen mit zugelassenen Benutzerrollen, Pfaden und Parametern.
+Diese Ressourcen sollen als Beispiel dienen, für die verschiedenen Ebenen des Ressourcenaufbaus, denn je nach Benutzerrolle verhalten sich bestimmte Ressourcen anders als bei anderen Rollen.
 
+Für Ressourcen die Objekte mit Objektlisten als Klassenvariablen besitzen wurde eine mehrstufige Hierarchie aufgebaut, nach dem Schema \texttt{/resource/\{id\}/subresource/\{id\}}.
+
+Wie diese Ressourcen und die Anmeldedaten der Benutzer gesichert werden, ist im nächsten Abschnitt beschrieben.

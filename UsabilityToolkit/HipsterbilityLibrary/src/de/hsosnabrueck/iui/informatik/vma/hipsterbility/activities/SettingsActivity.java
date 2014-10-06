@@ -95,7 +95,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
         if (key.equals(server) || key.equals(port)) {
             HipsterbilityRestClient.setServer(prefs.getString(server, ""),
-                    Integer.valueOf(prefs.getString(port, "3000")));
+                    Integer.valueOf(prefs.getString(port, "3000")),
+                    prefs.getBoolean(getString(R.string.pref_key_ssl), false));
         } else if (
                 key.equals(retries) ||
                         key.equals(timeout)

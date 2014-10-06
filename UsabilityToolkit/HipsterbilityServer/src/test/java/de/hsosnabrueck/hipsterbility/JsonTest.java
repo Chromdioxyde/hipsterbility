@@ -2,11 +2,10 @@ package de.hsosnabrueck.hipsterbility;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
-import de.hsosnabrueck.hipsterbility.entities.UserEntity;
+import de.hsosnabrueck.hipsterbility.entities.*;
 import de.hsosnabrueck.hipsterbility.persistence.TestObjectFactory;
 import de.hsosnabrueck.hipsterbility.persistence.TestSessionDao;
+import de.hsosnabrueck.hipsterbility.persistence.TodoDao;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -26,12 +25,18 @@ public class JsonTest {
         TestSessionEntity s = TestObjectFactory.getTestSessionEntity();
         DeviceEntity d = TestObjectFactory.getDeviceEntity();
         List<TestSessionEntity> l = new ArrayList<TestSessionEntity>();
+        TestEntity t = TestObjectFactory.getTestEntity();
+        TaskEntity t1 = TestObjectFactory.getTaskEntity();
+        ArrayList<TaskEntity> ts = new ArrayList<>();
+        ts.add(t1);
+        t.setTasks(ts);
         l.add(s);
         u.setSessions(l);
         s.setTester(u);
         ObjectMapper m = new ObjectMapper();
-        System.out.println(m.writeValueAsString(u));
-        System.out.println(m.writeValueAsString(s));
-        System.out.println(m.writeValueAsString(d));
+//        System.out.println(m.writeValueAsString(u));
+//        System.out.println(m.writeValueAsString(s));
+//        System.out.println(m.writeValueAsString(d));
+        System.out.println(m.writeValueAsString(t));
     }
 }

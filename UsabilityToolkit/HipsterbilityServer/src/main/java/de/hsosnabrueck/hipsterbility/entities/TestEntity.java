@@ -26,8 +26,8 @@ public class TestEntity {
     @ManyToOne
     private TestAppEntity testApp;
 
-    @OneToMany(mappedBy = "test")
-    private Collection<TaskEntity> tasks;
+    @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
+    private List<TaskEntity> tasks;
 
     @ManyToOne
     private UserEntity creator;
@@ -112,11 +112,11 @@ public class TestEntity {
         this.timestampModified = timestampModified;
     }
 
-    public Collection<TaskEntity> getTasks() {
+    public List<TaskEntity> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Collection<TaskEntity> tasks) {
+    public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
     }
 

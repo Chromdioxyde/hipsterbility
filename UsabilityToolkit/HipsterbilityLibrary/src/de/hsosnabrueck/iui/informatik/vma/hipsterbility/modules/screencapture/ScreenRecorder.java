@@ -1,10 +1,11 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture;
 
 import android.util.Log;
+import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.models.Session;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
 import java.io.IOException;
 
@@ -31,7 +32,7 @@ public class ScreenRecorder implements CaptureModule {
 
     @Override
     public void startCapture() {
-        Session session = SessionManager.getInstace().getSessionInProgress();
+        TestSessionEntity session = SessionManager.sessionInProgress;
         try {
             Process suProcess = Runtime.getRuntime().exec("su");
             captureProcess = Runtime.getRuntime().exec("screenrecord "

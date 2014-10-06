@@ -1,8 +1,5 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules;
 
-import android.app.Activity;
-import android.view.MotionEvent;
-
 import java.util.EventListener;
 
 /**
