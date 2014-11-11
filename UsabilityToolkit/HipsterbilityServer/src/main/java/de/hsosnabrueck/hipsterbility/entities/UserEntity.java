@@ -63,9 +63,15 @@ public class UserEntity {
 
     private String inviteCode;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
 //    @JsonIgnore
-//    private List<GroupEntity> groups;
+    @ManyToMany
+    @JoinTable(
+            name = "User_Realmgroup",
+            joinColumns = {@JoinColumn(name = "user_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_Name")}
+    )
+    private List<GroupEntity> groups;
 
 
     public int getId() {
@@ -156,11 +162,11 @@ public class UserEntity {
         this.inviteCode = inviteCode;
     }
 
-//    public List<GroupEntity> getGroups() {
-//        return groups;
-//    }
-//
-//    public void setGroups(List<GroupEntity> group) {
-//        this.groups = group;
-//    }
+    public List<GroupEntity> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<GroupEntity> group) {
+        this.groups = group;
+    }
 }

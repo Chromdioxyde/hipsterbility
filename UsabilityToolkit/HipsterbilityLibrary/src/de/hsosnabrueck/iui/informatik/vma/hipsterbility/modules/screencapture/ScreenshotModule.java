@@ -11,9 +11,9 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.Hipsterbility;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEvent;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.TouchEventListener;
@@ -21,7 +21,6 @@ import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.Activi
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleListener;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleWatcher;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

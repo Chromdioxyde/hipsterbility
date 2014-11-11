@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TaskEntity;
 
 import java.util.List;
 

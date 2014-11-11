@@ -2,6 +2,7 @@ package de.hsosnabrueck.hipsterbility.rest.service.impl;
 
 import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
 import de.hsosnabrueck.hipsterbility.entities.TestEntity;
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
 import de.hsosnabrueck.hipsterbility.persistence.TestDao;
 import de.hsosnabrueck.hipsterbility.rest.service.TestService;
 
@@ -19,35 +20,35 @@ public class TestServiceImpl implements TestService {
     TestDao testDao;
 
     @Override
-    public Collection<TestEntity> list() {
+    public Collection<TestEntity> list() throws DataAccessException {
         return testDao.listAll();
     }
 
     @Override
-    public Collection<TestEntity> list(int startIndex, int count) {
+    public Collection<TestEntity> list(int startIndex, int count) throws DataAccessException {
         return testDao.list(startIndex, count);
     }
 
     @Override
-    public TestEntity read(int id) {
-        return testDao.retrieve(id);
+    public TestEntity read(Integer id) throws DataAccessException {
+        return testDao.read(id);
     }
 
     @Override
-    public boolean delete(int id) {
-        return testDao.delete(id);
+    public void delete(Integer id) throws DataAccessException {
+        testDao.delete(id);
     }
 
     @Override
-    public TestEntity create(TestEntity test) {
+    public TestEntity create(TestEntity test) throws DataAccessException {
         for(TaskEntity t : test.getTasks()){
             if(null == t.getTest()) t.setTest(test);
         }
-        return testDao.save(test);
+        return testDao.create(test);
     }
 
     @Override
-    public boolean update(int id, TestEntity test) {
+    public TestEntity update(Integer id, TestEntity test) throws DataAccessException {
         return testDao.update(id, test);
     }
 }

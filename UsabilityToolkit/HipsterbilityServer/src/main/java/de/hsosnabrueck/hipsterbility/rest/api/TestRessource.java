@@ -1,7 +1,7 @@
 package de.hsosnabrueck.hipsterbility.rest.api;
 
 import de.hsosnabrueck.hipsterbility.entities.TestEntity;
-import de.hsosnabrueck.hipsterbility.persistence.TestDao;
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
 import de.hsosnabrueck.hipsterbility.rest.service.TestService;
 
 import javax.inject.Inject;
@@ -28,33 +28,61 @@ public class TestRessource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("id") int id){
-        TestEntity test = testService.read(id);
-        return test != null ? Response.ok(test).build() : Response.status(Response.Status.NOT_FOUND).build();
+        TestEntity test = null;
+        try {
+            test = testService.read(id);
+            return Response.ok(test).build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(){
-        return Response.ok(testService.list()).build();
+        try {
+            return Response.ok(testService.list()).build();
+        } catch (DataAccessException e) {
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @DELETE
     @Path("{id}")
     public Response delete(@PathParam("id") int id){
-        return testService.delete(id) ? Response.ok().build() : Response.notModified("could not delete test").build();
+        try {
+            testService.delete(id);
+            return Response.ok().build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.notModified(e.getMessage()).build();
+        }
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("text/plain")
     public Response create(@Context UriInfo uriInfo, TestEntity test){
-        test = testService.create(test);
-        return null != test ? Response.status(Response.Status.CREATED).build() : Response.notModified("could not create test").build();
+        try {
+            test = testService.create(test);
+            return Response.status(Response.Status.CREATED).entity(test.getId()).build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.notModified(e.getMessage()).build();
+        }
     }
 
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") int id, TestEntity test){
-        return testService.update(id, test) ? Response.ok().build() : Response.notModified("could not update test").build();
+        try {
+            testService.update(id, test);
+            return Response.ok().build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.notModified(e.getMessage()).build();
+        }
     }
 }

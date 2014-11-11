@@ -25,7 +25,6 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="HipsterbilityServer" />
     <orderEntry type="library" name="com.j256.ormlite:ormlite-android:4.45" level="project" />
     <orderEntry type="module-library">
       <library name="org.apache.geronimo.specs:geronimo-jpa_2.0_spec:1.1" type="repository">
@@ -39,6 +38,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="HipsterbilityCommon" />
   </component>
 </module>
 

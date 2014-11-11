@@ -1,14 +1,10 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.LogFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.ScreenshotFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.VideoFileEntity;
+import de.hsosnabrueck.hipsterbility.model.enums.FileType;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by Albert on 08.09.2014.
@@ -37,16 +33,22 @@ public class TestSessionEntity {
     private DeviceEntity device;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
-    private Collection<VideoFileEntity> videos;
+    private Map<FileType, FileEntity> files;
+
+//    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+//    private Collection<VideoFileEntity> videos;
+//
+//    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+//    private Collection<LogFileEntity> logs;
+//
+//    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+//    private Collection<AudioFileEntity> audios;
+//
+//    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
+//    private Collection<ScreenshotFileEntity> screenshots;
 
     @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
-    private Collection<LogFileEntity> logs;
-
-    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
-    private Collection<AudioFileEntity> audios;
-
-    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
-    private Collection<ScreenshotFileEntity> screenshots;
+    private List<TaskResultEntity> taskResults;
 
     @ManyToOne
     private TestEntity test;
@@ -61,6 +63,9 @@ public class TestSessionEntity {
     @Column(updatable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date timeFinished;
+
+    public TestSessionEntity() {
+    }
 
     public int getId() {
         return id;
@@ -118,28 +123,45 @@ public class TestSessionEntity {
         this.device = device;
     }
 
-    public Collection<VideoFileEntity> getVideos() {
-        return videos;
+//    public Collection<VideoFileEntity> getVideos() {
+//        return videos;
+//    }
+//
+//    public void setVideos(Collection<VideoFileEntity> videos) {
+//        this.videos = videos;
+//    }
+//
+//    public Collection<LogFileEntity> getLogs() {
+//        return logs;
+//    }
+//
+//    public void setLogs(Collection<LogFileEntity> logs) {
+//        this.logs = logs;
+//    }
+//
+//    public Collection<AudioFileEntity> getAudios() {
+//        return audios;
+//    }
+//
+//    public void setAudios(Collection<AudioFileEntity> audios) {
+//        this.audios = audios;
+//    }
+
+
+    public Map<FileType, FileEntity> getFiles() {
+        return files;
     }
 
-    public void setVideos(Collection<VideoFileEntity> videos) {
-        this.videos = videos;
+    public void setFiles(Map<FileType, FileEntity> files) {
+        this.files = files;
     }
 
-    public Collection<LogFileEntity> getLogs() {
-        return logs;
+    public List<TaskResultEntity> getTaskResults() {
+        return taskResults;
     }
 
-    public void setLogs(Collection<LogFileEntity> logs) {
-        this.logs = logs;
-    }
-
-    public Collection<AudioFileEntity> getAudios() {
-        return audios;
-    }
-
-    public void setAudios(Collection<AudioFileEntity> audios) {
-        this.audios = audios;
+    public void setTaskResults(List<TaskResultEntity> taskResults) {
+        this.taskResults = taskResults;
     }
 
     public Date getTimeStarted() {
@@ -174,13 +196,13 @@ public class TestSessionEntity {
         this.description = description;
     }
 
-    public Collection<ScreenshotFileEntity> getScreenshots() {
-        return screenshots;
-    }
-
-    public void setScreenshots(Collection<ScreenshotFileEntity> screenshots) {
-        this.screenshots = screenshots;
-    }
+//    public Collection<ScreenshotFileEntity> getScreenshots() {
+//        return screenshots;
+//    }
+//
+//    public void setScreenshots(Collection<ScreenshotFileEntity> screenshots) {
+//        this.screenshots = screenshots;
+//    }
 
     public TestEntity getTest() {
         return test;

@@ -1,6 +1,7 @@
 package de.hsosnabrueck.hipsterbility.rest.service.impl;
 
 import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
 import de.hsosnabrueck.hipsterbility.persistence.DeviceDao;
 import de.hsosnabrueck.hipsterbility.rest.service.DeviceService;
 
@@ -18,32 +19,32 @@ public class DeviceServiceImpl implements DeviceService {
     DeviceDao deviceDao;
 
     @Override
-    public Collection<DeviceEntity> list() {
+    public Collection<DeviceEntity> list() throws DataAccessException {
         return deviceDao.listAll();
     }
 
     @Override
-    public Collection<DeviceEntity> list(int startIndex, int count) {
+    public Collection<DeviceEntity> list(int startIndex, int count) throws DataAccessException {
         return deviceDao.list(startIndex, count);
     }
 
     @Override
-    public DeviceEntity read(int id) {
-        return deviceDao.retrieve(id);
+    public DeviceEntity read(Integer id) throws DataAccessException {
+        return deviceDao.read(id);
     }
 
     @Override
-    public boolean delete(int id) {
-        return deviceDao.delete(id);
+    public void delete(Integer id) throws DataAccessException {
+        deviceDao.delete(id);
     }
 
     @Override
-    public DeviceEntity create(DeviceEntity device) {
-        return deviceDao.save(device);
+    public DeviceEntity create(DeviceEntity device) throws DataAccessException {
+        return deviceDao.create(device);
     }
 
     @Override
-    public boolean update(int id, DeviceEntity device) {
+    public DeviceEntity update(Integer id, DeviceEntity device) throws DataAccessException {
        return deviceDao.update(id, device);
     }
 

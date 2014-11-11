@@ -1,6 +1,7 @@
 package de.hsosnabrueck.hipsterbility.rest.service.impl;
 
 import de.hsosnabrueck.hipsterbility.entities.InviteCodeEntity;
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
 import de.hsosnabrueck.hipsterbility.persistence.InviteCodeDao;
 import de.hsosnabrueck.hipsterbility.rest.service.InviteCodeService;
 
@@ -18,37 +19,37 @@ public class InviteCodeServiceImpl implements InviteCodeService {
     InviteCodeDao inviteCodeDao;
 
     @Override
-    public Collection<InviteCodeEntity> list() {
+    public Collection<InviteCodeEntity> list() throws DataAccessException {
         return inviteCodeDao.listAll();
     }
 
     @Override
-    public Collection<InviteCodeEntity> list(int startIndex, int count) {
+    public Collection<InviteCodeEntity> list(int startIndex, int count) throws DataAccessException {
         return inviteCodeDao.list(startIndex, count);
     }
 
     @Override
-    public InviteCodeEntity read(int id) {
-        return inviteCodeDao.retrieve(id);
+    public InviteCodeEntity read(Integer id) throws DataAccessException {
+        return inviteCodeDao.read(id);
     }
 
     @Override
-    public boolean delete(int id) {
-        return inviteCodeDao.delete(id);
+    public void delete(Integer id) throws DataAccessException {
+         inviteCodeDao.delete(id);
     }
 
     @Override
-    public InviteCodeEntity create(InviteCodeEntity object) {
-        return inviteCodeDao.save(object);
+    public InviteCodeEntity create(InviteCodeEntity object) throws DataAccessException {
+        return inviteCodeDao.create(object);
     }
 
     @Override
-    public boolean update(int id, InviteCodeEntity object) {
-        return inviteCodeDao.update(id, object);
+    public InviteCodeEntity update(Integer id, InviteCodeEntity invite) throws DataAccessException {
+        return inviteCodeDao.update(id, invite);
     }
 
     @Override
-    public InviteCodeEntity getInvite(String code) {
+    public InviteCodeEntity getInvite(String code) throws DataAccessException {
         return inviteCodeDao.findCode(code);
     }
 }

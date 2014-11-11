@@ -2,10 +2,6 @@ package de.hsosnabrueck.hipsterbility.persistence;
 
 import de.hsosnabrueck.hipsterbility.PasswordTest;
 import de.hsosnabrueck.hipsterbility.entities.*;
-import de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.LogFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.ScreenshotFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.VideoFileEntity;
 import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
 import de.hsosnabrueck.hipsterbility.model.enums.DevicePlatform;
 import de.hsosnabrueck.hipsterbility.util.Utils;
@@ -42,36 +38,36 @@ public class TestObjectFactory {
         return d;
     }
 
-    public static AudioFileEntity getAudioFileEntity(){
-        AudioFileEntity a = new AudioFileEntity();
-        a.setFilePath("C:\\somefile");
-        a.setType(AudioFileEntity.Type.MICROPHONE);
-        a.setTimestamp(new Date());
-        return a;
-    }
-
-    public static LogFileEntity getLogFileEntity(){
-        LogFileEntity l = new LogFileEntity();
-        l.setFilePath("C:\\somefile");
-        l.setType(LogFileEntity.Type.SESSION);
-        l.setTimestamp(new Date());
-        return l;
-    }
-
-    public static ScreenshotFileEntity getScreenshotFileEntity(){
-        ScreenshotFileEntity s = new ScreenshotFileEntity();
-        s.setFilePath("C:\\somefile");
-        s.setTimestamp(new Date());
-        return s;
-    }
-
-    public static VideoFileEntity getVideoFileEntity(){
-        VideoFileEntity v = new VideoFileEntity();
-        v.setFilePath("C:\\somefile");
-        v.setType(VideoFileEntity.Type.CAMERA_FRONT);
-        v.setTimestamp(new Date());
-        return v;
-    }
+//    public static AudioFileEntity getAudioFileEntity(){
+//        AudioFileEntity a = new AudioFileEntity();
+//        a.setFilePath("C:\\somefile");
+//        a.setType(AudioFileEntity.Type.MICROPHONE);
+//        a.setTimestamp(new Date());
+//        return a;
+//    }
+//
+//    public static LogFileEntity getLogFileEntity(){
+//        LogFileEntity l = new LogFileEntity();
+//        l.setFilePath("C:\\somefile");
+//        l.setType(LogFileEntity.Type.SESSION);
+//        l.setTimestamp(new Date());
+//        return l;
+//    }
+//
+//    public static ScreenshotFileEntity getScreenshotFileEntity(){
+//        ScreenshotFileEntity s = new ScreenshotFileEntity();
+//        s.setFilePath("C:\\somefile");
+//        s.setTimestamp(new Date());
+//        return s;
+//    }
+//
+//    public static VideoFileEntity getVideoFileEntity(){
+//        VideoFileEntity v = new VideoFileEntity();
+//        v.setFilePath("C:\\somefile");
+//        v.setType(VideoFileEntity.Type.CAMERA_FRONT);
+//        v.setTimestamp(new Date());
+//        return v;
+//    }
 
     public static TaskEntity getTaskEntity(){
         TaskEntity t = new TaskEntity();

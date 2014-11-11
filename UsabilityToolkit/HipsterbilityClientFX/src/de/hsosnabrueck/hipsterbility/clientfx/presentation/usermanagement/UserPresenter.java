@@ -2,26 +2,27 @@ package de.hsosnabrueck.hipsterbility.clientfx.presentation.usermanagement;
 
 import com.google.common.base.Charsets;
 import com.google.common.hash.Hashing;
+import de.hsosnabrueck.hipsterbility.clientfx.model.Device;
+import de.hsosnabrueck.hipsterbility.clientfx.model.Group;
+import de.hsosnabrueck.hipsterbility.clientfx.model.User;
 import de.hsosnabrueck.hipsterbility.clientfx.rest.DataAccess;
 import de.hsosnabrueck.hipsterbility.clientfx.rest.DataAccessException;
-import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
-import de.hsosnabrueck.hipsterbility.entities.GroupEntity;
-import de.hsosnabrueck.hipsterbility.entities.UserEntity;
+import de.hsosnabrueck.hipsterbility.clientfx.ui.lists.DeviceListCell;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
-import javafx.util.Callback;
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.*;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 /**
@@ -43,15 +44,17 @@ public class UserPresenter implements Initializable{
     @FXML private ComboBox<String> locale;
     @FXML private CheckBox active;
     @FXML private Button create;
-    @FXML ComboBox<String> group;
-    @FXML TableColumn<UserEntity, String> colUsername;
-    @FXML TableColumn<UserEntity, String> colFirst;
-    @FXML TableColumn<UserEntity, String> colLast;
-    @FXML TableColumn<UserEntity, String> colEmail;
-    @FXML TableColumn<UserEntity, Boolean> colActive;
-    @FXML TableView<UserEntity> tblUsers;
-    @FXML ListView<GroupEntity> lstGroups;
-    @FXML ListView<DeviceEntity> lstDevices;
+    @FXML private ComboBox<String> group;
+    @FXML private TableColumn<User, String> colUsername;
+    @FXML private TableColumn<User, String> colFirst;
+    @FXML private TableColumn<User, String> colLast;
+    @FXML private TableColumn<User, String> colEmail;
+    @FXML private TableColumn<User, Boolean> colActive;
+    @FXML private TableView<User> tblUsers;
+    @FXML private ListView<String> lstGroups; // TODO: change to Group
+    @FXML private ListView<Device> lstDevices;
+
+    private ObservableList<Device> devicesForUserList;
 
 
 
@@ -69,7 +72,7 @@ public class UserPresenter implements Initializable{
 
 
     private void createUser() {
-        UserEntity user = new UserEntity();
+        User user = new User();
         user.setUsername(username.getText());
         String pwhash = Hashing.sha256()
                 .hashString(password.getText(), Charsets.UTF_8).toString();
@@ -79,9 +82,9 @@ public class UserPresenter implements Initializable{
         user.setLastname(lastname.getText());
         user.setActive(active.isSelected());
         user.setLocale(Locale.forLanguageTag(locale.getValue()));
-        GroupEntity groupEntity = new GroupEntity();
+        Group groupEntity = new Group();
         groupEntity.setName(group.getValue().toUpperCase());
-        groupEntity.setUser(user);
+        groupEntity.getUsers().add(user);
         try {
 
             dataAccess.createUser(user, groupEntity);
@@ -92,50 +95,77 @@ public class UserPresenter implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        createListViews();
         ObservableList<String> localeList = FXCollections.observableArrayList(Locale.getISOLanguages());
         locale.setItems(localeList);
         ObservableList<String> rolesList = FXCollections.observableArrayList();
-        rolesList.add(GroupEntity.USER);
-        rolesList.add(GroupEntity.ADMIN);
+        rolesList.add(Group.USER);
+        rolesList.add(Group.ADMIN);
         group.setItems(rolesList);
         addProperties();
         addControlListener();
         addTableColFactories();
+
+        showUsersInTable();
         tblUsers.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
             //Check whether item is selected and set value of selected item to Label
             if (tblUsers.getSelectionModel().getSelectedItem() != null) {
                 displayDetails(observableValue.getValue());
             }
         });
-        showUsersIntable();
-        lstDevices = new ListView<>();
-        lstGroups = new ListView<>();
+
     }
 
-    private void displayDetails(UserEntity value) {
-        username.setText(value.getUsername());
-        firstname.setText(value.getInviteCode());
-        lastname.setText(value.getLastname());
-        email.setText(value.getEmail());
-        lastname.setText(value.getLastname());
-        active.setSelected(value.isActive());
-        if(null!= value.getLocale()) locale.setValue(value.getLocale().getISO3Language());
-//        if(null!= value.getGroups()) lstGroups.setItems(FXCollections.observableList(value.getGroups()));
-        if(null!= value.getDevices()) lstDevices.setItems(FXCollections.observableList(value.getDevices()));
+    private void createListViews(){
+        Label placeholder = new Label("no content");
+        devicesForUserList = FXCollections.observableArrayList();
+//        lstDevices = new ListView<>(devicesForUserList);
+        lstDevices.setPlaceholder(placeholder);
+        lstDevices.setCellFactory(param -> new DeviceListCell());
+        lstDevices.setItems(devicesForUserList);
+
+        ObservableList<String> data = FXCollections.observableArrayList(
+                "chocolate", "salmon", "gold", "coral", "darkorchid",
+                "darkgoldenrod", "lightsalmon", "black", "rosybrown", "blue",
+                "blueviolet", "brown");
+//        lstGroups = new ListView<>(data);
+        lstGroups.setItems(data);
+//        lstGroups.setItems(data); //TODO: Replace by real groups
+    }
+
+    private void displayDetails(User user) {
+        username.setText(user.getUsername());
+        firstname.setText(user.getInviteCode());
+        lastname.setText(user.getLastname());
+        email.setText(user.getEmail());
+        lastname.setText(user.getLastname());
+        active.setSelected(user.getActive());
+        if(null != user.getLocale()) locale.setValue(user.getLocale().getLanguage());
+//        if(null!= user.getGroups()) lstGroups.setItems(FXCollections.observableList(user.getGroups()));
+        // clear list
+        devicesForUserList.removeAll(devicesForUserList);
+        if(null != user.getDevices()){
+            System.out.println("Number of Devices: " + user.getDevices().size()); // TODO remove
+            devicesForUserList.addAll(user.getDevices());
+//            lstDevices.getItems().addAll(user.getDevices());
+        }
     }
 
     private void addTableColFactories() {
-        colUsername.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUsername()));
-        colFirst.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFirstname()));
-        colLast.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getLastname()));
-        colEmail.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
-        colActive.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isActive()));
+        colUsername.setCellValueFactory(cellData -> cellData.getValue().usernameProperty());
+        colFirst.setCellValueFactory(cellData -> cellData.getValue().firstnameProperty());
+        colLast.setCellValueFactory(cellData -> cellData.getValue().lastnameProperty());
+        colEmail.setCellValueFactory(cellData -> cellData.getValue().emailProperty());
+        colActive.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
+        colActive.setCellFactory(CheckBoxTableCell.forTableColumn(colActive));
     }
 
-    private void showUsersIntable() {
-        List<UserEntity> users = dataAccess.getUsers();
-        ObservableList<UserEntity> userList = FXCollections.observableList(users);
-        tblUsers.setItems(userList);
+    private void showUsersInTable() {
+        try {
+            tblUsers.setItems(dataAccess.getUsers());
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
     }
 
 

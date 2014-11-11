@@ -2,34 +2,32 @@ package de.hsosnabrueck.hipsterbility.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 /**
  * Created by Albert on 13.09.2014.
  */
 
 @Entity(name = "RealmGroup")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"NAME, USER_ID"}))
 public class GroupEntity {
 
-    public static final String TABLE_NAME = "UserGroup";
+    public static final String TABLE_NAME = "RealmGroup";
     public static final String ADMIN = "ADMIN";
     public static final String USER = "USER";
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int id;
-    @Column(nullable=false)
     private String name;
-    @ManyToOne @JsonBackReference("user-group")
-    private UserEntity user;
+    @ManyToMany(mappedBy = "groups") @JsonBackReference("user-group")
+    private List<UserEntity> users;
 
-    public int getId() {
-        return id;
+    public GroupEntity() {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public GroupEntity(String name) {
+        this.name = name;
     }
 
     public String getName() {
@@ -40,11 +38,11 @@ public class GroupEntity {
         this.name = name;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public List<UserEntity> getUsers() {
+        return users;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
 }

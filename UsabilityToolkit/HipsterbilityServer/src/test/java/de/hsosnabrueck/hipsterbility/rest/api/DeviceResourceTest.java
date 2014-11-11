@@ -1,8 +1,9 @@
 package de.hsosnabrueck.hipsterbility.rest.api;
 
-import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
-import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
 import de.hsosnabrueck.hipsterbility.config.ApplicationBinder;
+import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
+import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
 import de.hsosnabrueck.hipsterbility.rest.service.DeviceService;
 import de.hsosnabrueck.hipsterbility.rest.service.Service;
 import org.glassfish.hk2.api.Factory;
@@ -45,7 +46,7 @@ public class DeviceResourceTest extends JerseyTest {
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
 
-        ResourceConfig config = new ResourceConfig(DeviceResourceImpl.class);
+        ResourceConfig config = new ResourceConfig(DeviceResource.class);
 //        ResourceConfig config = new ApplicationConfig();
         config.register(new InjectableProvider());
         config.register(new ApplicationBinder());
@@ -58,7 +59,11 @@ public class DeviceResourceTest extends JerseyTest {
     @Test
     public void testDeviceRecieveResponse() {
 
-        when(serviceMock.read(Mockito.anyInt())).thenReturn(getMockDevice());
+        try {
+            when(serviceMock.read(Mockito.anyInt())).thenReturn(getMockDevice());
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
 
         Response response = target("devices/1").request().get();
 
@@ -80,7 +85,11 @@ public class DeviceResourceTest extends JerseyTest {
 
         Entity<Integer> deivceId = Entity.entity(getMockDevice().getId(), MediaType.APPLICATION_JSON_TYPE);
 
-        doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
+        try {
+            doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
 
         Response response = target("devices/"+deivceId.getEntity()).request().delete();
 
@@ -96,7 +105,11 @@ public class DeviceResourceTest extends JerseyTest {
 
         Entity<DeviceEntity> deviceEntity = Entity.entity(getMockDevice(), MediaType.APPLICATION_JSON_TYPE);
 
-        doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
+        try {
+            doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
 
         Response response = target("devices").request().post(deviceEntity);
 
@@ -109,7 +122,11 @@ public class DeviceResourceTest extends JerseyTest {
 
         Entity<DeviceEntity> deviceEntity = Entity.entity(getMockDevice(), MediaType.APPLICATION_JSON_TYPE);
 
-        doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
+        try {
+            doNothing().when(serviceMock).create(Mockito.any(DeviceEntity.class));
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
 
         Response response = target("devices/1").request().put(deviceEntity);
 

@@ -2,19 +2,16 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
     <persistence-unit name="HipsterbilityServiceTest" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity</class>
-        <class>de.hsosnabrueck.hipsterbility.entities.files.FileEntity</class>
+        <class>de.hsosnabrueck.hipsterbility.entities.FileEntity</class>
         <class>de.hsosnabrueck.hipsterbility.entities.DeviceEntity</class>
         <class>de.hsosnabrueck.hipsterbility.entities.GroupEntity</class>
-        <class>de.hsosnabrueck.hipsterbility.entities.files.LogFileEntity</class>
         <class>de.hsosnabrueck.hipsterbility.entities.TaskEntity</class>
         <class>de.hsosnabrueck.hipsterbility.entities.TestAppEntity</class>
         <class>de.hsosnabrueck.hipsterbility.entities.TestSessionEntity</class>
         <class>de.hsosnabrueck.hipsterbility.entities.TestEntity</class>
         <class>de.hsosnabrueck.hipsterbility.entities.TaskEntity</class>
         <class>de.hsosnabrueck.hipsterbility.entities.UserEntity</class>
-        <class>de.hsosnabrueck.hipsterbility.entities.files.VideoFileEntity</class>
-        <class>de.hsosnabrueck.hipsterbility.entities.files.ScreenshotFileEntity</class>
+        <class>de.hsosnabrueck.hipsterbility.entities.TaskResultEntity</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <!--<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hipsterbility_test" />-->

@@ -1,6 +1,7 @@
 package de.hsosnabrueck.hipsterbility.rest.service.impl;
 
 import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
 import de.hsosnabrueck.hipsterbility.persistence.TaskDao;
 import de.hsosnabrueck.hipsterbility.rest.service.TaskService;
 
@@ -18,32 +19,32 @@ public class TaskServiceImpl implements TaskService {
     TaskDao taskDao;
 
     @Override
-    public Collection<TaskEntity> list() {
+    public Collection<TaskEntity> list() throws DataAccessException {
         return taskDao.listAll();
     }
 
     @Override
-    public Collection<TaskEntity> list(int startIndex, int count) {
+    public Collection<TaskEntity> list(int startIndex, int count) throws DataAccessException {
         return taskDao.list(startIndex, count);
     }
 
     @Override
-    public TaskEntity read(int id) {
-        return taskDao.retrieve(id);
+    public TaskEntity read(Integer id) throws DataAccessException {
+        return taskDao.read(id);
     }
 
     @Override
-    public boolean delete(int id) {
-        return taskDao.delete(id);
+    public void delete(Integer id) throws DataAccessException {
+        taskDao.delete(id);
     }
 
     @Override
-    public TaskEntity create(TaskEntity task) {
-        return taskDao.save(task);
+    public TaskEntity create(TaskEntity task) throws DataAccessException {
+        return taskDao.create(task);
     }
 
     @Override
-    public boolean update(int id, TaskEntity task) {
+    public TaskEntity update(Integer id, TaskEntity task) throws DataAccessException {
         return taskDao.update(id, task);
     }
 }

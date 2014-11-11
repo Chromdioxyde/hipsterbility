@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hsosnabrueck.hipsterbility.entities.*;
 import de.hsosnabrueck.hipsterbility.persistence.TestObjectFactory;
-import de.hsosnabrueck.hipsterbility.persistence.TestSessionDao;
-import de.hsosnabrueck.hipsterbility.persistence.TodoDao;
 import org.junit.Test;
 
 import java.util.ArrayList;

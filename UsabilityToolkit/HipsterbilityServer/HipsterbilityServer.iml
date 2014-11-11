@@ -7,7 +7,7 @@
         <setting name="provider-name" value="EclipseLink" />
         <datasource-mapping>
           <factory-entry name="&lt;anonymous&gt;persistence.xml@119" />
-          <factory-entry name="HipsterbilityService" />
+          <factory-entry name="HipsterbilityService" value="3469937d-b878-41d3-b64e-a3c97227d578" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>
@@ -38,8 +38,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
-    <orderEntry type="jdk" jdkName="1.7" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="HipsterbilityCommon" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet:2.13" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet-core:2.13" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.hk2.external:javax.inject:2.3.0-b10" level="project" />
@@ -86,6 +87,10 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sun.faces:jsf-api:2.2.8-02" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sun.faces:jsf-impl:2.2.8-02" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.3.2" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax:javaee-api:7.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.sun.mail:javax.mail:1.5.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.activation:activation:1.1" level="project" />
   </component>
 </module>
 

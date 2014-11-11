@@ -1,11 +1,10 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.screencapture;
 
 import android.util.Log;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.CaptureModule;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
 import java.io.IOException;
 

@@ -9,8 +9,8 @@ import javax.inject.Singleton;
  * Created by Albert on 16.09.2014.
  */
 @Singleton
-public class TodoDaoImpl extends BasicDaoImpl<TaskEntity> implements TodoDao {
-    public TodoDaoImpl() {
+public class TodoDaoImpl extends GenericDaoImpl<TaskEntity, Integer> implements TodoDao {
+    protected TodoDaoImpl() {
         super(TaskEntity.class, TaskEntity.TABLE_NAME);
     }
 }

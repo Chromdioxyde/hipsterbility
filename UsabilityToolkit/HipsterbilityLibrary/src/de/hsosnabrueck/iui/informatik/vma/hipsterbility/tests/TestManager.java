@@ -1,7 +1,7 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests;
 
 import android.util.Log;
-import de.hsosnabrueck.hipsterbility.entities.TestEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestEntity;
 
 import java.util.ArrayList;
 

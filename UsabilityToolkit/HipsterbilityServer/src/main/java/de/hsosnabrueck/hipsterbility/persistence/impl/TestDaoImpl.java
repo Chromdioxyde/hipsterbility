@@ -9,7 +9,7 @@ import javax.inject.Singleton;
  * Created by Albert on 04.10.2014.
  */
 @Singleton
-public class TestDaoImpl extends BasicDaoImpl<TestEntity> implements TestDao {
+public class TestDaoImpl extends GenericDaoImpl<TestEntity, Integer> implements TestDao {
     public TestDaoImpl() {
         super(TestEntity.class, TestEntity.TABLE_NAME);
     }

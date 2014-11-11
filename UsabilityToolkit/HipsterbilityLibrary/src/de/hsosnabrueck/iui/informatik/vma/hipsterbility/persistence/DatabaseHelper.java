@@ -7,13 +7,10 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.LogFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.ScreenshotFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.VideoFileEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.FileEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TaskEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestSessionEntity;
 
 import java.sql.SQLException;
 
@@ -29,10 +26,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<TestEntity, Integer> testDao;
     private Dao<TaskEntity, Integer> taskDao;
     private Dao<TestSessionEntity, Integer> sessionDao;
-    private Dao<AudioFileEntity, Integer> audioFileDao;
-    private Dao<VideoFileEntity, Integer> videoFileDao;
-    private Dao<ScreenshotFileEntity, Integer> screenshotFileDao;
-    private Dao<LogFileEntity, Integer> logFileDao;
+    private Dao<FileEntity, Integer> audioFileDao;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null,DATABASE_VERSION);
@@ -48,10 +42,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTableIfNotExists(connectionSource, TestEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, TaskEntity.class);
             TableUtils.createTableIfNotExists(connectionSource, TestSessionEntity.class);
-            TableUtils.createTableIfNotExists(connectionSource, AudioFileEntity.class);
-            TableUtils.createTableIfNotExists(connectionSource, VideoFileEntity.class);
-            TableUtils.createTableIfNotExists(connectionSource, ScreenshotFileEntity.class);
-            TableUtils.createTableIfNotExists(connectionSource, LogFileEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, FileEntity.class);
         } catch (SQLException e) {
             Log.e(TAG, "Could not create Database Tables: " + e.getMessage());
         }
@@ -83,34 +74,34 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return sessionDao;
     }
-
-    public Dao<AudioFileEntity, Integer> getAudioFileDao() throws SQLException {
-        if(null == audioFileDao){
-            audioFileDao = getDao(AudioFileEntity.class);
-        }
-        return audioFileDao;
-    }
-
-    public Dao<VideoFileEntity, Integer> getVideoFileDao() throws SQLException {
-        if(null == videoFileDao){
-            videoFileDao = getDao(VideoFileEntity.class);
-        }
-        return videoFileDao;
-    }
-
-    public Dao<ScreenshotFileEntity, Integer> getScreenshotFileDao() throws SQLException {
-        if(null == screenshotFileDao){
-            screenshotFileDao = getDao(ScreenshotFileEntity.class);
-        }
-        return screenshotFileDao;
-    }
-
-    public Dao<LogFileEntity, Integer> getLogFileDao() throws SQLException {
-        if(null == logFileDao){
-            logFileDao = getDao(LogFileEntity.class);
-        }
-        return logFileDao;
-    }
+//
+//    public Dao<AudioFileEntity, Integer> getAudioFileDao() throws SQLException {
+//        if(null == audioFileDao){
+//            audioFileDao = getDao(AudioFileEntity.class);
+//        }
+//        return audioFileDao;
+//    }
+//
+//    public Dao<VideoFileEntity, Integer> getVideoFileDao() throws SQLException {
+//        if(null == videoFileDao){
+//            videoFileDao = getDao(VideoFileEntity.class);
+//        }
+//        return videoFileDao;
+//    }
+//
+//    public Dao<ScreenshotFileEntity, Integer> getScreenshotFileDao() throws SQLException {
+//        if(null == screenshotFileDao){
+//            screenshotFileDao = getDao(ScreenshotFileEntity.class);
+//        }
+//        return screenshotFileDao;
+//    }
+//
+//    public Dao<LogFileEntity, Integer> getLogFileDao() throws SQLException {
+//        if(null == logFileDao){
+//            logFileDao = getDao(LogFileEntity.class);
+//        }
+//        return logFileDao;
+//    }
 
 
 }

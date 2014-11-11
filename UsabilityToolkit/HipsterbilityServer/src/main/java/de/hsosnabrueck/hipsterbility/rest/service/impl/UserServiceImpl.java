@@ -1,6 +1,9 @@
 package de.hsosnabrueck.hipsterbility.rest.service.impl;
 
-import de.hsosnabrueck.hipsterbility.entities.*;
+import de.hsosnabrueck.hipsterbility.entities.GroupEntity;
+import de.hsosnabrueck.hipsterbility.entities.InviteCodeEntity;
+import de.hsosnabrueck.hipsterbility.entities.UserEntity;
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
 import de.hsosnabrueck.hipsterbility.persistence.DeviceDao;
 import de.hsosnabrueck.hipsterbility.persistence.GroupDao;
 import de.hsosnabrueck.hipsterbility.persistence.TestSessionDao;
@@ -31,74 +34,90 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Collection<UserEntity> list() {
+    public Collection<UserEntity> list() throws DataAccessException {
         return userDao.listAll();
     }
 
     @Override
-    public Collection<UserEntity> list(int startIndex, int count) {
+    public Collection<UserEntity> list(int startIndex, int count) throws DataAccessException {
         return userDao.list(startIndex, count);
     }
 
     @Override
-    public UserEntity read(int id) {
-        return userDao.retrieve(id);
+    public UserEntity read(Integer id) throws DataAccessException {
+        return userDao.read(id);
     }
 
     @Override
-    public boolean delete(int id) {
-        return userDao.delete(id);
+    public void delete(Integer id) throws DataAccessException {
+        userDao.delete(id);
     }
 
     @Override
-    public UserEntity create(UserEntity object) {
-        return userDao.save(object);
+    public UserEntity create(UserEntity object) throws DataAccessException {
+        return userDao.create(object);
     }
 
     @Override
-    public boolean update(int id, UserEntity object) {
-        return userDao.update(id, object);
+    public UserEntity update(Integer id, UserEntity device) throws DataAccessException {
+        return userDao.update(id, device);
     }
 
     @Override
-    public UserEntity findByName(String username) {
+    public UserEntity findByName(String username) throws DataAccessException {
         return userDao.findByUsername(username);
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
+    public UserEntity findByEmail(String email) throws DataAccessException {
         return userDao.findByEmail(email);
     }
 
     @Override
-    public boolean checkValidInvite(String code) {
+    public boolean checkValidInvite(String code){
         if(null == code) return false;
-        InviteCodeEntity i = inviteCodeService.getInvite(code);
+        InviteCodeEntity i = null;
+        try {
+            i = inviteCodeService.getInvite(code);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
         return null != i && i.isValid();
     }
 
     @Override
-    public UserEntity create(UserEntity user, GroupEntity group) {
-        userDao.save(user);
-        group.setUser(user);
-        groupDao.save(group);
+    public UserEntity create(UserEntity user, GroupEntity group) throws DataAccessException {
+        user = userDao.create(user);
+        if(null == user) return null; // user already exists or violates unique constraints
+        GroupEntity existingGroup = groupDao.read(group.getName());
+        if(null != existingGroup){
+            group = existingGroup;
+        } else {
+            groupDao.create(group);
+        }
+        group.getUsers().add(user);
+        user.getGroups().add(group);
         return user;
     }
 
     @Override
-    public boolean addGroup(UserEntity user, GroupEntity group) {
-        userDao.save(user);
-        group.setUser(user);
-        groupDao.save(group);
-        return group.getId()>0;
+    public boolean addGroup(UserEntity user, GroupEntity group) throws DataAccessException {
+        try {
+            user = userDao.create(user);
+            if(null == user) return false;
+            group.getUsers().add(user);
+            group = groupDao.createIfNotExists(group, group.getName());
+            user.getGroups().add(group);
+            group.getUsers().add(user);
+            return true;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
-    public boolean addGroup(int userId, GroupEntity group) {
-        UserEntity user = userDao.retrieve(userId);
-        if(null == user) return false;
-        group.setUser(user);
-        groupDao.save(group);
-        return group.getId() > 0;
+    public boolean addGroup(int userId, GroupEntity group) throws DataAccessException {
+        return addGroup(userDao.read(userId), group);
     }
 }

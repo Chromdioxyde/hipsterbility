@@ -3,9 +3,7 @@ package de.hsosnabrueck.hipsterbility.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -28,9 +26,6 @@ public class TaskEntity implements Comparable<TaskEntity>{
 
     private String description;
     private boolean active;
-    private boolean done;
-    private boolean success;
-    private String comment;
 
     @ManyToOne @JoinColumn @JsonBackReference
     private TestEntity test;
@@ -122,30 +117,6 @@ public class TaskEntity implements Comparable<TaskEntity>{
 
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public int getOrderNr() {

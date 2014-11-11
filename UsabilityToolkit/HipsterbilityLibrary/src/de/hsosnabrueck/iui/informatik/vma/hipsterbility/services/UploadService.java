@@ -9,13 +9,11 @@ import android.os.IBinder;
 import android.util.Log;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-import com.loopj.android.http.TextHttpResponseHandler;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.rest.HipsterbilityRestClient;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 import org.apache.http.Header;
 
 import java.io.File;

@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
-import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.R;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.activities.adapters.TaskListAdapter;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TaskEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
 import java.util.Collections;

@@ -1,20 +1,18 @@
 package de.hsosnabrueck.hipsterbility.clientfx.rest;
 
-import de.hsosnabrueck.hipsterbility.entities.GroupEntity;
-import de.hsosnabrueck.hipsterbility.entities.InviteCodeEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestEntity;
-import de.hsosnabrueck.hipsterbility.entities.UserEntity;
-import de.hsosnabrueck.hipsterbility.rest.data.CreatedId;
-import de.hsosnabrueck.hipsterbility.util.Utils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.hsosnabrueck.hipsterbility.clientfx.model.Group;
+import de.hsosnabrueck.hipsterbility.clientfx.model.InviteCode;
+import de.hsosnabrueck.hipsterbility.clientfx.model.Test;
+import de.hsosnabrueck.hipsterbility.clientfx.model.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -26,7 +24,7 @@ public class DataAccess {
     @Inject
     RestClientHelper restClientHelper;
 
-    public boolean createUser(UserEntity user, GroupEntity group) throws DataAccessException {
+    public boolean createUser(User user, Group group) throws DataAccessException {
         System.out.println(group.getName());
         System.out.println(Entity.json(user));
         Response r = restClientHelper.getTarget().path("users").request().put(Entity.json(user));
@@ -41,17 +39,19 @@ public class DataAccess {
         return r.getStatus() == 200;
     }
 
-    public List<UserEntity> getUsers(){
-        List<UserEntity> users = restClientHelper.getTarget().path("users").request().get().readEntity(new GenericType<List<UserEntity>>() {});
+    public ObservableList<User> getUsers() throws DataAccessException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<User> userlist = restClientHelper.getTarget().path("users").request().get().readEntity(new GenericType<List<User>>() {});
+        ObservableList<User> users = FXCollections.observableArrayList(userlist);
         return users;
     }
 
-    public boolean createInviteCode(InviteCodeEntity invite){
+    public boolean createInviteCode(InviteCode invite) throws DataAccessException {
         Response r = restClientHelper.getTarget().path("invites").request().post(Entity.json(invite));
         return r.getStatus() == 200;
     }
 
-    public boolean createTest(TestEntity test){
+    public boolean createTest(Test test) throws DataAccessException {
         Response r = restClientHelper.getTarget().path("tests").request().post(Entity.json(test));
         return 201 == r.getStatus();
     }

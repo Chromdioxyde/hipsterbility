@@ -89,8 +89,17 @@
     </security-constraint>
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Devices Resources</web-resource-name>
+            <web-resource-name>Invites Resources</web-resource-name>
             <url-pattern>/api/invites/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMIN</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Groups Resources</web-resource-name>
+            <url-pattern>/api/groups/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>ADMIN</role-name>

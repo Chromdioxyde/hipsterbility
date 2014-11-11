@@ -2,8 +2,8 @@ package de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions;
 
 import android.content.Context;
 import android.util.Log;
-import de.hsosnabrueck.hipsterbility.entities.TestEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.persistence.DatabaseHelper;
 
 import java.sql.SQLException;

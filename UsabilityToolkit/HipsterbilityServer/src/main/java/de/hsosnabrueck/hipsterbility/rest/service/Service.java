@@ -1,21 +1,24 @@
 package de.hsosnabrueck.hipsterbility.rest.service;
 
 
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
+
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * Created by Albert on 15.09.2014.
  */
-public abstract interface Service<T> {
-    public Collection<T> list();
+public abstract interface Service<T, PK extends Serializable> {
+    public Collection<T> list() throws DataAccessException;
 
-    public Collection<T> list(int startIndex, int count);
+    public Collection<T> list(int startIndex, int count) throws DataAccessException;
 
-    public T read(int id);
+    public T read(PK id) throws DataAccessException;
 
-    public boolean delete(int id);
+    public void delete(PK id) throws DataAccessException;
 
-    public T create(T object);
+    public T create(T object) throws DataAccessException;
 
-    public boolean update(int id, T object);
+    public T update(PK id, T object) throws DataAccessException;
 }

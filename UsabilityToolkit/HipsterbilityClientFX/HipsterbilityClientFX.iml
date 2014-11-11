@@ -14,10 +14,10 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/res" type="java-resource" />
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="HipsterbilityServer" />
     <orderEntry type="library" name="datafx" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.persistence:javax.persistence:2.1.0" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish.hk2.external:javax.inject:2.3.0-b10" level="project" />
@@ -86,6 +86,20 @@
           <root url="jar://$MODULE_DIR$/../lib/jersey-media-json-jackson-2.13-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="HipsterbilityCommon" />
+    <orderEntry type="module-library">
+      <library name="controlsfx">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/controlsfx" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/controlsfx" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/lib/controlsfx" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/lib/controlsfx" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
   </component>

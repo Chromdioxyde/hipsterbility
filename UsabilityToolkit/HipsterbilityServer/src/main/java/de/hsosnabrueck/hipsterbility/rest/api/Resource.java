@@ -1,21 +1,20 @@
 package de.hsosnabrueck.hipsterbility.rest.api;
 
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.Collection;
+import java.io.Serializable;
 
 /**
  * Created by Albert on 15.09.2014.
  */
-public interface Resource<T> {
+public interface Resource<T, PK extends Serializable> {
 
         @GET
         @Path("{id}")
         @Produces(MediaType.APPLICATION_JSON)
-        public Response get(@PathParam("id") int id);
+        public Response get(@PathParam("id") PK id);
 
         @GET
         @Produces(MediaType.APPLICATION_JSON)
@@ -23,7 +22,7 @@ public interface Resource<T> {
 
         @DELETE
         @Path("{id}")
-        public Response delete(@PathParam("id") int id);
+        public Response delete(@PathParam("id") PK id);
 
         @POST
         @Consumes(MediaType.APPLICATION_JSON)
@@ -32,6 +31,6 @@ public interface Resource<T> {
         @PUT
         @Path("{id}")
         @Consumes(MediaType.APPLICATION_JSON)
-        public Response update(@PathParam("id") int id, T object);
+        public Response update(@PathParam("id") PK id, T object);
 
 }

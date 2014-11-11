@@ -1,13 +1,10 @@
 package de.hsosnabrueck.iui.informatik.vma.hipsterbility.persistence;
 
 import com.j256.ormlite.android.apptools.OrmLiteConfigUtil;
-import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.LogFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.ScreenshotFileEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.VideoFileEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.FileEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TaskEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestSessionEntity;
 
 import java.io.File;
 
@@ -25,10 +22,7 @@ public class DatabaseConfigUtil extends OrmLiteConfigUtil {
                 TestEntity.class,
                 TaskEntity.class,
                 TestSessionEntity.class,
-                AudioFileEntity.class,
-                VideoFileEntity.class,
-                ScreenshotFileEntity.class,
-                LogFileEntity.class
+                FileEntity.class,
         };
         public static void main(String[] args) throws Exception {
             writeConfigFile(new File(PATH_TO_CONFIG_FILE + "ormlite_config.txt"), classes);

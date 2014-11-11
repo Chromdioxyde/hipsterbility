@@ -1,7 +1,7 @@
 package de.hsosnabrueck.hipsterbility.rest.api;
 
 import de.hsosnabrueck.hipsterbility.entities.InviteCodeEntity;
-import de.hsosnabrueck.hipsterbility.rest.data.CreatedId;
+import de.hsosnabrueck.hipsterbility.exceptions.DataAccessException;
 import de.hsosnabrueck.hipsterbility.rest.service.InviteCodeService;
 
 import javax.annotation.security.RolesAllowed;
@@ -30,35 +30,61 @@ public class InviteCodeResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response get(@PathParam("id") int id){
-        InviteCodeEntity invite = inviteCodeService.read(id);
-        return invite != null ? Response.ok(invite).build() : Response.status(Response.Status.NOT_FOUND).build();
+        try {
+            InviteCodeEntity invite = inviteCodeService.read(id);
+            return Response.ok(invite).build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        }
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response list(){
-        return Response.ok(inviteCodeService.list()).build();
+        try {
+            return Response.ok(inviteCodeService.list()).build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     @DELETE
     @Path("{id}")
     public Response delete(@PathParam("id") int id){
-       return inviteCodeService.delete(id) ? Response.ok().build() : Response.notModified("could not delete invite").build();
+        try {
+            inviteCodeService.delete(id);
+            return Response.ok().build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.notModified(e.getMessage()).build();
+        }
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(@Context UriInfo uriInfo, InviteCodeEntity object){
-        object = inviteCodeService.create(object);
-        return null == object ? Response.notModified("invite or email address already exist").build()
-                : Response.ok(new CreatedId(object.getId())).build();
+        try {
+            object = inviteCodeService.create(object);
+            return Response.ok(object.getId()).build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.notModified(e.getMessage()).build();
+        }
     }
 
     @PUT
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") int id, InviteCodeEntity object){
-        return inviteCodeService.update(id, object) ?  Response.ok().build() : Response.notModified("could not update invite").build();
+        try {
+            inviteCodeService.update(id, object);
+            return Response.ok().build();
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            return Response.notModified(e.getMessage()).build();
+        }
     }
 
 }

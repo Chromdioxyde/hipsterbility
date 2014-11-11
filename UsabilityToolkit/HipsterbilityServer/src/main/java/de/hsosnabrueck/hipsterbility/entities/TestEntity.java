@@ -1,10 +1,11 @@
 package de.hsosnabrueck.hipsterbility.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Albert on 14.09.2014.

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HipsterbilityClientFX/HipsterbilityClientFX.iml" filepath="$PROJECT_DIR$/HipsterbilityClientFX/HipsterbilityClientFX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HipsterbilityCommon/HipsterbilityCommon.iml" filepath="$PROJECT_DIR$/HipsterbilityCommon/HipsterbilityCommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/HipsterbilityLibrary/HipsterbilityLibrary.iml" filepath="$PROJECT_DIR$/HipsterbilityLibrary/HipsterbilityLibrary.iml" group="Android" />
       <module fileurl="file://$PROJECT_DIR$/HipsterbilityServer/HipsterbilityServer.iml" filepath="$PROJECT_DIR$/HipsterbilityServer/HipsterbilityServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/testApp/testApp.iml" filepath="$PROJECT_DIR$/testApp/testApp.iml" group="Android" />

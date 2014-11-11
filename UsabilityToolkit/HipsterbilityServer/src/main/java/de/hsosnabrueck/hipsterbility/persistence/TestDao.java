@@ -5,5 +5,5 @@ import de.hsosnabrueck.hipsterbility.entities.TestEntity;
 /**
  * Created by Albert on 04.10.2014.
  */
-public interface TestDao extends Dao<TestEntity> {
+public interface TestDao extends GenericDao<TestEntity, Integer> {
 }

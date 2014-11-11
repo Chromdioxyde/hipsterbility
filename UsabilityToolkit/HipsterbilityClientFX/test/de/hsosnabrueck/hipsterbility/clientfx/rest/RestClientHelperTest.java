@@ -3,22 +3,16 @@ package de.hsosnabrueck.hipsterbility.clientfx.rest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.hsosnabrueck.hipsterbility.clientfx.Settings;
-import de.hsosnabrueck.hipsterbility.entities.TaskEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
-import de.hsosnabrueck.hipsterbility.entities.files.AudioFileEntity;
-import de.hsosnabrueck.hipsterbility.persistence.TestObjectFactory;
+import de.hsosnabrueck.hipsterbility.clientfx.model.TestSession;
+import de.hsosnabrueck.hipsterbility.clientfx.model.files.AudioFile;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class RestClientHelperTest {
@@ -72,11 +66,11 @@ public class RestClientHelperTest {
             e.printStackTrace();
         }
         System.out.println(file.getPath());
-        AudioFileEntity audio = new AudioFileEntity();
-        audio.setType(AudioFileEntity.Type.MICROPHONE);
+        AudioFile audio = new AudioFile();
+        audio.setType(AudioFile.Type.MICROPHONE);
         audio.setTimestamp(new Date());
         audio.setFile(file);
-        TestSessionEntity session = new TestSessionEntity();
+        TestSession session = new TestSession();
         session.setName("test");
         try {
             System.out.println(clientHelper.checkLogin());
@@ -98,27 +92,27 @@ public class RestClientHelperTest {
         System.out.println(r);
     }
 
-    @Test
-    public void testCreateTest(){
-        System.out.println("testCreateTest");
-        TestEntity test = TestObjectFactory.getTestEntity();
-        Response r = clientHelper.getTarget().path("tests").request().post(Entity.json(test));
-        System.out.println(r);
-    }
-
-    @Test
-    public void createTestWithTasks(){
-        System.out.println("createTestWithTasks");
-        TestEntity test = TestObjectFactory.getTestEntity();
-        test.setTasks(new ArrayList<>());
-        for(int i = 0 ; i<10 ;i++) {
-            TaskEntity taskEntity = TestObjectFactory.getTaskEntity();
-            taskEntity.setOrderNr(i);
-            taskEntity.setTest(test);
-            test.getTasks().add(taskEntity);
-        }
-        Response r = clientHelper.getTarget().path("tests").request().post(Entity.json(test));
-        System.out.println(r);
-    }
+//    @Test
+//    public void testCreateTest(){
+//        System.out.println("testCreateTest");
+//        de.hsosnabrueck.hipsterbility.clientfx.model.Test test = TestObjectFactory.getTestEntity();
+//        Response r = clientHelper.getTarget().path("tests").request().post(Entity.json(test));
+//        System.out.println(r);
+//    }
+//
+//    @Test
+//    public void createTestWithTasks(){
+//        System.out.println("createTestWithTasks");
+//        TestEntity test = TestObjectFactory.getTestEntity();
+//        test.setTasks(new ArrayList<>());
+//        for(int i = 0 ; i<10 ;i++) {
+//            TaskEntity taskEntity = TestObjectFactory.getTaskEntity();
+//            taskEntity.setOrderNr(i);
+//            taskEntity.setTest(test);
+//            test.getTasks().add(taskEntity);
+//        }
+//        Response r = clientHelper.getTarget().path("tests").request().post(Entity.json(test));
+//        System.out.println(r);
+//    }
 
 }

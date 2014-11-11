@@ -19,6 +19,8 @@
         <servlet.version>3.1.0</servlet.version>
         <jsf.version>2.2.8-02</jsf.version>
         <commons_lang.version>3.3.2</commons_lang.version>
+        <commons_io.version>2.4</commons_io.version>
+        <javaee.version>7.0</javaee.version>
 	</properties>
 
 	<dependencies>
@@ -107,6 +109,18 @@
             <artifactId>commons-lang3</artifactId>
             <version>${commons_lang.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons_io.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaee.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

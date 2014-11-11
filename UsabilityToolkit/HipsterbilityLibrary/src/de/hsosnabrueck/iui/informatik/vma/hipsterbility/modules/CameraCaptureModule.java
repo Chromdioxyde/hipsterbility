@@ -8,11 +8,10 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.*;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.helper.Util;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestSessionEntity;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.modules.lifecycle.ActivityLifecycleWatcher;
 import de.hsosnabrueck.iui.informatik.vma.hipsterbility.sessions.SessionManager;
-import de.hsosnabrueck.iui.informatik.vma.hipsterbility.tests.TestManager;
 
 import java.lang.reflect.Method;
 

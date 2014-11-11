@@ -9,10 +9,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
-import de.hsosnabrueck.hipsterbility.entities.DeviceEntity;
-import de.hsosnabrueck.hipsterbility.entities.TestSessionEntity;
-import de.hsosnabrueck.hipsterbility.model.enums.DeviceClass;
 import de.hsosnabrueck.hipsterbility.model.enums.DevicePlatform;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.DeviceEntity;
+import de.hsosnabrueck.iui.informatik.vma.hipsterbility.model.TestSessionEntity;
 
 import java.io.File;
 
